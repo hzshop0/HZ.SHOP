@@ -1,0 +1,73 @@
+<button class="cart-button" onclick="openCart()">
+  🛒 السلة
+  <span class="cart-count" id="cartCount">0</span>
+</button>
+<button class="checkout-button" onclick="openCheckout()">
+  متابعة الطلب
+</button>
+<h2>📝 إتمام الطلب</h2>
+
+<div class="form-group">
+  <label>الاسم الكامل *</label>
+  <input type="text" id="customerName" placeholder="اكتب اسمك">
+</div>
+
+<div class="form-group">
+  <label>رقم الهاتف *</label>
+  <input type="tel" id="customerPhone" placeholder="مثال: 71 123 456">
+</div>
+
+<div class="form-group">
+  <label>المنطقة *</label>
+  <input type="text" id="customerArea" placeholder="المحافظة / المنطقة">
+</div>
+
+<div class="form-group">
+  <label>العنوان *</label>
+  <textarea id="customerAddress" placeholder="العنوان بالتفصيل"></textarea>
+</div>
+
+<div class="form-group">
+  <label>ملاحظات</label>
+  <textarea id="customerNotes" placeholder="أي ملاحظات إضافية للطلب"></textarea>
+</div>
+
+<div class="order-summary">
+  <h3>ملخص الطلب</h3>
+  <div id="checkoutSummary"></div>
+
+  <div class="order-summary-line">
+    <strong>المجموع</strong>
+    <strong id="checkoutTotal">$0</strong>
+  </div>
+</div>
+
+<div class="checkout-actions">
+  <button class="cancel-checkout" onclick="closeCheckout()">
+    رجوع
+  </button>
+
+  <button class="send-whatsapp" onclick="sendOrderToWhatsApp()">
+    📱 إرسال الطلب عبر WhatsApp
+  </button>
+</div>
+<div>
+  <h3>HZ.SHOP</h3>
+  <p>
+    متجرك للعطور والعناية بالبشرة والعناية الشخصية ومنتجات النظافة.
+  </p>
+</div>
+
+<div>
+  <h3>أقسام المتجر</h3>
+  <p>العطور</p>
+  <p>العناية بالبشرة</p>
+  <p>العناية الشخصية</p>
+  <p>النظافة</p>
+</div>
+
+<div>
+  <h3>تواصل معنا</h3>
+  <p>WhatsApp: +961 71 142 827</p>
+  <p>نحن هنا لخدمتكم</p>
+</div>
