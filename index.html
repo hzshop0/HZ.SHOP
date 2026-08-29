@@ -1,588 +1,2188 @@
-<div class="brand">
-  <div class="brand-main">HZ.SHOP</div>
-  <div class="brand-sub">LUXURY BEAUTY STORE</div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HZ.SHOP | Luxury Store</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+font-family:Arial,Tahoma,sans-serif;
+background:#050505;
+color:#fff;
+overflow-x:hidden
+}
+button,input,textarea,select{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+:root{
+--gold:#d4af37;
+--gold2:#f4d76a;
+--dark:#050505;
+--dark2:#0c0c0c;
+--dark3:#141414;
+--line:rgba(212,175,55,.25);
+--gray:#999;
+}
+
+.topbar{
+height:35px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#000;
+border-bottom:1px solid var(--line);
+font-size:12px;
+color:var(--gold2)
+}
+
+header{
+position:sticky;
+top:0;
+z-index:1000;
+background:rgba(5,5,5,.96);
+backdrop-filter:blur(15px);
+border-bottom:1px solid var(--line)
+}
+
+.header{
+height:78px;
+max-width:1400px;
+margin:auto;
+padding:0 25px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:25px
+}
+
+.logo{
+text-align:center;
+min-width:160px
+}
+
+.logo strong{
+display:block;
+font-size:29px;
+letter-spacing:5px;
+color:var(--gold2)
+}
+
+.logo small{
+font-size:8px;
+letter-spacing:4px;
+color:#777
+}
+
+.search{
+flex:1;
+max-width:550px;
+position:relative
+}
+
+.search input{
+width:100%;
+height:44px;
+background:#101010;
+border:1px solid #292929;
+color:white;
+padding:0 45px 0 15px;
+outline:none
+}
+
+.search input:focus{border-color:var(--gold)}
+
+.search span{
+position:absolute;
+right:15px;
+top:12px;
+color:var(--gold);
+font-size:18px
+}
+
+.actions{
+display:flex;
+gap:9px
+}
+
+.icon-btn{
+position:relative;
+width:44px;
+height:44px;
+border:1px solid #292929;
+background:#0b0b0b;
+color:#fff;
+border-radius:50%;
+font-size:17px
+}
+
+.icon-btn:hover{
+border-color:var(--gold);
+color:var(--gold2)
+}
+
+.badge{
+position:absolute;
+top:-4px;
+right:-3px;
+width:19px;
+height:19px;
+border-radius:50%;
+background:var(--gold);
+color:#000;
+font-size:10px;
+font-weight:bold;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+nav{
+background:#080808;
+border-top:1px solid #111
+}
+
+.nav{
+max-width:1400px;
+margin:auto;
+display:flex;
+justify-content:center;
+overflow-x:auto
+}
+
+.nav button{
+background:none;
+border:0;
+color:#aaa;
+padding:15px 25px;
+font-size:13px;
+white-space:nowrap
+}
+
+.nav button:hover,
+.nav button.active{
+color:var(--gold2)
+}
+
+/* HERO */
+
+.hero{
+min-height:650px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+position:relative;
+overflow:hidden;
+background:
+radial-gradient(circle at center,rgba(212,175,55,.17),transparent 27%),
+radial-gradient(circle at 20% 80%,rgba(212,175,55,.07),transparent 25%),
+linear-gradient(135deg,#000,#111,#030303)
+}
+
+.hero:before,
+.hero:after{
+content:"";
+position:absolute;
+border:1px solid rgba(212,175,55,.13);
+border-radius:50%
+}
+
+.hero:before{
+width:550px;
+height:550px
+}
+
+.hero:after{
+width:850px;
+height:850px
+}
+
+.hero-content{
+position:relative;
+z-index:2;
+padding:30px
+}
+
+.hero-label{
+color:var(--gold2);
+letter-spacing:7px;
+font-size:11px;
+margin-bottom:25px
+}
+
+.hero h1{
+font-size:clamp(50px,8vw,100px);
+line-height:.95;
+letter-spacing:3px;
+margin-bottom:25px
+}
+
+.hero h1 span{
+display:block;
+color:var(--gold2)
+}
+
+.hero p{
+max-width:700px;
+margin:auto;
+color:#999;
+font-size:16px;
+line-height:2
+}
+
+.hero-buttons{
+display:flex;
+justify-content:center;
+gap:12px;
+margin-top:35px;
+flex-wrap:wrap
+}
+
+.gold{
+border:0;
+background:linear-gradient(135deg,#987313,#f4d76a,#a87d17);
+color:#000;
+padding:15px 34px;
+font-weight:bold
+}
+
+.outline{
+border:1px solid var(--line);
+background:#080808;
+color:var(--gold2);
+padding:15px 34px
+}
+
+.gold:hover,.outline:hover{
+transform:translateY(-2px)
+}
+
+/* SECTIONS */
+
+.section{
+max-width:1400px;
+margin:auto;
+padding:85px 25px
+}
+
+.title{
+text-align:center;
+margin-bottom:45px
+}
+
+.title small{
+display:block;
+color:var(--gold);
+letter-spacing:5px;
+font-size:10px;
+margin-bottom:10px
+}
+
+.title h2{
+font-size:38px;
+margin-bottom:8px
+}
+
+.title p{
+color:#777;
+font-size:13px
+}
+
+/* CATEGORIES */
+
+.categories{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px
+}
+
+.category{
+height:260px;
+padding:28px;
+border:1px solid #222;
+background:
+radial-gradient(circle at top left,rgba(212,175,55,.12),transparent 35%),
+#0b0b0b;
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+position:relative;
+overflow:hidden;
+transition:.3s
+}
+
+.category:hover{
+border-color:var(--gold);
+transform:translateY(-6px)
+}
+
+.category .number{
+color:#555;
+font-size:10px;
+margin-bottom:10px
+}
+
+.category h3{
+color:var(--gold2);
+font-size:23px;
+margin-bottom:7px
+}
+
+.category p{
+color:#777;
+font-size:12px
+}
+
+.category .symbol{
+position:absolute;
+top:25px;
+left:25px;
+font-size:45px;
+color:var(--gold);
+opacity:.8
+}
+
+/* FEATURES */
+
+.features{
+border-top:1px solid var(--line);
+border-bottom:1px solid var(--line);
+background:#080808
+}
+
+.features-inner{
+max-width:1200px;
+margin:auto;
+padding:30px 20px;
+display:grid;
+grid-template-columns:repeat(4,1fr)
+}
+
+.feature{
+text-align:center;
+padding:10px;
+border-left:1px solid #222
+}
+
+.feature:last-child{border-left:0}
+
+.feature strong{
+display:block;
+color:#ddd;
+font-size:14px;
+margin-bottom:6px
+}
+
+.feature span{
+color:#666;
+font-size:11px
+}
+
+.feature b{
+display:block;
+color:var(--gold);
+font-size:25px;
+margin-bottom:7px
+}
+
+/* SHOP */
+
+.toolbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+margin-bottom:25px;
+flex-wrap:wrap
+}
+
+.filters{
+display:flex;
+gap:7px;
+flex-wrap:wrap
+}
+
+.filter{
+background:#0b0b0b;
+border:1px solid #292929;
+color:#aaa;
+padding:10px 15px;
+font-size:12px
+}
+
+.filter.active,
+.filter:hover{
+color:var(--gold2);
+border-color:var(--gold)
+}
+
+.sort{
+background:#0b0b0b;
+border:1px solid #292929;
+color:#aaa;
+padding:10px;
+outline:none
+}
+
+.results{
+color:#666;
+font-size:12px
+}
+
+/* PRODUCTS */
+
+.products{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px
+}
+
+.product{
+background:linear-gradient(145deg,#111,#070707);
+border:1px solid #202020;
+transition:.3s;
+overflow:hidden
+}
+
+.product:hover{
+transform:translateY(-6px);
+border-color:var(--line);
+box-shadow:0 25px 60px rgba(0,0,0,.5)
+}
+
+.product-image{
+height:320px;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+background:
+radial-gradient(circle,rgba(212,175,55,.12),transparent 48%),
+#0d0d0d
+}
+
+.bottle{
+width:125px;
+height:205px;
+border:1px solid rgba(212,175,55,.55);
+background:linear-gradient(145deg,#252525,#050505);
+box-shadow:0 25px 45px rgba(0,0,0,.7);
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:var(--gold2);
+font-weight:bold;
+font-size:14px;
+padding:10px
+}
+
+.product-badge{
+position:absolute;
+top:13px;
+right:13px;
+background:var(--gold);
+color:#000;
+padding:6px 10px;
+font-size:9px;
+font-weight:bold
+}
+
+.heart{
+position:absolute;
+top:10px;
+left:10px;
+width:38px;
+height:38px;
+border-radius:50%;
+background:#080808;
+border:1px solid #292929;
+color:#777
+}
+
+.heart.active{
+color:var(--gold2);
+border-color:var(--gold)
+}
+
+.product-info{
+padding:18px
+}
+
+.product-category{
+color:#666;
+font-size:10px;
+margin-bottom:7px
+}
+
+.product-name{
+font-size:18px;
+font-weight:bold;
+margin-bottom:7px
+}
+
+.product-desc{
+color:#777;
+font-size:11px;
+line-height:1.7;
+min-height:38px
+}
+
+.price{
+margin:15px 0;
+display:flex;
+gap:9px;
+align-items:center
+}
+
+.price strong{
+font-size:20px;
+color:var(--gold2)
+}
+
+.price del{
+color:#555;
+font-size:12px
+}
+
+.add{
+width:100%;
+padding:12px;
+background:transparent;
+border:1px solid var(--gold);
+color:var(--gold2);
+font-weight:bold
+}
+
+.add:hover{
+background:var(--gold);
+color:#000
+}
+
+/* CART */
+
+.overlay{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.8);
+z-index:1900
+}
+
+.overlay.show{display:block}
+
+.cart{
+position:fixed;
+top:0;
+left:-480px;
+height:100vh;
+width:460px;
+max-width:94%;
+background:#090909;
+border-right:1px solid var(--gold);
+z-index:2000;
+display:flex;
+flex-direction:column;
+transition:.35s
+}
+
+.cart.open{left:0}
+
+.cart-head{
+padding:20px;
+height:75px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid var(--line)
+}
+
+.cart-head h2{
+font-size:20px;
+color:var(--gold2)
+}
+
+.close{
+background:none;
+border:0;
+color:#777;
+font-size:28px
+}
+
+.cart-body{
+flex:1;
+overflow:auto;
+padding:15px 20px
+}
+
+.empty{
+text-align:center;
+color:#666;
+padding:80px 15px
+}
+
+.cart-item{
+padding:15px 0;
+border-bottom:1px solid #1d1d1d
+}
+
+.cart-top{
+display:flex;
+justify-content:space-between
+}
+
+.cart-name{
+font-weight:bold;
+font-size:14px
+}
+
+.cart-price{
+font-size:11px;
+color:var(--gold);
+margin-top:5px
+}
+
+.remove{
+background:none;
+border:0;
+color:#666;
+font-size:11px
+}
+
+.qty{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:12px
+}
+
+.qty button{
+width:30px;
+height:30px;
+border:1px solid #292929;
+background:#151515;
+color:#fff
+}
+
+.qty strong{
+min-width:20px;
+text-align:center
+}
+
+.item-total{
+margin-right:auto;
+color:var(--gold2);
+font-size:13px
+}
+
+.cart-foot{
+padding:20px;
+border-top:1px solid var(--line)
+}
+
+.coupon{
+display:flex;
+margin-bottom:13px
+}
+
+.coupon input{
+flex:1;
+background:#050505;
+border:1px solid #292929;
+color:#fff;
+padding:11px
+}
+
+.coupon button{
+background:#151515;
+border:1px solid #292929;
+color:var(--gold);
+padding:0 15px
+}
+
+.line{
+display:flex;
+justify-content:space-between;
+color:#888;
+font-size:13px;
+margin:7px 0
+}
+
+.total{
+padding-top:12px;
+margin-top:12px;
+border-top:1px solid #222;
+font-size:19px;
+color:#fff
+}
+
+.total strong{color:var(--gold2)}
+
+.checkout{
+width:100%;
+margin-top:14px;
+padding:14px;
+border:0;
+background:linear-gradient(135deg,#987313,#f4d76a,#a87d17);
+color:#000;
+font-weight:bold
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+z-index:3000;
+background:rgba(0,0,0,.88);
+align-items:center;
+justify-content:center;
+padding:20px
+}
+
+.modal.show{display:flex}
+
+.modal-box{
+width:720px;
+max-width:100%;
+max-height:94vh;
+overflow:auto;
+background:#0b0b0b;
+border:1px solid var(--gold);
+padding:28px
+}
+
+.modal-head{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:25px
+}
+
+.modal-head h2{
+color:var(--gold2)
+}
+
+.form{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px
+}
+
+.field.full{grid-column:1/-1}
+
+.field label{
+display:block;
+font-size:12px;
+color:#aaa;
+margin-bottom:6px
+}
+
+.field input,
+.field textarea,
+.field select{
+width:100%;
+background:#050505;
+border:1px solid #292929;
+color:#fff;
+padding:13px;
+outline:none
+}
+
+.field textarea{
+min-height:85px;
+resize:vertical
+}
+
+.payment{
+margin:15px 0;
+padding:15px;
+border:1px solid #222
+}
+
+.payment p{
+font-size:12px;
+color:#aaa;
+margin-bottom:10px
+}
+
+.pay-options{
+display:flex;
+gap:8px
+}
+
+.pay{
+padding:10px 14px;
+border:1px solid #292929;
+color:#aaa;
+font-size:12px
+}
+
+.pay.selected{
+border-color:var(--gold);
+color:var(--gold2)
+}
+
+.summary{
+padding:15px;
+background:#070707;
+border:1px solid #222;
+margin-bottom:18px
+}
+
+.summary h3{
+color:var(--gold);
+font-size:13px;
+margin-bottom:10px
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+border-bottom:1px solid #181818;
+font-size:12px;
+color:#aaa
+}
+
+.summary-total{
+display:flex;
+justify-content:space-between;
+margin-top:13px;
+font-size:20px
+}
+
+.summary-total strong{color:var(--gold2)}
+
+.modal-actions{
+display:flex;
+gap:10px
+}
+
+.cancel{
+padding:14px 20px;
+background:#151515;
+border:1px solid #292929;
+color:#aaa
+}
+
+.whatsapp{
+flex:1;
+padding:14px;
+background:#25d366;
+color:#fff;
+border:0;
+font-weight:bold
+}
+
+/* FOOTER */
+
+footer{
+border-top:1px solid var(--line);
+background:#020202
+}
+
+.footer{
+max-width:1400px;
+margin:auto;
+padding:65px 25px 35px;
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1fr;
+gap:40px
+}
+
+.footer p,
+.footer li{
+color:#666;
+font-size:12px;
+line-height:2
+}
+
+.footer h3{
+color:var(--gold);
+font-size:15px;
+margin-bottom:14px
+}
+
+.footer ul{list-style:none}
+
+.footer li:hover{color:var(--gold2)}
+
+.copy{
+border-top:1px solid #151515;
+padding:20px;
+text-align:center;
+color:#444;
+font-size:11px
+}
+
+/* TOAST */
+
+.toast{
+position:fixed;
+bottom:25px;
+right:25px;
+z-index:5000;
+background:#111;
+border:1px solid var(--gold);
+padding:14px 18px;
+color:#fff;
+transform:translateY(120px);
+opacity:0;
+transition:.3s
+}
+
+.toast.show{
+transform:translateY(0);
+opacity:1
+}
+
+/* MOBILE */
+
+@media(max-width:1100px){
+.products{grid-template-columns:repeat(3,1fr)}
+.categories{grid-template-columns:repeat(2,1fr)}
+.footer{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:750px){
+
+.header{
+height:70px;
+padding:0 12px
+}
+
+.search{display:none}
+
+.logo strong{font-size:22px}
+.logo small{font-size:6px}
+
+.hero{min-height:560px}
+
+.hero h1{font-size:48px}
+
+.hero p{font-size:13px}
+
+.section{padding:65px 13px}
+
+.title h2{font-size:30px}
+
+.categories{
+grid-template-columns:1fr 1fr;
+gap:9px
+}
+
+.category{
+height:190px;
+padding:17px
+}
+
+.category h3{font-size:17px}
+
+.category .symbol{
+font-size:30px;
+top:15px;
+left:15px
+}
+
+.features-inner{
+grid-template-columns:1fr 1fr;
+gap:20px 0
+}
+
+.feature:nth-child(2){border-left:0}
+
+.products{
+grid-template-columns:1fr 1fr;
+gap:9px
+}
+
+.product-image{height:210px}
+
+.bottle{
+width:88px;
+height:135px;
+font-size:10px
+}
+
+.product-info{padding:12px}
+
+.product-name{font-size:15px}
+
+.product-desc{
+font-size:10px;
+min-height:36px
+}
+
+.price strong{font-size:17px}
+
+.footer{
+grid-template-columns:1fr;
+padding:50px 20px 30px
+}
+
+.form{grid-template-columns:1fr}
+
+.field.full{grid-column:auto}
+
+}
+
+@media(max-width:420px){
+
+.nav{
+justify-content:flex-start
+}
+
+.nav button{
+padding:14px 17px
+}
+
+.hero h1{font-size:41px}
+
+.hero-buttons button{width:100%}
+
+.categories{
+grid-template-columns:1fr
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+✦ مرحبًا بكم في HZ.SHOP — تجربة تسوق فاخرة ✦
 </div>
 
-<div class="header-center">
+<header>
 
-  <div class="header-search">
+<div class="header">
 
-    <span>⌕</span>
+<div class="logo">
+<strong>HZ.SHOP</strong>
+<small>LUXURY BEAUTY STORE</small>
+</div>
 
-    <input
-      id="headerSearch"
-      type="search"
-      placeholder="ابحث عن منتج..."
-      oninput="searchFromHeader()"
-    >
+<div class="search">
+<span>⌕</span>
+<input
+id="search"
+type="search"
+placeholder="ابحث عن منتج..."
+oninput="searchProducts()">
+</div>
 
-  </div>
+<div class="actions">
+
+<button class="icon-btn" onclick="openFavorites()">
+♡
+<span class="badge" id="favCount">0</span>
+</button>
+
+<button class="icon-btn" onclick="openCart()">
+🛒
+<span class="badge" id="cartCount">0</span>
+</button>
 
 </div>
 
-<div class="header-actions">
+</div>
 
-  <button
-    class="action"
-    title="المفضلة"
-    onclick="openFavorites()"
-  >
-    ♡
-    <span class="badge" id="favoriteCount">0</span>
-  </button>
+<nav>
+<div class="nav">
 
-  <button
-    class="action"
-    title="السلة"
-    onclick="openCart()"
-  >
-    🛒
-    <span class="badge" id="cartCount">0</span>
-  </button>
+<button class="active" onclick="category('all',this)">الرئيسية</button>
+<button onclick="category('perfumes',this)">العطور</button>
+<button onclick="category('skin',this)">العناية بالبشرة</button>
+<button onclick="category('personal',this)">العناية الشخصية</button>
+<button onclick="category('cleaning',this)">النظافة</button>
+<button onclick="goShop()">جميع المنتجات</button>
 
 </div>
-<div class="nav-inner">
+</nav>
 
-  <button
-    class="active"
-    onclick="setCategory('all',this)"
-  >
-    الرئيسية
-  </button>
+</header>
 
-  <button
-    onclick="setCategory('perfumes',this)"
-  >
-    العطور
-  </button>
+<section class="hero">
 
-  <button
-    onclick="setCategory('skin',this)"
-  >
-    العناية بالبشرة
-  </button>
+<div class="hero-content">
 
-  <button
-    onclick="setCategory('personal',this)"
-  >
-    العناية الشخصية
-  </button>
-
-  <button
-    onclick="setCategory('cleaning',this)"
-  >
-    النظافة
-  </button>
-
-  <button onclick="scrollToShop()">
-    جميع المنتجات
-  </button>
-
-</div>
-<div class="hero-kicker">
-  WELCOME TO HZ.SHOP
-</div>
+<div class="hero-label">WELCOME TO HZ.SHOP</div>
 
 <h1>
-  ELEVATE
-  <span>YOUR BEAUTY</span>
+DISCOVER
+<span>YOUR STYLE</span>
 </h1>
 
-<div class="hero-description">
-  اكتشف عالمًا من العطور ومنتجات العناية
-  والبشرة والعناية الشخصية، بتجربة تسوق
-  مصممة لتكون بسيطة، راقية ومميزة.
-</div>
+<p>
+اكتشف عالم HZ.SHOP من العطور ومنتجات
+العناية بالبشرة والعناية الشخصية والنظافة،
+بتجربة تسوق أنيقة وسهلة.
+</p>
 
 <div class="hero-buttons">
 
-  <button
-    class="gold-btn"
-    onclick="scrollToShop()"
-  >
-    اكتشف مجموعتنا
-  </button>
+<button class="gold" onclick="goShop()">
+اكتشف المنتجات
+</button>
 
-  <button
-    class="outline-btn"
-    onclick="setCategory('perfumes')"
-  >
-    مجموعة العطور
-  </button>
-
-</div>
-<div class="section-kicker">
-  SHOP BY CATEGORY
-</div>
-
-<h2>اكتشف الأقسام</h2>
-
-<p>
-  اختر القسم الذي تبحث عنه
-</p>
-<div
-  class="category"
-  onclick="setCategory('perfumes')"
->
-
-  <div class="category-icon">♛</div>
-
-  <div class="category-number">
-    01 / COLLECTION
-  </div>
-
-  <h3>العطور</h3>
-
-  <p>
-    عطور مميزة وروائح تترك أثرًا
-  </p>
+<button class="outline" onclick="category('perfumes')">
+مجموعة العطور
+</button>
 
 </div>
 
-<div
-  class="category"
-  onclick="setCategory('skin')"
->
-
-  <div class="category-icon">✦</div>
-
-  <div class="category-number">
-    02 / COLLECTION
-  </div>
-
-  <h3>العناية بالبشرة</h3>
-
-  <p>
-    منتجات مختارة للعناية اليومية
-  </p>
-
 </div>
 
-<div
-  class="category"
-  onclick="setCategory('personal')"
->
+</section>
 
-  <div class="category-icon">◇</div>
+<section class="section">
 
-  <div class="category-number">
-    03 / COLLECTION
-  </div>
-
-  <h3>العناية الشخصية</h3>
-
-  <p>
-    كل ما تحتاجه للعناية بنفسك
-  </p>
-
+<div class="title">
+<small>SHOP BY CATEGORY</small>
+<h2>تسوق حسب القسم</h2>
+<p>اختر القسم الذي تبحث عنه</p>
 </div>
 
-<div
-  class="category"
-  onclick="setCategory('cleaning')"
->
+<div class="categories">
 
-  <div class="category-icon">✧</div>
+<div class="category" onclick="category('perfumes')">
+<div class="symbol">♛</div>
+<div class="number">01 / COLLECTION</div>
+<h3>العطور</h3>
+<p>روائح مميزة وحضور لا يُنسى</p>
+</div>
 
-  <div class="category-number">
-    04 / COLLECTION
-  </div>
+<div class="category" onclick="category('skin')">
+<div class="symbol">✦</div>
+<div class="number">02 / COLLECTION</div>
+<h3>العناية بالبشرة</h3>
+<p>منتجات للعناية اليومية</p>
+</div>
 
-  <h3>النظافة</h3>
+<div class="category" onclick="category('personal')">
+<div class="symbol">◇</div>
+<div class="number">03 / COLLECTION</div>
+<h3>العناية الشخصية</h3>
+<p>كل ما تحتاجه لعنايتك</p>
+</div>
 
-  <p>
-    منتجات النظافة والعناية اليومية
-  </p>
+<div class="category" onclick="category('cleaning')">
+<div class="symbol">✧</div>
+<div class="number">04 / COLLECTION</div>
+<h3>النظافة</h3>
+<p>منتجات النظافة اليومية</p>
+</div>
 
 </div>
+</section>
+
+<section class="features">
+
+<div class="features-inner">
+
 <div class="feature">
-  <div class="feature-icon">♛</div>
-  <strong>منتجات مختارة</strong>
-  <span>جودة نهتم بها</span>
+<b>♛</b>
+<strong>منتجات مختارة</strong>
+<span>اختيارات مميزة</span>
 </div>
 
 <div class="feature">
-  <div class="feature-icon">🛒</div>
-  <strong>سلة ذكية</strong>
-  <span>أضف منتجاتك بسهولة</span>
+<b>🛒</b>
+<strong>سلة ذكية</strong>
+<span>تسوق بسهولة</span>
 </div>
 
 <div class="feature">
-  <div class="feature-icon">✓</div>
-  <strong>طلب سهل</strong>
-  <span>خطوات بسيطة</span>
+<b>✓</b>
+<strong>طلب سريع</strong>
+<span>خطوات بسيطة</span>
 </div>
 
 <div class="feature">
-  <div class="feature-icon">☏</div>
-  <strong>WhatsApp</strong>
-  <span>تواصل مباشر للطلب</span>
-</div>
-<div class="section-kicker">
-  HZ.SHOP COLLECTION
+<b>☏</b>
+<strong>WhatsApp</strong>
+<span>تواصل مباشر</span>
 </div>
 
-<h2 id="shopTitle">
-  منتجاتنا
-</h2>
+</div>
+
+</section>
+
+<section class="section" id="shop">
+
+<div class="title">
+
+<small>HZ.SHOP COLLECTION</small>
+
+<h2 id="shopTitle">منتجاتنا</h2>
 
 <p id="shopSubtitle">
-  اكتشف منتجات HZ.SHOP
+اكتشف مجموعة HZ.SHOP
 </p>
+
+</div>
+
+<div class="toolbar">
+
 <div class="results" id="results">
-  المنتجات
+0 منتجات
 </div>
 
 <div class="filters">
 
-  <button
-    class="filter-btn active"
-    onclick="setCategory('all',this)"
-  >
-    الكل
-  </button>
+<button class="filter active" onclick="category('all',this)">
+الكل
+</button>
 
-  <button
-    class="filter-btn"
-    onclick="setCategory('perfumes',this)"
-  >
-    العطور
-  </button>
+<button class="filter" onclick="category('perfumes',this)">
+العطور
+</button>
 
-  <button
-    class="filter-btn"
-    onclick="setCategory('skin',this)"
-  >
-    البشرة
-  </button>
+<button class="filter" onclick="category('skin',this)">
+البشرة
+</button>
 
-  <button
-    class="filter-btn"
-    onclick="setCategory('personal',this)"
-  >
-    الشخصية
-  </button>
+<button class="filter" onclick="category('personal',this)">
+الشخصية
+</button>
 
-  <button
-    class="filter-btn"
-onclick="setCategory('cleaning',this)"
-  >
-    النظافة
-  </button>
+<button class="filter" onclick="category('cleaning',this)">
+النظافة
+</button>
 
 </div>
 
-<select
-  class="sort"
-  id="sort"
-  onchange="renderProducts()"
->
+<select class="sort" id="sort" onchange="render()">
+<option value="default">ترتيب المنتجات</option>
+<option value="low">السعر الأقل</option>
+<option value="high">السعر الأعلى</option>
+<option value="name">الاسم</option>
+</select>
 
-  <option value="default">
-    ترتيب المنتجات
-  </option>
+</div>
 
-  <option value="low">
-    السعر: الأقل أولًا
-  </option>
+<div class="products" id="products"></div>
 
-  <option value="high">
-    السعر: الأعلى أولًا
-  </option>
+</section>
 
-  <option value="name">
-    الاسم
-  </option>
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<aside class="cart" id="cart">
+
+<div class="cart-head">
+<h2>🛒 السلة</h2>
+<button class="close" onclick="closeCart()">×</button>
+</div>
+
+<div class="cart-body" id="cartItems"></div>
+
+<div class="cart-foot">
+
+<div class="coupon">
+<input id="coupon" placeholder="كود الخصم">
+<button onclick="coupon()">تطبيق</button>
+</div>
+
+<div class="line">
+<span>المجموع</span>
+<span id="subtotal">$0.00</span>
+</div>
+
+<div class="line">
+<span>الخصم</span>
+<span id="discount">$0.00</span>
+</div>
+
+<div class="line total">
+<span>الإجمالي</span>
+<strong id="total">$0.00</strong>
+</div>
+
+<button class="checkout" onclick="checkout()">
+إتمام الطلب
+</button>
+
+</div>
+
+</aside>
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<div class="modal-head">
+
+<h2>إتمام الطلب</h2>
+
+<button class="close" onclick="closeCheckout()">
+×
+</button>
+
+</div>
+
+<div class="form">
+
+<div class="field">
+<label>الاسم الكامل *</label>
+<input id="name" placeholder="اسمك الكامل">
+</div>
+
+<div class="field">
+<label>رقم الهاتف *</label>
+<input id="phone" placeholder="71 123 456">
+</div>
+
+<div class="field">
+<label>المحافظة *</label>
+
+<select id="governorate">
+
+<option value="">اختر المحافظة</option>
+<option>بيروت</option>
+<option>جبل لبنان</option>
+<option>الشمال</option>
+<option>البقاع</option>
+<option>الجنوب</option>
+<option>النبطية</option>
+<option>عكار</option>
 
 </select>
-<h2>🛒 سلة المشتريات</h2>
-
-<button
-  class="close"
-  onclick="closeCart()"
->
-  ×
-</button>
-<div class="coupon">
-
-  <input
-    id="couponInput"
-    placeholder="كود الخصم"
-  >
-
-  <button onclick="applyCoupon()">
-    تطبيق
-  </button>
 
 </div>
 
-<div class="cart-line">
-  <span>المجموع الفرعي</span>
-  <span id="subtotal">$0.00</span>
+<div class="field">
+<label>المنطقة *</label>
+<input id="area" placeholder="المنطقة">
 </div>
 
-<div class="cart-line">
-  <span>الخصم</span>
-  <span id="discount">$0.00</span>
+<div class="field full">
+<label>العنوان بالتفصيل *</label>
+<textarea id="address" placeholder="الشارع، المبنى، الطابق..."></textarea>
 </div>
 
-<div class="cart-line total">
-  <span>الإجمالي</span>
-  <strong id="cartTotal">$0.00</strong>
+<div class="field full">
+<label>ملاحظات</label>
+<textarea id="notes" placeholder="ملاحظات إضافية للطلب"></textarea>
 </div>
-
-<button
-  class="checkout-btn"
-  onclick="openCheckout()"
->
-  متابعة وإتمام الطلب
-</button>
-<h2>♡ المفضلة</h2>
-
-<button
-  class="close"
-  onclick="closeFavorites()"
->
-  ×
-</button>
-<div class="modal-title">
-
-  <h2>إتمام الطلب</h2>
-
-  <button
-    class="close"
-    onclick="closeCheckout()"
-  >
-    ×
-  </button>
 
 </div>
 
-<div class="form-grid">
+<div class="payment">
 
-  <div class="form-group">
+<p>طريقة الدفع</p>
 
-    <label>
-      الاسم الكامل *
-    </label>
+<div class="pay-options">
 
-    <input
-      id="customerName"
-      placeholder="اكتب اسمك الكامل"
-    >
+<div class="pay selected" onclick="payment(this,'الدفع عند الاستلام')">
+الدفع عند الاستلام
+</div>
 
-  </div>
-
-  <div class="form-group">
-
-    <label>
-      رقم الهاتف *
-    </label>
-
-    <input
-      id="customerPhone"
-      type="tel"
-      placeholder="مثال: 71 142 827"
-    >
-
-  </div>
-
-  <div class="form-group">
-
-    <label>
-      المحافظة *
-    </label>
-
-    <select id="customerGovernorate">
-
-      <option value="">
-        اختر المحافظة
-      </option>
-
-      <option>بيروت</option>
-      <option>جبل لبنان</option>
-      <option>الشمال</option>
-      <option>البقاع</option>
-      <option>الجنوب</option>
-      <option>النبطية</option>
-      <option>عكار</option>
-
-    </select>
-
-  </div>
-
-  <div class="form-group">
-
-    <label>
-      المنطقة *
-    </label>
-
-    <input
-      id="customerArea"
-      placeholder="المنطقة"
-    >
-
-  </div>
-
-  <div class="form-group full">
-
-    <label>
-      العنوان بالتفصيل *
-    </label>
-
-    <textarea
-      id="customerAddress"
-      placeholder="الشارع، المبنى، الطابق..."
-    ></textarea>
-
-  </div>
-
-  <div class="form-group full">
-
-    <label>
-      ملاحظات الطلب
-    </label>
-
-    <textarea
-      id="customerNotes"
-      placeholder="أي ملاحظات إضافية..."
-    ></textarea>
-
-  </div>
+<div class="pay" onclick="payment(this,'دفع إلكتروني')">
+دفع إلكتروني
+</div>
 
 </div>
 
-<div class="payment-box">
-
-  <div class="payment-title">
-    طريقة الدفع
-  </div>
-
-  <div class="payment-options">
-
-    <div
-      class="payment-option selected"
-      onclick="selectPayment(this,'الدفع عند الاستلام')"
-    >
-      الدفع عند الاستلام
-    </div>
-
-    <div
-      class="payment-option"
-      onclick="selectPayment(this,'دفع إلكتروني')"
-    >
-      دفع إلكتروني
-    </div>
-
-  </div>
-
 </div>
 
-<div class="order-summary">
+<div class="summary">
 
-  <div class="summary-title">
-    ملخص الطلب
-  </div>
+<h3>ملخص الطلب</h3>
 
-  <div id="summaryItems"></div>
+<div id="summary"></div>
 
-  <div class="summary-total">
-
-    <span>الإجمالي</span>
-
-    <strong id="summaryTotal">
-      $0.00
-    </strong>
-
-  </div>
+<div class="summary-total">
+<span>الإجمالي</span>
+<strong id="summaryTotal">$0.00</strong>
+</div>
 
 </div>
 
 <div class="modal-actions">
 
-  <button
-    class="cancel-btn"
-    onclick="closeCheckout()"
-  >
-    رجوع
-  </button>
+<button class="cancel" onclick="closeCheckout()">
+رجوع
+</button>
 
-  <button
-    class="whatsapp-btn"
-    onclick="sendOrder()"
-  >
-    📱 إرسال الطلب عبر WhatsApp
-  </button>
+<button class="whatsapp" onclick="sendWhatsApp()">
+📱 إرسال الطلب عبر WhatsApp
+</button>
 
 </div>
-<div class="footer-brand">
 
-  <div class="brand">
+</div>
 
-    <div class="brand-main">
-      HZ.SHOP
-    </div>
+</div>
 
-    <div class="brand-sub">
-      LUXURY BEAUTY STORE
-    </div>
+<footer>
 
-  </div>
+<div class="footer">
 
-  <p>
-    HZ.SHOP متجر يجمع العطور ومنتجات
-    العناية بالبشرة والعناية الشخصية
-    والنظافة في تجربة تسوق واحدة.
-  </p>
+<div>
+
+<div class="logo">
+<strong>HZ.SHOP</strong>
+<small>LUXURY BEAUTY STORE</small>
+</div>
+
+<p style="margin-top:18px">
+متجر HZ.SHOP للعطور ومنتجات العناية
+بالبشرة والعناية الشخصية والنظافة.
+</p>
 
 </div>
 
 <div>
 
-  <h3>المتجر</h3>
+<h3>المتجر</h3>
 
-  <ul>
-
-    <li onclick="setCategory('perfumes')">
-      العطور
-    </li>
-
-    <li onclick="setCategory('skin')">
-      العناية بالبشرة
-    </li>
-
-    <li onclick="setCategory('personal')">
-      العناية الشخصية
-    </li>
-
-    <li onclick="setCategory('cleaning')">
-      النظافة
-    </li>
-
-  </ul>
-
-</div>
-<div>
-
-  <h3>خدمة العملاء</h3>
-
-  <ul>
-    <li>الأسئلة الشائعة</li>
-    <li>سياسة الاستبدال</li>
-    <li>سياسة الخصوصية</li>
-    <li>الشروط والأحكام</li>
-  </ul>
+<ul>
+<li onclick="category('perfumes')">العطور</li>
+<li onclick="category('skin')">العناية بالبشرة</li>
+<li onclick="category('personal')">العناية الشخصية</li>
+<li onclick="category('cleaning')">النظافة</li>
+</ul>
 
 </div>
 
 <div>
 
-  <h3>تواصل معنا</h3>
+<h3>خدمة العملاء</h3>
 
-  <ul>
-    <li>WhatsApp</li>
-    <li>+961 71 142 827</li>
-    <li>استقبال الطلبات عبر WhatsApp</li>
-  </ul>
+<ul>
+<li>الأسئلة الشائعة</li>
+<li>سياسة الاستبدال</li>
+<li>سياسة الخصوصية</li>
+<li>الشروط والأحكام</li>
+</ul>
 
 </div>
+
+<div>
+
+<h3>تواصل معنا</h3>
+
+<ul>
+<li>WhatsApp</li>
+<li>+961 71 142 827</li>
+<li>الطلبات عبر WhatsApp</li>
+</ul>
+
+</div>
+
+</div>
+
+<div class="copy">
+© 2026 HZ.SHOP — جميع الحقوق محفوظة
+</div>
+
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+const products=[
+
+{
+id:1,
+name:"Azura Gold",
+category:"perfumes",
+categoryName:"العطور",
+description:"عطر فاخر بحضور أنيق وثبات مميز.",
+price:19,
+old:20,
+badge:"عرض"
+},
+
+{
+id:2,
+name:"Azura Green",
+category:"perfumes",
+categoryName:"العطور",
+description:"رائحة منعشة وأنيقة للاستخدام اليومي.",
+price:19,
+old:20,
+badge:"عرض"
+},
+
+{
+id:3,
+name:"Azura Blue",
+category:"perfumes",
+categoryName:"العطور",
+description:"رائحة بحرية منعشة بحضور جذاب.",
+price:19,
+old:20,
+badge:"مميز"
+},
+
+{
+id:4,
+name:"Azura Pink",
+category:"perfumes",
+categoryName:"العطور",
+description:"رائحة ناعمة ومنعشة بلمسة أنثوية.",
+price:19,
+old:20,
+badge:"جديد"
+},
+
+{
+id:5,
+name:"العناية بالبشرة",
+category:"skin",
+categoryName:"العناية بالبشرة",
+description:"منتج للعناية اليومية بالبشرة.",
+price:10,
+badge:"جديد"
+},
+
+{
+id:6,
+name:"العناية الشخصية",
+category:"personal",
+categoryName:"العناية الشخصية",
+description:"منتج عملي للعناية الشخصية اليومية.",
+price:8
+},
+
+{
+id:7,
+name:"منتج النظافة",
+category:"cleaning",
+categoryName:"النظافة",
+description:"منتج للنظافة والعناية اليومية.",
+price:7
+}
+
+];
+
+let current="all";
+
+let cart=
+JSON.parse(localStorage.getItem("hz_cart")||"[]");
+
+let favorites=
+JSON.parse(localStorage.getItem("hz_fav")||"[]");
+
+let discountRate=0;
+
+let selectedPayment="الدفع عند الاستلام";
+
+function save(){
+
+localStorage.setItem(
+"hz_cart",
+JSON.stringify(cart)
+);
+
+localStorage.setItem(
+"hz_fav",
+JSON.stringify(favorites)
+);
+
+}
+
+function render(){
+
+let list=[...products];
+
+const search=
+document
+.getElementById("search")
+.value
+.trim()
+.toLowerCase();
+
+if(current!=="all"){
+
+list=list.filter(
+p=>p.category===current
+);
+
+}
+
+if(search){
+
+list=list.filter(p=>
+p.name.toLowerCase().includes(search)||
+p.description.toLowerCase().includes(search)||
+p.categoryName.toLowerCase().includes(search)
+);
+
+}
+
+const sort=
+document.getElementById("sort").value;
+
+if(sort==="low")
+list.sort((a,b)=>a.price-b.price);
+
+if(sort==="high")
+list.sort((a,b)=>b.price-a.price);
+
+if(sort==="name")
+list.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
+
+document.getElementById("results").textContent=
+list.length+" منتجات";
+
+const box=
+document.getElementById("products");
+
+box.innerHTML="";
+
+list.forEach(p=>{
+
+const fav=favorites.includes(p.id);
+
+box.innerHTML+=`
+
+<article class="product">
+
+<div class="product-image">
+
+${p.badge?`<div class="product-badge">${p.badge}</div>`:""}
+
+<button
+class="heart ${fav?"active":""}"
+onclick="toggleFav(${p.id})">
+${fav?"♥":"♡"}
+</button>
+
+<div class="bottle">
+${p.name}
+</div>
+
+</div>
+
+<div class="product-info">
+
+<div class="product-category">
+${p.categoryName}
+</div>
+
+<div class="product-name">
+${p.name}
+</div>
+
+<div class="product-desc">
+${p.description}
+</div>
+
+<div class="price">
+
+<strong>
+$${p.price.toFixed(2)}
+</strong>
+
+${p.old?
+`<del>$${p.old.toFixed(2)}</del>`:""}
+
+</div>
+
+<button class="add" onclick="add(${p.id})">
+🛒 أضف إلى السلة
+</button>
+
+</div>
+
+</article>
+
+`;
+
+});
+
+}
+
+function category(cat,btn){
+
+current=cat;
+
+document
+.querySelectorAll(".nav button")
+.forEach(x=>x.classList.remove("active"));
+
+if(btn)btn.classList.add("active");
+
+const names={
+all:"منتجاتنا",
+perfumes:"العطور",
+skin:"العناية بالبشرة",
+personal:"العناية الشخصية",
+cleaning:"النظافة"
+};
+
+document.getElementById("shopTitle").textContent=
+names[cat];
+
+render();
+
+goShop();
+
+}
+
+function searchProducts(){
+
+current="all";
+
+render();
+
+goShop();
+
+}
+
+function goShop(){
+
+document
+.getElementById("shop")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function add(id){
+
+const p=products.find(x=>x.id===id);
+
+const item=cart.find(x=>x.id===id);
+
+if(item){
+
+item.quantity++;
+
+}else{
+
+cart.push({
+id:p.id,
+name:p.name,
+price:p.price,
+quantity:1
+});
+
+}
+
+save();
+renderCart();
+
+toast(p.name+" تمت إضافته إلى السلة");
+
+}
+
+function change(id,num){
+
+const item=cart.find(x=>x.id===id);
+
+if(!item)return;
+
+item.quantity+=num;
+
+if(item.quantity<=0){
+
+cart=cart.filter(x=>x.id!==id);
+
+}
+
+save();
+renderCart();
+
+}
+
+function removeItem(id){
+
+cart=cart.filter(x=>x.id!==id);
+
+save();
+renderCart();
+
+}
+
+function renderCart(){
+
+const box=
+document.getElementById("cartItems");
+
+const count=
+cart.reduce((a,b)=>a+b.quantity,0);
+
+document.getElementById("cartCount").textContent=count;
+
+if(!cart.length){
+
+box.innerHTML=
+`<div class="empty">السلة فارغة 🛒<br><br>أضف المنتجات التي تريد شراءها.</div>`;
+
+updateTotals();
+
+return;
+
+}
+
+box.innerHTML="";
+
+cart.forEach(item=>{
+
+box.innerHTML+=`
+
+<div class="cart-item">
+
+<div class="cart-top">
+
+<div>
+
+<div class="cart-name">
+${item.name}
+</div>
+
+<div class="cart-price">
+$${item.price.toFixed(2)} للقطعة
+</div>
+
+</div>
+
+<button
+class="remove"
+onclick="removeItem(${item.id})">
+حذف
+</button>
+
+</div>
+
+<div class="qty">
+
+<button onclick="change(${item.id},1)">+</button>
+
+<strong>${item.quantity}</strong>
+
+<button onclick="change(${item.id},-1)">−</button>
+
+<span class="item-total">
+$${(item.price*item.quantity).toFixed(2)}
+</span>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+updateTotals();
+
+}
+
+function updateTotals(){
+
+const subtotal=
+cart.reduce(
+(a,b)=>a+b.price*b.quantity,
+0
+);
+
+const discount=
+subtotal*discountRate;
+
+const total=
+subtotal-discount;
+
+document.getElementById("subtotal").textContent=
+"$"+subtotal.toFixed(2);
+
+document.getElementById("discount").textContent=
+"-$"+discount.toFixed(2);
+
+document.getElementById("total").textContent=
+"$"+total.toFixed(2);
+
+}
+
+function openCart(){
+
+document
+.getElementById("cart")
+.classList.add("open");
+
+document
+.getElementById("overlay")
+.classList.add("show");
+
+}
+
+function closeCart(){
+
+document
+.getElementById("cart")
+.classList.remove("open");
+
+document
+.getElementById("overlay")
+.classList.remove("show");
+
+}
+
+function coupon(){
+
+const code=
+document
+.getElementById("coupon")
+.value
+.trim()
+.toUpperCase();
+
+if(code==="HZ10"){
+
+discountRate=.10;
+
+toast("تم تطبيق خصم 10%");
+
+}else{
+
+discountRate=0;
+
+toast("كود الخصم غير صحيح");
+
+}
+
+updateTotals();
+
+}
+
+function toggleFav(id){
+
+if(favorites.includes(id)){
+
+favorites=
+favorites.filter(x=>x!==id);
+
+}else{
+
+favorites.push(id);
+
+}
+
+save();
+
+document.getElementById("favCount").textContent=
+favorites.length;
+
+render();
+
+}
+
+function openFavorites(){
+
+const list=
+products.filter(x=>favorites.includes(x.id));
+
+if(!list.length){
+
+toast("لا توجد منتجات في المفضلة");
+
+return;
+
+}
+
+let text="المفضلة:\n\n";
+
+list.forEach(x=>{
+text+=x.name+" — $"+x.price+"\n";
+});
+
+alert(text);
+
+}
+
+function checkout(){
+
+if(!cart.length){
+
+toast("السلة فارغة");
+
+return;
+
+}
+
+closeCart();
+
+renderSummary();
+
+document
+.getElementById("modal")
+.classList.add("show");
+
+}
+
+function closeCheckout(){
+
+document
+.getElementById("modal")
+.classList.remove("show");
+
+}
+
+function renderSummary(){
+
+const box=
+document.getElementById("summary");
+
+box.innerHTML="";
+
+cart.forEach(item=>{
+
+box.innerHTML+=`
+
+<div class="summary-row">
+
+<span>
+${item.name} × ${item.quantity}
+</span>
+
+<span>
+$${(item.price*item.quantity).toFixed(2)}
+</span>
+
+</div>
+
+`;
+
+});
+
+const subtotal=
+cart.reduce(
+(a,b)=>a+b.price*b.quantity,
+0
+);
+
+const total=
+subtotal-(subtotal*discountRate);
+
+document.getElementById("summaryTotal").textContent=
+"$"+total.toFixed(2);
+
+}
+
+function payment(el,type){
+
+document
+.querySelectorAll(".pay")
+.forEach(x=>x.classList.remove("selected"));
+
+el.classList.add("selected");
+
+selectedPayment=type;
+
+}
+
+function sendWhatsApp(){
+
+const name=
+document.getElementById("name").value.trim();
+
+const phone=
+document.getElementById("phone").value.trim();
+
+const governorate=
+document.getElementById("governorate").value;
+
+const area=
+document.getElementById("area").value.trim();
+
+const address=
+document.getElementById("address").value.trim();
+
+const notes=
+document.getElementById("notes").value.trim();
+
+if(!name||!phone||!governorate||!area||!address){
+
+toast("يرجى تعبئة جميع المعلومات المطلوبة");
+
+return;
+
+}
+
+let message=
+"🛍️ طلب جديد من HZ.SHOP\n\n";
+
+message+="👤 الاسم: "+name+"\n";
+message+="📞 الهاتف: "+phone+"\n";
+message+="📍 المحافظة: "+governorate+"\n";
+message+="📍 المنطقة: "+area+"\n";
+message+="🏠 العنوان: "+address+"\n";
+message+="💳 الدفع: "+selectedPayment+"\n";
+
+if(notes)
+message+="📝 الملاحظات: "+notes+"\n";
+
+message+="\n🛒 المنتجات:\n";
+
+let subtotal=0;
+
+cart.forEach(item=>{
+
+const total=item.price*item.quantity;
+
+subtotal+=total;
+
+message+=
+"• "+item.name+
+" × "+item.quantity+
+" = $"+total.toFixed(2)+"\n";
+
+});
+
+const discount=subtotal*discountRate;
+
+const total=subtotal-discount;
+
+message+="\n💰 المجموع: $"+subtotal.toFixed(2);
+
+if(discount)
+message+="\n🏷️ الخصم: $"+discount.toFixed(2);
+
+message+="\n💵 الإجمالي: $"+total.toFixed(2);
+
+const url=
+"https://wa.me/96171142827?text="+
+encodeURIComponent(message);
+
+window.open(url,"_blank");
+
+}
+
+function toast(message){
+
+const box=
+document.getElementById("toast");
+
+box.textContent=message;
+
+box.classList.add("show");
+
+setTimeout(
+()=>box.classList.remove("show"),
+2500
+);
+
+}
+
+render();
+renderCart();
+
+document.getElementById("favCount").textContent=
+favorites.length;
+
+</script>
+
+</body>
+</html>
