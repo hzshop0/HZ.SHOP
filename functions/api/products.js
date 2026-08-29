@@ -1,3 +1,53 @@
+async function makeSignature(text, secret) {
+  const encoder = new TextEncoder();
+
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    encoder.encode(text)
+  );
+
+  return Array.from(new Uint8Array(signature))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function checkSession(request, env) {
+  const cookie = request.headers.get("Cookie") || "";
+  const match = cookie.match(/hz_admin=([^;]+)/);
+
+  if (!match) return false;
+
+  const value = decodeURIComponent(match[1]);
+  const parts = value.split(".");
+
+  if (parts.length !== 2) return false;
+
+  const timestamp = parts[0];
+  const signature = parts[1];
+
+  const age = Date.now() - Number(timestamp);
+
+  if (!Number.isFinite(age) || age < 0 || age > 86400000) {
+    return false;
+  }
+
+  const expected = await makeSignature(
+    timestamp,
+    env.ADMIN_PASSWORD
+  );
+
+  return signature === expected;
+}
+
 export async function onRequestGet(context) {
   try {
     const { results } = await context.env.DB
@@ -5,19 +55,35 @@ export async function onRequestGet(context) {
       .all();
 
     return Response.json(results);
+
   } catch (error) {
+
     return Response.json(
       { error: error.message },
       { status: 500 }
     );
+
   }
 }
 
 export async function onRequestPost(context) {
+
+  if (!(await checkSession(context.request, context.env))) {
+    return Response.json(
+      { error: "غير مصرح" },
+      { status: 401 }
+    );
+  }
+
   try {
+
     const data = await context.request.json();
 
-    if (!data.name || !data.category || data.price === undefined) {
+    if (
+      !data.name ||
+      !data.category ||
+      data.price === undefined
+    ) {
       return Response.json(
         { error: "الاسم والقسم والسعر مطلوبة" },
         { status: 400 }
@@ -35,9 +101,11 @@ export async function onRequestPost(context) {
         data.category,
         data.description || "",
         Number(data.price),
-        data.old_price ? Number(data.old_price) : null,
+        data.old_price
+          ? Number(data.old_price)
+          : null,
         data.image || "",
-        data.stock ? Number(data.stock) : 0,
+        Number(data.stock || 0),
         data.badge || ""
       )
       .run();
@@ -48,15 +116,26 @@ export async function onRequestPost(context) {
     });
 
   } catch (error) {
+
     return Response.json(
       { error: error.message },
       { status: 500 }
     );
+
   }
 }
 
 export async function onRequestPut(context) {
+
+  if (!(await checkSession(context.request, context.env))) {
+    return Response.json(
+      { error: "غير مصرح" },
+      { status: 401 }
+    );
+  }
+
   try {
+
     const data = await context.request.json();
 
     if (!data.id) {
@@ -85,9 +164,11 @@ export async function onRequestPut(context) {
         data.category,
         data.description || "",
         Number(data.price),
-        data.old_price ? Number(data.old_price) : null,
+        data.old_price
+          ? Number(data.old_price)
+          : null,
         data.image || "",
-        data.stock ? Number(data.stock) : 0,
+        Number(data.stock || 0),
         data.badge || "",
         Number(data.id)
       )
@@ -98,15 +179,26 @@ export async function onRequestPut(context) {
     });
 
   } catch (error) {
+
     return Response.json(
       { error: error.message },
       { status: 500 }
     );
+
   }
 }
 
 export async function onRequestDelete(context) {
+
+  if (!(await checkSession(context.request, context.env))) {
+    return Response.json(
+      { error: "غير مصرح" },
+      { status: 401 }
+    );
+  }
+
   try {
+
     const url = new URL(context.request.url);
     const id = url.searchParams.get("id");
 
@@ -118,7 +210,9 @@ export async function onRequestDelete(context) {
     }
 
     await context.env.DB
-      .prepare("DELETE FROM products WHERE id = ?")
+      .prepare(
+        "DELETE FROM products WHERE id = ?"
+      )
       .bind(Number(id))
       .run();
 
@@ -127,9 +221,11 @@ export async function onRequestDelete(context) {
     });
 
   } catch (error) {
+
     return Response.json(
       { error: error.message },
       { status: 500 }
     );
+
   }
 }
