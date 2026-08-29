@@ -2,212 +2,134 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HZ.SHOP | لوحة التحكم</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HZ.SHOP | الإدارة</title>
 
 <style>
 *{box-sizing:border-box}
-
 body{
-  margin:0;
-  font-family:Arial,Tahoma,sans-serif;
-  background:#070707;
-  color:#fff;
+margin:0;
+font-family:Arial,Tahoma,sans-serif;
+background:#070707;
+color:#fff
 }
-
 header{
-  padding:25px 20px;
-  text-align:center;
-  background:linear-gradient(135deg,#151515,#050505);
-  border-bottom:1px solid #d4af37;
+padding:25px;
+text-align:center;
+border-bottom:1px solid #d4af37;
+background:#111
 }
-
 .logo{
-  color:#d4af37;
-  font-size:30px;
-  font-weight:bold;
-  letter-spacing:3px;
+font-size:30px;
+font-weight:bold;
+color:#d4af37;
+letter-spacing:3px
 }
-
-header p{
-  color:#aaa;
-  margin:8px 0 0;
-}
-
 .container{
-  width:min(1100px,94%);
-  margin:30px auto;
+width:min(1050px,94%);
+margin:30px auto
 }
-
 .card{
-  background:#111;
-  border:1px solid #292929;
-  border-radius:18px;
-  padding:25px;
-  margin-bottom:25px;
-  box-shadow:0 15px 40px rgba(0,0,0,.35);
+background:#111;
+border:1px solid #292929;
+border-radius:18px;
+padding:25px;
+margin-bottom:25px
 }
-
 h2{
-  color:#d4af37;
-  margin-top:0;
+color:#d4af37;
+margin-top:0
 }
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-}
-
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.full{
-  grid-column:1/-1;
-}
-
-label{
-  color:#ccc;
-  font-size:14px;
-}
-
 input,select,textarea{
-  width:100%;
-  padding:14px;
-  background:#080808;
-  color:#fff;
-  border:1px solid #3b3b3b;
-  border-radius:10px;
-  font-size:15px;
-  outline:none;
+width:100%;
+padding:13px;
+margin-top:7px;
+margin-bottom:15px;
+background:#080808;
+color:#fff;
+border:1px solid #444;
+border-radius:10px;
+font-size:15px
 }
-
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:#d4af37;
-}
-
 textarea{
-  min-height:110px;
-  resize:vertical;
+min-height:100px;
+resize:vertical
 }
-
-.buttons{
-  display:flex;
-  gap:10px;
-  margin-top:20px;
-}
-
 button{
-  border:0;
-  border-radius:10px;
-  padding:13px 22px;
-  cursor:pointer;
-  font-weight:bold;
-  font-size:15px;
+border:0;
+border-radius:10px;
+padding:13px 20px;
+font-weight:bold;
+cursor:pointer
 }
-
 .gold{
-  background:linear-gradient(135deg,#e0bd4c,#a67c00);
-  color:#050505;
+background:#d4af37;
+color:#080808
 }
-
 .dark{
-  background:#242424;
-  color:#fff;
-  border:1px solid #444;
+background:#252525;
+color:#fff
 }
-
 .red{
-  background:#7d2222;
-  color:#fff;
+background:#7d2222;
+color:#fff
 }
-
+.hidden{
+display:none!important
+}
+.status{
+margin-top:15px;
+color:#d4af37;
+font-weight:bold
+}
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
+}
+.full{
+grid-column:1/-1
+}
 .products{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:18px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+gap:18px
 }
-
 .product{
-  background:#090909;
-  border:1px solid #292929;
-  border-radius:15px;
-  overflow:hidden;
+background:#090909;
+border:1px solid #292929;
+border-radius:14px;
+overflow:hidden
 }
-
 .product img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  background:#151515;
+width:100%;
+height:210px;
+object-fit:cover;
+background:#181818
 }
-
 .info{
-  padding:16px;
+padding:15px
 }
-
 .name{
-  color:#d4af37;
-  font-size:19px;
-  font-weight:bold;
-  margin-bottom:8px;
+font-size:19px;
+font-weight:bold;
+color:#d4af37
 }
-
-.category{
-  color:#aaa;
-  font-size:14px;
-}
-
 .price{
-  font-size:20px;
-  margin:12px 0;
-  font-weight:bold;
+font-size:20px;
+margin:10px 0
 }
-
-.stock{
-  color:#bbb;
-}
-
 .actions{
-  display:flex;
-  gap:8px;
-  margin-top:15px;
+display:flex;
+gap:8px;
+margin-top:15px
 }
-
 .actions button{
-  flex:1;
-  padding:10px;
+flex:1
 }
-
-#status{
-  margin-top:15px;
-  color:#d4af37;
-  font-weight:bold;
-}
-
-.empty{
-  color:#aaa;
-  text-align:center;
-  padding:30px;
-}
-
-@media(max-width:700px){
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .full{
-    grid-column:auto;
-  }
-
-  .buttons{
-    flex-direction:column;
-  }
+@media(max-width:650px){
+.grid{grid-template-columns:1fr}
+.full{grid-column:auto}
 }
 </style>
 </head>
@@ -215,28 +137,59 @@ button{
 <body>
 
 <header>
-  <div class="logo">HZ.SHOP</div>
-  <p>لوحة التحكم وإدارة المنتجات</p>
+<div class="logo">HZ.SHOP</div>
 </header>
 
-<main class="container">
 
-<section class="card">
+<div class="container">
+
+<!-- LOGIN -->
+
+<section id="loginCard" class="card">
+
+<h2>🔐 دخول الإدارة</h2>
+
+<label>كلمة مرور الإدارة</label>
+
+<input
+id="password"
+type="password"
+placeholder="أدخل كلمة المرور"
+autocomplete="current-password"
+>
+
+<button class="gold" onclick="login()">
+دخول
+</button>
+
+<div id="loginStatus" class="status"></div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section id="adminPanel" class="hidden">
+
+<div class="card">
 
 <h2 id="formTitle">إضافة منتج جديد</h2>
 
 <form id="productForm">
 
-<input type="hidden" id="productId">
+<input
+id="productId"
+type="hidden"
+>
 
 <div class="grid">
 
-<div class="field">
+<div>
 <label>اسم المنتج</label>
 <input id="name" required>
 </div>
 
-<div class="field">
+<div>
 <label>القسم</label>
 <select id="category" required>
 <option value="">اختر القسم</option>
@@ -247,88 +200,162 @@ button{
 </select>
 </div>
 
-<div class="field">
+<div>
 <label>السعر</label>
 <input id="price" type="number" step="0.01" required>
 </div>
 
-<div class="field">
+<div>
 <label>السعر القديم</label>
 <input id="old_price" type="number" step="0.01">
 </div>
 
-<div class="field">
+<div>
 <label>المخزون</label>
 <input id="stock" type="number" min="0" value="0">
 </div>
 
-<div class="field">
-<label>شارة المنتج</label>
+<div>
+<label>الشارة</label>
 <input id="badge" placeholder="جديد / عرض / الأكثر مبيعاً">
 </div>
 
-<div class="field full">
-<label>رابط صورة المنتج</label>
-<input id="image" placeholder="ضع رابط صورة المنتج هنا">
+<div class="full">
+<label>رابط الصورة مؤقتًا</label>
+<input id="image" placeholder="رابط الصورة">
 </div>
 
-<div class="field full">
-<label>وصف المنتج</label>
+<div class="full">
+<label>الوصف</label>
 <textarea id="description"></textarea>
 </div>
 
 </div>
 
-<div class="buttons">
-<button class="gold" type="submit">حفظ المنتج</button>
-<button class="dark" type="button" onclick="resetForm()">إلغاء</button>
-</div>
+<button class="gold" type="submit">
+حفظ المنتج
+</button>
 
-<div id="status"></div>
+<button
+class="dark"
+type="button"
+onclick="resetForm()"
+>
+إلغاء
+</button>
+
+<div id="status" class="status"></div>
 
 </form>
 
-</section>
+</div>
 
 
-<section class="card">
+<div class="card">
 
-<h2>منتجات المتجر</h2>
+<h2>المنتجات</h2>
 
 <div id="products" class="products">
-<div class="empty">جاري تحميل المنتجات...</div>
+جاري التحميل...
+</div>
+
 </div>
 
 </section>
 
-</main>
+</div>
 
 
 <script>
 
-let products = [];
+let products=[];
 
 
-async function loadProducts(){
+/* LOGIN */
 
-const box=document.getElementById("products");
+async function login(){
+
+const password=
+document.getElementById("password").value;
+
+const status=
+document.getElementById("loginStatus");
+
+if(!password){
+status.textContent="أدخل كلمة المرور";
+return;
+}
+
+status.textContent="جاري تسجيل الدخول...";
 
 try{
 
-const response=await fetch("/api/products");
+const response=await fetch(
+"/api/admin-login",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+password:password
+})
+}
+);
+
+const result=await response.json();
+
+if(!response.ok){
+throw new Error(
+result.error || "فشل تسجيل الدخول"
+);
+}
+
+document
+.getElementById("loginCard")
+.classList.add("hidden");
+
+document
+.getElementById("adminPanel")
+.classList.remove("hidden");
+
+loadProducts();
+
+}catch(error){
+
+status.textContent=
+"خطأ: "+error.message;
+
+}
+
+}
+
+
+/* PRODUCTS */
+
+async function loadProducts(){
+
+const box=
+document.getElementById("products");
+
+try{
+
+const response=
+await fetch("/api/products");
 
 if(!response.ok){
 throw new Error("تعذر تحميل المنتجات");
 }
 
-products=await response.json();
+products=
+await response.json();
 
 renderProducts();
 
 }catch(error){
 
 box.innerHTML=
-`<div class="empty">حدث خطأ: ${error.message}</div>`;
+"خطأ: "+error.message;
 
 }
 
@@ -337,18 +364,20 @@ box.innerHTML=
 
 function renderProducts(){
 
-const box=document.getElementById("products");
+const box=
+document.getElementById("products");
 
 if(!products.length){
 
 box.innerHTML=
-`<div class="empty">لا توجد منتجات حتى الآن.</div>`;
+"لا توجد منتجات حتى الآن.";
 
 return;
 
 }
 
-box.innerHTML=products.map(product=>`
+box.innerHTML=
+products.map(product=>`
 
 <div class="product">
 
@@ -364,15 +393,15 @@ onerror="this.style.display='none'"
 ${escapeHtml(product.name)}
 </div>
 
-<div class="category">
-${escapeHtml(product.category)}
+<div>
+${escapeHtml(product.category || "")}
 </div>
 
 <div class="price">
 $${Number(product.price || 0).toFixed(2)}
 </div>
 
-<div class="stock">
+<div>
 المخزون: ${Number(product.stock || 0)}
 </div>
 
@@ -380,13 +409,15 @@ $${Number(product.price || 0).toFixed(2)}
 
 <button
 class="gold"
-onclick="editProduct(${product.id})">
+onclick="editProduct(${product.id})"
+>
 تعديل
 </button>
 
 <button
 class="red"
-onclick="deleteProduct(${product.id})">
+onclick="deleteProduct(${product.id})"
+>
 حذف
 </button>
 
@@ -401,31 +432,42 @@ onclick="deleteProduct(${product.id})">
 }
 
 
+/* SAVE */
+
 document
 .getElementById("productForm")
 .addEventListener("submit",async function(e){
 
 e.preventDefault();
 
-const id=document.getElementById("productId").value;
+const id=
+document.getElementById("productId").value;
 
 const data={
 
-name:document.getElementById("name").value,
+name:
+document.getElementById("name").value,
 
-category:document.getElementById("category").value,
+category:
+document.getElementById("category").value,
 
-price:document.getElementById("price").value,
+price:
+document.getElementById("price").value,
 
-old_price:document.getElementById("old_price").value,
+old_price:
+document.getElementById("old_price").value,
 
-stock:document.getElementById("stock").value,
+stock:
+document.getElementById("stock").value,
 
-badge:document.getElementById("badge").value,
+badge:
+document.getElementById("badge").value,
 
-image:document.getElementById("image").value,
+image:
+document.getElementById("image").value,
 
-description:document.getElementById("description").value
+description:
+document.getElementById("description").value
 
 };
 
@@ -433,71 +475,89 @@ if(id){
 data.id=id;
 }
 
-const status=document.getElementById("status");
+const status=
+document.getElementById("status");
 
-status.textContent="جاري الحفظ...";
+status.textContent=
+"جاري الحفظ...";
 
 try{
 
-const response=await fetch("/api/products",{
-
+const response=
+await fetch(
+"/api/products",
+{
 method:id?"PUT":"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify(data)
+}
+);
 
-});
-
-const result=await response.json();
+const result=
+await response.json();
 
 if(!response.ok){
-throw new Error(result.error || "حدث خطأ");
+throw new Error(
+result.error || "حدث خطأ"
+);
 }
 
 status.textContent=
 id
-?"تم تعديل المنتج بنجاح ✅"
-:"تمت إضافة المنتج بنجاح ✅";
+?"تم تعديل المنتج ✅"
+:"تمت إضافة المنتج ✅";
 
 resetForm();
 
-await loadProducts();
+loadProducts();
 
 }catch(error){
 
-status.textContent="خطأ: "+error.message;
+status.textContent=
+"خطأ: "+error.message;
 
 }
 
 });
 
 
+/* EDIT */
+
 function editProduct(id){
 
-const product=products.find(p=>p.id==id);
+const product=
+products.find(p=>p.id==id);
 
 if(!product)return;
 
-document.getElementById("productId").value=product.id;
+document.getElementById("productId").value=
+product.id;
 
-document.getElementById("name").value=product.name||"";
+document.getElementById("name").value=
+product.name || "";
 
-document.getElementById("category").value=product.category||"";
+document.getElementById("category").value=
+product.category || "";
 
-document.getElementById("price").value=product.price||"";
+document.getElementById("price").value=
+product.price || "";
 
-document.getElementById("old_price").value=product.old_price||"";
+document.getElementById("old_price").value=
+product.old_price || "";
 
-document.getElementById("stock").value=product.stock||0;
+document.getElementById("stock").value=
+product.stock || 0;
 
-document.getElementById("badge").value=product.badge||"";
+document.getElementById("badge").value=
+product.badge || "";
 
-document.getElementById("image").value=product.image||"";
+document.getElementById("image").value=
+product.image || "";
 
-document.getElementById("description").value=product.description||"";
+document.getElementById("description").value=
+product.description || "";
 
 document.getElementById("formTitle").textContent=
 "تعديل المنتج";
@@ -510,49 +570,65 @@ behavior:"smooth"
 }
 
 
+/* DELETE */
+
 async function deleteProduct(id){
 
-if(!confirm("هل أنت متأكد من حذف هذا المنتج؟")){
+if(!confirm("هل تريد حذف المنتج؟")){
 return;
 }
 
 try{
 
-const response=await fetch(
+const response=
+await fetch(
 "/api/products?id="+encodeURIComponent(id),
 {
 method:"DELETE"
 }
 );
 
-const result=await response.json();
+const result=
+await response.json();
 
 if(!response.ok){
-throw new Error(result.error || "فشل الحذف");
+throw new Error(
+result.error || "فشل الحذف"
+);
 }
 
-await loadProducts();
+loadProducts();
 
 }catch(error){
 
-alert("حدث خطأ: "+error.message);
+alert("خطأ: "+error.message);
 
 }
 
 }
 
+
+/* RESET */
 
 function resetForm(){
 
-document.getElementById("productForm").reset();
+document
+.getElementById("productForm")
+.reset();
 
-document.getElementById("productId").value="";
+document
+.getElementById("productId")
+.value="";
 
-document.getElementById("formTitle").textContent=
+document
+.getElementById("formTitle")
+.textContent=
 "إضافة منتج جديد";
 
 }
 
+
+/* SECURITY */
 
 function escapeHtml(value){
 
@@ -564,9 +640,6 @@ return String(value)
 .replace(/'/g,"&#039;");
 
 }
-
-
-loadProducts();
 
 </script>
 
