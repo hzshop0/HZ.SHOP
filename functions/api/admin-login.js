@@ -1,70 +1,65 @@
-<form id="productForm">
+export async function onRequestPost(context) {
+  try {
+    const data = await context.request.json();
 
-  <input type="hidden" id="productId">
+    if (!data.password) {
+      return Response.json(
+        { error: "كلمة المرور مطلوبة" },
+        { status: 400 }
+      );
+    }
 
-  <div class="grid">
+    if (data.password !== context.env.ADMIN_PASSWORD) {
+      return Response.json(
+        { error: "كلمة المرور غير صحيحة" },
+        { status: 401 }
+      );
+    }
 
-    <div>
-      <label>اسم المنتج</label>
-      <input id="name" required>
-    </div>
+    const timestamp = Date.now().toString();
 
-    <div>
-      <label>القسم</label>
-      <select id="category" required>
-        <option value="">اختر القسم</option>
-        <option value="العطور">العطور</option>
-        <option value="العناية بالبشرة">العناية بالبشرة</option>
-        <option value="العناية الشخصية">العناية الشخصية</option>
-        <option value="النظافة">النظافة</option>
-      </select>
-    </div>
+    const encoder = new TextEncoder();
 
-    <div>
-      <label>السعر</label>
-      <input id="price" type="number" step="0.01" required>
-    </div>
+    const key = await crypto.subtle.importKey(
+      "raw",
+      encoder.encode(context.env.ADMIN_PASSWORD),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"]
+    );
 
-    <div>
-      <label>السعر القديم</label>
-      <input id="old_price" type="number" step="0.01">
-    </div>
+    const signatureBuffer = await crypto.subtle.sign(
+      "HMAC",
+      key,
+      encoder.encode(timestamp)
+    );
 
-    <div>
-      <label>المخزون</label>
-      <input id="stock" type="number" value="0">
-    </div>
+    const signature = Array.from(
+      new Uint8Array(signatureBuffer)
+    )
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
 
-    <div>
-      <label>شارة المنتج</label>
-      <input id="badge" placeholder="جديد / عرض / الأكثر مبيعًا">
-    </div>
+    const cookieValue =
+      `${timestamp}.${signature}`;
 
-    <div class="full">
-      <label>رابط صورة المنتج</label>
-      <input id="image" placeholder="https://...">
-    </div>
+    return new Response(
+      JSON.stringify({ success: true }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Set-Cookie":
+            `hz_admin=${encodeURIComponent(cookieValue)}; ` +
+            `Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=86400`
+        }
+      }
+    );
 
-    <div class="full">
-      <label>وصف المنتج</label>
-      <textarea id="description"></textarea>
-    </div>
-
-  </div>
-
-  <br>
-
-  <button class="gold" type="submit">
-    حفظ المنتج
-  </button>
-
-  <button class="dark" type="button" onclick="resetForm()">
-    إلغاء
-  </button>
-
-  <div id="status"></div>
-
-</form>
-<div id="products" class="products">
-  جاري تحميل المنتجات...
-</div>
+  } catch (error) {
+    return Response.json(
+      { error: "حدث خطأ في تسجيل الدخول" },
+      { status: 500 }
+    );
+  }
+}
