@@ -1,73 +1,342 @@
-<button class="cart-button" onclick="openCart()">
-  🛒 السلة
-  <span class="cart-count" id="cartCount">0</span>
-</button>
-<button class="checkout-button" onclick="openCheckout()">
+[8/29/2026 9:33 PM] AboAliGaming: <div class="logo">
+  HZ.SHOP
+  <small>LUXURY STORE</small>
+</div>
+
+<div class="header-actions">
+
+  <button class="icon-btn" onclick="focusSearch()" title="بحث">
+    🔎
+  </button>
+
+  <button class="icon-btn" onclick="openCart()" title="السلة">
+    🛒
+    <span class="cart-badge" id="cartCount">0</span>
+  </button>
+
+</div>
+  <button class="active" onclick="showCategory('all',this)">
+    الرئيسية
+  </button>
+
+  <button onclick="showCategory('perfumes',this)">
+    العطور
+  </button>
+
+  <button onclick="showCategory('skin',this)">
+    العناية بالبشرة
+  </button>
+
+  <button onclick="showCategory('personal',this)">
+    العناية الشخصية
+  </button>
+
+  <button onclick="showCategory('cleaning',this)">
+    النظافة
+  </button>
+
+</div>
+<div class="hero-kicker">
+  WELCOME TO HZ.SHOP
+</div>
+
+<h1>
+  YOUR WORLD OF
+  <span>BEAUTY</span>
+</h1>
+
+<p>
+  اكتشف مجموعة مختارة من العطور ومنتجات العناية
+  والبشرة والعناية الشخصية، بتجربة تسوق تليق بك.
+</p>
+
+<div class="hero-buttons">
+
+  <button class="btn-gold" onclick="scrollToShop()">
+    اكتشف المنتجات
+  </button>
+
+  <button class="btn-dark" onclick="showCategory('perfumes')">
+    مجموعة العطور
+  </button>
+
+</div>
+<div class="eyebrow">
+  EXPLORE
+</div>
+
+<h2>تسوّق حسب القسم</h2>
+
+<p>
+  كل ما تحتاجه في مكان واحد
+</p>
+<div class="category-card"
+     onclick="showCategory('perfumes')">
+
+  <div class="category-icon">♛</div>
+
+  <h3>العطور</h3>
+
+  <p>
+    روائح مميزة وحضور لا يُنسى
+  </p>
+
+</div>
+
+<div class="category-card"
+     onclick="showCategory('skin')">
+
+  <div class="category-icon">✦</div>
+
+  <h3>العناية بالبشرة</h3>
+
+  <p>
+    عناية يومية لبشرة أكثر إشراقًا
+  </p>
+
+</div>
+
+<div class="category-card"
+     onclick="showCategory('personal')">
+
+  <div class="category-icon">◇</div>
+
+  <h3>العناية الشخصية</h3>
+
+  <p>
+    منتجاتك اليومية للعناية بنفسك
+  </p>
+
+</div>
+
+<div class="category-card"
+     onclick="showCategory('cleaning')">
+
+  <div class="category-icon">✧</div>
+
+  <h3>النظافة</h3>
+
+  <p>
+    منتجات للنظافة والعناية
+  </p>
+
+</div>
+<div class="trust-item">
+  <strong>100%</strong>
+  تجربة تسوق سهلة
+</div>
+
+<div class="trust-item">
+  <strong>4</strong>
+  أقسام رئيسية
+</div>
+
+<div class="trust-item">
+  <strong>24/7</strong>
+  استقبال الطلبات
+</div>
+
+<div class="trust-item">
+  <strong>WhatsApp</strong>
+  طلب مباشر وسريع
+</div>
+<div class="eyebrow">
+  HZ.SHOP COLLECTION
+</div>
+
+<h2 id="sectionTitle">
+  مختاراتنا
+</h2>
+
+<p id="sectionSubtitle">
+  اكتشف منتجات HZ.SHOP
+</p>
+<div class="search">
+
+  <span>🔎</span>
+
+  <input
+    id="searchInput"
+    type="text"
+    placeholder="ابحث عن منتج..."
+    oninput="renderProducts()"
+  >
+
+</div>
+
+<select class="sort" id="sortSelect"
+        onchange="renderProducts()">
+
+  <option value="default">
+    ترتيب المنتجات
+  </option>
+
+  <option value="low">
+    السعر: من الأقل للأعلى
+  </option>
+
+  <option value="high">
+    السعر: من الأعلى للأقل
+  </option>
+
+</select>
+<h2>🛒 سلة المشتريات</h2>
+
+<button class="close" onclick="closeCart()">×</button>
+<div class="cart-total">
+  <span>المجموع</span>
+  <strong id="cartTotal">$0.00</strong>
+</div>
+
+<button class="checkout" onclick="openCheckout()">
   متابعة الطلب
 </button>
-<h2>📝 إتمام الطلب</h2>
+<div class="modal-title">
+
+  <h2>إتمام الطلب</h2>
+
+  <button class="close" onclick="closeCheckout()">
+    ×
+  </button>
+
+</div>
 
 <div class="form-group">
+
   <label>الاسم الكامل *</label>
-  <input type="text" id="customerName" placeholder="اكتب اسمك">
+
+  <input
+    id="customerName"
+    type="text"
+    placeholder="الاسم الكامل"
+  >
+
 </div>
 
 <div class="form-group">
+
   <label>رقم الهاتف *</label>
-  <input type="tel" id="customerPhone" placeholder="مثال: 71 123 456">
+
+  <input
+    id="customerPhone"
+    type="tel"
+    placeholder="مثال: 71 123 456"
+  >
+
 </div>
 
 <div class="form-group">
+
   <label>المنطقة *</label>
-  <input type="text" id="customerArea" placeholder="المحافظة / المنطقة">
+
+  <input
+    id="customerArea"
+    type="text"
+    placeholder="المحافظة / المنطقة"
+  >
+
 </div>
 
 <div class="form-group">
+
   <label>العنوان *</label>
-  <textarea id="customerAddress" placeholder="العنوان بالتفصيل"></textarea>
+
+  <textarea
+    id="customerAddress"
+    placeholder="العنوان بالتفصيل"
+  ></textarea>
+
 </div>
 
 <div class="form-group">
-  <label>ملاحظات</label>
-  <textarea id="customerNotes" placeholder="أي ملاحظات إضافية للطلب"></textarea>
+
+  <label>ملاحظات إضافية</label>
+
+  <textarea
+    id="customerNotes"
+    placeholder="أي ملاحظات تريد إضافتها..."
+  ></textarea>
+
 </div>
 
-<div class="order-summary">
-  <h3>ملخص الطلب</h3>
-  <div id="checkoutSummary"></div>
+<div class="summary">
 
-  <div class="order-summary-line">
-    <strong>المجموع</strong>
-    <strong id="checkoutTotal">$0</strong>
+  <strong>ملخص الطلب</strong>
+[8/29/2026 9:33 PM] AboAliGaming: <div id="summaryItems"></div>
+
+  <div class="summary-total">
+
+    <span>المجموع</span>
+
+    <strong id="summaryTotal">
+      $0.00
+    </strong>
+
   </div>
+
 </div>
 
-<div class="checkout-actions">
-  <button class="cancel-checkout" onclick="closeCheckout()">
+<div class="modal-actions">
+
+  <button class="cancel" onclick="closeCheckout()">
     رجوع
   </button>
 
-  <button class="send-whatsapp" onclick="sendOrderToWhatsApp()">
+  <button class="whatsapp"
+          onclick="sendWhatsApp()">
     📱 إرسال الطلب عبر WhatsApp
   </button>
+
 </div>
-<div>
-  <h3>HZ.SHOP</h3>
+<div class="footer-brand">
+
+  <div class="logo">
+    HZ.SHOP
+    <small>LUXURY STORE</small>
+  </div>
+
   <p>
-    متجرك للعطور والعناية بالبشرة والعناية الشخصية ومنتجات النظافة.
+    متجر HZ.SHOP للعطور والعناية بالبشرة
+    والعناية الشخصية ومنتجات النظافة.
+    نسعى لتقديم تجربة تسوق بسيطة وأنيقة.
   </p>
+
 </div>
 
 <div>
-  <h3>أقسام المتجر</h3>
-  <p>العطور</p>
-  <p>العناية بالبشرة</p>
-  <p>العناية الشخصية</p>
-  <p>النظافة</p>
+
+  <h3>المتجر</h3>
+
+  <ul>
+    <li>العطور</li>
+    <li>العناية بالبشرة</li>
+    <li>العناية الشخصية</li>
+    <li>النظافة</li>
+  </ul>
+
 </div>
 
 <div>
+
+  <h3>خدمة العملاء</h3>
+
+  <ul>
+    <li>تواصل معنا</li>
+    <li>الطلبات</li>
+    <li>الأسئلة الشائعة</li>
+    <li>سياسة الاستبدال</li>
+  </ul>
+
+</div>
+
+<div>
+
   <h3>تواصل معنا</h3>
-  <p>WhatsApp: +961 71 142 827</p>
-  <p>نحن هنا لخدمتكم</p>
+
+  <ul>
+    <li>WhatsApp</li>
+    <li>+961 71 142 827</li>
+    <li>متاح لاستقبال الطلبات</li>
+  </ul>
+
 </div>
