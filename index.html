@@ -2,23 +2,43 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>HZ.SHOP | Luxury Store</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0
+}
+
+html{
+scroll-behavior:smooth;
+overflow-x:hidden
+}
 
 body{
 font-family:Arial,Tahoma,sans-serif;
 background:#f6f4ef;
 color:#292722;
-overflow-x:hidden
+overflow-x:hidden;
+width:100%;
+max-width:100%;
+-webkit-text-size-adjust:100%
 }
 
-button,input,textarea,select{font-family:inherit}
-button{cursor:pointer}
-a{text-decoration:none;color:inherit}
+button,input,textarea,select{
+font-family:inherit
+}
+
+button{
+cursor:pointer
+}
+
+a{
+text-decoration:none;
+color:inherit
+}
 
 :root{
 --gold:#b08d35;
@@ -40,7 +60,10 @@ justify-content:center;
 background:#ebe7de;
 border-bottom:1px solid var(--line);
 font-size:12px;
-color:#80651f
+color:#80651f;
+padding:0 10px;
+white-space:nowrap;
+overflow:hidden
 }
 
 header{
@@ -161,7 +184,13 @@ max-width:1400px;
 margin:auto;
 display:flex;
 justify-content:center;
-overflow-x:auto
+overflow-x:auto;
+overflow-y:hidden;
+scrollbar-width:none
+}
+
+.nav::-webkit-scrollbar{
+display:none
 }
 
 .nav button{
@@ -170,7 +199,8 @@ border:0;
 color:#77736b;
 padding:15px 25px;
 font-size:13px;
-white-space:nowrap
+white-space:nowrap;
+flex:0 0 auto
 }
 
 .nav button:hover,
@@ -469,7 +499,8 @@ background:#fffdf9;
 border:1px solid #ddd8ce;
 transition:.3s;
 overflow:hidden;
-border-radius:6px
+border-radius:6px;
+min-width:0
 }
 
 .product:hover{
@@ -1034,7 +1065,7 @@ padding:60px 20px;
 color:#858078
 }
 
-/* MOBILE */
+/* TABLET */
 
 @media(max-width:1100px){
 
@@ -1052,141 +1083,469 @@ grid-template-columns:repeat(2,1fr)
 
 }
 
+/* MOBILE APP STYLE */
+
 @media(max-width:750px){
 
+html{
+overflow-x:hidden;
+touch-action:pan-y
+}
+
+body{
+width:100%;
+max-width:100%;
+overflow-x:hidden;
+-webkit-text-size-adjust:100%;
+touch-action:pan-y
+}
+
+.topbar{
+height:32px;
+padding:0 10px;
+font-size:10px;
+text-align:center
+}
+
 .header{
-height:70px;
-padding:0 12px
+height:64px;
+width:100%;
+padding:0 10px;
+gap:8px
 }
 
 .search{
 display:none
 }
 
+.logo{
+min-width:0;
+flex:1;
+text-align:right
+}
+
 .logo strong{
-font-size:22px
+font-size:21px;
+letter-spacing:3px
 }
 
 .logo small{
-font-size:6px
+font-size:6px;
+letter-spacing:2px
+}
+
+.actions{
+gap:6px
+}
+
+.icon-btn{
+width:42px;
+height:42px;
+min-width:42px;
+font-size:16px
+}
+
+.nav{
+width:100%;
+justify-content:flex-start;
+overflow-x:auto;
+overflow-y:hidden;
+-webkit-overflow-scrolling:touch;
+scrollbar-width:none
+}
+
+.nav::-webkit-scrollbar{
+display:none
+}
+
+.nav button{
+flex:0 0 auto;
+padding:13px 16px;
+font-size:12px
 }
 
 .hero{
-min-height:560px
+min-height:520px;
+width:100%;
+padding:20px 15px
+}
+
+.hero-content{
+width:100%;
+padding:20px 5px
+}
+
+.hero-label{
+font-size:9px;
+letter-spacing:4px;
+margin-bottom:20px
 }
 
 .hero h1{
-font-size:48px
+font-size:clamp(38px,12vw,55px);
+line-height:1;
+letter-spacing:1px;
+margin-bottom:20px
 }
 
 .hero p{
-font-size:13px
+width:100%;
+max-width:380px;
+font-size:13px;
+line-height:1.9
+}
+
+.hero-buttons{
+width:100%;
+gap:9px;
+margin-top:25px
+}
+
+.hero-buttons button{
+width:100%;
+min-height:48px
 }
 
 .section{
-padding:65px 13px
+width:100%;
+max-width:100%;
+padding:55px 12px
+}
+
+.title{
+margin-bottom:30px
 }
 
 .title h2{
-font-size:30px
+font-size:28px
+}
+
+.title p{
+font-size:12px
 }
 
 .categories{
 grid-template-columns:1fr 1fr;
-gap:9px
+gap:9px;
+width:100%
 }
 
 .category{
-height:190px;
-padding:17px
+width:100%;
+height:175px;
+padding:15px
 }
 
 .category h3{
-font-size:17px
+font-size:16px
+}
+
+.category p{
+font-size:10px;
+line-height:1.6
+}
+
+.category .number{
+font-size:8px
 }
 
 .category .symbol{
-font-size:30px;
-top:15px;
-left:15px
+font-size:28px;
+top:13px;
+left:13px
 }
 
 .features-inner{
+width:100%;
+padding:25px 10px;
 grid-template-columns:1fr 1fr;
-gap:20px 0
+gap:12px 0
+}
+
+.feature{
+padding:10px 5px
 }
 
 .feature:nth-child(2){
 border-left:0
 }
 
+.feature strong{
+font-size:12px
+}
+
+.feature span{
+font-size:9px
+}
+
+.feature b{
+font-size:21px
+}
+
+.toolbar{
+width:100%;
+align-items:stretch
+}
+
+.results{
+width:100%;
+text-align:right
+}
+
+.filters{
+width:100%;
+overflow-x:auto;
+flex-wrap:nowrap;
+padding-bottom:3px;
+scrollbar-width:none
+}
+
+.filters::-webkit-scrollbar{
+display:none
+}
+
+.filter{
+flex:0 0 auto;
+min-height:40px;
+padding:10px 14px;
+font-size:11px
+}
+
+.sort{
+width:100%;
+min-height:42px
+}
+
 .products{
+width:100%;
 grid-template-columns:1fr 1fr;
 gap:9px
 }
 
-.product-image{
-height:210px
+.product{
+width:100%;
+min-width:0
 }
 
-.bottle{
-width:88px;
-height:135px;
-font-size:10px
+.product-image{
+width:100%;
+height:205px
 }
 
 .product-info{
-padding:12px
+padding:11px
+}
+
+.product-category{
+font-size:9px
 }
 
 .product-name{
-font-size:15px
+font-size:14px;
+line-height:1.4
 }
 
 .product-desc{
 font-size:10px;
-min-height:36px
+line-height:1.6;
+min-height:34px
+}
+
+.price{
+margin:12px 0;
+gap:6px
 }
 
 .price strong{
-font-size:17px
+font-size:16px
 }
 
-.footer{
-grid-template-columns:1fr;
-padding:50px 20px 30px
+.price del{
+font-size:10px
+}
+
+.add,
+.out-of-stock{
+min-height:43px;
+padding:10px 5px;
+font-size:11px
+}
+
+.bottle{
+width:80px;
+height:125px;
+font-size:9px
+}
+
+.cart{
+left:-100%;
+width:92%;
+max-width:420px
+}
+
+.cart.open{
+left:0
+}
+
+.cart-head{
+height:68px;
+padding:15px
+}
+
+.cart-body{
+padding:12px 15px
+}
+
+.cart-foot{
+padding:15px
+}
+
+.checkout{
+min-height:48px
+}
+
+.modal{
+padding:10px;
+align-items:flex-end
+}
+
+.modal-box{
+width:100%;
+max-width:100%;
+max-height:94vh;
+padding:18px;
+border-radius:10px 10px 0 0
+}
+
+.modal-head{
+margin-bottom:18px
 }
 
 .form{
-grid-template-columns:1fr
+grid-template-columns:1fr;
+gap:11px
 }
 
 .field.full{
 grid-column:auto
 }
 
+.field input,
+.field textarea,
+.field select{
+min-height:46px;
+font-size:14px
 }
 
-@media(max-width:420px){
-
-.nav{
-justify-content:flex-start
+.field textarea{
+min-height:80px
 }
 
-.nav button{
-padding:14px 17px
-}
-
-.hero h1{
-font-size:41px
-}
-
-.hero-buttons button{
+.pay-options{
 width:100%
 }
 
+.pay{
+flex:1;
+text-align:center;
+min-height:43px
+}
+
+.modal-actions{
+flex-direction:column-reverse
+}
+
+.whatsapp,
+.cancel{
+width:100%;
+min-height:48px
+}
+
+.footer{
+width:100%;
+grid-template-columns:1fr;
+gap:30px;
+padding:45px 18px 25px
+}
+
+.footer p,
+.footer li{
+font-size:11px
+}
+
+.toast{
+left:12px;
+right:12px;
+bottom:15px;
+text-align:center;
+font-size:12px
+}
+
+img,
+video,
+iframe,
+input,
+textarea,
+select,
+button{
+max-width:100%
+}
+
+}
+
+/* SMALL PHONES */
+
+@media(max-width:420px){
+
+.header{
+padding:0 8px
+}
+
+.logo strong{
+font-size:19px
+}
+
+.icon-btn{
+width:40px;
+height:40px;
+min-width:40px
+}
+
+.hero{
+min-height:500px
+}
+
+.hero h1{
+font-size:40px
+}
+
 .categories{
-grid-template-columns:1fr
+grid-template-columns:1fr 1fr
+}
+
+.category{
+height:165px
+}
+
+.products{
+gap:7px
+}
+
+.product-image{
+height:185px
+}
+
+.product-info{
+padding:9px
+}
+
+.product-name{
+font-size:13px
+}
+
+.add,
+.out-of-stock{
+font-size:10px
 }
 
 }
