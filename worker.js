@@ -43,21 +43,35 @@ async function uploadImageToGitHub(file, env) {
 
 async function sendOrderToWhatsApp(order, env) {
 
+  console.log("WHATSAPP_START");
+
   if (!env.WHATSAPP_ACCESS_TOKEN) {
+    console.error("WHATSAPP_ERROR: ACCESS TOKEN MISSING");
     throw new Error("WHATSAPP_ACCESS_TOKEN غير موجود");
   }
 
   if (!env.WHATSAPP_PHONE_NUMBER_ID) {
+    console.error("WHATSAPP_ERROR: PHONE NUMBER ID MISSING");
     throw new Error("WHATSAPP_PHONE_NUMBER_ID غير موجود");
   }
 
   /*
-    رقم الاستقبال:
-    رقم WhatsApp الخاص بك الذي أضفته كمستلم للاختبار في Meta.
-    نحذف + والمسافات تلقائيًا.
+    رقم المستلم في Meta.
+    لا نضع علامة + ولا مسافات.
   */
-  const recipient =
-    "96171142827";
+  const recipient = "96171142827";
+
+  console.log(
+    "WHATSAPP_CONFIG_OK",
+    JSON.stringify({
+      recipient: recipient,
+      phone_number_id_exists:
+        !!env.WHATSAPP_PHONE_NUMBER_ID,
+      access_token_exists:
+        !!env.WHATSAPP_ACCESS_TOKEN
+    })
+  );
+
 
   let itemsText = "";
 
@@ -106,7 +120,12 @@ async function sendOrderToWhatsApp(order, env) {
 
     }
 
-  } catch {
+  } catch (error) {
+
+    console.error(
+      "WHATSAPP_ITEMS_PARSE_ERROR",
+      error.message
+    );
 
     itemsText =
       String(order.items || "");
@@ -163,54 +182,163 @@ ${order.id}
 HZ.SHOP`;
 
 
-  const response =
-    await fetch(
-      `https://graph.facebook.com/v23.0/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`,
-      {
-        method: "POST",
+  const apiUrl =
+    `https://graph.facebook.com/v23.0/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
 
-        headers: {
-          "Authorization":
-            `Bearer ${env.WHATSAPP_ACCESS_TOKEN}`,
 
-          "Content-Type":
-            "application/json"
-        },
+  console.log(
+    "WHATSAPP_REQUEST_START"
+  );
 
-        body:
-          JSON.stringify({
-            messaging_product: "whatsapp",
 
-            to: recipient,
+  let response;
 
-            type: "text",
+  try {
 
-            text: {
-              preview_url: false,
-              body: message
-            }
-          })
-      }
+    response =
+      await fetch(
+        apiUrl,
+        {
+          method: "POST",
+
+          headers: {
+            "Authorization":
+              `Bearer ${env.WHATSAPP_ACCESS_TOKEN}`,
+
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              messaging_product:
+                "whatsapp",
+
+              recipient_type:
+                "individual",
+
+              to:
+                recipient,
+
+              type:
+                "text",
+
+              text: {
+                preview_url:
+                  false,
+
+                body:
+                  message
+              }
+            })
+        }
+      );
+
+  } catch (error) {
+
+    console.error(
+      "WHATSAPP_FETCH_ERROR",
+      error.message
     );
 
+    throw new Error(
+      `فشل الاتصال بـ WhatsApp API: ${error.message}`
+    );
 
-  const result =
-    await response.json();
+  }
+
+
+  const rawResponse =
+    await response.text();
+
+
+  let result;
+
+  try {
+
+    result =
+      rawResponse
+        ? JSON.parse(rawResponse)
+        : {};
+
+  } catch {
+
+    result = {
+      raw_response:
+        rawResponse
+    };
+
+  }
+
+
+  /*
+    مهم جدًا:
+    نسجل رد Meta بدون Access Token.
+  */
+
+  console.log(
+    "WHATSAPP_RESPONSE",
+    JSON.stringify({
+      status:
+        response.status,
+
+      ok:
+        response.ok,
+
+      result:
+        result
+    })
+  );
 
 
   if (!response.ok) {
 
+    const metaError =
+      result?.error?.message ||
+      result?.error?.error_user_msg ||
+      result?.error?.type ||
+      `HTTP ${response.status}`;
+
+
     console.error(
-      "WhatsApp API Error:",
-      result
+      "WHATSAPP_API_ERROR",
+      JSON.stringify({
+        status:
+          response.status,
+
+        error:
+          metaError,
+
+        code:
+          result?.error?.code || null,
+
+        error_subcode:
+          result?.error?.error_subcode || null
+      })
     );
 
+
     throw new Error(
-      result?.error?.message ||
-      "فشل إرسال الطلب إلى WhatsApp"
+      `WhatsApp API: ${metaError}`
     );
 
   }
+
+
+  /*
+    Meta أعادت نجاحًا.
+  */
+
+  console.log(
+    "WHATSAPP_SUCCESS",
+    JSON.stringify({
+      status:
+        response.status,
+
+      message_id:
+        result?.messages?.[0]?.id || null
+    })
+  );
 
 
   return result;
@@ -231,7 +359,7 @@ export default {
 
 
     /* =====================================================
-       API: اختبار كلمة سر الإدارة
+       API: اختبار الأسرار
     ===================================================== */
 
     if (
@@ -241,7 +369,16 @@ export default {
 
       return Response.json({
         exists:
-          !!env.ADMIN_PASSWORD
+          !!env.ADMIN_PASSWORD,
+
+        whatsapp_token:
+          !!env.WHATSAPP_ACCESS_TOKEN,
+
+        whatsapp_phone_id:
+          !!env.WHATSAPP_PHONE_NUMBER_ID,
+
+        whatsapp_business_id:
+          !!env.WHATSAPP_BUSINESS_ACCOUNT_ID
       });
 
     }
@@ -503,7 +640,7 @@ export default {
 
 
     /* =====================================================
-       API: الطلبات - إنشاء طلب جديد
+       API: إنشاء طلب جديد
     ===================================================== */
 
     if (
@@ -541,9 +678,7 @@ export default {
         }
 
 
-        /*
-          أولًا نحفظ الطلب في D1
-        */
+        /* حفظ الطلب في D1 */
 
         const result =
           await env.DB
@@ -622,9 +757,14 @@ export default {
           result.meta.last_row_id;
 
 
-        /*
-          نجهز بيانات الطلب لإرسالها إلى WhatsApp
-        */
+        console.log(
+          "ORDER_SAVED",
+          JSON.stringify({
+            order_id:
+              orderId
+          })
+        );
+
 
         const orderForWhatsApp = {
 
@@ -689,9 +829,7 @@ export default {
         };
 
 
-        /*
-          إرسال الطلب إلى WhatsApp
-        */
+        /* إرسال WhatsApp */
 
         let whatsappSent =
           false;
@@ -699,23 +837,36 @@ export default {
         let whatsappError =
           null;
 
+        let whatsappMessageId =
+          null;
+
 
         try {
 
-          await sendOrderToWhatsApp(
-            orderForWhatsApp,
-            env
-          );
+          const whatsappResult =
+            await sendOrderToWhatsApp(
+              orderForWhatsApp,
+              env
+            );
+
 
           whatsappSent =
             true;
 
+
+          whatsappMessageId =
+            whatsappResult
+              ?.messages?.[0]?.id ||
+            null;
+
+
         } catch (error) {
 
           console.error(
-            "WhatsApp إرسال الطلب فشل:",
-            error
+            "WHATSAPP_SEND_FAILED",
+            error.message
           );
+
 
           whatsappError =
             error.message;
@@ -723,10 +874,23 @@ export default {
         }
 
 
-        /*
-          نعيد نجاح الطلب حتى لو فشل WhatsApp.
-          الطلب يبقى محفوظًا في D1.
-        */
+        console.log(
+          "ORDER_COMPLETE",
+          JSON.stringify({
+            order_id:
+              orderId,
+
+            whatsapp_sent:
+              whatsappSent,
+
+            whatsapp_message_id:
+              whatsappMessageId,
+
+            whatsapp_error:
+              whatsappError
+          })
+        );
+
 
         return Response.json({
 
@@ -738,6 +902,9 @@ export default {
           whatsapp_sent:
             whatsappSent,
 
+          whatsapp_message_id:
+            whatsappMessageId,
+
           whatsapp_error:
             whatsappError
 
@@ -747,7 +914,8 @@ export default {
       } catch (error) {
 
         console.error(
-          error
+          "ORDER_ERROR",
+          error.message
         );
 
 
@@ -942,10 +1110,7 @@ export default {
       "/api/products"
     ) {
 
-
-      /* =========================
-         GET المنتجات
-      ========================= */
+      /* GET */
 
       if (
         request.method ===
@@ -984,9 +1149,7 @@ export default {
       }
 
 
-      /* =========================
-         POST / PUT المنتجات
-      ========================= */
+      /* POST / PUT */
 
       if (
         request.method === "POST" ||
@@ -1043,7 +1206,7 @@ export default {
           }
 
 
-          /* إضافة منتج */
+          /* إضافة */
 
           if (
             request.method ===
@@ -1112,7 +1275,7 @@ export default {
           }
 
 
-          /* تعديل منتج */
+          /* تعديل */
 
           if (!data.id) {
 
@@ -1203,9 +1366,7 @@ export default {
       }
 
 
-      /* =========================
-         DELETE المنتج
-      ========================= */
+      /* DELETE */
 
       if (
         request.method ===
