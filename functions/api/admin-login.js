@@ -1,3 +1,8 @@
+export async function onRequestGet() {
+  return Response.json({
+    status: "admin-login-api-working"
+  });
+}
 export async function onRequestPost(context) {
   try {
     const data = await context.request.json();
