@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hz-shop",
+  "compatibility_date": "2026-08-28",
+  "assets": {
+    "directory": "."
+  },
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "HZ-shop-db",
+      "database_id": c872ff15-97f2-416a-a48c-7fe12c4ef249
+    }
+  ]
+}
