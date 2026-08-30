@@ -1,5 +1,10 @@
 export default {
   async fetch(request, env) {
+    if (new URL(request.url).pathname === "/api/test-secret") {
+  return Response.json({
+    exists: !!env.ADMIN_PASSWORD
+  });
+}
     const url = new URL(request.url);
 
     // API: تسجيل دخول الإدارة
