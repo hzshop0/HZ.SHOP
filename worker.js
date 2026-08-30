@@ -1,3 +1,40 @@
+async function uploadImageToGitHub(file, env) {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+
+  let binary = "";
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+
+  const base64 = btoa(binary);
+
+  const fileName =
+    `images/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
+
+  const response = await fetch(
+    `https://api.github.com/repos/hzshop0/HZ.SHOP/contents/${fileName}`,
+    {
+      method: "PUT",
+      headers: {
+        "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "HZ-SHOP"
+      },
+      body: JSON.stringify({
+        message: `Upload product image ${fileName}`,
+        content: base64
+      })
+    }
+  );
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(error);
+  }
+
+  return `https://raw.githubusercontent.com/hzshop0/HZ.SHOP/main/${fileName}`;
+}
 export default {
   async fetch(request, env) {
     if (new URL(request.url).pathname === "/api/test-secret") {
@@ -6,7 +43,49 @@ export default {
   });
 }
     const url = new URL(request.url);
+// API: رفع صورة المنتج
+if (url.pathname === "/api/upload-image" && request.method === "POST") {
+  try {
+    const cookie = request.headers.get("Cookie") || "";
 
+    if (!cookie.includes("hz_admin=")) {
+      return Response.json(
+        { error: "غير مصرح" },
+        { status: 401 }
+      );
+    }
+
+    const formData = await request.formData();
+    const file = formData.get("image");
+
+    if (!file || typeof file.arrayBuffer !== "function") {
+      return Response.json(
+        { error: "لم يتم اختيار صورة" },
+        { status: 400 }
+      );
+    }
+
+    if (!file.type.startsWith("image/")) {
+      return Response.json(
+        { error: "الملف يجب أن يكون صورة" },
+        { status: 400 }
+      );
+    }
+
+    const imageUrl = await uploadImageToGitHub(file, env);
+
+    return Response.json({
+      success: true,
+      image: imageUrl
+    });
+
+  } catch (error) {
+    return Response.json(
+      { error: error.message },
+      { status: 500 }
+    );
+  }
+}
     // API: تسجيل دخول الإدارة
     if (url.pathname === "/api/admin-login" && request.method === "POST") {
       try {
