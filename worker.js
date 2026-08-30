@@ -37,111 +37,381 @@ async function uploadImageToGitHub(file, env) {
 }
 
 
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+async function sendOrderToWhatsApp(order, env) {
+
+  if (!env.WHATSAPP_ACCESS_TOKEN) {
+    throw new Error("WHATSAPP_ACCESS_TOKEN غير موجود");
+  }
+
+  if (!env.WHATSAPP_PHONE_NUMBER_ID) {
+    throw new Error("WHATSAPP_PHONE_NUMBER_ID غير موجود");
+  }
+
+  /*
+    رقم الاستقبال:
+    رقم WhatsApp الخاص بك الذي أضفته كمستلم للاختبار في Meta.
+    نحذف + والمسافات تلقائيًا.
+  */
+  const recipient =
+    "96171142827";
+
+  let itemsText = "";
+
+  try {
+
+    const items =
+      typeof order.items === "string"
+        ? JSON.parse(order.items)
+        : order.items;
+
+    if (Array.isArray(items)) {
+
+      itemsText =
+        items.map((item, index) => {
+
+          const name =
+            item.name ||
+            item.title ||
+            `منتج ${index + 1}`;
+
+          const quantity =
+            Number(
+              item.quantity ||
+              item.qty ||
+              1
+            );
+
+          const price =
+            Number(
+              item.price ||
+              0
+            );
+
+          return (
+            `${index + 1}. ${name}\n` +
+            `الكمية: ${quantity}\n` +
+            `السعر: $${price.toFixed(2)}`
+          );
+
+        }).join("\n\n");
+
+    } else {
+
+      itemsText =
+        String(order.items || "");
+
+    }
+
+  } catch {
+
+    itemsText =
+      String(order.items || "");
+
+  }
+
+
+  const message =
+`🛍️ طلب جديد من HZ.SHOP
+
+━━━━━━━━━━━━━━
+
+👤 اسم الزبون:
+${order.customer_name}
+
+📞 رقم الهاتف:
+${order.phone}
+
+📍 المحافظة:
+${order.governorate}
+
+📍 المنطقة:
+${order.area}
+
+🏠 العنوان:
+${order.address}
+
+💳 طريقة الدفع:
+${order.payment_method}
+
+📝 الملاحظات:
+${order.notes || "لا يوجد"}
+
+━━━━━━━━━━━━━━
+
+🛒 المنتجات:
+${itemsText}
+
+━━━━━━━━━━━━━━
+
+💰 المجموع قبل الخصم:
+$${Number(order.subtotal || 0).toFixed(2)}
+
+🏷️ الخصم:
+$${Number(order.discount || 0).toFixed(2)}
+
+💵 المجموع النهائي:
+$${Number(order.total || 0).toFixed(2)}
+
+🆔 رقم الطلب:
+${order.id}
+
+━━━━━━━━━━━━━━
+HZ.SHOP`;
+
+
+  const response =
+    await fetch(
+      `https://graph.facebook.com/v23.0/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`,
+      {
+        method: "POST",
+
+        headers: {
+          "Authorization":
+            `Bearer ${env.WHATSAPP_ACCESS_TOKEN}`,
+
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify({
+            messaging_product: "whatsapp",
+
+            to: recipient,
+
+            type: "text",
+
+            text: {
+              preview_url: false,
+              body: message
+            }
+          })
+      }
+    );
+
+
+  const result =
+    await response.json();
+
+
+  if (!response.ok) {
+
+    console.error(
+      "WhatsApp API Error:",
+      result
+    );
+
+    throw new Error(
+      result?.error?.message ||
+      "فشل إرسال الطلب إلى WhatsApp"
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+/* =========================================================
+   WORKER
+========================================================= */
+
 export default {
+
   async fetch(request, env) {
 
-    const url = new URL(request.url);
+    const url =
+      new URL(request.url);
 
 
-    // API: اختبار كلمة سر الإدارة
-    if (url.pathname === "/api/test-secret") {
+    /* =====================================================
+       API: اختبار كلمة سر الإدارة
+    ===================================================== */
+
+    if (
+      url.pathname ===
+      "/api/test-secret"
+    ) {
+
       return Response.json({
-        exists: !!env.ADMIN_PASSWORD
+        exists:
+          !!env.ADMIN_PASSWORD
       });
+
     }
 
 
-    // API: رفع صورة المنتج
+    /* =====================================================
+       API: رفع صورة المنتج
+    ===================================================== */
+
     if (
-      url.pathname === "/api/upload-image" &&
+      url.pathname ===
+      "/api/upload-image" &&
       request.method === "POST"
     ) {
+
       try {
 
         const cookie =
           request.headers.get("Cookie") || "";
 
-        if (!cookie.includes("hz_admin=")) {
+
+        if (
+          !cookie.includes("hz_admin=")
+        ) {
+
           return Response.json(
-            { error: "غير مصرح" },
-            { status: 401 }
+            {
+              error:
+                "غير مصرح"
+            },
+            {
+              status: 401
+            }
           );
+
         }
+
 
         const formData =
           await request.formData();
 
+
         const file =
           formData.get("image");
 
+
         if (
           !file ||
-          typeof file.arrayBuffer !== "function"
+          typeof file.arrayBuffer !==
+            "function"
         ) {
+
           return Response.json(
-            { error: "لم يتم اختيار صورة" },
-            { status: 400 }
+            {
+              error:
+                "لم يتم اختيار صورة"
+            },
+            {
+              status: 400
+            }
           );
+
         }
 
-        if (!file.type.startsWith("image/")) {
+
+        if (
+          !file.type.startsWith(
+            "image/"
+          )
+        ) {
+
           return Response.json(
-            { error: "الملف يجب أن يكون صورة" },
-            { status: 400 }
+            {
+              error:
+                "الملف يجب أن يكون صورة"
+            },
+            {
+              status: 400
+            }
           );
+
         }
+
 
         const imageUrl =
-          await uploadImageToGitHub(file, env);
+          await uploadImageToGitHub(
+            file,
+            env
+          );
+
 
         return Response.json({
           success: true,
           image: imageUrl
         });
 
+
       } catch (error) {
 
         return Response.json(
-          { error: error.message },
-          { status: 500 }
+          {
+            error:
+              error.message
+          },
+          {
+            status: 500
+          }
         );
 
       }
+
     }
 
 
-    // API: تسجيل دخول الإدارة
+    /* =====================================================
+       API: تسجيل دخول الإدارة
+    ===================================================== */
+
     if (
-      url.pathname === "/api/admin-login" &&
+      url.pathname ===
+      "/api/admin-login" &&
       request.method === "POST"
     ) {
+
       try {
 
         const data =
           await request.json();
 
+
         if (!data.password) {
+
           return Response.json(
-            { error: "كلمة المرور مطلوبة" },
-            { status: 400 }
+            {
+              error:
+                "كلمة المرور مطلوبة"
+            },
+            {
+              status: 400
+            }
           );
+
         }
+
 
         if (
           data.password !==
           env.ADMIN_PASSWORD
         ) {
+
           return Response.json(
-            { error: "كلمة المرور غير صحيحة" },
-            { status: 401 }
+            {
+              error:
+                "كلمة المرور غير صحيحة"
+            },
+            {
+              status: 401
+            }
           );
+
         }
+
 
         const timestamp =
           Date.now().toString();
 
+
         const encoder =
           new TextEncoder();
+
 
         const key =
           await crypto.subtle.importKey(
@@ -157,12 +427,16 @@ export default {
             ["sign"]
           );
 
+
         const signatureBuffer =
           await crypto.subtle.sign(
             "HMAC",
             key,
-            encoder.encode(timestamp)
+            encoder.encode(
+              timestamp
+            )
           );
+
 
         const signature =
           Array.from(
@@ -178,8 +452,10 @@ export default {
             )
             .join("");
 
+
         const cookieValue =
           `${timestamp}.${signature}`;
+
 
         return new Response(
           JSON.stringify({
@@ -187,7 +463,9 @@ export default {
           }),
           {
             status: 200,
+
             headers: {
+
               "Content-Type":
                 "application/json",
 
@@ -195,10 +473,17 @@ export default {
                 `hz_admin=${encodeURIComponent(
                   cookieValue
                 )}; ` +
-                `Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=86400`
+                `Path=/; ` +
+                `HttpOnly; ` +
+                `Secure; ` +
+                `SameSite=Strict; ` +
+                `Max-Age=86400`
+
             }
+
           }
         );
+
 
       } catch (error) {
 
@@ -207,23 +492,31 @@ export default {
             error:
               "حدث خطأ في تسجيل الدخول"
           },
-          { status: 500 }
+          {
+            status: 500
+          }
         );
 
       }
+
     }
 
 
-    // API: الطلبات
-    // حفظ طلب جديد من الكمبيوتر
+    /* =====================================================
+       API: الطلبات - إنشاء طلب جديد
+    ===================================================== */
+
     if (
-      url.pathname === "/api/orders" &&
+      url.pathname ===
+      "/api/orders" &&
       request.method === "POST"
     ) {
+
       try {
 
         const data =
           await request.json();
+
 
         if (
           !data.customer_name ||
@@ -234,14 +527,23 @@ export default {
           !data.payment_method ||
           !data.items
         ) {
+
           return Response.json(
             {
               error:
                 "جميع معلومات الطلب المطلوبة غير مكتملة"
             },
-            { status: 400 }
+            {
+              status: 400
+            }
           );
+
         }
+
+
+        /*
+          أولًا نحفظ الطلب في D1
+        */
 
         const result =
           await env.DB
@@ -264,64 +566,242 @@ export default {
               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `)
             .bind(
-              String(data.customer_name),
-              String(data.phone),
-              String(data.governorate),
-              String(data.area),
-              String(data.address),
-              String(data.notes || ""),
-              String(data.payment_method),
-              JSON.stringify(data.items),
-              Number(data.subtotal || 0),
-              Number(data.discount || 0),
-              Number(data.total || 0),
+              String(
+                data.customer_name
+              ),
+
+              String(
+                data.phone
+              ),
+
+              String(
+                data.governorate
+              ),
+
+              String(
+                data.area
+              ),
+
+              String(
+                data.address
+              ),
+
+              String(
+                data.notes || ""
+              ),
+
+              String(
+                data.payment_method
+              ),
+
+              JSON.stringify(
+                data.items
+              ),
+
+              Number(
+                data.subtotal || 0
+              ),
+
+              Number(
+                data.discount || 0
+              ),
+
+              Number(
+                data.total || 0
+              ),
+
               "new",
-              new Date().toISOString()
+
+              new Date()
+                .toISOString()
             )
             .run();
 
+
+        const orderId =
+          result.meta.last_row_id;
+
+
+        /*
+          نجهز بيانات الطلب لإرسالها إلى WhatsApp
+        */
+
+        const orderForWhatsApp = {
+
+          id:
+            orderId,
+
+          customer_name:
+            String(
+              data.customer_name
+            ),
+
+          phone:
+            String(
+              data.phone
+            ),
+
+          governorate:
+            String(
+              data.governorate
+            ),
+
+          area:
+            String(
+              data.area
+            ),
+
+          address:
+            String(
+              data.address
+            ),
+
+          notes:
+            String(
+              data.notes || ""
+            ),
+
+          payment_method:
+            String(
+              data.payment_method
+            ),
+
+          items:
+            JSON.stringify(
+              data.items
+            ),
+
+          subtotal:
+            Number(
+              data.subtotal || 0
+            ),
+
+          discount:
+            Number(
+              data.discount || 0
+            ),
+
+          total:
+            Number(
+              data.total || 0
+            )
+
+        };
+
+
+        /*
+          إرسال الطلب إلى WhatsApp
+        */
+
+        let whatsappSent =
+          false;
+
+        let whatsappError =
+          null;
+
+
+        try {
+
+          await sendOrderToWhatsApp(
+            orderForWhatsApp,
+            env
+          );
+
+          whatsappSent =
+            true;
+
+        } catch (error) {
+
+          console.error(
+            "WhatsApp إرسال الطلب فشل:",
+            error
+          );
+
+          whatsappError =
+            error.message;
+
+        }
+
+
+        /*
+          نعيد نجاح الطلب حتى لو فشل WhatsApp.
+          الطلب يبقى محفوظًا في D1.
+        */
+
         return Response.json({
+
           success: true,
-          order_id: result.meta.last_row_id
+
+          order_id:
+            orderId,
+
+          whatsapp_sent:
+            whatsappSent,
+
+          whatsapp_error:
+            whatsappError
+
         });
+
 
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
+
 
         return Response.json(
           {
             error:
               "تعذر حفظ الطلب"
           },
-          { status: 500 }
+          {
+            status: 500
+          }
         );
 
       }
+
     }
 
 
-    // API: جلب الطلبات للإدارة
+    /* =====================================================
+       API: جلب الطلبات للإدارة
+    ===================================================== */
+
     if (
-      url.pathname === "/api/orders" &&
+      url.pathname ===
+      "/api/orders" &&
       request.method === "GET"
     ) {
+
       try {
 
         const cookie =
           request.headers.get("Cookie") || "";
+
 
         const match =
           cookie.match(
             /hz_admin=([^;]+)/
           );
 
+
         if (!match) {
+
           return Response.json(
-            { error: "غير مصرح" },
-            { status: 401 }
+            {
+              error:
+                "غير مصرح"
+            },
+            {
+              status: 401
+            }
           );
+
         }
+
 
         const { results } =
           await env.DB
@@ -332,57 +812,87 @@ export default {
             `)
             .all();
 
+
         return Response.json(
           results
         );
+
 
       } catch (error) {
 
         return Response.json(
           {
-            error: error.message
+            error:
+              error.message
           },
-          { status: 500 }
+          {
+            status: 500
+          }
         );
 
       }
+
     }
 
 
-    // API: تحديث حالة الطلب
+    /* =====================================================
+       API: تحديث حالة الطلب
+    ===================================================== */
+
     if (
-      url.pathname === "/api/orders" &&
+      url.pathname ===
+      "/api/orders" &&
       request.method === "PUT"
     ) {
+
       try {
 
         const cookie =
           request.headers.get("Cookie") || "";
+
 
         const match =
           cookie.match(
             /hz_admin=([^;]+)/
           );
 
+
         if (!match) {
+
           return Response.json(
-            { error: "غير مصرح" },
-            { status: 401 }
+            {
+              error:
+                "غير مصرح"
+            },
+            {
+              status: 401
+            }
           );
+
         }
+
 
         const data =
           await request.json();
 
-        if (!data.id || !data.status) {
+
+        if (
+          !data.id ||
+          !data.status
+        ) {
+
           return Response.json(
             {
               error:
                 "معرّف الطلب والحالة مطلوبان"
             },
-            { status: 400 }
+            {
+              status: 400
+            }
           );
+
         }
+
 
         await env.DB
           .prepare(`
@@ -391,35 +901,57 @@ export default {
             WHERE id = ?
           `)
           .bind(
-            String(data.status),
-            Number(data.id)
+            String(
+              data.status
+            ),
+            Number(
+              data.id
+            )
           )
           .run();
+
 
         return Response.json({
           success: true
         });
 
+
       } catch (error) {
 
         return Response.json(
           {
-            error: error.message
+            error:
+              error.message
           },
-          { status: 500 }
+          {
+            status: 500
+          }
         );
 
       }
+
     }
 
 
-    // API: المنتجات
+    /* =====================================================
+       API: المنتجات
+    ===================================================== */
+
     if (
-      url.pathname === "/api/products"
+      url.pathname ===
+      "/api/products"
     ) {
 
-      // GET المنتجات
-      if (request.method === "GET") {
+
+      /* =========================
+         GET المنتجات
+      ========================= */
+
+      if (
+        request.method ===
+        "GET"
+      ) {
+
         try {
 
           const { results } =
@@ -429,9 +961,11 @@ export default {
               )
               .all();
 
+
           return Response.json(
             results
           );
+
 
         } catch (error) {
 
@@ -440,14 +974,20 @@ export default {
               error:
                 error.message
             },
-            { status: 500 }
+            {
+              status: 500
+            }
           );
 
         }
+
       }
 
 
-      // POST / PUT المنتجات
+      /* =========================
+         POST / PUT المنتجات
+      ========================= */
+
       if (
         request.method === "POST" ||
         request.method === "PUT"
@@ -456,41 +996,58 @@ export default {
         const cookie =
           request.headers.get("Cookie") || "";
 
+
         const match =
           cookie.match(
             /hz_admin=([^;]+)/
           );
 
+
         if (!match) {
+
           return Response.json(
-            { error: "غير مصرح" },
-            { status: 401 }
+            {
+              error:
+                "غير مصرح"
+            },
+            {
+              status: 401
+            }
           );
+
         }
+
 
         try {
 
           const data =
             await request.json();
 
+
           if (
             !data.name ||
             !data.category ||
             data.price === undefined
           ) {
+
             return Response.json(
               {
                 error:
                   "الاسم والقسم والسعر مطلوبة"
               },
-              { status: 400 }
+              {
+                status: 400
+              }
             );
+
           }
 
 
-          // إضافة منتج
+          /* إضافة منتج */
+
           if (
-            request.method === "POST"
+            request.method ===
+            "POST"
           ) {
 
             const result =
@@ -510,42 +1067,67 @@ export default {
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 `)
                 .bind(
+
                   data.name,
+
                   data.category,
-                  data.description || "",
-                  Number(data.price),
+
+                  data.description ||
+                    "",
+
+                  Number(
+                    data.price
+                  ),
+
                   data.old_price
                     ? Number(
                         data.old_price
                       )
                     : null,
-                  data.image || "",
+
+                  data.image ||
+                    "",
+
                   Number(
-                    data.stock || 0
+                    data.stock ||
+                    0
                   ),
-                  data.badge || ""
+
+                  data.badge ||
+                    ""
+
                 )
                 .run();
 
+
             return Response.json({
               success: true,
+
               id:
-                result.meta.last_row_id
+                result.meta
+                  .last_row_id
+
             });
 
           }
 
 
-          // تعديل منتج
+          /* تعديل منتج */
+
           if (!data.id) {
+
             return Response.json(
               {
                 error:
                   "معرّف المنتج مطلوب"
               },
-              { status: 400 }
+              {
+                status: 400
+              }
             );
+
           }
+
 
           await env.DB
             .prepare(`
@@ -562,27 +1144,47 @@ export default {
               WHERE id = ?
             `)
             .bind(
+
               data.name,
+
               data.category,
-              data.description || "",
-              Number(data.price),
+
+              data.description ||
+                "",
+
+              Number(
+                data.price
+              ),
+
               data.old_price
                 ? Number(
                     data.old_price
                   )
                 : null,
-              data.image || "",
+
+              data.image ||
+                "",
+
               Number(
-                data.stock || 0
+                data.stock ||
+                0
               ),
-              data.badge || "",
-              Number(data.id)
+
+              data.badge ||
+                "",
+
+              Number(
+                data.id
+              )
+
             )
             .run();
+
 
           return Response.json({
             success: true
           });
+
 
         } catch (error) {
 
@@ -591,47 +1193,70 @@ export default {
               error:
                 error.message
             },
-            { status: 500 }
+            {
+              status: 500
+            }
           );
 
         }
+
       }
 
 
-      // حذف منتج
+      /* =========================
+         DELETE المنتج
+      ========================= */
+
       if (
-        request.method === "DELETE"
+        request.method ===
+        "DELETE"
       ) {
 
         const cookie =
           request.headers.get("Cookie") || "";
+
 
         const match =
           cookie.match(
             /hz_admin=([^;]+)/
           );
 
+
         if (!match) {
+
           return Response.json(
-            { error: "غير مصرح" },
-            { status: 401 }
+            {
+              error:
+                "غير مصرح"
+            },
+            {
+              status: 401
+            }
           );
+
         }
+
 
         const id =
           url.searchParams.get(
             "id"
           );
 
+
         if (!id) {
+
           return Response.json(
             {
               error:
                 "معرّف المنتج مطلوب"
             },
-            { status: 400 }
+            {
+              status: 400
+            }
           );
+
         }
+
 
         try {
 
@@ -644,9 +1269,11 @@ export default {
             )
             .run();
 
+
           return Response.json({
             success: true
           });
+
 
         } catch (error) {
 
@@ -655,15 +1282,26 @@ export default {
               error:
                 error.message
             },
-            { status: 500 }
+            {
+              status: 500
+            }
           );
 
         }
+
       }
+
     }
 
 
-    // باقي الملفات تُخدم كملفات الموقع العادية
-    return env.ASSETS.fetch(request);
+    /* =====================================================
+       باقي ملفات الموقع
+    ===================================================== */
+
+    return env.ASSETS.fetch(
+      request
+    );
+
   }
+
 };
