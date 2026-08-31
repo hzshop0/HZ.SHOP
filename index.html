@@ -535,11 +535,97 @@ radial-gradient(circle,rgba(176,141,53,.10),transparent 48%),
 overflow:hidden
 }
 
-.product-image img{
+/* معرض صور المنتج داخل البطاقة */
+
+.product-gallery{
+width:100%;
+height:100%;
+position:relative;
+overflow:hidden
+}
+
+.product-gallery-track{
+width:100%;
+height:100%;
+display:flex;
+direction:ltr;
+transition:transform .3s ease
+}
+
+.product-gallery-slide{
+min-width:100%;
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.product-gallery-slide img{
 width:100%;
 height:100%;
 object-fit:cover;
 display:block
+}
+
+.product-gallery-arrow{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+width:32px;
+height:32px;
+border-radius:50%;
+border:1px solid rgba(176,141,53,.45);
+background:rgba(255,253,249,.88);
+color:#9a7828;
+z-index:4;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+padding:0
+}
+
+.product-gallery-arrow.prev{
+left:8px
+}
+
+.product-gallery-arrow.next{
+right:8px
+}
+
+.product-gallery-arrow:hover{
+background:#fff;
+border-color:var(--gold)
+}
+
+.product-gallery-dots{
+position:absolute;
+bottom:9px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:5px;
+direction:ltr;
+z-index:4;
+background:rgba(255,253,249,.65);
+padding:4px 7px;
+border-radius:20px
+}
+
+.product-gallery-dot{
+width:6px;
+height:6px;
+border-radius:50%;
+background:#aaa59b;
+border:0;
+padding:0;
+min-width:6px
+}
+
+.product-gallery-dot.active{
+background:var(--gold);
+transform:scale(1.25)
 }
 
 .bottle{
@@ -567,7 +653,7 @@ color:#fff;
 padding:6px 10px;
 font-size:9px;
 font-weight:bold;
-z-index:2;
+z-index:6;
 border-radius:3px
 }
 
@@ -581,7 +667,7 @@ border-radius:50%;
 background:#fffdf9;
 border:1px solid #ddd8ce;
 color:#99948b;
-z-index:3
+z-index:7
 }
 
 .heart.active{
@@ -605,11 +691,6 @@ font-weight:bold;
 margin-bottom:7px;
 color:#38352f
 }
-
-/* 
-   الوصف المختصر داخل بطاقة المنتج:
-   يظهر سطرين فقط، والوصف الكامل يظهر عند الضغط على المنتج.
-*/
 
 .product-desc{
 color:#858078;
@@ -706,7 +787,7 @@ border:1px solid #ddd8ce;
 background:#fffdf9;
 color:#77736b;
 font-size:26px;
-z-index:5
+z-index:20
 }
 
 .product-details-content{
@@ -723,14 +804,96 @@ justify-content:center;
 background:
 radial-gradient(circle,rgba(176,141,53,.12),transparent 50%),
 #f1eee7;
-overflow:hidden
+overflow:hidden;
+position:relative
 }
 
-.product-details-image img{
+/* معرض صور صفحة التفاصيل */
+
+.details-gallery{
 width:100%;
 height:100%;
 min-height:500px;
-object-fit:cover
+position:relative;
+overflow:hidden
+}
+
+.details-gallery-main{
+width:100%;
+height:430px;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden
+}
+
+.details-gallery-main img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block
+}
+
+.details-gallery-arrow{
+position:absolute;
+top:205px;
+transform:translateY(-50%);
+width:42px;
+height:42px;
+border-radius:50%;
+border:1px solid rgba(176,141,53,.45);
+background:rgba(255,253,249,.90);
+color:#9a7828;
+z-index:6;
+font-size:23px;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.details-gallery-arrow.prev{
+left:12px
+}
+
+.details-gallery-arrow.next{
+right:12px
+}
+
+.details-gallery-thumbs{
+height:70px;
+padding:8px 12px;
+display:flex;
+gap:8px;
+overflow-x:auto;
+direction:ltr;
+scrollbar-width:none;
+background:rgba(255,253,249,.65)
+}
+
+.details-gallery-thumbs::-webkit-scrollbar{
+display:none
+}
+
+.details-gallery-thumb{
+width:58px;
+height:54px;
+min-width:58px;
+border:1px solid #ddd8ce;
+background:#fff;
+padding:0;
+overflow:hidden;
+border-radius:4px
+}
+
+.details-gallery-thumb.active{
+border:2px solid var(--gold)
+}
+
+.details-gallery-thumb img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block
 }
 
 .product-details-bottle{
@@ -1581,8 +1744,6 @@ font-size:14px;
 line-height:1.4
 }
 
-/* الوصف المختصر على الهاتف: سطران فقط */
-
 .product-desc{
 font-size:10px;
 line-height:1.6;
@@ -1642,13 +1803,25 @@ min-height:0
 }
 
 .product-details-image{
-height:300px;
-min-height:300px
+height:370px;
+min-height:370px
 }
 
-.product-details-image img{
-height:300px;
-min-height:300px
+.details-gallery{
+height:370px;
+min-height:370px
+}
+
+.details-gallery-main{
+height:300px
+}
+
+.details-gallery-arrow{
+top:150px
+}
+
+.details-gallery-thumbs{
+height:70px
 }
 
 .product-details-bottle{
@@ -1874,8 +2047,6 @@ padding:9px
 .product-name{
 font-size:13px
 }
-
-/* الوصف المختصر على الشاشات الصغيرة */
 
 .product-desc{
 font-size:10px;
@@ -2639,6 +2810,150 @@ let discountRate=0;
 
 let selectedPayment="الدفع عند الاستلام";
 
+/* =========================================
+   الصور المتعددة
+   يدعم:
+   images: [...]
+   image: [...]
+   image: "..."
+   image: JSON string
+   ========================================= */
+
+function normalizeImages(product){
+
+let rawImages=[];
+
+/* الأولوية للحقل images */
+
+if(
+product &&
+product.images !== undefined &&
+product.images !== null
+){
+
+rawImages=product.images;
+
+}
+
+/* إذا لم يوجد images نستخدم image */
+
+else if(
+product &&
+product.image !== undefined &&
+product.image !== null
+){
+
+rawImages=product.image;
+
+}
+
+/* تحويل JSON string إلى array إذا لزم */
+
+if(typeof rawImages==="string"){
+
+const value=rawImages.trim();
+
+if(!value){
+
+return [];
+
+}
+
+if(
+(value.startsWith("[") && value.endsWith("]"))
+){
+
+try{
+
+const parsed=JSON.parse(value);
+
+if(Array.isArray(parsed)){
+
+rawImages=parsed;
+
+}else{
+
+rawImages=[value];
+
+}
+
+}catch(error){
+
+rawImages=[value];
+
+}
+
+}else{
+
+/*
+إذا كانت الصور مرسلة مفصولة بفاصلة
+أو بسطر جديد، نتعامل معها أيضًا.
+*/
+
+if(value.includes("\n")){
+
+rawImages=
+value
+.split(/\r?\n/)
+.map(x=>x.trim())
+.filter(Boolean);
+
+}else if(value.includes(",")){
+
+rawImages=
+value
+.split(",")
+.map(x=>x.trim())
+.filter(Boolean);
+
+}else{
+
+rawImages=[value];
+
+}
+
+}
+
+}
+
+if(!Array.isArray(rawImages)){
+
+rawImages=[rawImages];
+
+}
+
+return rawImages
+.map(image=>{
+
+if(
+typeof image==="string"
+){
+
+return image.trim();
+
+}
+
+if(
+image &&
+typeof image==="object"
+){
+
+return String(
+image.url ||
+image.image ||
+image.src ||
+image.path ||
+""
+).trim();
+
+}
+
+return "";
+
+})
+.filter(Boolean);
+
+}
 
 function normalizeCategory(value){
 
@@ -2680,7 +2995,6 @@ return text;
 
 }
 
-
 function categoryName(value){
 
 const cat=
@@ -2697,7 +3011,6 @@ return names[cat] ||
 String(value || "");
 
 }
-
 
 async function loadProducts(){
 
@@ -2738,7 +3051,12 @@ throw new Error(
 }
 
 products=
-data.map(product=>({
+data.map(product=>{
+
+const images=
+normalizeImages(product);
+
+return {
 
 id:Number(product.id),
 
@@ -2766,8 +3084,18 @@ Number(product.old_price)
 :
 null,
 
+/*
+نحتفظ بالصورة القديمة أيضًا للتوافق
+*/
+
 image:
-String(product.image || ""),
+images[0] || String(product.image || ""),
+
+/*
+المهم: جميع الصور هنا
+*/
+
+images:images,
 
 stock:
 Number(product.stock || 0),
@@ -2775,7 +3103,9 @@ Number(product.stock || 0),
 badge:
 String(product.badge || "")
 
-}));
+};
+
+});
 
 render();
 
@@ -2793,7 +3123,6 @@ document.getElementById("results").textContent=
 
 }
 
-
 function save(){
 
 localStorage.setItem(
@@ -2808,6 +3137,309 @@ JSON.stringify(favorites)
 
 }
 
+/* =========================================
+   إنشاء معرض الصور داخل بطاقة المنتج
+   ========================================= */
+
+function createProductGallery(product){
+
+const images=
+Array.isArray(product.images)
+?
+product.images
+:
+normalizeImages(product);
+
+if(!images.length){
+
+return `
+<div class="bottle">
+${escapeHtml(product.name)}
+</div>
+`;
+
+}
+
+/* صورة واحدة */
+
+if(images.length===1){
+
+return `
+<div class="product-gallery">
+
+<div class="product-gallery-slide">
+<img
+src="${escapeHtml(images[0])}"
+alt="${escapeHtml(product.name)}"
+loading="lazy"
+onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+
+<div
+class="bottle"
+style="display:none">
+${escapeHtml(product.name)}
+</div>
+</div>
+
+</div>
+`;
+
+}
+
+/* عدة صور */
+
+const slides=
+images.map((image,index)=>`
+
+<div class="product-gallery-slide">
+
+<img
+src="${escapeHtml(image)}"
+alt="${escapeHtml(product.name)} - ${index+1}"
+loading="${index===0 ? "eager" : "lazy"}"
+onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+
+<div
+class="bottle"
+style="display:none">
+${escapeHtml(product.name)}
+</div>
+
+</div>
+
+`).join("");
+
+const dots=
+images.map((_,index)=>`
+
+<button
+class="product-gallery-dot ${index===0 ? "active" : ""}"
+onclick="event.stopPropagation();changeCardImage(${product.id},${index})">
+</button>
+
+`).join("");
+
+return `
+
+<div
+class="product-gallery"
+id="gallery-${product.id}"
+data-index="0"
+data-count="${images.length}">
+
+<div
+class="product-gallery-track"
+id="gallery-track-${product.id}">
+
+${slides}
+
+</div>
+
+<button
+class="product-gallery-arrow prev"
+onclick="event.stopPropagation();changeCardImage(${product.id},getCardImageIndex(${product.id})-1)">
+‹
+</button>
+
+<button
+class="product-gallery-arrow next"
+onclick="event.stopPropagation();changeCardImage(${product.id},getCardImageIndex(${product.id})+1)">
+›
+</button>
+
+<div class="product-gallery-dots">
+
+${dots}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function getCardImageIndex(id){
+
+const gallery=
+document.getElementById(
+"gallery-"+id
+);
+
+if(!gallery){
+
+return 0;
+
+}
+
+return Number(
+gallery.dataset.index || 0
+);
+
+}
+
+function changeCardImage(id,index){
+
+const product=
+products.find(
+x=>x.id===Number(id)
+);
+
+if(!product){
+
+return;
+
+}
+
+const images=
+Array.isArray(product.images)
+?
+product.images
+:
+normalizeImages(product);
+
+if(images.length<=1){
+
+return;
+
+}
+
+if(index<0){
+
+index=images.length-1;
+
+}
+
+if(index>=images.length){
+
+index=0;
+
+}
+
+const gallery=
+document.getElementById(
+"gallery-"+id
+);
+
+const track=
+document.getElementById(
+"gallery-track-"+id
+);
+
+if(!gallery || !track){
+
+return;
+
+}
+
+gallery.dataset.index=index;
+
+track.style.transform=
+"translateX(-"+(index*100)+"%)";
+
+const dots=
+gallery.querySelectorAll(
+".product-gallery-dot"
+);
+
+dots.forEach(
+(dot,i)=>
+dot.classList.toggle(
+"active",
+i===index
+)
+);
+
+}
+
+/* =========================================
+   لمس / سحب الصور على الهاتف
+   ========================================= */
+
+function enableGallerySwipe(){
+
+document
+.querySelectorAll(".product-gallery")
+.forEach(gallery=>{
+
+let startX=0;
+let endX=0;
+
+gallery.addEventListener(
+"touchstart",
+event=>{
+
+if(!event.touches.length){
+
+return;
+
+}
+
+startX=
+event.touches[0].clientX;
+
+},
+{
+passive:true
+}
+);
+
+gallery.addEventListener(
+"touchend",
+event=>{
+
+if(!event.changedTouches.length){
+
+return;
+
+}
+
+endX=
+event.changedTouches[0].clientX;
+
+const difference=
+startX-endX;
+
+if(Math.abs(difference)<35){
+
+return;
+
+}
+
+const id=
+gallery.id.replace(
+"gallery-",
+""
+);
+
+const currentIndex=
+getCardImageIndex(id);
+
+if(difference>0){
+
+changeCardImage(
+id,
+currentIndex+1
+);
+
+}else{
+
+changeCardImage(
+id,
+currentIndex-1
+);
+
+}
+
+},
+{
+passive:true
+}
+);
+
+});
+
+}
 
 function render(){
 
@@ -2912,32 +3544,8 @@ list.forEach(p=>{
 const fav=
 favorites.includes(p.id);
 
-const hasImage=
-p.image &&
-p.image.trim()!=="";
-
-const imageHtml=
-hasImage
-?
-`
-<img
-src="${escapeHtml(p.image)}"
-alt="${escapeHtml(p.name)}"
-loading="lazy"
-onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
->
-<div
-class="bottle"
-style="display:none">
-${escapeHtml(p.name)}
-</div>
-`
-:
-`
-<div class="bottle">
-${escapeHtml(p.name)}
-</div>
-`;
+const galleryHtml=
+createProductGallery(p);
 
 const canBuy=
 p.stock>0 || p.stock===0;
@@ -2965,7 +3573,7 @@ onclick="event.stopPropagation();toggleFav(${p.id})">
 ${fav?"♥":"♡"}
 </button>
 
-${imageHtml}
+${galleryHtml}
 
 </div>
 
@@ -3029,8 +3637,313 @@ onclick="event.stopPropagation()">
 
 });
 
+/* تشغيل السحب بعد إنشاء البطاقات */
+
+enableGallerySwipe();
+
 }
 
+/* =========================================
+   معرض الصور في صفحة تفاصيل المنتج
+   ========================================= */
+
+function createDetailsGallery(product){
+
+const images=
+Array.isArray(product.images)
+?
+product.images
+:
+normalizeImages(product);
+
+if(!images.length){
+
+return `
+<div class="product-details-bottle">
+${escapeHtml(product.name)}
+</div>
+`;
+
+}
+
+if(images.length===1){
+
+return `
+
+<div class="details-gallery">
+
+<div class="details-gallery-main">
+
+<img
+src="${escapeHtml(images[0])}"
+alt="${escapeHtml(product.name)}"
+onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+
+<div
+class="product-details-bottle"
+style="display:none">
+${escapeHtml(product.name)}
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+const thumbs=
+images.map((image,index)=>`
+
+<button
+class="details-gallery-thumb ${index===0 ? "active" : ""}"
+onclick="changeDetailsImage(${product.id},${index})">
+
+<img
+src="${escapeHtml(image)}"
+alt="${escapeHtml(product.name)} - ${index+1}"
+loading="lazy">
+
+</button>
+
+`).join("");
+
+return `
+
+<div
+class="details-gallery"
+id="details-gallery-${product.id}"
+data-index="0">
+
+<div
+class="details-gallery-main"
+id="details-main-${product.id}">
+
+<img
+src="${escapeHtml(images[0])}"
+alt="${escapeHtml(product.name)}">
+
+</div>
+
+<button
+class="details-gallery-arrow prev"
+onclick="changeDetailsImage(${product.id},getDetailsImageIndex(${product.id})-1)">
+‹
+</button>
+
+<button
+class="details-gallery-arrow next"
+onclick="changeDetailsImage(${product.id},getDetailsImageIndex(${product.id})+1)">
+›
+</button>
+
+<div class="details-gallery-thumbs">
+
+${thumbs}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function getDetailsImageIndex(id){
+
+const gallery=
+document.getElementById(
+"details-gallery-"+id
+);
+
+if(!gallery){
+
+return 0;
+
+}
+
+return Number(
+gallery.dataset.index || 0
+);
+
+}
+
+function changeDetailsImage(id,index){
+
+const product=
+products.find(
+x=>x.id===Number(id)
+);
+
+if(!product){
+
+return;
+
+}
+
+const images=
+Array.isArray(product.images)
+?
+product.images
+:
+normalizeImages(product);
+
+if(images.length<=1){
+
+return;
+
+}
+
+if(index<0){
+
+index=images.length-1;
+
+}
+
+if(index>=images.length){
+
+index=0;
+
+}
+
+const gallery=
+document.getElementById(
+"details-gallery-"+id
+);
+
+const main=
+document.getElementById(
+"details-main-"+id
+);
+
+if(!gallery || !main){
+
+return;
+
+}
+
+gallery.dataset.index=index;
+
+main.innerHTML=`
+
+<img
+src="${escapeHtml(images[index])}"
+alt="${escapeHtml(product.name)} - ${index+1}"
+>
+
+`;
+
+const thumbs=
+gallery.querySelectorAll(
+".details-gallery-thumb"
+);
+
+thumbs.forEach(
+(thumb,i)=>
+thumb.classList.toggle(
+"active",
+i===index
+)
+);
+
+const activeThumb=
+thumbs[index];
+
+if(activeThumb){
+
+activeThumb.scrollIntoView({
+behavior:"smooth",
+block:"nearest",
+inline:"center"
+});
+
+}
+
+}
+
+function enableDetailsSwipe(id){
+
+const gallery=
+document.getElementById(
+"details-gallery-"+id
+);
+
+if(!gallery){
+
+return;
+
+}
+
+let startX=0;
+
+gallery.addEventListener(
+"touchstart",
+event=>{
+
+if(!event.touches.length){
+
+return;
+
+}
+
+startX=
+event.touches[0].clientX;
+
+},
+{
+passive:true
+}
+);
+
+gallery.addEventListener(
+"touchend",
+event=>{
+
+if(!event.changedTouches.length){
+
+return;
+
+}
+
+const endX=
+event.changedTouches[0].clientX;
+
+const difference=
+startX-endX;
+
+if(Math.abs(difference)<35){
+
+return;
+
+}
+
+const currentIndex=
+getDetailsImageIndex(id);
+
+if(difference>0){
+
+changeDetailsImage(
+id,
+currentIndex+1
+);
+
+}else{
+
+changeDetailsImage(
+id,
+currentIndex-1
+);
+
+}
+
+},
+{
+passive:true
+}
+);
+
+}
 
 function openProductDetails(id){
 
@@ -3057,31 +3970,8 @@ document.getElementById(
 "productDetailsContent"
 );
 
-const hasImage=
-product.image &&
-product.image.trim()!=="";
-
-const imageHtml=
-hasImage
-?
-`
-<img
-src="${escapeHtml(product.image)}"
-alt="${escapeHtml(product.name)}"
-onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
->
-<div
-class="product-details-bottle"
-style="display:none">
-${escapeHtml(product.name)}
-</div>
-`
-:
-`
-<div class="product-details-bottle">
-${escapeHtml(product.name)}
-</div>
-`;
+const galleryHtml=
+createDetailsGallery(product);
 
 const stockText=
 product.stock>0
@@ -3094,7 +3984,7 @@ content.innerHTML=`
 
 <div class="product-details-image">
 
-${imageHtml}
+${galleryHtml}
 
 </div>
 
@@ -3154,8 +4044,9 @@ modal.classList.add("show");
 
 document.body.style.overflow="hidden";
 
-}
+enableDetailsSwipe(product.id);
 
+}
 
 function addFromDetails(id){
 
@@ -3164,7 +4055,6 @@ add(id);
 closeProductDetails();
 
 }
-
 
 function closeProductDetails(event){
 
@@ -3189,7 +4079,6 @@ document
 document.body.style.overflow="";
 
 }
-
 
 function category(cat,btn){
 
@@ -3238,7 +4127,6 @@ goShop();
 
 }
 
-
 function searchProducts(){
 
 current="all";
@@ -3261,7 +4149,6 @@ goShop();
 
 }
 
-
 function goShop(){
 
 document
@@ -3271,7 +4158,6 @@ behavior:"smooth"
 });
 
 }
-
 
 function add(id){
 
@@ -3324,7 +4210,6 @@ p.name+
 
 }
 
-
 function change(id,num){
 
 const item=
@@ -3351,7 +4236,6 @@ renderCart();
 
 }
 
-
 function removeItem(id){
 
 cart=
@@ -3364,7 +4248,6 @@ save();
 renderCart();
 
 }
-
 
 function renderCart(){
 
@@ -3468,7 +4351,6 @@ updateTotals();
 
 }
 
-
 function updateTotals(){
 
 const subtotal=
@@ -3503,7 +4385,6 @@ document
 
 }
 
-
 function openCart(){
 
 document
@@ -3516,7 +4397,6 @@ document
 
 }
 
-
 function closeCart(){
 
 document
@@ -3528,7 +4408,6 @@ document
 .classList.remove("show");
 
 }
-
 
 function applyCoupon(){
 
@@ -3561,7 +4440,6 @@ updateTotals();
 
 }
 
-
 function toggleFav(id){
 
 if(
@@ -3589,7 +4467,6 @@ favorites.length;
 render();
 
 }
-
 
 function openFavorites(){
 
@@ -3625,7 +4502,6 @@ alert(text);
 
 }
 
-
 function checkout(){
 
 if(!cart.length){
@@ -3650,7 +4526,6 @@ document
 
 }
 
-
 function closeCheckout(){
 
 document
@@ -3658,7 +4533,6 @@ document
 .classList.remove("show");
 
 }
-
 
 function renderSummary(){
 
@@ -3715,7 +4589,6 @@ document
 
 }
 
-
 function payment(el,type){
 
 document
@@ -3730,7 +4603,6 @@ selectedPayment=type;
 
 }
 
-
 function isMobileDevice(){
 
 return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -3738,7 +4610,6 @@ navigator.userAgent
 );
 
 }
-
 
 function setCheckoutButtons(){
 
@@ -3761,7 +4632,6 @@ computerButton.style.display="block";
 }
 
 }
-
 
 function getOrderData(){
 
@@ -3870,7 +4740,6 @@ total:Number(total.toFixed(2))
 
 }
 
-
 function sendWhatsApp(){
 
 const order=
@@ -3970,7 +4839,6 @@ url,
 );
 
 }
-
 
 async function submitComputerOrder(){
 
@@ -4092,7 +4960,6 @@ button.textContent=
 
 }
 
-
 function finishComputerOrder(){
 
 document
@@ -4102,7 +4969,6 @@ document
 location.reload();
 
 }
-
 
 function toast(message){
 
@@ -4121,7 +4987,6 @@ box.classList.remove("show");
 );
 
 }
-
 
 function escapeHtml(value){
 
@@ -4153,7 +5018,6 @@ return String(value)
 );
 
 }
-
 
 renderCart();
 
