@@ -606,11 +606,22 @@ margin-bottom:7px;
 color:#38352f
 }
 
+/* 
+   الوصف المختصر داخل بطاقة المنتج:
+   يظهر سطرين فقط، والوصف الكامل يظهر عند الضغط على المنتج.
+*/
+
 .product-desc{
 color:#858078;
 font-size:11px;
 line-height:1.7;
-min-height:38px
+height:37px;
+overflow:hidden;
+display:-webkit-box;
+-webkit-box-orient:vertical;
+-webkit-line-clamp:2;
+line-clamp:2;
+text-overflow:ellipsis
 }
 
 .price{
@@ -1570,10 +1581,19 @@ font-size:14px;
 line-height:1.4
 }
 
+/* الوصف المختصر على الهاتف: سطران فقط */
+
 .product-desc{
 font-size:10px;
 line-height:1.6;
-min-height:34px
+height:32px;
+min-height:0;
+overflow:hidden;
+display:-webkit-box;
+-webkit-box-orient:vertical;
+-webkit-line-clamp:2;
+line-clamp:2;
+text-overflow:ellipsis
 }
 
 .price{
@@ -1853,6 +1873,16 @@ padding:9px
 
 .product-name{
 font-size:13px
+}
+
+/* الوصف المختصر على الشاشات الصغيرة */
+
+.product-desc{
+font-size:10px;
+line-height:1.55;
+height:31px;
+-webkit-line-clamp:2;
+line-clamp:2
 }
 
 .add,
