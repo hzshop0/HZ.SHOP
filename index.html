@@ -52,6 +52,8 @@ color:inherit
 --white:#fffdf9;
 }
 
+/* TOP BAR */
+
 .topbar{
 height:35px;
 display:flex;
@@ -65,6 +67,8 @@ padding:0 10px;
 white-space:nowrap;
 overflow:hidden
 }
+
+/* HEADER */
 
 header{
 position:sticky;
@@ -174,6 +178,8 @@ align-items:center;
 justify-content:center
 }
 
+/* NAV */
+
 nav{
 background:#efede7;
 border-top:1px solid #e5e1d8
@@ -211,7 +217,7 @@ color:#9a7828
 /* HERO */
 
 .hero{
-min-height:650px;
+min-height:430px;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -233,33 +239,33 @@ border-radius:50%
 }
 
 .hero:before{
-width:550px;
-height:550px
+width:450px;
+height:450px
 }
 
 .hero:after{
-width:850px;
-height:850px
+width:700px;
+height:700px
 }
 
 .hero-content{
 position:relative;
 z-index:2;
-padding:30px
+padding:25px
 }
 
 .hero-label{
 color:#a27f25;
 letter-spacing:7px;
 font-size:11px;
-margin-bottom:25px
+margin-bottom:18px
 }
 
 .hero h1{
-font-size:clamp(50px,8vw,100px);
+font-size:clamp(45px,7vw,82px);
 line-height:.95;
 letter-spacing:3px;
-margin-bottom:25px;
+margin-bottom:18px;
 color:#302e29
 }
 
@@ -272,15 +278,15 @@ color:#b08d35
 max-width:700px;
 margin:auto;
 color:#77736b;
-font-size:16px;
-line-height:2
+font-size:15px;
+line-height:1.8
 }
 
 .hero-buttons{
 display:flex;
 justify-content:center;
 gap:12px;
-margin-top:35px;
+margin-top:25px;
 flex-wrap:wrap
 }
 
@@ -288,7 +294,7 @@ flex-wrap:wrap
 border:0;
 background:linear-gradient(135deg,#a47e27,#d2b15c,#a47e27);
 color:#fff;
-padding:15px 34px;
+padding:14px 32px;
 font-weight:bold;
 border-radius:4px
 }
@@ -297,7 +303,7 @@ border-radius:4px
 border:1px solid var(--line);
 background:#fffdf9;
 color:#9a7828;
-padding:15px 34px;
+padding:14px 32px;
 border-radius:4px
 }
 
@@ -311,12 +317,12 @@ transform:translateY(-2px)
 .section{
 max-width:1400px;
 margin:auto;
-padding:85px 25px
+padding:55px 25px
 }
 
 .title{
 text-align:center;
-margin-bottom:45px
+margin-bottom:30px
 }
 
 .title small{
@@ -324,12 +330,12 @@ display:block;
 color:#a27f25;
 letter-spacing:5px;
 font-size:10px;
-margin-bottom:10px
+margin-bottom:8px
 }
 
 .title h2{
-font-size:38px;
-margin-bottom:8px;
+font-size:34px;
+margin-bottom:7px;
 color:#302e29
 }
 
@@ -343,12 +349,12 @@ font-size:13px
 .categories{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:16px
+gap:14px
 }
 
 .category{
-height:260px;
-padding:28px;
+height:190px;
+padding:22px;
 border:1px solid #ddd8ce;
 background-color:#292722;
 background-size:cover;
@@ -363,8 +369,6 @@ cursor:pointer;
 border-radius:6px;
 isolation:isolate
 }
-
-/* صور الأقسام الأربعة */
 
 .category:nth-child(1){
 background-image:url("https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=85")
@@ -381,8 +385,6 @@ background-image:url("https://images.unsplash.com/photo-1596462502278-27bfdc4033
 .category:nth-child(4){
 background-image:url("https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=85")
 }
-
-/* طبقة فوق الصور */
 
 .category:before{
 content:"";
@@ -411,22 +413,22 @@ rgba(20,18,14,.20) 100%
 
 .category:hover{
 border-color:var(--gold);
-transform:translateY(-6px);
-box-shadow:0 15px 35px rgba(60,50,30,.18)
+transform:translateY(-4px);
+box-shadow:0 12px 28px rgba(60,50,30,.16)
 }
 
 .category .number{
 color:#e8d9ae;
-font-size:10px;
-margin-bottom:10px;
+font-size:9px;
+margin-bottom:7px;
 position:relative;
 z-index:2
 }
 
 .category h3{
 color:#fffdf9;
-font-size:23px;
-margin-bottom:7px;
+font-size:20px;
+margin-bottom:5px;
 position:relative;
 z-index:2;
 text-shadow:0 2px 8px rgba(0,0,0,.35)
@@ -434,7 +436,7 @@ text-shadow:0 2px 8px rgba(0,0,0,.35)
 
 .category p{
 color:#f1eee7;
-font-size:12px;
+font-size:11px;
 position:relative;
 z-index:2;
 text-shadow:0 2px 7px rgba(0,0,0,.5)
@@ -442,58 +444,13 @@ text-shadow:0 2px 7px rgba(0,0,0,.5)
 
 .category .symbol{
 position:absolute;
-top:25px;
-left:25px;
-font-size:45px;
+top:18px;
+left:18px;
+font-size:34px;
 color:#fff;
 opacity:.85;
 z-index:2;
 text-shadow:0 2px 10px rgba(0,0,0,.45)
-}
-
-/* FEATURES */
-
-.features{
-border-top:1px solid var(--line);
-border-bottom:1px solid var(--line);
-background:#eeece5
-}
-
-.features-inner{
-max-width:1200px;
-margin:auto;
-padding:30px 20px;
-display:grid;
-grid-template-columns:repeat(4,1fr)
-}
-
-.feature{
-text-align:center;
-padding:10px;
-border-left:1px solid #d9d4ca
-}
-
-.feature:last-child{
-border-left:0
-}
-
-.feature strong{
-display:block;
-color:#4c4943;
-font-size:14px;
-margin-bottom:6px
-}
-
-.feature span{
-color:#88837a;
-font-size:11px
-}
-
-.feature b{
-display:block;
-color:#a27f25;
-font-size:25px;
-margin-bottom:7px
 }
 
 /* SHOP */
@@ -1446,124 +1403,107 @@ padding:13px 16px;
 font-size:12px
 }
 
+/* HERO MOBILE */
+
 .hero{
-min-height:520px;
+min-height:390px;
 width:100%;
-padding:20px 15px
+padding:15px 15px
 }
 
 .hero-content{
 width:100%;
-padding:20px 5px
+padding:15px 5px
 }
 
 .hero-label{
-font-size:9px;
-letter-spacing:4px;
-margin-bottom:20px
+font-size:8px;
+letter-spacing:3px;
+margin-bottom:15px
 }
 
 .hero h1{
-font-size:clamp(38px,12vw,55px);
+font-size:clamp(36px,11vw,50px);
 line-height:1;
 letter-spacing:1px;
-margin-bottom:20px
+margin-bottom:15px
 }
 
 .hero p{
 width:100%;
 max-width:380px;
-font-size:13px;
-line-height:1.9
+font-size:12px;
+line-height:1.8
 }
 
 .hero-buttons{
 width:100%;
-gap:9px;
-margin-top:25px
+gap:8px;
+margin-top:20px
 }
 
 .hero-buttons button{
 width:100%;
-min-height:48px
+min-height:45px;
+padding:12px 20px
 }
+
+/* SECTIONS MOBILE */
 
 .section{
 width:100%;
 max-width:100%;
-padding:55px 12px
+padding:38px 12px
 }
 
 .title{
-margin-bottom:30px
+margin-bottom:22px
 }
 
 .title h2{
-font-size:28px
+font-size:26px
 }
 
 .title p{
-font-size:12px
+font-size:11px
 }
+
+/* CATEGORIES MOBILE */
 
 .categories{
 grid-template-columns:1fr 1fr;
-gap:9px;
+gap:8px;
 width:100%
 }
 
 .category{
 width:100%;
-height:175px;
-padding:15px;
-background-position:center
+height:140px;
+padding:12px;
+border-radius:5px
 }
 
 .category h3{
-font-size:16px
+font-size:15px
 }
 
 .category p{
-font-size:10px;
-line-height:1.6
+font-size:9px;
+line-height:1.5
 }
 
 .category .number{
-font-size:8px
+font-size:7px;
+margin-bottom:5px
 }
 
 .category .symbol{
-font-size:28px;
-top:13px;
-left:13px
+font-size:23px;
+top:10px;
+left:10px
 }
 
-.features-inner{
-width:100%;
-padding:25px 10px;
-grid-template-columns:1fr 1fr;
-gap:12px 0
-}
-
-.feature{
-padding:10px 5px
-}
-
-.feature:nth-child(2){
-border-left:0
-}
-
-.feature strong{
-font-size:12px
-}
-
-.feature span{
-font-size:9px
-}
-
-.feature b{
-font-size:21px
-}
+/* TOOLBAR */
 
 .toolbar{
 width:100%;
@@ -1598,6 +1538,8 @@ font-size:11px
 width:100%;
 min-height:42px
 }
+
+/* PRODUCTS */
 
 .products{
 width:100%;
@@ -1716,6 +1658,8 @@ font-size:23px
 min-height:48px
 }
 
+/* CART */
+
 .cart{
 left:-100%;
 width:92%;
@@ -1743,7 +1687,7 @@ padding:15px
 min-height:48px
 }
 
-/* FLOATING CART MOBILE */
+/* FLOATING CART */
 
 .floating-cart{
 left:15px;
@@ -1752,6 +1696,8 @@ width:56px;
 height:56px;
 font-size:21px
 }
+
+/* MODAL */
 
 .modal{
 padding:10px;
@@ -1811,6 +1757,8 @@ width:100%;
 min-height:48px
 }
 
+/* FOOTER */
+
 .footer{
 width:100%;
 grid-template-columns:1fr;
@@ -1861,20 +1809,34 @@ height:40px;
 min-width:40px
 }
 
+/* HERO SMALL */
+
 .hero{
-min-height:500px
+min-height:370px
 }
 
 .hero h1{
-font-size:40px
+font-size:38px
 }
 
+/* CATEGORIES SMALL */
+
 .categories{
-grid-template-columns:1fr 1fr
+grid-template-columns:1fr 1fr;
+gap:7px
 }
 
 .category{
-height:165px
+height:132px;
+padding:10px
+}
+
+.category h3{
+font-size:14px
+}
+
+.category p{
+font-size:8px
 }
 
 .products{
@@ -2099,38 +2061,6 @@ SHOP BY CATEGORY
 منتجات النظافة اليومية
 </p>
 
-</div>
-
-</div>
-
-</section>
-
-<section class="features">
-
-<div class="features-inner">
-
-<div class="feature">
-<b>♛</b>
-<strong>منتجات مختارة</strong>
-<span>اختيارات مميزة</span>
-</div>
-
-<div class="feature">
-<b>🛒</b>
-<strong>سلة ذكية</strong>
-<span>تسوق بسهولة</span>
-</div>
-
-<div class="feature">
-<b>✓</b>
-<strong>طلب سريع</strong>
-<span>خطوات بسيطة</span>
-</div>
-
-<div class="feature">
-<b>☏</b>
-<strong>WhatsApp</strong>
-<span>تواصل مباشر</span>
 </div>
 
 </div>
@@ -3071,10 +3001,6 @@ onclick="event.stopPropagation()">
 
 }
 
-
-/* ====================================================
-   تفاصيل المنتج
-==================================================== */
 
 function openProductDetails(id){
 
