@@ -39,6 +39,7 @@ async function uploadImageToGitHub(file, env) {
 
 /* =========================================================
    WHATSAPP
+   إرسال Template بدل text
 ========================================================= */
 
 async function sendOrderToWhatsApp(order, env) {
@@ -55,11 +56,22 @@ async function sendOrderToWhatsApp(order, env) {
     throw new Error("WHATSAPP_PHONE_NUMBER_ID غير موجود");
   }
 
+
   /*
-    رقم المستلم في Meta.
-    لا نضع علامة + ولا مسافات.
+    رقم المستلم في Meta
+    بدون + أو مسافات
   */
+
   const recipient = "96171142827";
+
+
+  /*
+    قالب Meta التجريبي الذي أثبتنا أنه يعمل.
+    سنستبدله لاحقًا بقالب HZ.SHOP الخاص بالطلبات.
+  */
+
+  const templateName = "hello_world";
+
 
   console.log(
     "WHATSAPP_CONFIG_OK",
@@ -68,118 +80,11 @@ async function sendOrderToWhatsApp(order, env) {
       phone_number_id_exists:
         !!env.WHATSAPP_PHONE_NUMBER_ID,
       access_token_exists:
-        !!env.WHATSAPP_ACCESS_TOKEN
+        !!env.WHATSAPP_ACCESS_TOKEN,
+      template:
+        templateName
     })
   );
-
-
-  let itemsText = "";
-
-  try {
-
-    const items =
-      typeof order.items === "string"
-        ? JSON.parse(order.items)
-        : order.items;
-
-    if (Array.isArray(items)) {
-
-      itemsText =
-        items.map((item, index) => {
-
-          const name =
-            item.name ||
-            item.title ||
-            `منتج ${index + 1}`;
-
-          const quantity =
-            Number(
-              item.quantity ||
-              item.qty ||
-              1
-            );
-
-          const price =
-            Number(
-              item.price ||
-              0
-            );
-
-          return (
-            `${index + 1}. ${name}\n` +
-            `الكمية: ${quantity}\n` +
-            `السعر: $${price.toFixed(2)}`
-          );
-
-        }).join("\n\n");
-
-    } else {
-
-      itemsText =
-        String(order.items || "");
-
-    }
-
-  } catch (error) {
-
-    console.error(
-      "WHATSAPP_ITEMS_PARSE_ERROR",
-      error.message
-    );
-
-    itemsText =
-      String(order.items || "");
-
-  }
-
-
-  const message =
-`🛍️ طلب جديد من HZ.SHOP
-
-━━━━━━━━━━━━━━
-
-👤 اسم الزبون:
-${order.customer_name}
-
-📞 رقم الهاتف:
-${order.phone}
-
-📍 المحافظة:
-${order.governorate}
-
-📍 المنطقة:
-${order.area}
-
-🏠 العنوان:
-${order.address}
-
-💳 طريقة الدفع:
-${order.payment_method}
-
-📝 الملاحظات:
-${order.notes || "لا يوجد"}
-
-━━━━━━━━━━━━━━
-
-🛒 المنتجات:
-${itemsText}
-
-━━━━━━━━━━━━━━
-
-💰 المجموع قبل الخصم:
-$${Number(order.subtotal || 0).toFixed(2)}
-
-🏷️ الخصم:
-$${Number(order.discount || 0).toFixed(2)}
-
-💵 المجموع النهائي:
-$${Number(order.total || 0).toFixed(2)}
-
-🆔 رقم الطلب:
-${order.id}
-
-━━━━━━━━━━━━━━
-HZ.SHOP`;
 
 
   const apiUrl =
@@ -187,11 +92,12 @@ HZ.SHOP`;
 
 
   console.log(
-    "WHATSAPP_REQUEST_START"
+    "WHATSAPP_TEMPLATE_REQUEST_START"
   );
 
 
   let response;
+
 
   try {
 
@@ -202,15 +108,18 @@ HZ.SHOP`;
           method: "POST",
 
           headers: {
+
             "Authorization":
               `Bearer ${env.WHATSAPP_ACCESS_TOKEN}`,
 
             "Content-Type":
               "application/json"
+
           },
 
           body:
             JSON.stringify({
+
               messaging_product:
                 "whatsapp",
 
@@ -221,16 +130,24 @@ HZ.SHOP`;
                 recipient,
 
               type:
-                "text",
+                "template",
 
-              text: {
-                preview_url:
-                  false,
+              template: {
 
-                body:
-                  message
+                name:
+                  templateName,
+
+                language: {
+
+                  code:
+                    "en_US"
+
+                }
+
               }
+
             })
+
         }
       );
 
@@ -254,6 +171,7 @@ HZ.SHOP`;
 
   let result;
 
+
   try {
 
     result =
@@ -272,13 +190,13 @@ HZ.SHOP`;
 
 
   /*
-    مهم جدًا:
-    نسجل رد Meta بدون Access Token.
+    نسجل رد Meta بدون إظهار Access Token
   */
 
   console.log(
     "WHATSAPP_RESPONSE",
     JSON.stringify({
+
       status:
         response.status,
 
@@ -287,6 +205,7 @@ HZ.SHOP`;
 
       result:
         result
+
     })
   );
 
@@ -303,6 +222,7 @@ HZ.SHOP`;
     console.error(
       "WHATSAPP_API_ERROR",
       JSON.stringify({
+
         status:
           response.status,
 
@@ -314,6 +234,7 @@ HZ.SHOP`;
 
         error_subcode:
           result?.error?.error_subcode || null
+
       })
     );
 
@@ -325,18 +246,20 @@ HZ.SHOP`;
   }
 
 
-  /*
-    Meta أعادت نجاحًا.
-  */
+  const messageId =
+    result?.messages?.[0]?.id || null;
+
 
   console.log(
     "WHATSAPP_SUCCESS",
     JSON.stringify({
+
       status:
         response.status,
 
       message_id:
-        result?.messages?.[0]?.id || null
+        messageId
+
     })
   );
 
@@ -368,6 +291,7 @@ export default {
     ) {
 
       return Response.json({
+
         exists:
           !!env.ADMIN_PASSWORD,
 
@@ -379,6 +303,7 @@ export default {
 
         whatsapp_business_id:
           !!env.WHATSAPP_BUSINESS_ACCOUNT_ID
+
       });
 
     }
@@ -471,8 +396,13 @@ export default {
 
 
         return Response.json({
-          success: true,
-          image: imageUrl
+
+          success:
+            true,
+
+          image:
+            imageUrl
+
         });
 
 
@@ -596,10 +526,12 @@ export default {
 
         return new Response(
           JSON.stringify({
-            success: true
+            success:
+              true
           }),
           {
-            status: 200,
+            status:
+              200,
 
             headers: {
 
@@ -678,7 +610,9 @@ export default {
         }
 
 
-        /* حفظ الطلب في D1 */
+        /* =================================================
+           حفظ الطلب في D1
+        ================================================= */
 
         const result =
           await env.DB
@@ -701,6 +635,7 @@ export default {
               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `)
             .bind(
+
               String(
                 data.customer_name
               ),
@@ -749,6 +684,7 @@ export default {
 
               new Date()
                 .toISOString()
+
             )
             .run();
 
@@ -765,6 +701,10 @@ export default {
           })
         );
 
+
+        /* =================================================
+           تجهيز بيانات الطلب
+        ================================================= */
 
         const orderForWhatsApp = {
 
@@ -829,7 +769,9 @@ export default {
         };
 
 
-        /* إرسال WhatsApp */
+        /* =================================================
+           إرسال WhatsApp Template
+        ================================================= */
 
         let whatsappSent =
           false;
@@ -877,6 +819,7 @@ export default {
         console.log(
           "ORDER_COMPLETE",
           JSON.stringify({
+
             order_id:
               orderId,
 
@@ -888,13 +831,15 @@ export default {
 
             whatsapp_error:
               whatsappError
+
           })
         );
 
 
         return Response.json({
 
-          success: true,
+          success:
+            true,
 
           order_id:
             orderId,
@@ -1069,18 +1014,22 @@ export default {
             WHERE id = ?
           `)
           .bind(
+
             String(
               data.status
             ),
+
             Number(
               data.id
             )
+
           )
           .run();
 
 
         return Response.json({
-          success: true
+          success:
+            true
         });
 
 
@@ -1110,7 +1059,10 @@ export default {
       "/api/products"
     ) {
 
-      /* GET */
+
+      /* ===================================================
+         GET المنتجات
+      =================================================== */
 
       if (
         request.method ===
@@ -1149,7 +1101,9 @@ export default {
       }
 
 
-      /* POST / PUT */
+      /* ===================================================
+         POST / PUT المنتجات
+      =================================================== */
 
       if (
         request.method === "POST" ||
@@ -1206,7 +1160,9 @@ export default {
           }
 
 
-          /* إضافة */
+          /* =================================================
+             إضافة منتج
+          ================================================= */
 
           if (
             request.method ===
@@ -1264,7 +1220,9 @@ export default {
 
 
             return Response.json({
-              success: true,
+
+              success:
+                true,
 
               id:
                 result.meta
@@ -1275,7 +1233,9 @@ export default {
           }
 
 
-          /* تعديل */
+          /* =================================================
+             تعديل منتج
+          ================================================= */
 
           if (!data.id) {
 
@@ -1345,7 +1305,8 @@ export default {
 
 
           return Response.json({
-            success: true
+            success:
+              true
           });
 
 
@@ -1366,7 +1327,9 @@ export default {
       }
 
 
-      /* DELETE */
+      /* ===================================================
+         DELETE المنتج
+      =================================================== */
 
       if (
         request.method ===
@@ -1432,7 +1395,8 @@ export default {
 
 
           return Response.json({
-            success: true
+            success:
+              true
           });
 
 
