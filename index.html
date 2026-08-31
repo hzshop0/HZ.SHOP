@@ -5029,6 +5029,681 @@ favorites.length;
 loadProducts();
 
 </script>
+<!-- =========================================================
+     CUSTOMER ACCOUNT
+     تسجيل / دخول العميل
+========================================================= -->
 
+<style>
+#customerAuthModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(40,35,25,.55);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+#customerAuthModal.show{
+  display:flex;
+}
+
+.customer-auth-box{
+  width:420px;
+  max-width:100%;
+  background:#fffdf9;
+  border:1px solid #b08d35;
+  border-radius:8px;
+  padding:28px;
+  position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.18);
+}
+
+.customer-auth-close{
+  position:absolute;
+  top:10px;
+  left:10px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border:1px solid #ddd8ce;
+  background:#fffdf9;
+  color:#77736b;
+  font-size:22px;
+}
+
+.customer-auth-title{
+  text-align:center;
+  margin-bottom:22px;
+}
+
+.customer-auth-title small{
+  display:block;
+  color:#a27f25;
+  letter-spacing:4px;
+  font-size:9px;
+  margin-bottom:7px;
+}
+
+.customer-auth-title h2{
+  color:#302e29;
+  font-size:25px;
+}
+
+.customer-auth-form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.customer-auth-form input{
+  width:100%;
+  height:46px;
+  border:1px solid #ddd8ce;
+  background:#fff;
+  color:#292722;
+  padding:0 14px;
+  border-radius:4px;
+  outline:none;
+}
+
+.customer-auth-form input:focus{
+  border-color:#b08d35;
+}
+
+.customer-auth-submit{
+  height:46px;
+  border:0;
+  border-radius:4px;
+  background:linear-gradient(135deg,#a47e27,#d2b15c,#a47e27);
+  color:#fff;
+  font-weight:bold;
+}
+
+.customer-auth-switch{
+  text-align:center;
+  margin-top:16px;
+  color:#77736b;
+  font-size:12px;
+}
+
+.customer-auth-switch button{
+  border:0;
+  background:none;
+  color:#a27f25;
+  font-weight:bold;
+  padding:0;
+}
+
+.customer-auth-message{
+  min-height:20px;
+  text-align:center;
+  font-size:12px;
+  color:#a27f25;
+  margin-top:8px;
+}
+</style>
+
+<div id="customerAuthModal">
+
+  <div class="customer-auth-box">
+
+    <button
+      type="button"
+      class="customer-auth-close"
+      onclick="closeCustomerAuth()"
+    >×</button>
+
+    <!-- LOGIN -->
+
+    <div id="customerLoginView">
+
+      <div class="customer-auth-title">
+        <small>HZ.SHOP</small>
+        <h2>تسجيل الدخول</h2>
+      </div>
+
+      <form
+        class="customer-auth-form"
+        onsubmit="customerLogin(event)"
+      >
+
+        <input
+          id="loginPhone"
+          type="tel"
+          placeholder="رقم الهاتف"
+          autocomplete="tel"
+          required
+        >
+
+        <input
+          id="loginPassword"
+          type="password"
+          placeholder="الرمز"
+          minlength="6"
+          autocomplete="current-password"
+          required
+        >
+
+        <button
+          class="customer-auth-submit"
+          type="submit"
+        >
+          تسجيل الدخول
+        </button>
+
+      </form>
+
+      <div
+        id="customerLoginMessage"
+        class="customer-auth-message"
+      ></div>
+
+      <div class="customer-auth-switch">
+        ليس لديك حساب؟
+        <button
+          type="button"
+          onclick="showCustomerRegister()"
+        >
+          إنشاء حساب
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- REGISTER -->
+
+    <div
+      id="customerRegisterView"
+      style="display:none"
+    >
+
+      <div class="customer-auth-title">
+        <small>HZ.SHOP</small>
+        <h2>إنشاء حساب</h2>
+      </div>
+
+      <form
+        class="customer-auth-form"
+        onsubmit="customerRegister(event)"
+      >
+
+        <input
+          id="registerName"
+          type="text"
+          placeholder="الاسم"
+          autocomplete="name"
+          required
+        >
+
+        <input
+          id="registerPhone"
+          type="tel"
+          placeholder="رقم الهاتف"
+          autocomplete="tel"
+          required
+        >
+
+        <input
+          id="registerPassword"
+          type="password"
+          placeholder="الرمز — 6 أحرف أو أرقام على الأقل"
+          minlength="6"
+          autocomplete="new-password"
+          required
+        >
+
+        <button
+          class="customer-auth-submit"
+          type="submit"
+        >
+          إنشاء الحساب
+        </button>
+
+      </form>
+
+      <div
+        id="customerRegisterMessage"
+        class="customer-auth-message"
+      ></div>
+
+      <div class="customer-auth-switch">
+        لديك حساب؟
+        <button
+          type="button"
+          onclick="showCustomerLogin()"
+        >
+          تسجيل الدخول
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+/* =========================================================
+   CUSTOMER AUTH
+========================================================= */
+
+function openCustomerAuth(){
+
+  const modal =
+    document.getElementById(
+      "customerAuthModal"
+    );
+
+  if(modal){
+    modal.classList.add("show");
+  }
+
+  showCustomerLogin();
+
+}
+
+
+function closeCustomerAuth(){
+
+  const modal =
+    document.getElementById(
+      "customerAuthModal"
+    );
+
+  if(modal){
+    modal.classList.remove("show");
+  }
+
+}
+
+
+function showCustomerLogin(){
+
+  document.getElementById(
+    "customerLoginView"
+  ).style.display = "block";
+
+  document.getElementById(
+    "customerRegisterView"
+  ).style.display = "none";
+
+}
+
+
+function showCustomerRegister(){
+
+  document.getElementById(
+    "customerLoginView"
+  ).style.display = "none";
+
+  document.getElementById(
+    "customerRegisterView"
+  ).style.display = "block";
+
+}
+
+
+function normalizeCustomerPhone(phone){
+
+  return String(phone || "")
+    .trim()
+    .replace(/\s+/g,"")
+    .replace(/-/g,"")
+    .replace(/\(/g,"")
+    .replace(/\)/g,"");
+
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+async function customerRegister(event){
+
+  event.preventDefault();
+
+  const name =
+    document.getElementById(
+      "registerName"
+    ).value.trim();
+
+  const phone =
+    normalizeCustomerPhone(
+      document.getElementById(
+        "registerPhone"
+      ).value
+    );
+
+  const password =
+    document.getElementById(
+      "registerPassword"
+    ).value;
+
+  const message =
+    document.getElementById(
+      "customerRegisterMessage"
+    );
+
+  message.textContent =
+    "جاري إنشاء الحساب...";
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-register",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          credentials:"include",
+
+          body:JSON.stringify({
+
+            name:name,
+
+            phone:phone,
+
+            password:password
+
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      message.textContent =
+        data.error ||
+        "تعذر إنشاء الحساب";
+
+      return;
+    }
+
+    message.textContent =
+      "تم إنشاء الحساب بنجاح";
+
+    setTimeout(
+      () => {
+
+        closeCustomerAuth();
+
+        updateCustomerAccountUI(
+          data.customer
+        );
+
+      },
+      500
+    );
+
+  }catch(error){
+
+    message.textContent =
+      "تعذر الاتصال بالخادم";
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function customerLogin(event){
+
+  event.preventDefault();
+
+  const phone =
+    normalizeCustomerPhone(
+      document.getElementById(
+        "loginPhone"
+      ).value
+    );
+
+  const password =
+    document.getElementById(
+      "loginPassword"
+    ).value;
+
+  const message =
+    document.getElementById(
+      "customerLoginMessage"
+    );
+
+  message.textContent =
+    "جاري تسجيل الدخول...";
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-login",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          credentials:"include",
+
+          body:JSON.stringify({
+
+            phone:phone,
+
+            password:password
+
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      message.textContent =
+        data.error ||
+        "رقم الهاتف أو الرمز غير صحيح";
+
+      return;
+    }
+
+    message.textContent =
+      "تم تسجيل الدخول بنجاح";
+
+    setTimeout(
+      () => {
+
+        closeCustomerAuth();
+
+        updateCustomerAccountUI(
+          data.customer
+        );
+
+      },
+      500
+    );
+
+  }catch(error){
+
+    message.textContent =
+      "تعذر الاتصال بالخادم";
+
+  }
+
+}
+
+
+/* =========================================================
+   CHECK CURRENT CUSTOMER
+========================================================= */
+
+async function loadCustomerSession(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-me",
+        {
+          method:"GET",
+          credentials:"include"
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(
+      data.logged_in &&
+      data.customer
+    ){
+
+      updateCustomerAccountUI(
+        data.customer
+      );
+
+    }
+
+  }catch(error){
+
+    console.log(
+      "Customer session check failed"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE ACCOUNT ICON
+   لا نغيّر التصميم الأصلي
+========================================================= */
+
+function updateCustomerAccountUI(customer){
+
+  /*
+     نحاول العثور على زر الحساب الموجود
+     في المتجر بدون حذف أو تغيير أي عنصر آخر.
+  */
+
+  const buttons =
+    document.querySelectorAll(
+      "button"
+    );
+
+  buttons.forEach(
+    button => {
+
+      const text =
+        button.textContent.trim();
+
+      const aria =
+        button.getAttribute(
+          "aria-label"
+        ) || "";
+
+      if(
+        text === "♡" ||
+        text === "👤" ||
+        aria.includes("حساب") ||
+        aria.includes("account")
+      ){
+
+        button.title =
+          customer
+            ? `مرحبًا ${customer.name}`
+            : "حساب العميل";
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function customerLogout(){
+
+  try{
+
+    await fetch(
+      "/api/customer-logout",
+      {
+        method:"POST",
+        credentials:"include"
+      }
+    );
+
+  }catch(error){
+
+    console.log(
+      "Logout error"
+    );
+
+  }
+
+  location.reload();
+
+}
+
+
+/* =========================================================
+   CLICK OUTSIDE
+========================================================= */
+
+document
+  .getElementById(
+    "customerAuthModal"
+  )
+  .addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target === this
+      ){
+
+        closeCustomerAuth();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   START
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    loadCustomerSession();
+
+  }
+);
+</script>
 </body>
 </html>
