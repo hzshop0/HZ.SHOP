@@ -86,38 +86,464 @@ function normalizeImages(value) {
 
 
 /* =========================================================
+   CUSTOMER AUTHENTICATION
+   نظام تسجيل العملاء
+========================================================= */
+
+function normalizePhone(phone) {
+
+  return String(phone || "")
+    .trim()
+    .replace(/\s+/g, "")
+    .replace(/-/g, "")
+    .replace(/\(/g, "")
+    .replace(/\)/g, "");
+
+}
+
+
+/* =========================================================
+   تحويل Bytes إلى Hex
+========================================================= */
+
+function bytesToHex(bytes) {
+
+  return Array.from(bytes)
+    .map(
+      b =>
+        b
+          .toString(16)
+          .padStart(2, "0")
+    )
+    .join("");
+
+}
+
+
+/* =========================================================
+   تحويل Hex إلى Bytes
+========================================================= */
+
+function hexToBytes(hex) {
+
+  if (
+    !hex ||
+    hex.length % 2 !== 0
+  ) {
+    return new Uint8Array();
+  }
+
+  const bytes =
+    new Uint8Array(
+      hex.length / 2
+    );
+
+  for (
+    let i = 0;
+    i < bytes.length;
+    i++
+  ) {
+
+    bytes[i] =
+      parseInt(
+        hex.slice(
+          i * 2,
+          i * 2 + 2
+        ),
+        16
+      );
+
+  }
+
+  return bytes;
+
+}
+
+
+/* =========================================================
+   HASH PASSWORD
+   تخزين كلمة المرور بشكل آمن
+========================================================= */
+
+async function hashPassword(
+  password,
+  saltHex = null
+) {
+
+  const encoder =
+    new TextEncoder();
+
+  let salt;
+
+  if (saltHex) {
+
+    salt =
+      hexToBytes(
+        saltHex
+      );
+
+  } else {
+
+    salt =
+      crypto.getRandomValues(
+        new Uint8Array(16)
+      );
+
+  }
+
+  const keyMaterial =
+    await crypto.subtle.importKey(
+      "raw",
+      encoder.encode(password),
+      {
+        name: "PBKDF2"
+      },
+      false,
+      ["deriveBits"]
+    );
+
+  const hashBuffer =
+    await crypto.subtle.deriveBits(
+      {
+        name: "PBKDF2",
+        salt: salt,
+        iterations: 100000,
+        hash: "SHA-256"
+      },
+      keyMaterial,
+      256
+    );
+
+  return {
+
+    salt:
+      bytesToHex(
+        salt
+      ),
+
+    hash:
+      bytesToHex(
+        new Uint8Array(
+          hashBuffer
+        )
+      )
+
+  };
+
+}
+
+
+/* =========================================================
+   VERIFY PASSWORD
+========================================================= */
+
+async function verifyPassword(
+  password,
+  storedPassword
+) {
+
+  if (!storedPassword) {
+    return false;
+  }
+
+  const parts =
+    String(
+      storedPassword
+    ).split(":");
+
+  if (
+    parts.length !== 2
+  ) {
+    return false;
+  }
+
+  const saltHex =
+    parts[0];
+
+  const storedHash =
+    parts[1];
+
+  const result =
+    await hashPassword(
+      password,
+      saltHex
+    );
+
+  return (
+    result.hash ===
+    storedHash
+  );
+
+}
+
+
+/* =========================================================
+   CUSTOMER SESSION
+   إنشاء جلسة العميل
+========================================================= */
+
+async function createCustomerSession(
+  customerId,
+  env
+) {
+
+  const timestamp =
+    Date.now().toString();
+
+  const value =
+    `${customerId}.${timestamp}`;
+
+  const encoder =
+    new TextEncoder();
+
+  const key =
+    await crypto.subtle.importKey(
+      "raw",
+      encoder.encode(
+        env.ADMIN_PASSWORD
+      ),
+      {
+        name: "HMAC",
+        hash: "SHA-256"
+      },
+      false,
+      ["sign"]
+    );
+
+  const signatureBuffer =
+    await crypto.subtle.sign(
+      "HMAC",
+      key,
+      encoder.encode(
+        value
+      )
+    );
+
+  const signature =
+    bytesToHex(
+      new Uint8Array(
+        signatureBuffer
+      )
+    );
+
+  return (
+    `${value}.${signature}`
+  );
+
+}
+
+
+/* =========================================================
+   VERIFY CUSTOMER SESSION
+========================================================= */
+
+async function verifyCustomerSession(
+  request,
+  env
+) {
+
+  const cookie =
+    request.headers.get(
+      "Cookie"
+    ) || "";
+
+  const match =
+    cookie.match(
+      /(?:^|;\s*)hz_customer=([^;]+)/
+    );
+
+  if (!match) {
+    return null;
+  }
+
+  try {
+
+    const cookieValue =
+      decodeURIComponent(
+        match[1]
+      );
+
+    const parts =
+      cookieValue.split(".");
+
+    if (
+      parts.length !== 3
+    ) {
+      return null;
+    }
+
+    const customerId =
+      Number(
+        parts[0]
+      );
+
+    const timestamp =
+      Number(
+        parts[1]
+      );
+
+    const signature =
+      parts[2];
+
+    if (
+      !customerId ||
+      !timestamp ||
+      !signature
+    ) {
+      return null;
+    }
+
+    /*
+       صلاحية الجلسة:
+       7 أيام
+    */
+
+    if (
+      Date.now() -
+        timestamp >
+      7 *
+        24 *
+        60 *
+        60 *
+        1000
+    ) {
+
+      return null;
+
+    }
+
+    const value =
+      `${customerId}.${timestamp}`;
+
+    const encoder =
+      new TextEncoder();
+
+    const key =
+      await crypto.subtle.importKey(
+        "raw",
+        encoder.encode(
+          env.ADMIN_PASSWORD
+        ),
+        {
+          name: "HMAC",
+          hash: "SHA-256"
+        },
+        false,
+        ["verify"]
+      );
+
+    const valid =
+      await crypto.subtle.verify(
+        "HMAC",
+        key,
+        hexToBytes(
+          signature
+        ),
+        encoder.encode(
+          value
+        )
+      );
+
+    if (!valid) {
+      return null;
+    }
+
+    const customer =
+      await env.DB
+        .prepare(`
+          SELECT
+            id,
+            name,
+            phone,
+            created_at
+          FROM customers
+          WHERE id = ?
+          LIMIT 1
+        `)
+        .bind(
+          customerId
+        )
+        .first();
+
+    if (!customer) {
+      return null;
+    }
+
+    return customer;
+
+  } catch {
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
    WHATSAPP
    إرسال Template بدل text
 ========================================================= */
 
-async function sendOrderToWhatsApp(order, env) {
+async function sendOrderToWhatsApp(
+  order,
+  env
+) {
 
-  console.log("WHATSAPP_START");
+  console.log(
+    "WHATSAPP_START"
+  );
 
-  if (!env.WHATSAPP_ACCESS_TOKEN) {
-    console.error("WHATSAPP_ERROR: ACCESS TOKEN MISSING");
-    throw new Error("WHATSAPP_ACCESS_TOKEN غير موجود");
+  if (
+    !env.WHATSAPP_ACCESS_TOKEN
+  ) {
+
+    console.error(
+      "WHATSAPP_ERROR: ACCESS TOKEN MISSING"
+    );
+
+    throw new Error(
+      "WHATSAPP_ACCESS_TOKEN غير موجود"
+    );
+
   }
 
-  if (!env.WHATSAPP_PHONE_NUMBER_ID) {
-    console.error("WHATSAPP_ERROR: PHONE NUMBER ID MISSING");
-    throw new Error("WHATSAPP_PHONE_NUMBER_ID غير موجود");
+  if (
+    !env.WHATSAPP_PHONE_NUMBER_ID
+  ) {
+
+    console.error(
+      "WHATSAPP_ERROR: PHONE NUMBER ID MISSING"
+    );
+
+    throw new Error(
+      "WHATSAPP_PHONE_NUMBER_ID غير موجود"
+    );
+
   }
 
-  const recipient = "96171142827";
+  const recipient =
+    "96171142827";
 
-  const templateName = "hello_world";
+  const templateName =
+    "hello_world";
 
   console.log(
     "WHATSAPP_CONFIG_OK",
     JSON.stringify({
-      recipient: recipient,
+
+      recipient:
+        recipient,
+
       phone_number_id_exists:
         !!env.WHATSAPP_PHONE_NUMBER_ID,
+
       access_token_exists:
         !!env.WHATSAPP_ACCESS_TOKEN,
+
       template:
         templateName
+
     })
   );
 
@@ -204,7 +630,9 @@ async function sendOrderToWhatsApp(order, env) {
 
     result =
       rawResponse
-        ? JSON.parse(rawResponse)
+        ? JSON.parse(
+            rawResponse
+          )
         : {};
 
   } catch {
@@ -251,10 +679,12 @@ async function sendOrderToWhatsApp(order, env) {
           metaError,
 
         code:
-          result?.error?.code || null,
+          result?.error?.code ||
+          null,
 
         error_subcode:
-          result?.error?.error_subcode || null
+          result?.error?.error_subcode ||
+          null
 
       })
     );
@@ -266,7 +696,9 @@ async function sendOrderToWhatsApp(order, env) {
   }
 
   const messageId =
-    result?.messages?.[0]?.id || null;
+    result
+      ?.messages?.[0]?.id ||
+    null;
 
   console.log(
     "WHATSAPP_SUCCESS",
@@ -292,10 +724,477 @@ async function sendOrderToWhatsApp(order, env) {
 
 export default {
 
-  async fetch(request, env) {
+  async fetch(
+    request,
+    env
+  ) {
 
     const url =
-      new URL(request.url);
+      new URL(
+        request.url
+      );
+
+
+    /* =====================================================
+       API: إنشاء حساب عميل
+    ===================================================== */
+
+    if (
+      url.pathname ===
+        "/api/customer-register" &&
+      request.method ===
+        "POST"
+    ) {
+
+      try {
+
+        const data =
+          await request.json();
+
+        const name =
+          String(
+            data.name || ""
+          ).trim();
+
+        const phone =
+          normalizePhone(
+            data.phone
+          );
+
+        const password =
+          String(
+            data.password || ""
+          );
+
+        if (
+          !name ||
+          !phone ||
+          !password
+        ) {
+
+          return Response.json(
+            {
+              error:
+                "الاسم ورقم الهاتف وكلمة المرور مطلوبة"
+            },
+            {
+              status: 400
+            }
+          );
+
+        }
+
+        if (
+          password.length < 6
+        ) {
+
+          return Response.json(
+            {
+              error:
+                "كلمة المرور يجب أن تكون 6 أحرف أو أرقام على الأقل"
+            },
+            {
+              status: 400
+            }
+          );
+
+        }
+
+        const existing =
+          await env.DB
+            .prepare(`
+              SELECT id
+              FROM customers
+              WHERE phone = ?
+              LIMIT 1
+            `)
+            .bind(
+              phone
+            )
+            .first();
+
+        if (existing) {
+
+          return Response.json(
+            {
+              error:
+                "رقم الهاتف مسجل مسبقًا"
+            },
+            {
+              status: 409
+            }
+          );
+
+        }
+
+        const passwordData =
+          await hashPassword(
+            password
+          );
+
+        const passwordHash =
+          `${passwordData.salt}:${passwordData.hash}`;
+
+        const result =
+          await env.DB
+            .prepare(`
+              INSERT INTO customers
+              (
+                phone,
+                password_hash,
+                name,
+                created_at
+              )
+              VALUES (?, ?, ?, ?)
+            `)
+            .bind(
+
+              phone,
+
+              passwordHash,
+
+              name,
+
+              new Date()
+                .toISOString()
+
+            )
+            .run();
+
+        const customerId =
+          result.meta
+            .last_row_id;
+
+        const session =
+          await createCustomerSession(
+            customerId,
+            env
+          );
+
+        return new Response(
+          JSON.stringify({
+
+            success:
+              true,
+
+            customer: {
+
+              id:
+                customerId,
+
+              name:
+                name,
+
+              phone:
+                phone
+
+            }
+
+          }),
+          {
+            status: 200,
+
+            headers: {
+
+              "Content-Type":
+                "application/json",
+
+              "Set-Cookie":
+                `hz_customer=${encodeURIComponent(session)}; ` +
+                `Path=/; ` +
+                `HttpOnly; ` +
+                `Secure; ` +
+                `SameSite=Strict; ` +
+                `Max-Age=604800`
+
+            }
+
+          }
+        );
+
+      } catch (error) {
+
+        console.error(
+          "CUSTOMER_REGISTER_ERROR",
+          error.message
+        );
+
+        return Response.json(
+          {
+            error:
+              "تعذر إنشاء الحساب"
+          },
+          {
+            status: 500
+          }
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       API: تسجيل دخول العميل
+    ===================================================== */
+
+    if (
+      url.pathname ===
+        "/api/customer-login" &&
+      request.method ===
+        "POST"
+    ) {
+
+      try {
+
+        const data =
+          await request.json();
+
+        const phone =
+          normalizePhone(
+            data.phone
+          );
+
+        const password =
+          String(
+            data.password || ""
+          );
+
+        if (
+          !phone ||
+          !password
+        ) {
+
+          return Response.json(
+            {
+              error:
+                "رقم الهاتف وكلمة المرور مطلوبان"
+            },
+            {
+              status: 400
+            }
+          );
+
+        }
+
+        const customer =
+          await env.DB
+            .prepare(`
+              SELECT
+                id,
+                name,
+                phone,
+                password_hash
+              FROM customers
+              WHERE phone = ?
+              LIMIT 1
+            `)
+            .bind(
+              phone
+            )
+            .first();
+
+        if (!customer) {
+
+          return Response.json(
+            {
+              error:
+                "رقم الهاتف أو كلمة المرور غير صحيحة"
+            },
+            {
+              status: 401
+            }
+          );
+
+        }
+
+        const valid =
+          await verifyPassword(
+            password,
+            customer.password_hash
+          );
+
+        if (!valid) {
+
+          return Response.json(
+            {
+              error:
+                "رقم الهاتف أو كلمة المرور غير صحيحة"
+            },
+            {
+              status: 401
+            }
+          );
+
+        }
+
+        const session =
+          await createCustomerSession(
+            customer.id,
+            env
+          );
+
+        return new Response(
+          JSON.stringify({
+
+            success:
+              true,
+
+            customer: {
+
+              id:
+                customer.id,
+
+              name:
+                customer.name,
+
+              phone:
+                customer.phone
+
+            }
+
+          }),
+          {
+            status: 200,
+
+            headers: {
+
+              "Content-Type":
+                "application/json",
+
+              "Set-Cookie":
+                `hz_customer=${encodeURIComponent(session)}; ` +
+                `Path=/; ` +
+                `HttpOnly; ` +
+                `Secure; ` +
+                `SameSite=Strict; ` +
+                `Max-Age=604800`
+
+            }
+
+          }
+        );
+
+      } catch (error) {
+
+        console.error(
+          "CUSTOMER_LOGIN_ERROR",
+          error.message
+        );
+
+        return Response.json(
+          {
+            error:
+              "حدث خطأ في تسجيل الدخول"
+          },
+          {
+            status: 500
+          }
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       API: معرفة العميل الحالي
+    ===================================================== */
+
+    if (
+      url.pathname ===
+        "/api/customer-me" &&
+      request.method ===
+        "GET"
+    ) {
+
+      try {
+
+        const customer =
+          await verifyCustomerSession(
+            request,
+            env
+          );
+
+        if (!customer) {
+
+          return Response.json({
+            logged_in:
+              false
+          });
+
+        }
+
+        return Response.json({
+
+          logged_in:
+            true,
+
+          customer: {
+
+            id:
+              customer.id,
+
+            name:
+              customer.name,
+
+            phone:
+              customer.phone
+
+          }
+
+        });
+
+      } catch {
+
+        return Response.json({
+          logged_in:
+            false
+        });
+
+      }
+
+    }
+
+
+    /* =====================================================
+       API: تسجيل خروج العميل
+    ===================================================== */
+
+    if (
+      url.pathname ===
+        "/api/customer-logout" &&
+      request.method ===
+        "POST"
+    ) {
+
+      return new Response(
+        JSON.stringify({
+          success:
+            true
+        }),
+        {
+          status: 200,
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            "Set-Cookie":
+              "hz_customer=; " +
+              "Path=/; " +
+              "HttpOnly; " +
+              "Secure; " +
+              "SameSite=Strict; " +
+              "Max-Age=0"
+
+          }
+
+        }
+      );
+
+    }
 
 
     /* =====================================================
@@ -332,17 +1231,22 @@ export default {
 
     if (
       url.pathname ===
-      "/api/upload-image" &&
-      request.method === "POST"
+        "/api/upload-image" &&
+      request.method ===
+        "POST"
     ) {
 
       try {
 
         const cookie =
-          request.headers.get("Cookie") || "";
+          request.headers.get(
+            "Cookie"
+          ) || "";
 
         if (
-          !cookie.includes("hz_admin=")
+          !cookie.includes(
+            "hz_admin="
+          )
         ) {
 
           return Response.json(
@@ -361,7 +1265,9 @@ export default {
           await request.formData();
 
         const file =
-          formData.get("image");
+          formData.get(
+            "image"
+          );
 
         if (
           !file ||
@@ -438,8 +1344,9 @@ export default {
 
     if (
       url.pathname ===
-      "/api/admin-login" &&
-      request.method === "POST"
+        "/api/admin-login" &&
+      request.method ===
+        "POST"
     ) {
 
       try {
@@ -572,15 +1479,41 @@ export default {
 
     /* =====================================================
        API: إنشاء طلب جديد
+       الآن الطلب يحتاج تسجيل دخول العميل
     ===================================================== */
 
     if (
       url.pathname ===
-      "/api/orders" &&
-      request.method === "POST"
+        "/api/orders" &&
+      request.method ===
+        "POST"
     ) {
 
       try {
+
+        /*
+           التحقق من تسجيل دخول العميل
+        */
+
+        const customer =
+          await verifyCustomerSession(
+            request,
+            env
+          );
+
+        if (!customer) {
+
+          return Response.json(
+            {
+              error:
+                "يجب تسجيل الدخول قبل إتمام الطلب"
+            },
+            {
+              status: 401
+            }
+          );
+
+        }
 
         const data =
           await request.json();
@@ -682,13 +1615,19 @@ export default {
             .run();
 
         const orderId =
-          result.meta.last_row_id;
+          result.meta
+            .last_row_id;
 
         console.log(
           "ORDER_SAVED",
           JSON.stringify({
+
             order_id:
-              orderId
+              orderId,
+
+            customer_id:
+              customer.id
+
           })
         );
 
@@ -798,6 +1737,9 @@ export default {
             order_id:
               orderId,
 
+            customer_id:
+              customer.id,
+
             whatsapp_sent:
               whatsappSent,
 
@@ -857,14 +1799,17 @@ export default {
 
     if (
       url.pathname ===
-      "/api/orders" &&
-      request.method === "GET"
+        "/api/orders" &&
+      request.method ===
+        "GET"
     ) {
 
       try {
 
         const cookie =
-          request.headers.get("Cookie") || "";
+          request.headers.get(
+            "Cookie"
+          ) || "";
 
         const match =
           cookie.match(
@@ -921,14 +1866,17 @@ export default {
 
     if (
       url.pathname ===
-      "/api/orders" &&
-      request.method === "PUT"
+        "/api/orders" &&
+      request.method ===
+        "PUT"
     ) {
 
       try {
 
         const cookie =
-          request.headers.get("Cookie") || "";
+          request.headers.get(
+            "Cookie"
+          ) || "";
 
         const match =
           cookie.match(
@@ -1038,50 +1986,33 @@ export default {
               )
               .all();
 
-
-          /*
-             تجهيز الصور لكل منتج
-
-             المنتجات القديمة:
-             image = "https://..."
-
-             المنتجات الجديدة:
-             image = '["url1","url2","url3"]'
-          */
-
           const products =
-            results.map(product => {
+            results.map(
+              product => {
 
-              const images =
-                normalizeImages(
-                  product.image
-                );
+                const images =
+                  normalizeImages(
+                    product.image
+                  );
 
-              return {
+                return {
 
-                ...product,
+                  ...product,
 
-                images:
+                  images:
+                    images,
 
-                  images,
+                  image:
+                    images[0] || ""
 
-                /*
-                  نبقي image موجودًا
-                  حتى لا ينكسر أي كود قديم.
-                */
+                };
 
-                image:
-                  images[0] || ""
-
-              };
-
-            });
-
+              }
+            );
 
           return Response.json(
             products
           );
-
 
         } catch (error) {
 
@@ -1105,12 +2036,16 @@ export default {
       =================================================== */
 
       if (
-        request.method === "POST" ||
-        request.method === "PUT"
+        request.method ===
+          "POST" ||
+        request.method ===
+          "PUT"
       ) {
 
         const cookie =
-          request.headers.get("Cookie") || "";
+          request.headers.get(
+            "Cookie"
+          ) || "";
 
         const match =
           cookie.match(
@@ -1131,17 +2066,16 @@ export default {
 
         }
 
-
         try {
 
           const data =
             await request.json();
 
-
           if (
             !data.name ||
             !data.category ||
-            data.price === undefined
+            data.price ===
+              undefined
           ) {
 
             return Response.json(
@@ -1156,18 +2090,7 @@ export default {
 
           }
 
-
-          /* =================================================
-             تجهيز الصور
-          ================================================= */
-
           let images = [];
-
-
-          /*
-             النظام الجديد:
-             images: ["url1","url2","url3"]
-          */
 
           if (
             Array.isArray(
@@ -1182,12 +2105,6 @@ export default {
 
           }
 
-
-          /*
-             توافق مع النظام القديم:
-             image: "url"
-          */
-
           else if (
             data.image
           ) {
@@ -1199,17 +2116,12 @@ export default {
 
           }
 
-
-          /*
-             تخزين الصور داخل نفس
-             عمود image في D1
-          */
-
           const imagesValue =
             images.length
-              ? JSON.stringify(images)
+              ? JSON.stringify(
+                  images
+                )
               : "";
-
 
           /* =================================================
              إضافة منتج
@@ -1259,7 +2171,7 @@ export default {
 
                   Number(
                     data.stock ||
-                    0
+                      0
                   ),
 
                   data.badge ||
@@ -1267,7 +2179,6 @@ export default {
 
                 )
                 .run();
-
 
             return Response.json({
 
@@ -1281,7 +2192,6 @@ export default {
             });
 
           }
-
 
           /* =================================================
              تعديل منتج
@@ -1300,7 +2210,6 @@ export default {
             );
 
           }
-
 
           await env.DB
             .prepare(`
@@ -1339,7 +2248,7 @@ export default {
 
               Number(
                 data.stock ||
-                0
+                  0
               ),
 
               data.badge ||
@@ -1352,12 +2261,10 @@ export default {
             )
             .run();
 
-
           return Response.json({
             success:
               true
           });
-
 
         } catch (error) {
 
@@ -1386,7 +2293,9 @@ export default {
       ) {
 
         const cookie =
-          request.headers.get("Cookie") || "";
+          request.headers.get(
+            "Cookie"
+          ) || "";
 
         const match =
           cookie.match(
