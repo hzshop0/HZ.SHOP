@@ -500,7 +500,8 @@ border:1px solid #ddd8ce;
 transition:.3s;
 overflow:hidden;
 border-radius:6px;
-min-width:0
+min-width:0;
+cursor:pointer
 }
 
 .product:hover{
@@ -642,94 +643,145 @@ cursor:not-allowed;
 border-radius:4px
 }
 
-/* FLOATING CART */
+/* PRODUCT DETAILS */
 
-.floating-cart{
-position:fixed;
-bottom:22px;
-right:22px;
-z-index:1800;
+.product-details-modal{
 display:none;
+position:fixed;
+inset:0;
+z-index:2800;
+background:rgba(40,35,25,.48);
 align-items:center;
-gap:10px;
-min-width:185px;
-height:54px;
-padding:0 16px;
-background:rgba(255,253,249,.97);
+justify-content:center;
+padding:20px
+}
+
+.product-details-modal.show{
+display:flex
+}
+
+.product-details-box{
+width:900px;
+max-width:100%;
+max-height:92vh;
+overflow:auto;
+background:#fffdf9;
 border:1px solid var(--gold);
-border-radius:30px;
-box-shadow:0 12px 35px rgba(60,50,30,.20);
-color:#403d37;
-cursor:pointer;
-transition:.25s;
-backdrop-filter:blur(12px)
+border-radius:8px;
+position:relative
 }
 
-.floating-cart.show{
-display:flex;
-animation:cartFloatIn .25s ease
-}
-
-.floating-cart:hover{
-transform:translateY(-3px);
-box-shadow:0 16px 40px rgba(60,50,30,.25)
-}
-
-.floating-cart-icon{
-width:36px;
-height:36px;
+.product-details-close{
+position:absolute;
+top:12px;
+left:12px;
+width:42px;
+height:42px;
 border-radius:50%;
+border:1px solid #ddd8ce;
+background:#fffdf9;
+color:#77736b;
+font-size:26px;
+z-index:5
+}
+
+.product-details-content{
+display:grid;
+grid-template-columns:1fr 1fr;
+min-height:500px
+}
+
+.product-details-image{
+min-height:500px;
 display:flex;
 align-items:center;
 justify-content:center;
-background:linear-gradient(135deg,#a47e27,#d2b15c,#a47e27);
-color:#fff;
-font-size:17px;
-flex-shrink:0
+background:
+radial-gradient(circle,rgba(176,141,53,.12),transparent 50%),
+#f1eee7;
+overflow:hidden
 }
 
-.floating-cart-info{
-display:flex;
-flex-direction:column;
-align-items:flex-start;
-line-height:1.3;
-flex:1
+.product-details-image img{
+width:100%;
+height:100%;
+min-height:500px;
+object-fit:cover
 }
 
-.floating-cart-title{
-font-size:11px;
-color:#77736b
-}
-
-.floating-cart-total{
-font-size:15px;
-font-weight:bold;
-color:#9a7828
-}
-
-.floating-cart-count{
-min-width:23px;
-height:23px;
-padding:0 6px;
-border-radius:50%;
-background:#b08d35;
-color:#fff;
-font-size:10px;
-font-weight:bold;
+.product-details-bottle{
+width:190px;
+height:300px;
+border:1px solid rgba(176,141,53,.55);
+background:linear-gradient(145deg,#eeeae1,#d9d4c8);
+box-shadow:0 25px 50px rgba(60,50,30,.16);
 display:flex;
 align-items:center;
-justify-content:center
+justify-content:center;
+text-align:center;
+color:#9a7828;
+font-weight:bold;
+font-size:20px;
+padding:20px
 }
 
-@keyframes cartFloatIn{
-from{
-opacity:0;
-transform:translateY(15px)
+.product-details-info{
+padding:50px 35px 35px
 }
-to{
-opacity:1;
-transform:translateY(0)
+
+.product-details-category{
+font-size:11px;
+color:#a27f25;
+margin-bottom:12px
 }
+
+.product-details-name{
+font-size:32px;
+color:#302e29;
+margin-bottom:15px;
+line-height:1.3
+}
+
+.product-details-description{
+font-size:14px;
+color:#77736b;
+line-height:2;
+margin-bottom:25px;
+white-space:pre-line
+}
+
+.product-details-price{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:20px
+}
+
+.product-details-price strong{
+font-size:28px;
+color:#a27f25
+}
+
+.product-details-price del{
+font-size:14px;
+color:#aaa59b
+}
+
+.product-details-stock{
+font-size:12px;
+color:#77736b;
+margin-bottom:22px
+}
+
+.product-details-add{
+width:100%;
+padding:15px;
+border:0;
+background:linear-gradient(135deg,#a47e27,#d2b15c,#a47e27);
+color:#fff;
+font-weight:bold;
+border-radius:4px;
+font-size:14px
 }
 
 /* CART */
@@ -1214,7 +1266,7 @@ grid-template-columns:repeat(2,1fr)
 
 }
 
-/* MOBILE APP STYLE */
+/* MOBILE */
 
 @media(max-width:750px){
 
@@ -1508,6 +1560,62 @@ height:125px;
 font-size:9px
 }
 
+/* DETAILS MOBILE */
+
+.product-details-modal{
+padding:10px;
+align-items:flex-end
+}
+
+.product-details-box{
+width:100%;
+max-width:100%;
+max-height:94vh;
+border-radius:10px 10px 0 0
+}
+
+.product-details-content{
+display:block;
+min-height:0
+}
+
+.product-details-image{
+height:300px;
+min-height:300px
+}
+
+.product-details-image img{
+height:300px;
+min-height:300px
+}
+
+.product-details-bottle{
+width:130px;
+height:210px;
+font-size:14px
+}
+
+.product-details-info{
+padding:25px 18px 20px
+}
+
+.product-details-name{
+font-size:24px
+}
+
+.product-details-description{
+font-size:12px;
+line-height:1.9
+}
+
+.product-details-price strong{
+font-size:23px
+}
+
+.product-details-add{
+min-height:48px
+}
+
 .cart{
 left:-100%;
 width:92%;
@@ -1533,31 +1641,6 @@ padding:15px
 
 .checkout{
 min-height:48px
-}
-
-/* FLOATING CART MOBILE */
-
-.floating-cart{
-right:12px;
-left:12px;
-bottom:14px;
-width:auto;
-min-width:0;
-height:52px;
-justify-content:center;
-padding:0 14px
-}
-
-.floating-cart-info{
-align-items:flex-start
-}
-
-.floating-cart-title{
-font-size:10px
-}
-
-.floating-cart-total{
-font-size:14px
 }
 
 .modal{
@@ -1633,7 +1716,7 @@ font-size:11px
 .toast{
 left:12px;
 right:12px;
-bottom:78px;
+bottom:15px;
 text-align:center;
 font-size:12px
 }
@@ -2039,37 +2122,31 @@ id="products">
 
 </section>
 
-<!-- السلة المتحركة -->
+<!-- PRODUCT DETAILS MODAL -->
+
+<div
+class="product-details-modal"
+id="productDetailsModal"
+onclick="closeProductDetails(event)">
+
+<div
+class="product-details-box"
+onclick="event.stopPropagation()">
+
 <button
-class="floating-cart"
-id="floatingCart"
-onclick="openCart()">
-
-<div class="floating-cart-icon">
-🛒
-</div>
-
-<div class="floating-cart-info">
-
-<span class="floating-cart-title">
-سلة التسوق
-</span>
-
-<strong
-class="floating-cart-total"
-id="floatingCartTotal">
-$0.00
-</strong>
-
-</div>
-
-<span
-class="floating-cart-count"
-id="floatingCartCount">
-0
-</span>
-
+class="product-details-close"
+onclick="closeProductDetails()">
+×
 </button>
+
+<div
+class="product-details-content"
+id="productDetailsContent">
+</div>
+
+</div>
+
+</div>
 
 <div
 class="overlay"
@@ -2780,7 +2857,9 @@ p.stock>0 || p.stock===0;
 
 box.innerHTML+=`
 
-<article class="product">
+<article
+class="product"
+onclick="openProductDetails(${p.id})">
 
 <div class="product-image">
 
@@ -2795,7 +2874,7 @@ ${escapeHtml(p.badge)}
 
 <button
 class="heart ${fav?"active":""}"
-onclick="toggleFav(${p.id})">
+onclick="event.stopPropagation();toggleFav(${p.id})">
 ${fav?"♥":"♡"}
 </button>
 
@@ -2840,7 +2919,7 @@ canBuy
 `
 <button
 class="add"
-onclick="add(${p.id})">
+onclick="event.stopPropagation();add(${p.id})">
 🛒 أضف إلى السلة
 </button>
 `
@@ -2848,7 +2927,8 @@ onclick="add(${p.id})">
 `
 <button
 class="out-of-stock"
-disabled>
+disabled
+onclick="event.stopPropagation()">
 غير متوفر
 </button>
 `
@@ -2861,6 +2941,169 @@ disabled>
 `;
 
 });
+
+}
+
+
+/* ====================================================
+   تفاصيل المنتج
+==================================================== */
+
+function openProductDetails(id){
+
+const product=
+products.find(
+x=>x.id===Number(id)
+);
+
+if(!product){
+
+toast("المنتج غير موجود");
+
+return;
+
+}
+
+const modal=
+document.getElementById(
+"productDetailsModal"
+);
+
+const content=
+document.getElementById(
+"productDetailsContent"
+);
+
+const hasImage=
+product.image &&
+product.image.trim()!=="";
+
+const imageHtml=
+hasImage
+?
+`
+<img
+src="${escapeHtml(product.image)}"
+alt="${escapeHtml(product.name)}"
+onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+>
+<div
+class="product-details-bottle"
+style="display:none">
+${escapeHtml(product.name)}
+</div>
+`
+:
+`
+<div class="product-details-bottle">
+${escapeHtml(product.name)}
+</div>
+`;
+
+const stockText=
+product.stock>0
+?
+"✓ المنتج متوفر"
+:
+"✓ المنتج متوفر";
+
+content.innerHTML=`
+
+<div class="product-details-image">
+
+${imageHtml}
+
+</div>
+
+<div class="product-details-info">
+
+<div class="product-details-category">
+${escapeHtml(product.categoryName)}
+</div>
+
+<h2 class="product-details-name">
+${escapeHtml(product.name)}
+</h2>
+
+<div class="product-details-description">
+${escapeHtml(
+product.description ||
+"لا يوجد وصف إضافي لهذا المنتج حاليًا."
+)}
+</div>
+
+<div class="product-details-price">
+
+<strong>
+$${Number(product.price).toFixed(2)}
+</strong>
+
+${
+product.old !== null &&
+!isNaN(product.old)
+?
+`
+<del>
+$${Number(product.old).toFixed(2)}
+</del>
+`
+:
+""
+}
+
+</div>
+
+<div class="product-details-stock">
+${stockText}
+</div>
+
+<button
+class="product-details-add"
+onclick="addFromDetails(${product.id})">
+🛒 أضف إلى السلة
+</button>
+
+</div>
+
+`;
+
+modal.classList.add("show");
+
+document.body.style.overflow="hidden";
+
+}
+
+
+function addFromDetails(id){
+
+add(id);
+
+closeProductDetails();
+
+}
+
+
+function closeProductDetails(event){
+
+if(
+event &&
+event.target !==
+document.getElementById(
+"productDetailsModal"
+)
+){
+
+return;
+
+}
+
+document
+.getElementById(
+"productDetailsModal"
+)
+.classList.remove("show");
+
+document.body.style.overflow="";
 
 }
 
@@ -3055,49 +3298,6 @@ document
 .getElementById("cartCount")
 .textContent=count;
 
-
-/* تحديث السلة المتحركة */
-
-const floatingCart=
-document.getElementById("floatingCart");
-
-const floatingCount=
-document.getElementById("floatingCartCount");
-
-const floatingTotal=
-document.getElementById("floatingCartTotal");
-
-const subtotal=
-cart.reduce(
-(a,b)=>
-a+
-Number(b.price)*
-Number(b.quantity),
-0
-);
-
-const discount=
-subtotal*discountRate;
-
-const total=
-subtotal-discount;
-
-floatingCount.textContent=count;
-
-floatingTotal.textContent=
-"$"+total.toFixed(2);
-
-if(count>0){
-
-floatingCart.classList.add("show");
-
-}else{
-
-floatingCart.classList.remove("show");
-
-}
-
-
 if(!cart.length){
 
 box.innerHTML=
@@ -3214,19 +3414,6 @@ document
 .textContent=
 "$"+total.toFixed(2);
 
-
-/* تحديث السعر في السلة المتحركة أيضًا */
-
-const floatingTotal=
-document.getElementById("floatingCartTotal");
-
-if(floatingTotal){
-
-floatingTotal.textContent=
-"$"+total.toFixed(2);
-
-}
-
 }
 
 
@@ -3240,12 +3427,6 @@ document
 .getElementById("overlay")
 .classList.add("show");
 
-/* إخفاء السلة المتحركة أثناء فتح السلة */
-
-document
-.getElementById("floatingCart")
-.classList.remove("show");
-
 }
 
 
@@ -3258,22 +3439,6 @@ document
 document
 .getElementById("overlay")
 .classList.remove("show");
-
-/* إظهار السلة المتحركة مجددًا إذا كانت تحتوي منتجات */
-
-const count=
-cart.reduce(
-(a,b)=>a+b.quantity,
-0
-);
-
-if(count>0){
-
-document
-.getElementById("floatingCart")
-.classList.add("show");
-
-}
 
 }
 
@@ -3479,14 +3644,6 @@ selectedPayment=type;
 }
 
 
-/*
-====================================================
-تحديد طريقة إتمام الطلب حسب الجهاز
-الهاتف = WhatsApp
-الكمبيوتر = قاعدة البيانات
-====================================================
-*/
-
 function isMobileDevice(){
 
 return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -3518,12 +3675,6 @@ computerButton.style.display="block";
 
 }
 
-
-/*
-====================================================
-جمع معلومات الطلب
-====================================================
-*/
 
 function getOrderData(){
 
@@ -3633,12 +3784,6 @@ total:Number(total.toFixed(2))
 }
 
 
-/*
-====================================================
-إرسال الطلب عبر WhatsApp — الهاتف
-====================================================
-*/
-
 function sendWhatsApp(){
 
 const order=
@@ -3740,12 +3885,6 @@ url,
 }
 
 
-/*
-====================================================
-حفظ طلب الكمبيوتر في D1
-====================================================
-*/
-
 async function submitComputerOrder(){
 
 const order=
@@ -3795,21 +3934,11 @@ data.error ||
 
 }
 
-
-/*
-إفراغ السلة بعد نجاح الطلب
-*/
-
 cart=[];
 
 save();
 
 renderCart();
-
-
-/*
-عرض رسالة نجاح
-*/
 
 const modalBox=
 document.querySelector(
@@ -3877,12 +4006,6 @@ button.textContent=
 }
 
 
-/*
-====================================================
-بعد نجاح طلب الكمبيوتر
-====================================================
-*/
-
 function finishComputerOrder(){
 
 document
@@ -3893,12 +4016,6 @@ location.reload();
 
 }
 
-
-/*
-====================================================
-رسالة صغيرة
-====================================================
-*/
 
 function toast(message){
 
@@ -3918,12 +4035,6 @@ box.classList.remove("show");
 
 }
 
-
-/*
-====================================================
-حماية النصوص
-====================================================
-*/
 
 function escapeHtml(value){
 
@@ -3956,12 +4067,6 @@ return String(value)
 
 }
 
-
-/*
-====================================================
-تشغيل المتجر
-====================================================
-*/
 
 renderCart();
 
