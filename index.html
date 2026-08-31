@@ -963,6 +963,49 @@ font-weight:bold;
 border-radius:4px
 }
 
+/* FLOATING CART */
+
+.floating-cart{
+position:fixed;
+bottom:22px;
+left:22px;
+z-index:1800;
+width:58px;
+height:58px;
+border-radius:50%;
+border:1px solid var(--gold);
+background:linear-gradient(135deg,#a47e27,#d2b15c,#a47e27);
+color:#fff;
+font-size:22px;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 8px 25px rgba(60,50,30,.22);
+transition:.25s
+}
+
+.floating-cart:hover{
+transform:translateY(-3px) scale(1.04);
+box-shadow:0 12px 30px rgba(60,50,30,.28)
+}
+
+.floating-cart .floating-cart-badge{
+position:absolute;
+top:-5px;
+right:-4px;
+width:22px;
+height:22px;
+border-radius:50%;
+background:#292722;
+color:#fff;
+font-size:10px;
+font-weight:bold;
+display:flex;
+align-items:center;
+justify-content:center;
+border:2px solid #fffdf9
+}
+
 /* MODAL */
 
 .modal{
@@ -1643,6 +1686,16 @@ padding:15px
 min-height:48px
 }
 
+/* FLOATING CART MOBILE */
+
+.floating-cart{
+left:15px;
+bottom:18px;
+width:56px;
+height:56px;
+font-size:21px
+}
+
 .modal{
 padding:10px;
 align-items:flex-end
@@ -2215,6 +2268,23 @@ onclick="checkout()">
 </div>
 
 </aside>
+
+<!-- FLOATING CART -->
+
+<button
+class="floating-cart"
+onclick="openCart()"
+aria-label="فتح السلة">
+
+🛒
+
+<span
+class="floating-cart-badge"
+id="floatingCartCount">
+0
+</span>
+
+</button>
 
 <div
 class="modal"
@@ -3296,6 +3366,10 @@ cart.reduce(
 
 document
 .getElementById("cartCount")
+.textContent=count;
+
+document
+.getElementById("floatingCartCount")
 .textContent=count;
 
 if(!cart.length){
