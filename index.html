@@ -642,6 +642,96 @@ cursor:not-allowed;
 border-radius:4px
 }
 
+/* FLOATING CART */
+
+.floating-cart{
+position:fixed;
+bottom:22px;
+right:22px;
+z-index:1800;
+display:none;
+align-items:center;
+gap:10px;
+min-width:185px;
+height:54px;
+padding:0 16px;
+background:rgba(255,253,249,.97);
+border:1px solid var(--gold);
+border-radius:30px;
+box-shadow:0 12px 35px rgba(60,50,30,.20);
+color:#403d37;
+cursor:pointer;
+transition:.25s;
+backdrop-filter:blur(12px)
+}
+
+.floating-cart.show{
+display:flex;
+animation:cartFloatIn .25s ease
+}
+
+.floating-cart:hover{
+transform:translateY(-3px);
+box-shadow:0 16px 40px rgba(60,50,30,.25)
+}
+
+.floating-cart-icon{
+width:36px;
+height:36px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#a47e27,#d2b15c,#a47e27);
+color:#fff;
+font-size:17px;
+flex-shrink:0
+}
+
+.floating-cart-info{
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+line-height:1.3;
+flex:1
+}
+
+.floating-cart-title{
+font-size:11px;
+color:#77736b
+}
+
+.floating-cart-total{
+font-size:15px;
+font-weight:bold;
+color:#9a7828
+}
+
+.floating-cart-count{
+min-width:23px;
+height:23px;
+padding:0 6px;
+border-radius:50%;
+background:#b08d35;
+color:#fff;
+font-size:10px;
+font-weight:bold;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+@keyframes cartFloatIn{
+from{
+opacity:0;
+transform:translateY(15px)
+}
+to{
+opacity:1;
+transform:translateY(0)
+}
+}
+
 /* CART */
 
 .overlay{
@@ -988,8 +1078,6 @@ border:0;
 font-weight:bold;
 border-radius:4px
 }
-
-/* COMPUTER ORDER BUTTON */
 
 .computer-order{
 flex:1;
@@ -1447,6 +1535,31 @@ padding:15px
 min-height:48px
 }
 
+/* FLOATING CART MOBILE */
+
+.floating-cart{
+right:12px;
+left:12px;
+bottom:14px;
+width:auto;
+min-width:0;
+height:52px;
+justify-content:center;
+padding:0 14px
+}
+
+.floating-cart-info{
+align-items:flex-start
+}
+
+.floating-cart-title{
+font-size:10px
+}
+
+.floating-cart-total{
+font-size:14px
+}
+
 .modal{
 padding:10px;
 align-items:flex-end
@@ -1520,7 +1633,7 @@ font-size:11px
 .toast{
 left:12px;
 right:12px;
-bottom:15px;
+bottom:78px;
 text-align:center;
 font-size:12px
 }
@@ -1925,6 +2038,38 @@ id="products">
 </div>
 
 </section>
+
+<!-- السلة المتحركة -->
+<button
+class="floating-cart"
+id="floatingCart"
+onclick="openCart()">
+
+<div class="floating-cart-icon">
+🛒
+</div>
+
+<div class="floating-cart-info">
+
+<span class="floating-cart-title">
+سلة التسوق
+</span>
+
+<strong
+class="floating-cart-total"
+id="floatingCartTotal">
+$0.00
+</strong>
+
+</div>
+
+<span
+class="floating-cart-count"
+id="floatingCartCount">
+0
+</span>
+
+</button>
 
 <div
 class="overlay"
@@ -2910,6 +3055,49 @@ document
 .getElementById("cartCount")
 .textContent=count;
 
+
+/* تحديث السلة المتحركة */
+
+const floatingCart=
+document.getElementById("floatingCart");
+
+const floatingCount=
+document.getElementById("floatingCartCount");
+
+const floatingTotal=
+document.getElementById("floatingCartTotal");
+
+const subtotal=
+cart.reduce(
+(a,b)=>
+a+
+Number(b.price)*
+Number(b.quantity),
+0
+);
+
+const discount=
+subtotal*discountRate;
+
+const total=
+subtotal-discount;
+
+floatingCount.textContent=count;
+
+floatingTotal.textContent=
+"$"+total.toFixed(2);
+
+if(count>0){
+
+floatingCart.classList.add("show");
+
+}else{
+
+floatingCart.classList.remove("show");
+
+}
+
+
 if(!cart.length){
 
 box.innerHTML=
@@ -3026,6 +3214,19 @@ document
 .textContent=
 "$"+total.toFixed(2);
 
+
+/* تحديث السعر في السلة المتحركة أيضًا */
+
+const floatingTotal=
+document.getElementById("floatingCartTotal");
+
+if(floatingTotal){
+
+floatingTotal.textContent=
+"$"+total.toFixed(2);
+
+}
+
 }
 
 
@@ -3039,6 +3240,12 @@ document
 .getElementById("overlay")
 .classList.add("show");
 
+/* إخفاء السلة المتحركة أثناء فتح السلة */
+
+document
+.getElementById("floatingCart")
+.classList.remove("show");
+
 }
 
 
@@ -3051,6 +3258,22 @@ document
 document
 .getElementById("overlay")
 .classList.remove("show");
+
+/* إظهار السلة المتحركة مجددًا إذا كانت تحتوي منتجات */
+
+const count=
+cart.reduce(
+(a,b)=>a+b.quantity,
+0
+);
+
+if(count>0){
+
+document
+.getElementById("floatingCart")
+.classList.add("show");
+
+}
 
 }
 
