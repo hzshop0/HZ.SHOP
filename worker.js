@@ -38,6 +38,54 @@ async function uploadImageToGitHub(file, env) {
 
 
 /* =========================================================
+   تحويل قيمة الصور إلى مصفوفة
+   يدعم:
+   - صورة قديمة كرابط واحد
+   - JSON array من الصور الجديدة
+========================================================= */
+
+function normalizeImages(value) {
+
+  if (!value) {
+    return [];
+  }
+
+  if (Array.isArray(value)) {
+    return value
+      .filter(Boolean)
+      .map(String);
+  }
+
+  if (typeof value === "string") {
+
+    const trimmed = value.trim();
+
+    if (!trimmed) {
+      return [];
+    }
+
+    try {
+
+      const parsed = JSON.parse(trimmed);
+
+      if (Array.isArray(parsed)) {
+        return parsed
+          .filter(Boolean)
+          .map(String);
+      }
+
+    } catch {
+      // القيمة صورة واحدة قديمة
+    }
+
+    return [trimmed];
+  }
+
+  return [];
+}
+
+
+/* =========================================================
    WHATSAPP
    إرسال Template بدل text
 ========================================================= */
@@ -56,22 +104,9 @@ async function sendOrderToWhatsApp(order, env) {
     throw new Error("WHATSAPP_PHONE_NUMBER_ID غير موجود");
   }
 
-
-  /*
-    رقم المستلم في Meta
-    بدون + أو مسافات
-  */
-
   const recipient = "96171142827";
 
-
-  /*
-    قالب Meta التجريبي الذي أثبتنا أنه يعمل.
-    سنستبدله لاحقًا بقالب HZ.SHOP الخاص بالطلبات.
-  */
-
   const templateName = "hello_world";
-
 
   console.log(
     "WHATSAPP_CONFIG_OK",
@@ -86,18 +121,14 @@ async function sendOrderToWhatsApp(order, env) {
     })
   );
 
-
   const apiUrl =
     `https://graph.facebook.com/v23.0/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
-
 
   console.log(
     "WHATSAPP_TEMPLATE_REQUEST_START"
   );
 
-
   let response;
-
 
   try {
 
@@ -164,13 +195,10 @@ async function sendOrderToWhatsApp(order, env) {
 
   }
 
-
   const rawResponse =
     await response.text();
 
-
   let result;
-
 
   try {
 
@@ -188,11 +216,6 @@ async function sendOrderToWhatsApp(order, env) {
 
   }
 
-
-  /*
-    نسجل رد Meta بدون إظهار Access Token
-  */
-
   console.log(
     "WHATSAPP_RESPONSE",
     JSON.stringify({
@@ -209,7 +232,6 @@ async function sendOrderToWhatsApp(order, env) {
     })
   );
 
-
   if (!response.ok) {
 
     const metaError =
@@ -217,7 +239,6 @@ async function sendOrderToWhatsApp(order, env) {
       result?.error?.error_user_msg ||
       result?.error?.type ||
       `HTTP ${response.status}`;
-
 
     console.error(
       "WHATSAPP_API_ERROR",
@@ -238,17 +259,14 @@ async function sendOrderToWhatsApp(order, env) {
       })
     );
 
-
     throw new Error(
       `WhatsApp API: ${metaError}`
     );
 
   }
 
-
   const messageId =
     result?.messages?.[0]?.id || null;
-
 
   console.log(
     "WHATSAPP_SUCCESS",
@@ -262,7 +280,6 @@ async function sendOrderToWhatsApp(order, env) {
 
     })
   );
-
 
   return result;
 
@@ -324,7 +341,6 @@ export default {
         const cookie =
           request.headers.get("Cookie") || "";
 
-
         if (
           !cookie.includes("hz_admin=")
         ) {
@@ -341,14 +357,11 @@ export default {
 
         }
 
-
         const formData =
           await request.formData();
 
-
         const file =
           formData.get("image");
-
 
         if (
           !file ||
@@ -368,7 +381,6 @@ export default {
 
         }
 
-
         if (
           !file.type.startsWith(
             "image/"
@@ -387,13 +399,11 @@ export default {
 
         }
 
-
         const imageUrl =
           await uploadImageToGitHub(
             file,
             env
           );
-
 
         return Response.json({
 
@@ -404,7 +414,6 @@ export default {
             imageUrl
 
         });
-
 
       } catch (error) {
 
@@ -438,7 +447,6 @@ export default {
         const data =
           await request.json();
 
-
         if (!data.password) {
 
           return Response.json(
@@ -452,7 +460,6 @@ export default {
           );
 
         }
-
 
         if (
           data.password !==
@@ -471,14 +478,11 @@ export default {
 
         }
 
-
         const timestamp =
           Date.now().toString();
 
-
         const encoder =
           new TextEncoder();
-
 
         const key =
           await crypto.subtle.importKey(
@@ -494,7 +498,6 @@ export default {
             ["sign"]
           );
 
-
         const signatureBuffer =
           await crypto.subtle.sign(
             "HMAC",
@@ -503,7 +506,6 @@ export default {
               timestamp
             )
           );
-
 
         const signature =
           Array.from(
@@ -519,10 +521,8 @@ export default {
             )
             .join("");
 
-
         const cookieValue =
           `${timestamp}.${signature}`;
-
 
         return new Response(
           JSON.stringify({
@@ -552,7 +552,6 @@ export default {
 
           }
         );
-
 
       } catch (error) {
 
@@ -586,7 +585,6 @@ export default {
         const data =
           await request.json();
 
-
         if (
           !data.customer_name ||
           !data.phone ||
@@ -608,11 +606,6 @@ export default {
           );
 
         }
-
-
-        /* =================================================
-           حفظ الطلب في D1
-        ================================================= */
 
         const result =
           await env.DB
@@ -688,10 +681,8 @@ export default {
             )
             .run();
 
-
         const orderId =
           result.meta.last_row_id;
-
 
         console.log(
           "ORDER_SAVED",
@@ -700,11 +691,6 @@ export default {
               orderId
           })
         );
-
-
-        /* =================================================
-           تجهيز بيانات الطلب
-        ================================================= */
 
         const orderForWhatsApp = {
 
@@ -768,11 +754,6 @@ export default {
 
         };
 
-
-        /* =================================================
-           إرسال WhatsApp Template
-        ================================================= */
-
         let whatsappSent =
           false;
 
@@ -782,7 +763,6 @@ export default {
         let whatsappMessageId =
           null;
 
-
         try {
 
           const whatsappResult =
@@ -791,16 +771,13 @@ export default {
               env
             );
 
-
           whatsappSent =
             true;
-
 
           whatsappMessageId =
             whatsappResult
               ?.messages?.[0]?.id ||
             null;
-
 
         } catch (error) {
 
@@ -809,12 +786,10 @@ export default {
             error.message
           );
 
-
           whatsappError =
             error.message;
 
         }
-
 
         console.log(
           "ORDER_COMPLETE",
@@ -835,7 +810,6 @@ export default {
           })
         );
 
-
         return Response.json({
 
           success:
@@ -855,14 +829,12 @@ export default {
 
         });
 
-
       } catch (error) {
 
         console.error(
           "ORDER_ERROR",
           error.message
         );
-
 
         return Response.json(
           {
@@ -894,12 +866,10 @@ export default {
         const cookie =
           request.headers.get("Cookie") || "";
 
-
         const match =
           cookie.match(
             /hz_admin=([^;]+)/
           );
-
 
         if (!match) {
 
@@ -915,7 +885,6 @@ export default {
 
         }
 
-
         const { results } =
           await env.DB
             .prepare(`
@@ -925,11 +894,9 @@ export default {
             `)
             .all();
 
-
         return Response.json(
           results
         );
-
 
       } catch (error) {
 
@@ -963,12 +930,10 @@ export default {
         const cookie =
           request.headers.get("Cookie") || "";
 
-
         const match =
           cookie.match(
             /hz_admin=([^;]+)/
           );
-
 
         if (!match) {
 
@@ -984,10 +949,8 @@ export default {
 
         }
 
-
         const data =
           await request.json();
-
 
         if (
           !data.id ||
@@ -1005,7 +968,6 @@ export default {
           );
 
         }
-
 
         await env.DB
           .prepare(`
@@ -1026,12 +988,10 @@ export default {
           )
           .run();
 
-
         return Response.json({
           success:
             true
         });
-
 
       } catch (error) {
 
@@ -1079,8 +1039,47 @@ export default {
               .all();
 
 
+          /*
+             تجهيز الصور لكل منتج
+
+             المنتجات القديمة:
+             image = "https://..."
+
+             المنتجات الجديدة:
+             image = '["url1","url2","url3"]'
+          */
+
+          const products =
+            results.map(product => {
+
+              const images =
+                normalizeImages(
+                  product.image
+                );
+
+              return {
+
+                ...product,
+
+                images:
+
+                  images,
+
+                /*
+                  نبقي image موجودًا
+                  حتى لا ينكسر أي كود قديم.
+                */
+
+                image:
+                  images[0] || ""
+
+              };
+
+            });
+
+
           return Response.json(
-            results
+            products
           );
 
 
@@ -1113,12 +1112,10 @@ export default {
         const cookie =
           request.headers.get("Cookie") || "";
 
-
         const match =
           cookie.match(
             /hz_admin=([^;]+)/
           );
-
 
         if (!match) {
 
@@ -1158,6 +1155,60 @@ export default {
             );
 
           }
+
+
+          /* =================================================
+             تجهيز الصور
+          ================================================= */
+
+          let images = [];
+
+
+          /*
+             النظام الجديد:
+             images: ["url1","url2","url3"]
+          */
+
+          if (
+            Array.isArray(
+              data.images
+            )
+          ) {
+
+            images =
+              data.images
+                .filter(Boolean)
+                .map(String);
+
+          }
+
+
+          /*
+             توافق مع النظام القديم:
+             image: "url"
+          */
+
+          else if (
+            data.image
+          ) {
+
+            images =
+              normalizeImages(
+                data.image
+              );
+
+          }
+
+
+          /*
+             تخزين الصور داخل نفس
+             عمود image في D1
+          */
+
+          const imagesValue =
+            images.length
+              ? JSON.stringify(images)
+              : "";
 
 
           /* =================================================
@@ -1204,8 +1255,7 @@ export default {
                       )
                     : null,
 
-                  data.image ||
-                    "",
+                  imagesValue,
 
                   Number(
                     data.stock ||
@@ -1285,8 +1335,7 @@ export default {
                   )
                 : null,
 
-              data.image ||
-                "",
+              imagesValue,
 
               Number(
                 data.stock ||
@@ -1339,12 +1388,10 @@ export default {
         const cookie =
           request.headers.get("Cookie") || "";
 
-
         const match =
           cookie.match(
             /hz_admin=([^;]+)/
           );
-
 
         if (!match) {
 
@@ -1360,12 +1407,10 @@ export default {
 
         }
 
-
         const id =
           url.searchParams.get(
             "id"
           );
-
 
         if (!id) {
 
@@ -1381,7 +1426,6 @@ export default {
 
         }
 
-
         try {
 
           await env.DB
@@ -1393,12 +1437,10 @@ export default {
             )
             .run();
 
-
           return Response.json({
             success:
               true
           });
-
 
         } catch (error) {
 
