@@ -174,16 +174,67 @@ flex:1
 }
 
 .preview{
-max-width:220px;
-max-height:220px;
+width:140px;
+height:140px;
 border-radius:12px;
 border:1px solid #444;
 object-fit:cover;
-display:block;
-margin-top:10px
+display:block
+}
+
+.image-previews{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+gap:10px;
+margin-top:12px
+}
+
+.image-preview-item{
+position:relative;
+background:#080808;
+border:1px solid #292929;
+border-radius:12px;
+padding:7px
+}
+
+.image-preview-item img{
+width:100%;
+height:120px;
+object-fit:cover;
+border-radius:8px;
+display:block
+}
+
+.image-preview-label{
+font-size:10px;
+color:#d4af37;
+text-align:center;
+margin-top:6px
+}
+
+.image-preview-remove{
+position:absolute;
+top:5px;
+left:5px;
+width:28px;
+height:28px;
+padding:0;
+border-radius:50%;
+background:#7d2222;
+color:#fff;
+font-size:16px;
+line-height:28px
+}
+
+.current-images-title{
+color:#aaa;
+font-size:12px;
+margin-top:8px;
+margin-bottom:8px
 }
 
 @media(max-width:650px){
+
 .grid{
 grid-template-columns:1fr
 }
@@ -191,6 +242,11 @@ grid-template-columns:1fr
 .full{
 grid-column:auto
 }
+
+.image-previews{
+grid-template-columns:repeat(2,1fr)
+}
+
 }
 </style>
 </head>
@@ -322,12 +378,15 @@ placeholder="جديد / عرض / الأكثر مبيعاً"
 
 <div class="full">
 
-<label>صورة المنتج</label>
+<label>
+صور المنتج
+</label>
 
 <input
 id="imageFile"
 type="file"
 accept="image/*"
+multiple
 >
 
 <input
@@ -335,12 +394,25 @@ id="image"
 type="hidden"
 >
 
-<div id="imagePreview"></div>
+<input
+id="images"
+type="hidden"
+>
+
+<div
+class="current-images-title"
+id="currentImagesTitle">
+</div>
+
+<div
+id="imagePreview"
+class="image-previews">
+</div>
 
 <div
 id="imageStatus"
-class="status"
-></div>
+class="status">
+</div>
 
 </div>
 
@@ -404,6 +476,8 @@ class="products"
 <script>
 
 let products=[];
+
+let selectedImages=[];
 
 
 /* =========================
@@ -642,7 +716,7 @@ onclick="deleteProduct(${Number(product.id)})"
 
 
 /* =========================
-   SELECT IMAGE
+   SELECT MULTIPLE IMAGES
 ========================= */
 
 document
@@ -651,8 +725,8 @@ document
 "change",
 function(){
 
-const file=
-this.files[0];
+const files=
+Array.from(this.files || []);
 
 const preview=
 document.getElementById("imagePreview");
@@ -660,19 +734,31 @@ document.getElementById("imagePreview");
 const status=
 document.getElementById("imageStatus");
 
+const currentTitle=
+document.getElementById("currentImagesTitle");
+
 preview.innerHTML="";
 status.textContent="";
+currentTitle.textContent="";
 
-if(!file){
+selectedImages=[];
+
+if(!files.length){
 
 return;
 
 }
 
-if(!file.type.startsWith("image/")){
+const invalidFile=
+files.find(
+file=>
+!file.type.startsWith("image/")
+);
+
+if(invalidFile){
 
 status.textContent=
-"الملف يجب أن يكون صورة";
+"جميع الملفات يجب أن تكون صورًا";
 
 this.value="";
 
@@ -680,20 +766,28 @@ return;
 
 }
 
+files.forEach(
+(file,index)=>{
+
+const imageObject={
+file:file,
+preview:null
+};
+
+selectedImages.push(
+imageObject
+);
+
 const reader=
 new FileReader();
 
 reader.onload=
 function(e){
 
-preview.innerHTML=
-`
-<img
-class="preview"
-src="${e.target.result}"
-alt="معاينة الصورة"
->
-`;
+imageObject.preview=
+e.target.result;
+
+renderSelectedImages();
 
 };
 
@@ -701,18 +795,106 @@ reader.readAsDataURL(file);
 
 });
 
+status.textContent=
+files.length+
+(files.length===1
+?
+" صورة جاهزة للرفع"
+:
+" صور جاهزة للرفع");
+
+});
+
 
 /* =========================
-   UPLOAD IMAGE
+   RENDER SELECTED IMAGES
 ========================= */
 
-async function uploadImage(file){
+function renderSelectedImages(){
+
+const preview=
+document.getElementById("imagePreview");
+
+preview.innerHTML="";
+
+selectedImages.forEach(
+(item,index)=>{
+
+preview.innerHTML+=`
+
+<div class="image-preview-item">
+
+<img
+src="${escapeHtml(item.preview || "")}"
+alt="صورة ${index+1}"
+>
+
+<div class="image-preview-label">
+${index===0
+?
+"الصورة الرئيسية"
+:
+"الصورة "+(index+1)}
+</div>
+
+<button
+type="button"
+class="image-preview-remove"
+onclick="removeSelectedImage(${index})"
+>
+×
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* =========================
+   REMOVE SELECTED IMAGE
+========================= */
+
+function removeSelectedImage(index){
+
+selectedImages.splice(
+index,
+1
+);
+
+renderSelectedImages();
 
 const status=
 document.getElementById("imageStatus");
 
+if(!selectedImages.length){
+
 status.textContent=
-"جاري رفع الصورة...";
+"لم يتم اختيار صور جديدة";
+
+return;
+
+}
+
+status.textContent=
+selectedImages.length+
+(selectedImages.length===1
+?
+" صورة جاهزة للرفع"
+:
+" صور جاهزة للرفع");
+
+}
+
+
+/* =========================
+   UPLOAD ONE IMAGE
+========================= */
+
+async function uploadImage(file){
 
 const formData=
 new FormData();
@@ -752,10 +934,54 @@ throw new Error(
 
 }
 
-status.textContent=
-"تم رفع الصورة ✅";
-
 return result.image;
+
+}
+
+
+/* =========================
+   UPLOAD MULTIPLE IMAGES
+========================= */
+
+async function uploadImages(files){
+
+const status=
+document.getElementById("imageStatus");
+
+const uploaded=[];
+
+for(
+let i=0;
+i<files.length;
+i++
+){
+
+status.textContent=
+"جاري رفع الصورة "+
+(i+1)+
+" من "+
+files.length+
+"...";
+
+const image=
+await uploadImage(
+files[i]
+);
+
+uploaded.push(image);
+
+}
+
+status.textContent=
+"تم رفع "+
+uploaded.length+
+(files.length===1
+?
+" صورة بنجاح ✅"
+:
+" صور بنجاح ✅");
+
+return uploaded;
 
 }
 
@@ -781,10 +1007,9 @@ const status=
 document
 .getElementById("status");
 
-const imageFile=
+const imageStatus=
 document
-.getElementById("imageFile")
-.files[0];
+.getElementById("imageStatus");
 
 status.textContent=
 "جاري الحفظ...";
@@ -797,19 +1022,91 @@ document
 .value
 .trim();
 
+let images=[];
 
-if(imageFile){
+const imagesHidden=
+document
+.getElementById("images")
+.value
+.trim();
+
+if(imagesHidden){
+
+try{
+
+const parsed=
+JSON.parse(imagesHidden);
+
+if(Array.isArray(parsed)){
+
+images=
+parsed
+.map(x=>String(x))
+.filter(Boolean);
+
+}
+
+}catch(error){
+
+console.warn(
+"تعذر قراءة الصور الحالية",
+error
+);
+
+}
+
+}
+
+
+/*
+   إذا اختار المستخدم صورًا جديدة:
+   يتم رفعها كلها.
+   أول صورة تصبح الصورة الرئيسية.
+*/
+
+if(selectedImages.length){
+
+const files=
+selectedImages.map(
+item=>item.file
+);
+
+const uploadedImages=
+await uploadImages(files);
+
+images=
+uploadedImages;
+
+if(uploadedImages.length){
 
 image=
-await uploadImage(imageFile);
+uploadedImages[0];
+
+}
 
 document
 .getElementById("image")
 .value=
 image;
 
+document
+.getElementById("images")
+.value=
+JSON.stringify(images);
+
 }
 
+
+/*
+   في حال عدم اختيار صور جديدة،
+   نحافظ على الصورة الحالية.
+*/
+
+if(!images.length && image){
+
+images=[image];
+
+}
 
 const data={
 
@@ -846,6 +1143,8 @@ document
 .trim(),
 
 image:image,
+
+images:images,
 
 description:
 document
@@ -918,6 +1217,8 @@ resetForm();
 
 }catch(error){
 
+console.error(error);
+
 status.textContent=
 "خطأ: "+
 error.message;
@@ -988,10 +1289,79 @@ document
 product.badge || "";
 
 
+/*
+   قراءة الصور المتعددة القادمة من Worker
+*/
+
+let productImages=[];
+
+if(
+Array.isArray(product.images)
+){
+
+productImages=
+product.images
+.map(x=>String(x))
+.filter(Boolean);
+
+}else if(
+typeof product.images==="string" &&
+product.images.trim()
+){
+
+try{
+
+const parsed=
+JSON.parse(product.images);
+
+if(Array.isArray(parsed)){
+
+productImages=
+parsed
+.map(x=>String(x))
+.filter(Boolean);
+
+}
+
+}catch(error){
+
+console.warn(
+"تعذر قراءة product.images",
+error
+);
+
+}
+
+}
+
+
+/*
+   التوافق مع المنتج القديم
+   الذي يحتوي على image فقط.
+*/
+
+if(
+!productImages.length &&
+product.image
+){
+
+productImages=[
+String(product.image)
+];
+
+}
+
+
 document
 .getElementById("image")
 .value=
 product.image || "";
+
+
+document
+.getElementById("images")
+.value=
+JSON.stringify(productImages);
 
 
 document
@@ -1005,9 +1375,7 @@ document
 .value="";
 
 
-document
-.getElementById("imageStatus")
-.textContent="";
+selectedImages=[];
 
 
 const preview=
@@ -1017,19 +1385,53 @@ document
 preview.innerHTML="";
 
 
-if(product.image){
+const currentTitle=
+document
+.getElementById("currentImagesTitle");
 
-preview.innerHTML=
-`
+currentTitle.textContent=
+productImages.length
+?
+"الصور الحالية للمنتج:"
+:
+"";
+
+
+if(productImages.length){
+
+productImages.forEach(
+(image,index)=>{
+
+preview.innerHTML+=`
+
+<div class="image-preview-item">
+
 <img
-class="preview"
-src="${escapeHtml(product.image)}"
-alt="صورة المنتج"
+src="${escapeHtml(image)}"
+alt="صورة ${index+1}"
 onerror="this.style.display='none'"
 >
+
+<div class="image-preview-label">
+${index===0
+?
+"الصورة الرئيسية"
+:
+"الصورة "+(index+1)}
+</div>
+
+</div>
+
 `;
 
+});
+
 }
+
+
+document
+.getElementById("imageStatus")
+.textContent="";
 
 
 document
@@ -1127,6 +1529,11 @@ document
 
 
 document
+.getElementById("images")
+.value="";
+
+
+document
 .getElementById("formTitle")
 .textContent=
 "إضافة منتج جديد";
@@ -1138,6 +1545,11 @@ document
 
 
 document
+.getElementById("currentImagesTitle")
+.textContent="";
+
+
+document
 .getElementById("imageStatus")
 .textContent="";
 
@@ -1145,6 +1557,9 @@ document
 document
 .getElementById("status")
 .textContent="";
+
+
+selectedImages=[];
 
 }
 
