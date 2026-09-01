@@ -4871,6 +4871,179 @@ url,
 
 async function submitComputerOrder(){
 
+  /* التحقق من تسجيل دخول العميل قبل إرسال الطلب */
+
+  try {
+
+    const authResponse =
+      await fetch("/api/customer-me", {
+        method: "GET",
+        credentials: "same-origin"
+      });
+
+    const authData =
+      await authResponse.json();
+
+    if (!authData.logged_in) {
+
+      toast("يجب تسجيل الدخول أولًا");
+
+      if (typeof openCustomerAuth === "function") {
+        openCustomerAuth();
+      }
+
+      return;
+    }
+
+  } catch (error) {
+
+    console.error(
+      "CUSTOMER_AUTH_CHECK_ERROR",
+      error
+    );
+
+    toast(
+      "تعذر التحقق من تسجيل الدخول"
+    );
+
+    return;
+  }
+
+
+  /* الحصول على بيانات الطلب */
+
+  const order =
+    getOrderData();
+
+  if (!order) {
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      "computerOrderButton"
+    );
+
+  button.disabled = true;
+
+  button.textContent =
+    "جاري إرسال الطلب...";
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/orders",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          credentials:
+            "same-origin",
+
+          body:
+            JSON.stringify(order)
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+
+      throw new Error(
+        data.error ||
+        "تعذر حفظ الطلب"
+      );
+
+    }
+
+
+    cart = [];
+
+    save();
+
+    renderCart();
+
+
+    const modalBox =
+      document.querySelector(
+        ".modal-box"
+      );
+
+
+    modalBox.innerHTML = `
+
+      <div class="order-success">
+
+        <div class="success-icon">
+          ✓
+        </div>
+
+        <h3>
+          تم استلام طلبك بنجاح
+        </h3>
+
+        <p>
+          شكرًا لطلبك من HZ.SHOP.
+          <br>
+          تم تسجيل طلبك لدينا وسيتم التواصل معك لتأكيده.
+        </p>
+
+        ${
+          data.order_id
+            ?
+            `
+            <div class="order-number">
+              رقم الطلب: #${escapeHtml(data.order_id)}
+            </div>
+            `
+            :
+            ""
+        }
+
+        <br>
+
+        <button
+          class="gold"
+          onclick="finishComputerOrder()"
+          style="margin-top:20px;width:100%"
+        >
+          العودة إلى المتجر
+        </button>
+
+      </div>
+
+    `;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    toast(
+      "تعذر إرسال الطلب. حاول مرة أخرى."
+    );
+
+    button.disabled = false;
+
+    button.textContent =
+      "✓ تأكيد وإرسال الطلب";
+
+  }
+
+}
 const order=
 getOrderData();
 
