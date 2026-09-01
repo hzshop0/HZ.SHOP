@@ -739,1060 +739,343 @@ export default {
        API: إنشاء حساب عميل
     ===================================================== */
 
-    if (
-      url.pathname ===
-        "/api/customer-register" &&
-      request.method ===
-        "POST"
-    ) {
-
-      try {
-
-        const data =
-          await request.json();
-
-        const name =
-          String(
-            data.name || ""
-          ).trim();
-
-        const phone =
-          normalizePhone(
-            data.phone
-          );
-
-        const password =
-          String(
-            data.password || ""
-          );
-
-        if (
-          !name ||
-          !phone ||
-          !password
-        ) {
-
-          return Response.json(
-            {
-              error:
-                "الاسم ورقم الهاتف وكلمة المرور مطلوبة"
-            },
-            {
-              status: 400
-            }
-          );
-
-        }
-
-        if (
-          password.length < 6
-        ) {
-
-          return Response.json(
-            {
-              error:
-                "كلمة المرور يجب أن تكون 6 أحرف أو أرقام على الأقل"
-            },
-            {
-              status: 400
-            }
-          );
-
-        }
-
-        const existing =
-          await env.DB
-            .prepare(`
-              SELECT id
-              FROM customers
-              WHERE phone = ?
-              LIMIT 1
-            `)
-            .bind(
-              phone
-            )
-            .first();
-
-        if (existing) {
-
-          return Response.json(
-            {
-              error:
-                "رقم الهاتف مسجل مسبقًا"
-            },
-            {
-              status: 409
-            }
-          );
-
-        }
-
-        const passwordData =
-          await hashPassword(
-            password
-          );
-
-        const passwordHash =
-          `${passwordData.salt}:${passwordData.hash}`;
-
-        const result =
-          await env.DB
-            .prepare(`
-              INSERT INTO customers
-              (
-                phone,
-                password_hash,
-                name,
-                created_at
-              )
-              VALUES (?, ?, ?, ?)
-            `)
-            .bind(
-
-              phone,
-
-              passwordHash,
-
-              name,
-
-              new Date()
-                .toISOString()
-
-            )
-            .run();
-
-        const customerId =
-          result.meta
-            .last_row_id;
-
-        const session =
-          await createCustomerSession(
-            customerId,
-            env
-          );
-
-        return new Response(
-          JSON.stringify({
-
-            success:
-              true,
-
-            customer: {
-
-              id:
-                customerId,
-
-              name:
-                name,
-
-              phone:
-                phone
-
-            }
-
-          }),
-          {
-            status: 200,
-
-            headers: {
-
-              "Content-Type":
-                "application/json",
-
-              "Set-Cookie":
-                `hz_customer=${encodeURIComponent(session)}; ` +
-                `Path=/; ` +
-                `HttpOnly; ` +
-                `Secure; ` +
-                `SameSite=Strict; ` +
-                `Max-Age=604800`
-
-            }
-
-          }
-        );
-
-      } catch (error) {
-
-        console.error(
-          "CUSTOMER_REGISTER_ERROR",
-          error.message
-        );
-
-        return Response.json(
-          {
-            error:
-              "تعذر إنشاء الحساب"
-          },
-          {
-            status: 500
-          }
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       API: تسجيل دخول العميل
-    ===================================================== */
-
-    if (
-      url.pathname ===
-        "/api/customer-login" &&
-      request.method ===
-        "POST"
-    ) {
-
-      try {
-
-        const data =
-          await request.json();
-
-        const phone =
-          normalizePhone(
-            data.phone
-          );
-
-        const password =
-          String(
-            data.password || ""
-          );
-
-        if (
-          !phone ||
-          !password
-        ) {
-
-          return Response.json(
-            {
-              error:
-                "رقم الهاتف وكلمة المرور مطلوبان"
-            },
-            {
-              status: 400
-            }
-          );
-
-        }
-
-        const customer =
-          await env.DB
-            .prepare(`
-              SELECT
-                id,
-                name,
-                phone,
-                password_hash
-              FROM customers
-              WHERE phone = ?
-              LIMIT 1
-            `)
-            .bind(
-              phone
-            )
-            .first();
-
-        if (!customer) {
-
-          return Response.json(
-            {
-              error:
-                "رقم الهاتف أو كلمة المرور غير صحيحة"
-            },
-            {
-              status: 401
-            }
-          );
-
-        }
-
-        const valid =
-          await verifyPassword(
-            password,
-            customer.password_hash
-          );
-
-        if (!valid) {
-
-          return Response.json(
-            {
-              error:
-                "رقم الهاتف أو كلمة المرور غير صحيحة"
-            },
-            {
-              status: 401
-            }
-          );
-
-        }
-
-        const session =
-          await createCustomerSession(
-            customer.id,
-            env
-          );
-
-        return new Response(
-          JSON.stringify({
-
-            success:
-              true,
-
-            customer: {
-
-              id:
-                customer.id,
-
-              name:
-                customer.name,
-
-              phone:
-                customer.phone
-
-            }
-
-          }),
-          {
-            status: 200,
-
-            headers: {
-
-              "Content-Type":
-                "application/json",
-
-              "Set-Cookie":
-                `hz_customer=${encodeURIComponent(session)}; ` +
-                `Path=/; ` +
-                `HttpOnly; ` +
-                `Secure; ` +
-                `SameSite=Strict; ` +
-                `Max-Age=604800`
-
-            }
-
-          }
-        );
-
-      } catch (error) {
-
-        console.error(
-          "CUSTOMER_LOGIN_ERROR",
-          error.message
-        );
-
-        return Response.json(
-          {
-            error:
-              "حدث خطأ في تسجيل الدخول"
-          },
-          {
-            status: 500
-          }
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       API: معرفة العميل الحالي
-    ===================================================== */
-
-    if (
-      url.pathname ===
-        "/api/customer-me" &&
-      request.method ===
-        "GET"
-    ) {
-
-      try {
-
-        const customer =
-          await verifyCustomerSession(
-            request,
-            env
-          );
-
-        if (!customer) {
-
-          return Response.json({
-            logged_in:
-              false
-          });
-
-        }
-
-        return Response.json({
-
-          logged_in:
-            true,
-
-          customer: {
-
-            id:
-              customer.id,
-
-            name:
-              customer.name,
-
-            phone:
-              customer.phone
-
-          }
-
-        });
-
-      } catch {
-
-        return Response.json({
-          logged_in:
-            false
-        });
-
-      }
-
-    }
-
-
-    /* =====================================================
-       API: تسجيل خروج العميل
-    ===================================================== */
-
-    if (
-      url.pathname ===
-        "/api/customer-logout" &&
-      request.method ===
-        "POST"
-    ) {
-
-      return new Response(
-        JSON.stringify({
-          success:
-            true
-        }),
+ /* =====================================================
+   API: إنشاء طلب جديد
+   حفظ الطلب وربطه بالعميل المسجل
+===================================================== */
+
+if (
+  url.pathname ===
+    "/api/orders" &&
+  request.method ===
+    "POST"
+) {
+
+  try {
+
+    /* التحقق من تسجيل دخول العميل */
+
+    const customer =
+      await verifyCustomerSession(
+        request,
+        env
+      );
+
+    if (!customer) {
+
+      return Response.json(
         {
-          status: 200,
-
-          headers: {
-
-            "Content-Type":
-              "application/json",
-
-            "Set-Cookie":
-              "hz_customer=; " +
-              "Path=/; " +
-              "HttpOnly; " +
-              "Secure; " +
-              "SameSite=Strict; " +
-              "Max-Age=0"
-
-          }
-
+          error:
+            "يجب تسجيل الدخول قبل إتمام الطلب"
+        },
+        {
+          status: 401
         }
       );
 
     }
 
 
-    /* =====================================================
-       API: اختبار الأسرار
-    ===================================================== */
+    /* بيانات الطلب */
+
+    const data =
+      await request.json();
+
 
     if (
-      url.pathname ===
-      "/api/test-secret"
+      !data.customer_name ||
+      !data.phone ||
+      !data.governorate ||
+      !data.area ||
+      !data.address ||
+      !data.payment_method ||
+      !data.items
     ) {
 
-      return Response.json({
-
-        exists:
-          !!env.ADMIN_PASSWORD,
-
-        whatsapp_token:
-          !!env.WHATSAPP_ACCESS_TOKEN,
-
-        whatsapp_phone_id:
-          !!env.WHATSAPP_PHONE_NUMBER_ID,
-
-        whatsapp_business_id:
-          !!env.WHATSAPP_BUSINESS_ACCOUNT_ID
-
-      });
+      return Response.json(
+        {
+          error:
+            "جميع معلومات الطلب المطلوبة غير مكتملة"
+        },
+        {
+          status: 400
+        }
+      );
 
     }
 
 
-    /* =====================================================
-       API: رفع صورة المنتج
-    ===================================================== */
+    /* =================================================
+       حفظ الطلب مع customer_id
+    ================================================= */
 
-    if (
-      url.pathname ===
-        "/api/upload-image" &&
-      request.method ===
-        "POST"
-    ) {
-
-      try {
-
-        const cookie =
-          request.headers.get(
-            "Cookie"
-          ) || "";
-
-        if (
-          !cookie.includes(
-            "hz_admin="
+    const result =
+      await env.DB
+        .prepare(`
+          INSERT INTO orders (
+            customer_id,
+            customer_name,
+            phone,
+            governorate,
+            area,
+            address,
+            notes,
+            payment_method,
+            items,
+            subtotal,
+            discount,
+            total,
+            status,
+            created_at
           )
-        ) {
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `)
+        .bind(
 
-          return Response.json(
-            {
-              error:
-                "غير مصرح"
-            },
-            {
-              status: 401
-            }
-          );
+          Number(
+            customer.id
+          ),
 
-        }
+          String(
+            data.customer_name
+          ),
 
-        const formData =
-          await request.formData();
+          String(
+            data.phone
+          ),
 
-        const file =
-          formData.get(
-            "image"
-          );
+          String(
+            data.governorate
+          ),
 
-        if (
-          !file ||
-          typeof file.arrayBuffer !==
-            "function"
-        ) {
+          String(
+            data.area
+          ),
 
-          return Response.json(
-            {
-              error:
-                "لم يتم اختيار صورة"
-            },
-            {
-              status: 400
-            }
-          );
+          String(
+            data.address
+          ),
 
-        }
+          String(
+            data.notes || ""
+          ),
 
-        if (
-          !file.type.startsWith(
-            "image/"
-          )
-        ) {
+          String(
+            data.payment_method
+          ),
 
-          return Response.json(
-            {
-              error:
-                "الملف يجب أن يكون صورة"
-            },
-            {
-              status: 400
-            }
-          );
+          JSON.stringify(
+            data.items
+          ),
 
-        }
+          Number(
+            data.subtotal || 0
+          ),
 
-        const imageUrl =
-          await uploadImageToGitHub(
-            file,
-            env
-          );
+          Number(
+            data.discount || 0
+          ),
 
-        return Response.json({
+          Number(
+            data.total || 0
+          ),
 
-          success:
-            true,
+          "new",
 
-          image:
-            imageUrl
+          new Date()
+            .toISOString()
 
-        });
+        )
+        .run();
 
-      } catch (error) {
 
-        return Response.json(
-          {
-            error:
-              error.message
-          },
-          {
-            status: 500
-          }
+    const orderId =
+      result.meta.last_row_id;
+
+
+    console.log(
+      "ORDER_SAVED",
+      JSON.stringify({
+
+        order_id:
+          orderId,
+
+        customer_id:
+          customer.id
+
+      })
+    );
+
+
+    /* =================================================
+       إرسال الطلب إلى WhatsApp
+    ================================================= */
+
+    const orderForWhatsApp = {
+
+      id:
+        orderId,
+
+      customer_name:
+        String(
+          data.customer_name
+        ),
+
+      phone:
+        String(
+          data.phone
+        ),
+
+      governorate:
+        String(
+          data.governorate
+        ),
+
+      area:
+        String(
+          data.area
+        ),
+
+      address:
+        String(
+          data.address
+        ),
+
+      notes:
+        String(
+          data.notes || ""
+        ),
+
+      payment_method:
+        String(
+          data.payment_method
+        ),
+
+      items:
+        JSON.stringify(
+          data.items
+        ),
+
+      subtotal:
+        Number(
+          data.subtotal || 0
+        ),
+
+      discount:
+        Number(
+          data.discount || 0
+        ),
+
+      total:
+        Number(
+          data.total || 0
+        )
+
+    };
+
+
+    let whatsappSent =
+      false;
+
+    let whatsappError =
+      null;
+
+    let whatsappMessageId =
+      null;
+
+
+    try {
+
+      const whatsappResult =
+        await sendOrderToWhatsApp(
+          orderForWhatsApp,
+          env
         );
 
-      }
+      whatsappSent =
+        true;
+
+      whatsappMessageId =
+        whatsappResult
+          ?.messages?.[0]?.id ||
+        null;
+
+    } catch (error) {
+
+      console.error(
+        "WHATSAPP_SEND_FAILED",
+        error.message
+      );
+
+      whatsappError =
+        error.message;
 
     }
 
 
-    /* =====================================================
-       API: تسجيل دخول الإدارة
-    ===================================================== */
+    console.log(
+      "ORDER_COMPLETE",
+      JSON.stringify({
 
-    if (
-      url.pathname ===
-        "/api/admin-login" &&
-      request.method ===
-        "POST"
-    ) {
+        order_id:
+          orderId,
 
-      try {
+        customer_id:
+          customer.id,
 
-        const data =
-          await request.json();
+        whatsapp_sent:
+          whatsappSent,
 
-        if (!data.password) {
+        whatsapp_message_id:
+          whatsappMessageId,
 
-          return Response.json(
-            {
-              error:
-                "كلمة المرور مطلوبة"
-            },
-            {
-              status: 400
-            }
-          );
+        whatsapp_error:
+          whatsappError
 
-        }
+      })
+    );
 
-        if (
-          data.password !==
-          env.ADMIN_PASSWORD
-        ) {
 
-          return Response.json(
-            {
-              error:
-                "كلمة المرور غير صحيحة"
-            },
-            {
-              status: 401
-            }
-          );
+    return Response.json({
 
-        }
+      success:
+        true,
 
-        const timestamp =
-          Date.now().toString();
+      order_id:
+        orderId,
 
-        const encoder =
-          new TextEncoder();
+      whatsapp_sent:
+        whatsappSent,
 
-        const key =
-          await crypto.subtle.importKey(
-            "raw",
-            encoder.encode(
-              env.ADMIN_PASSWORD
-            ),
-            {
-              name: "HMAC",
-              hash: "SHA-256"
-            },
-            false,
-            ["sign"]
-          );
+      whatsapp_message_id:
+        whatsappMessageId,
 
-        const signatureBuffer =
-          await crypto.subtle.sign(
-            "HMAC",
-            key,
-            encoder.encode(
-              timestamp
-            )
-          );
+      whatsapp_error:
+        whatsappError
 
-        const signature =
-          Array.from(
-            new Uint8Array(
-              signatureBuffer
-            )
-          )
-            .map(
-              b =>
-                b
-                  .toString(16)
-                  .padStart(2, "0")
-            )
-            .join("");
+    });
 
-        const cookieValue =
-          `${timestamp}.${signature}`;
 
-        return new Response(
-          JSON.stringify({
-            success:
-              true
-          }),
-          {
-            status:
-              200,
+  } catch (error) {
 
-            headers: {
+    console.error(
+      "ORDER_ERROR",
+      error.message
+    );
 
-              "Content-Type":
-                "application/json",
-
-              "Set-Cookie":
-                `hz_admin=${encodeURIComponent(
-                  cookieValue
-                )}; ` +
-                `Path=/; ` +
-                `HttpOnly; ` +
-                `Secure; ` +
-                `SameSite=Strict; ` +
-                `Max-Age=86400`
-
-            }
-
-          }
-        );
-
-      } catch (error) {
-
-        return Response.json(
-          {
-            error:
-              "حدث خطأ في تسجيل الدخول"
-          },
-          {
-            status: 500
-          }
-        );
-
+    return Response.json(
+      {
+        error:
+          "تعذر حفظ الطلب"
+      },
+      {
+        status: 500
       }
+    );
 
-    }
+  }
 
-
-    /* =====================================================
-       API: إنشاء طلب جديد
-       الآن الطلب يحتاج تسجيل دخول العميل
-    ===================================================== */
-
-    if (
-      url.pathname ===
-        "/api/orders" &&
-      request.method ===
-        "POST"
-    ) {
-
-      try {
-
-        /*
-           التحقق من تسجيل دخول العميل
-        */
-
-        const customer =
-          await verifyCustomerSession(
-            request,
-            env
-          );
-
-        if (!customer) {
-
-          return Response.json(
-            {
-              error:
-                "يجب تسجيل الدخول قبل إتمام الطلب"
-            },
-            {
-              status: 401
-            }
-          );
-
-        }
-
-        const data =
-          await request.json();
-
-        if (
-          !data.customer_name ||
-          !data.phone ||
-          !data.governorate ||
-          !data.area ||
-          !data.address ||
-          !data.payment_method ||
-          !data.items
-        ) {
-
-          return Response.json(
-            {
-              error:
-                "جميع معلومات الطلب المطلوبة غير مكتملة"
-            },
-            {
-              status: 400
-            }
-          );
-
-        }
-
-        const result =
-          await env.DB
-            .prepare(`
-              INSERT INTO orders (
-                customer_name,
-                phone,
-                governorate,
-                area,
-                address,
-                notes,
-                payment_method,
-                items,
-                subtotal,
-                discount,
-                total,
-                status,
-                created_at
-              )
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            `)
-            .bind(
-
-              String(
-                data.customer_name
-              ),
-
-              String(
-                data.phone
-              ),
-
-              String(
-                data.governorate
-              ),
-
-              String(
-                data.area
-              ),
-
-              String(
-                data.address
-              ),
-
-              String(
-                data.notes || ""
-              ),
-
-              String(
-                data.payment_method
-              ),
-
-              JSON.stringify(
-                data.items
-              ),
-
-              Number(
-                data.subtotal || 0
-              ),
-
-              Number(
-                data.discount || 0
-              ),
-
-              Number(
-                data.total || 0
-              ),
-
-              "new",
-
-              new Date()
-                .toISOString()
-
-            )
-            .run();
-
-        const orderId =
-          result.meta
-            .last_row_id;
-
-        console.log(
-          "ORDER_SAVED",
-          JSON.stringify({
-
-            order_id:
-              orderId,
-
-            customer_id:
-              customer.id
-
-          })
-        );
-
-        const orderForWhatsApp = {
-
-          id:
-            orderId,
-
-          customer_name:
-            String(
-              data.customer_name
-            ),
-
-          phone:
-            String(
-              data.phone
-            ),
-
-          governorate:
-            String(
-              data.governorate
-            ),
-
-          area:
-            String(
-              data.area
-            ),
-
-          address:
-            String(
-              data.address
-            ),
-
-          notes:
-            String(
-              data.notes || ""
-            ),
-
-          payment_method:
-            String(
-              data.payment_method
-            ),
-
-          items:
-            JSON.stringify(
-              data.items
-            ),
-
-          subtotal:
-            Number(
-              data.subtotal || 0
-            ),
-
-          discount:
-            Number(
-              data.discount || 0
-            ),
-
-          total:
-            Number(
-              data.total || 0
-            )
-
-        };
-
-        let whatsappSent =
-          false;
-
-        let whatsappError =
-          null;
-
-        let whatsappMessageId =
-          null;
-
-        try {
-
-          const whatsappResult =
-            await sendOrderToWhatsApp(
-              orderForWhatsApp,
-              env
-            );
-
-          whatsappSent =
-            true;
-
-          whatsappMessageId =
-            whatsappResult
-              ?.messages?.[0]?.id ||
-            null;
-
-        } catch (error) {
-
-          console.error(
-            "WHATSAPP_SEND_FAILED",
-            error.message
-          );
-
-          whatsappError =
-            error.message;
-
-        }
-
-        console.log(
-          "ORDER_COMPLETE",
-          JSON.stringify({
-
-            order_id:
-              orderId,
-
-            customer_id:
-              customer.id,
-
-            whatsapp_sent:
-              whatsappSent,
-
-            whatsapp_message_id:
-              whatsappMessageId,
-
-            whatsapp_error:
-              whatsappError
-
-          })
-        );
-
-        return Response.json({
-
-          success:
-            true,
-
-          order_id:
-            orderId,
-
-          whatsapp_sent:
-            whatsappSent,
-
-          whatsapp_message_id:
-            whatsappMessageId,
-
-          whatsapp_error:
-            whatsappError
-
-        });
-
-      } catch (error) {
-
-        console.error(
-          "ORDER_ERROR",
-          error.message
-        );
-
-        return Response.json(
-          {
-            error:
-              "تعذر حفظ الطلب"
-          },
-          {
-            status: 500
-          }
-        );
-
-      }
-
-    }
-
-
+}
     /* =====================================================
        API: جلب الطلبات للإدارة
     ===================================================== */
