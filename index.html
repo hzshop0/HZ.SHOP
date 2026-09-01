@@ -5378,19 +5378,94 @@ loadProducts();
 
 function openCustomerAuth(){
 
+  /*
+     إذا كان العميل مسجل دخول:
+     نفتح صفحة حسابي مباشرة.
+
+     إذا لم يكن مسجلًا:
+     نفتح نافذة تسجيل الدخول.
+  */
+
+  checkCustomerAndOpenAccount();
+
+}
+
+
+/* =========================================================
+   CHECK CUSTOMER
+========================================================= */
+
+async function checkCustomerAndOpenAccount(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-me",
+        {
+          method:"GET",
+          credentials:"include"
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(
+      data.logged_in &&
+      data.customer
+    ){
+
+      updateCustomerAccountUI(
+        data.customer
+      );
+
+      openCustomerAccount(
+        data.customer
+      );
+
+      return;
+
+    }
+
+  }catch(error){
+
+    console.log(
+      "Customer session check failed"
+    );
+
+  }
+
+  openCustomerLoginModal();
+
+}
+
+
+/* =========================================================
+   OPEN LOGIN
+========================================================= */
+
+function openCustomerLoginModal(){
+
   const modal =
     document.getElementById(
       "customerAuthModal"
     );
 
   if(modal){
-    modal.classList.add("show");
-  }
 
-  showCustomerLogin();
+    modal.classList.add("show");
+
+    showCustomerLogin();
+
+  }
 
 }
 
+
+/* =========================================================
+   CLOSE LOGIN
+========================================================= */
 
 function closeCustomerAuth(){
 
@@ -5400,37 +5475,71 @@ function closeCustomerAuth(){
     );
 
   if(modal){
+
     modal.classList.remove("show");
+
   }
 
 }
 
 
+/* =========================================================
+   LOGIN VIEW
+========================================================= */
+
 function showCustomerLogin(){
 
-  document.getElementById(
-    "customerLoginView"
-  ).style.display = "block";
+  const login =
+    document.getElementById(
+      "customerLoginView"
+    );
 
-  document.getElementById(
-    "customerRegisterView"
-  ).style.display = "none";
+  const register =
+    document.getElementById(
+      "customerRegisterView"
+    );
+
+  if(login){
+    login.style.display = "block";
+  }
+
+  if(register){
+    register.style.display = "none";
+  }
 
 }
 
+
+/* =========================================================
+   REGISTER VIEW
+========================================================= */
 
 function showCustomerRegister(){
 
-  document.getElementById(
-    "customerLoginView"
-  ).style.display = "none";
+  const login =
+    document.getElementById(
+      "customerLoginView"
+    );
 
-  document.getElementById(
-    "customerRegisterView"
-  ).style.display = "block";
+  const register =
+    document.getElementById(
+      "customerRegisterView"
+    );
+
+  if(login){
+    login.style.display = "none";
+  }
+
+  if(register){
+    register.style.display = "block";
+  }
 
 }
 
+
+/* =========================================================
+   NORMALIZE PHONE
+========================================================= */
 
 function normalizeCustomerPhone(phone){
 
@@ -5493,13 +5602,9 @@ async function customerRegister(event){
           credentials:"include",
 
           body:JSON.stringify({
-
             name:name,
-
             phone:phone,
-
             password:password
-
           })
         }
       );
@@ -5514,6 +5619,7 @@ async function customerRegister(event){
         "تعذر إنشاء الحساب";
 
       return;
+
     }
 
     message.textContent =
@@ -5528,11 +5634,17 @@ async function customerRegister(event){
           data.customer
         );
 
+        openCustomerAccount(
+          data.customer
+        );
+
       },
       500
     );
 
   }catch(error){
+
+    console.error(error);
 
     message.textContent =
       "تعذر الاتصال بالخادم";
@@ -5586,11 +5698,8 @@ async function customerLogin(event){
           credentials:"include",
 
           body:JSON.stringify({
-
             phone:phone,
-
             password:password
-
           })
         }
       );
@@ -5605,6 +5714,7 @@ async function customerLogin(event){
         "رقم الهاتف أو الرمز غير صحيح";
 
       return;
+
     }
 
     message.textContent =
@@ -5619,11 +5729,17 @@ async function customerLogin(event){
           data.customer
         );
 
+        openCustomerAccount(
+          data.customer
+        );
+
       },
       500
     );
 
   }catch(error){
+
+    console.error(error);
 
     message.textContent =
       "تعذر الاتصال بالخادم";
@@ -5634,7 +5750,7 @@ async function customerLogin(event){
 
 
 /* =========================================================
-   CHECK CURRENT CUSTOMER
+   CHECK CURRENT SESSION
 ========================================================= */
 
 async function loadCustomerSession(){
@@ -5676,16 +5792,10 @@ async function loadCustomerSession(){
 
 
 /* =========================================================
-   UPDATE ACCOUNT ICON
-   لا نغيّر التصميم الأصلي
+   UPDATE ACCOUNT BUTTON
 ========================================================= */
 
 function updateCustomerAccountUI(customer){
-
-  /*
-     نحاول العثور على زر الحساب الموجود
-     في المتجر بدون حذف أو تغيير أي عنصر آخر.
-  */
 
   const buttons =
     document.querySelectorAll(
@@ -5704,21 +5814,296 @@ function updateCustomerAccountUI(customer){
         ) || "";
 
       if(
-        text === "♡" ||
         text === "👤" ||
+        text === "♡" ||
         aria.includes("حساب") ||
         aria.includes("account")
       ){
 
         button.title =
           customer
-            ? `مرحبًا ${customer.name}`
+            ? `حساب ${customer.name}`
             : "حساب العميل";
 
       }
 
     }
   );
+
+}
+
+
+/* =========================================================
+   CUSTOMER ACCOUNT PAGE
+========================================================= */
+
+function openCustomerAccount(customer){
+
+  let accountModal =
+    document.getElementById(
+      "customerAccountModal"
+    );
+
+
+  /*
+     إنشاء نافذة الحساب مرة واحدة فقط
+  */
+
+  if(!accountModal){
+
+    accountModal =
+      document.createElement(
+        "div"
+      );
+
+    accountModal.id =
+      "customerAccountModal";
+
+    accountModal.style.cssText = `
+      position:fixed;
+      inset:0;
+      z-index:10000;
+      background:rgba(0,0,0,.55);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    `;
+
+
+    accountModal.innerHTML = `
+
+      <div
+        style="
+          width:440px;
+          max-width:100%;
+          max-height:90vh;
+          overflow:auto;
+          background:#fffdf9;
+          border:1px solid #b08d35;
+          border-radius:8px;
+          padding:28px;
+          position:relative;
+          box-shadow:0 20px 60px rgba(0,0,0,.25);
+          direction:rtl;
+        "
+      >
+
+        <button
+          type="button"
+          onclick="closeCustomerAccount()"
+          style="
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:38px;
+            height:38px;
+            border-radius:50%;
+            border:1px solid #ddd8ce;
+            background:#fffdf9;
+            color:#77736b;
+            font-size:22px;
+            cursor:pointer;
+          "
+        >
+          ×
+        </button>
+
+
+        <div
+          style="
+            text-align:center;
+            margin-bottom:25px;
+          "
+        >
+
+          <div
+            style="
+              color:#a27f25;
+              letter-spacing:4px;
+              font-size:10px;
+              margin-bottom:8px;
+            "
+          >
+            HZ.SHOP
+          </div>
+
+          <h2
+            style="
+              margin:0;
+              color:#302e29;
+              font-size:25px;
+            "
+          >
+            حسابي
+          </h2>
+
+        </div>
+
+
+        <div
+          style="
+            border:1px solid #e1ddd4;
+            border-radius:6px;
+            padding:18px;
+            margin-bottom:18px;
+          "
+        >
+
+          <div
+            style="
+              color:#77736b;
+              font-size:12px;
+              margin-bottom:6px;
+            "
+          >
+            الاسم
+          </div>
+
+          <strong
+            id="accountCustomerName"
+            style="
+              display:block;
+              color:#302e29;
+              font-size:17px;
+              margin-bottom:15px;
+            "
+          ></strong>
+
+
+          <div
+            style="
+              color:#77736b;
+              font-size:12px;
+              margin-bottom:6px;
+            "
+          >
+            رقم الهاتف
+          </div>
+
+          <strong
+            id="accountCustomerPhone"
+            style="
+              display:block;
+              color:#302e29;
+              font-size:17px;
+            "
+          ></strong>
+
+        </div>
+
+
+        <div
+          style="
+            border:1px solid #e1ddd4;
+            border-radius:6px;
+            padding:18px;
+            margin-bottom:18px;
+            text-align:center;
+          "
+        >
+
+          <h3
+            style="
+              margin:0 0 8px;
+              color:#302e29;
+            "
+          >
+            طلباتي
+          </h3>
+
+          <p
+            style="
+              margin:0;
+              color:#77736b;
+              font-size:13px;
+            "
+          >
+            سيتم عرض طلباتك هنا.
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          onclick="customerLogout()"
+          style="
+            width:100%;
+            height:46px;
+            border:1px solid #b08d35;
+            border-radius:4px;
+            background:#fffdf9;
+            color:#a27f25;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          تسجيل الخروج
+        </button>
+
+      </div>
+
+    `;
+
+
+    document.body.appendChild(
+      accountModal
+    );
+
+  }
+
+
+  const nameElement =
+    document.getElementById(
+      "accountCustomerName"
+    );
+
+  const phoneElement =
+    document.getElementById(
+      "accountCustomerPhone"
+    );
+
+
+  if(nameElement){
+
+    nameElement.textContent =
+      customer.name || "";
+
+  }
+
+
+  if(phoneElement){
+
+    phoneElement.textContent =
+      customer.phone || "";
+
+  }
+
+
+  accountModal.style.display =
+    "flex";
+
+}
+
+
+/* =========================================================
+   CLOSE CUSTOMER ACCOUNT
+========================================================= */
+
+function closeCustomerAccount(){
+
+  const modal =
+    document.getElementById(
+      "customerAccountModal"
+    );
+
+  if(modal){
+
+    modal.style.display =
+      "none";
+
+  }
 
 }
 
@@ -5747,20 +6132,25 @@ async function customerLogout(){
 
   }
 
+  closeCustomerAccount();
+
   location.reload();
 
 }
 
 
 /* =========================================================
-   CLICK OUTSIDE
+   CLICK OUTSIDE LOGIN
 ========================================================= */
 
-document
-  .getElementById(
+const customerAuthModal =
+  document.getElementById(
     "customerAuthModal"
-  )
-  .addEventListener(
+  );
+
+if(customerAuthModal){
+
+  customerAuthModal.addEventListener(
     "click",
     function(event){
 
@@ -5775,9 +6165,37 @@ document
     }
   );
 
+}
+
 
 /* =========================================================
-   START
+   CLICK OUTSIDE ACCOUNT
+========================================================= */
+
+document.addEventListener(
+  "click",
+  function(event){
+
+    const modal =
+      document.getElementById(
+        "customerAccountModal"
+      );
+
+    if(
+      modal &&
+      event.target === modal
+    ){
+
+      closeCustomerAccount();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   START CUSTOMER SESSION
 ========================================================= */
 
 document.addEventListener(
