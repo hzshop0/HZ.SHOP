@@ -5721,20 +5721,14 @@ async function customerLogin(event){
 
   const phone =
     normalizeCustomerPhone(
-      document.getElementById(
-        "loginPhone"
-      ).value
+      document.getElementById("loginPhone").value
     );
 
   const password =
-    document.getElementById(
-      "loginPassword"
-    ).value;
+    document.getElementById("loginPassword").value;
 
   const message =
-    document.getElementById(
-      "customerLoginMessage"
-    );
+    document.getElementById("customerLoginMessage");
 
   message.textContent =
     "جاري تسجيل الدخول...";
@@ -5746,14 +5740,10 @@ async function customerLogin(event){
         "/api/customer-login",
         {
           method:"POST",
-
           headers:{
-            "Content-Type":
-              "application/json"
+            "Content-Type":"application/json"
           },
-
           credentials:"include",
-
           body:JSON.stringify({
             phone:phone,
             password:password
@@ -5771,27 +5761,13 @@ async function customerLogin(event){
         "رقم الهاتف أو الرمز غير صحيح";
 
       return;
-
     }
 
-    message.textContent =
-      "تم تسجيل الدخول بنجاح";
+    /* إغلاق نافذة تسجيل الدخول فور نجاح الدخول */
+    closeCustomerAuth();
 
-    setTimeout(
-      () => {
-
-        closeCustomerAuth();
-
-        updateCustomerAccountUI(
-          data.customer
-        );
-
-        openCustomerAccount(
-          data.customer
-        );
-
-      },
-      500
+    updateCustomerAccountUI(
+      data.customer
     );
 
   }catch(error){
@@ -5804,8 +5780,6 @@ async function customerLogin(event){
   }
 
 }
-
-
 /* =========================================================
    CHECK CURRENT SESSION
 ========================================================= */
