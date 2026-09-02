@@ -4264,56 +4264,155 @@ save();
 renderCart();
 
 }
-
 function removeItem(id){
 
-cart=
-cart.filter(
-x=>x.id!==id
-);
+  cart =
+    cart.filter(
+      x => x.id !== id
+    );
 
-save();
+  save();
 
-renderCart();
+  renderCart();
 
 }
+
 
 function renderCart(){
 
-const box=
-document.getElementById("cartItems");
+  const box =
+    document.getElementById("cartItems");
 
-const count=
-cart.reduce(
-(a,b)=>a+b.quantity,
-0
-);
+  const count =
+    cart.reduce(
+      (a,b) => a + b.quantity,
+      0
+    );
 
-document
-.getElementById("cartCount")
-.textContent=count;
+  document
+    .getElementById("cartCount")
+    .textContent = count;
 
-document
-.getElementById("floatingCartCount")
-.textContent=count;
+  document
+    .getElementById("floatingCartCount")
+    .textContent = count;
 
-if(!cart.length){
+  if(!cart.length){
 
-box.innerHTML=
-`
-<div class="empty">
-السلة فارغة 🛒
-<br><br>
-أضف المنتجات التي تريد شراءها.
-</div>
-`;
+    box.innerHTML =
+    `
+    <div class="empty">
+      السلة فارغة 🛒
+      <br><br>
+      أضف المنتجات التي تريد شراءها.
+    </div>
+    `;
 
-updateTotals();
+    updateTotals();
 
-return;
+    return;
+
+  }
+
+  box.innerHTML = "";
+
+  cart.forEach(item => {
+
+    box.innerHTML +=
+    `
+
+    <div class="cart-item">
+
+      <div class="cart-top">
+
+        <div
+          style="
+            display:flex;
+            align-items:center;
+            gap:10px;
+          "
+        >
+
+          ${
+            item.image
+            ?
+            `
+            <img
+              src="${item.image}"
+              alt="${escapeHtml(item.name)}"
+              style="
+                width:55px;
+                height:55px;
+                object-fit:cover;
+                border-radius:8px;
+                flex-shrink:0;
+              "
+            >
+            `
+            :
+            ""
+          }
+
+          <div>
+
+            <div class="cart-name">
+              ${escapeHtml(item.name)}
+            </div>
+
+            <div class="cart-price">
+              $${Number(item.price).toFixed(2)}
+              للـقطعة
+            </div>
+
+          </div>
+
+        </div>
+
+        <button
+          class="remove"
+          onclick="removeItem(${item.id})"
+        >
+          حذف
+        </button>
+
+      </div>
+
+      <div class="qty">
+
+        <button
+          onclick="change(${item.id},1)"
+        >
+          +
+        </button>
+
+        <strong>
+          ${item.quantity}
+        </strong>
+
+        <button
+          onclick="change(${item.id},-1)"
+        >
+          −
+        </button>
+
+        <span class="item-total">
+          $${(
+            Number(item.price) *
+            item.quantity
+          ).toFixed(2)}
+        </span>
+
+      </div>
+
+    </div>
+
+    `;
+
+  });
+
+  updateTotals();
 
 }
-
 box.innerHTML="";
 
 cart.forEach(item=>{
