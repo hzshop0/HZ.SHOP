@@ -561,7 +561,7 @@ async function sendOrderToWhatsApp(
     "96171142827";
 
   const templateName =
-    "hello_world";
+    "hz_shop_order";
 
   const apiUrl =
     `https://graph.facebook.com/v23.0/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
@@ -610,9 +610,103 @@ async function sendOrderToWhatsApp(
                 language: {
 
                   code:
-                    "en_US"
+                    "ar"
 
-                }
+                },
+
+                components: [
+
+                  {
+                    type:
+                      "body",
+
+                    parameters: [
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          String(
+                            order.id
+                          )
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          String(
+                            order.customer_name || ""
+                          )
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          String(
+                            order.phone || ""
+                          )
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          String(
+                            order.governorate || ""
+                          )
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          String(
+                            order.area || ""
+                          )
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          String(
+                            order.address || ""
+                          )
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          String(
+                            order.payment_method || ""
+                          )
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          String(
+                            order.total || ""
+                          )
+                      }
+
+                    ]
+
+                  }
+
+                ]
 
               }
 
