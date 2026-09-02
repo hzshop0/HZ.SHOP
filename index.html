@@ -4888,12 +4888,21 @@ const finalTotal =
     Number(order.total) + deliveryFee;
 
 message +=
-    "\n🚚 كلفة التوصيل: $" +
-    deliveryFee.toFixed(2);
+  "\n💰 المجموع: $" +
+  order.total.toFixed(2);
+
+const deliveryFee = 4;
+
+const finalTotal =
+  Number(order.total) + deliveryFee;
 
 message +=
-    "\n💵 الإجمالي النهائي: $" +
-    finalTotal.toFixed(2);
+  "\n🚚 كلفة التوصيل: $" +
+  deliveryFee.toFixed(2);
+
+message +=
+  "\n💵 الإجمالي النهائي: $" +
+  finalTotal.toFixed(2);
 
 
   if(order.discount){
