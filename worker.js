@@ -531,10 +531,10 @@ async function verifyCustomerSession(
 function cleanWhatsAppParam(value) {
 
   return String(value ?? "")
-    .replace(/[\r\n\t]+/g, " ")
-    .replace(/ {5,}/g, "    ")
+    .replace(/\s+/gu, " ")
     .trim();
 
+}
 }
 
 
