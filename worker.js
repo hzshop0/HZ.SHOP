@@ -525,6 +525,20 @@ async function verifyCustomerSession(
 
 
 /* =========================================================
+   WHATSAPP PARAMETER CLEANER
+========================================================= */
+
+function cleanWhatsAppParam(value) {
+
+  return String(value ?? "")
+    .replace(/[\r\n\t]+/g, " ")
+    .replace(/ {5,}/g, "    ")
+    .trim();
+
+}
+
+
+/* =========================================================
    WHATSAPP
 ========================================================= */
 
@@ -627,7 +641,7 @@ async function sendOrderToWhatsApp(
                           "text",
 
                         text:
-                          String(
+                          cleanWhatsAppParam(
                             order.id
                           )
                       },
@@ -637,7 +651,7 @@ async function sendOrderToWhatsApp(
                           "text",
 
                         text:
-                          String(
+                          cleanWhatsAppParam(
                             order.customer_name || ""
                           )
                       },
@@ -647,7 +661,7 @@ async function sendOrderToWhatsApp(
                           "text",
 
                         text:
-                          String(
+                          cleanWhatsAppParam(
                             order.phone || ""
                           )
                       },
@@ -657,7 +671,7 @@ async function sendOrderToWhatsApp(
                           "text",
 
                         text:
-                          String(
+                          cleanWhatsAppParam(
                             order.governorate || ""
                           )
                       },
@@ -667,7 +681,7 @@ async function sendOrderToWhatsApp(
                           "text",
 
                         text:
-                          String(
+                          cleanWhatsAppParam(
                             order.area || ""
                           )
                       },
@@ -677,7 +691,7 @@ async function sendOrderToWhatsApp(
                           "text",
 
                         text:
-                          String(
+                          cleanWhatsAppParam(
                             order.address || ""
                           )
                       },
@@ -687,7 +701,7 @@ async function sendOrderToWhatsApp(
                           "text",
 
                         text:
-                          String(
+                          cleanWhatsAppParam(
                             order.payment_method || ""
                           )
                       },
@@ -697,7 +711,7 @@ async function sendOrderToWhatsApp(
                           "text",
 
                         text:
-                          String(
+                          cleanWhatsAppParam(
                             order.total || ""
                           )
                       }
