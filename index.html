@@ -4769,8 +4769,149 @@ total:Number(total.toFixed(2))
 
 }
 
-function sendWhatsApp(){
+async function sendWhatsApp(){
 
+  /* التحقق من تسجيل دخول العميل */
+  try {
+
+    const authResponse =
+      await fetch("/api/customer-me", {
+        method: "GET",
+        credentials: "same-origin"
+      });
+
+    const authData =
+      await authResponse.json();
+
+    if (!authData.logged_in) {
+
+      toast("يجب تسجيل الدخول أولًا");
+
+      if (typeof openCustomerAuth === "function") {
+        openCustomerAuth();
+      }
+
+      return;
+    }
+
+  } catch (error) {
+
+    console.error(
+      "CUSTOMER_AUTH_CHECK_ERROR",
+      error
+    );
+
+    toast("تعذر التحقق من تسجيل الدخول");
+
+    return;
+  }
+
+
+  /* الحصول على بيانات الطلب */
+  const order =
+    getOrderData();
+
+  if(!order){
+    return;
+  }
+
+
+  let message =
+    "🛍️ طلب جديد من HZ.SHOP\n\n";
+
+  message +=
+    "👤 الاسم: " +
+    order.customer_name +
+    "\n";
+
+  message +=
+    "📞 الهاتف: " +
+    order.phone +
+    "\n";
+
+  message +=
+    "📍 المحافظة: " +
+    order.governorate +
+    "\n";
+
+  message +=
+    "📍 المنطقة: " +
+    order.area +
+    "\n";
+
+  message +=
+    "🏠 العنوان: " +
+    order.address +
+    "\n";
+
+  message +=
+    "💳 الدفع: " +
+    order.payment_method +
+    "\n";
+
+
+  if(order.notes){
+
+    message +=
+      "📝 الملاحظات: " +
+      order.notes +
+      "\n";
+
+  }
+
+
+  message +=
+    "\n🛒 المنتجات:\n";
+
+
+  order.items.forEach(item => {
+
+    const itemTotal =
+      Number(item.price) *
+      Number(item.quantity);
+
+    message +=
+      "• " +
+      item.name +
+      " × " +
+      item.quantity +
+      " = $" +
+      itemTotal.toFixed(2) +
+      "\n";
+
+  });
+
+
+  message +=
+    "\n💰 المجموع: $" +
+    order.subtotal.toFixed(2);
+
+
+  if(order.discount){
+
+    message +=
+      "\n🏷️ الخصم: $" +
+      order.discount.toFixed(2);
+
+  }
+
+
+  message +=
+    "\n💵 الإجمالي: $" +
+    order.total.toFixed(2);
+
+
+  const url =
+    "https://wa.me/96171142827?text=" +
+    encodeURIComponent(message);
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
 const order=
 getOrderData();
 
