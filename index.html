@@ -4882,9 +4882,18 @@ async function sendWhatsApp(){
   });
 
 
-  message +=
-    "\n💰 المجموع: $" +
-    order.subtotal.toFixed(2);
+  const deliveryFee = 4;
+
+const finalTotal =
+    Number(order.total) + deliveryFee;
+
+message +=
+    "\n🚚 كلفة التوصيل: $" +
+    deliveryFee.toFixed(2);
+
+message +=
+    "\n💵 الإجمالي النهائي: $" +
+    finalTotal.toFixed(2);
 
 
   if(order.discount){
