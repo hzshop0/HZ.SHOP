@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>إتمام الطلب | HZ.SHOP</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,Tahoma,sans-serif;
+background:#f8f5ef;
+color:#171717;
+}
+header{
+background:#111;
+color:#d4af37;
+padding:20px;
+text-align:center;
+border-bottom:1px solid #d4af37;
+}
+.logo{
+font-size:25px;
+font-weight:bold;
+letter-spacing:2px;
+}
+.sub{
+font-size:12px;
+color:#ddd;
+margin-top:5px;
+}
+.container{
+max-width:1100px;
+margin:30px auto;
+padding:0 16px;
+}
+.back{
+display:inline-block;
+margin-bottom:20px;
+color:#111;
+text-decoration:none;
+font-weight:bold;
+}
+.grid{
+display:grid;
+grid-template-columns:1fr 380px;
+gap:25px;
+}
+.card{
+background:#fff;
+border-radius:16px;
+padding:24px;
+box-shadow:0 5px 25px rgba(0,0,0,.06);
+border:1px solid #eee;
+}
+h2{
+margin-top:0;
+font-size:20px;
+}
+.field{
+margin-bottom:15px;
+}
+label{
+display:block;
+font-weight:bold;
+font-size:14px;
+margin-bottom:7px;
+}
+input,select,textarea{
+width:100%;
+padding:13px;
+border:1px solid #ddd;
+border-radius:10px;
+font-size:15px;
+background:#fff;
+}
+textarea{
+min-height:90px;
+resize:vertical;
+}
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+.payment{
+border:1px solid #ddd;
+border-radius:12px;
+padding:14px;
+margin-bottom:10px;
+cursor:pointer;
+}
+.payment input{
+width:auto;
+margin-left:8px;
+}
+.items{
+margin-bottom:20px;
+}
+.item{
+display:flex;
+align-items:center;
+gap:12px;
+padding:12px 0;
+border-bottom:1px solid #eee;
+}
+.item img{
+width:65px;
+height:65px;
+object-fit:cover;
+border-radius:10px;
+background:#eee;
+}
+.item-info{
+flex:1;
+}
+.item-name{
+font-weight:bold;
+font-size:14px;
+}
+.item-price{
+font-size:13px;
+margin-top:5px;
+color:#666;
+}
+.line{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+}
+.total{
+font-size:20px;
+font-weight:bold;
+border-top:1px solid #ddd;
+margin-top:10px;
+padding-top:15px;
+}
+.coupon{
+display:flex;
+gap:8px;
+margin:15px 0;
+}
+.coupon input{
+flex:1;
+}
+.coupon button{
+border:0;
+background:#111;
+color:#d4af37;
+padding:0 18px;
+border-radius:10px;
+font-weight:bold;
+}
+.submit{
+width:100%;
+border:0;
+padding:16px;
+border-radius:12px;
+background:#111;
+color:#d4af37;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+}
+.submit:disabled{
+opacity:.5;
+}
+.notice{
+background:#faf7ee;
+border:1px solid #eadcae;
+padding:12px;
+border-radius:10px;
+font-size:13px;
+line-height:1.7;
+margin-top:15px;
+}
+.success{
+display:none;
+text-align:center;
+}
+.success-icon{
+font-size:55px;
+}
+.order-number{
+font-size:22px;
+font-weight:bold;
+color:#a17b13;
+margin:15px 0;
+}
+@media(max-width:800px){
+.grid{
+grid-template-columns:1fr;
+}
+.row{
+grid-template-columns:1fr;
+}
+.container{
+margin-top:20px;
+}
+.card{
+padding:18px;
+}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">HZ.SHOP</div>
+<div class="sub">LUXURY BEAUTY STORE</div>
+</header>
+<div class="container">
+
+← العودة إلى المتجر
+
+<div id="checkoutArea">
+<div class="grid">
+<div class="card">
+<h2>معلومات التوصيل</h2>
+<div class="field">
+<label>الاسم الكامل *</label>
+<input id="customerName" type="text" placeholder="اكتب اسمك الكامل">
+</div>
+<div class="field">
+<label>رقم الهاتف *</label>
+<input id="phone" type="tel" placeholder="مثال: 71xxxxxx">
+</div>
+<div class="row">
+<div class="field">
+<label>المحافظة *</label>
+<select id="governorate">
+<option value="">اختر المحافظة</option>
+<option>بيروت</option>
+<option>جبل لبنان</option>
+<option>الشمال</option>
+<option>عكار</option>
+<option>البقاع</option>
+<option>بعلبك الهرمل</option>
+<option>الجنوب</option>
+<option>النبطية</option>
+</select>
+</div>
+<div class="field">
+<label>المنطقة *</label>
+<input id="area" type="text" placeholder="المنطقة / البلدة">
+</div>
+</div>
+<div class="field">
+<label>العنوان بالتفصيل *</label>
+<textarea id="address" placeholder="الشارع، المبنى، الطابق، قرب..."></textarea>
+</div>
+<div class="field">
+<label>ملاحظات الطلب</label>
+<textarea id="notes" placeholder="أي ملاحظات إضافية..."></textarea>
+</div>
+<h2>طريقة الدفع</h2>
+<label class="payment">
+<input type="radio" name="payment" value="cash" checked>
+الدفع عند الاستلام
+</label>
+<div class="notice">
+🔒 لا تحتاج إلى إنشاء حساب لإتمام طلبك.
+يمكنك الشراء كضيف بسهولة وسرعة.
+</div>
+</div>
+<div class="card">
+<h2>ملخص الطلب</h2>
+<div id="items" class="items"></div>
+<div class="coupon">
+<input id="coupon" type="text" placeholder="رمز الخصم">
+<button onclick="applyCoupon()">تطبيق</button>
+</div>
+<div id="couponMessage" style="font-size:13px;margin-bottom:10px"></div>
+<div class="line">
+<span>المجموع الفرعي</span>
+<strong id="subtotal">$0.00</strong>
+</div>
+<div class="line">
+<span>الخصم</span>
+<strong id="discount">$0.00</strong>
+</div>
+<div class="line">
+<span>التوصيل</span>
+<strong id="delivery">$4.00</strong>
+</div>
+<div class="line total">
+<span>الإجمالي</span>
+<strong id="total">$0.00</strong>
+</div>
+<button id="submitBtn" class="submit" onclick="submitOrder()">
+✓ تأكيد الطلب
+</button>
+</div>
+</div>
+</div>
+<div id="success" class="card success">
+<div class="success-icon">✓</div>
+<h2>تم استلام طلبك بنجاح</h2>
+<p>شكرًا لتسوقك من HZ.SHOP</p>
+<div class="order-number" id="orderNumber"></div>
+<p>
+سنتواصل معك لتأكيد الطلب والتوصيل.
+</p>
+<button class="submit" onclick="location.href='/'">
+العودة إلى المتجر
+</button>
+</div>
+</div>
+<script>
+const CART_KEY="hz_cart";
+let cart=[];
+let products=[];
+let discountValue=0;
+function loadCart(){
+try{
+cart=JSON.parse(localStorage.getItem(CART_KEY)||"[]");
+}catch{
+cart=[];
+}
+}
+async function loadProducts(){
+try{
+const response=await fetch("/api/products");
+if(!response.ok) throw new Error();
+products=await response.json();
+render();
+}catch(error){
+document.getElementById("items").innerHTML=
+"<p>تعذر تحميل المنتجات.</p>";
+}
+}
+function render(){
+const container=document.getElementById("items");
+container.innerHTML="";
+if(!cart.length){
+container.innerHTML="<p>السلة فارغة.</p>";
+document.getElementById("submitBtn").disabled=true;
+return;
+}
+let subtotal=0;
+cart.forEach(item=>{
+const product=products.find(
+p=>Number(p.id)===Number(item.id)
+);
+if(!product) return;
+const quantity=Number(item.quantity||1);
+const price=Number(product.price||item.price||0);
+const itemTotal=price*quantity;
+subtotal+=itemTotal;
+const image=
+product.image||
+(product.images&&product.images[0])||
+item.image||
+"";
+const div=document.createElement("div");
+div.className="item";
+div.innerHTML=`
+<img src="${escapeHtml(image)}" alt="">
+<div class="item-info">
+<div class="item-name">
+${escapeHtml(product.name||product.title||item.name||"منتج")}
+</div>
+<div class="item-price">
+${price.toFixed(2)}$ × ${quantity}
+</div>
+</div>
+<strong>
+${itemTotal.toFixed(2)}$
+</strong>
+`;
+container.appendChild(div);
+});
+updateTotals(subtotal);
+}
+function updateTotals(subtotal){
+const discount=
+subtotal*discountValue;
+const delivery=
+subtotal>0?4:0;
+const total=
+subtotal-discount+delivery;
+document.getElementById("subtotal").textContent=
+"$"+subtotal.toFixed(2);
+document.getElementById("discount").textContent=
+"-$"+discount.toFixed(2);
+document.getElementById("delivery").textContent=
+"$"+delivery.toFixed(2);
+document.getElementById("total").textContent=
+"$"+total.toFixed(2);
+}
+function getSubtotal(){
+let subtotal=0;
+cart.forEach(item=>{
+const product=products.find(
+p=>Number(p.id)===Number(item.id)
+);
+if(!product) return;
+const price=Number(product.price||item.price||0);
+const quantity=Number(item.quantity||1);
+subtotal+=price*quantity;
+});
+return subtotal;
+}
+function applyCoupon(){
+const input=
+document.getElementById("coupon");
+const message=
+document.getElementById("couponMessage");
+const code=
+input.value.trim().toUpperCase();
+if(code==="HZ10"){
+discountValue=.10;
+message.textContent=
+"✓ تم تطبيق خصم 10%";
+message.style.color="green";
+}else{
+discountValue=0;
+message.textContent=
+"رمز الخصم غير صحيح";
+message.style.color="crimson";
+}
+updateTotals(getSubtotal());
+}
+async function submitOrder(){
+const name=
+document.getElementById("customerName").value.trim();
+const phone=
+document.getElementById("phone").value.trim();
+const governorate=
+document.getElementById("governorate").value;
+const area=
+document.getElementById("area").value.trim();
+const address=
+document.getElementById("address").value.trim();
+const notes=
+document.getElementById("notes").value.trim();
+if(!name||!phone||!governorate||!area||!address){
+alert("يرجى تعبئة جميع المعلومات المطلوبة.");
+return;
+}
+if(!cart.length){
+alert("السلة فارغة.");
+return;
+}
+const subtotal=getSubtotal();
+const discount=subtotal*discountValue;
+const delivery=subtotal>0?4:0;
+const total=subtotal-discount+delivery;
+const items=cart.map(item=>{
+const product=products.find(
+p=>Number(p.id)===Number(item.id)
+);
+return{
+product_id:Number(item.id),
+name:
+product?.name||
+product?.title||
+item.name||
+"منتج",
+quantity:Number(item.quantity||1),
+price:Number(
+product?.price||
+item.price||
+0
+)
+};
+});
+const button=
+document.getElementById("submitBtn");
+button.disabled=true;
+button.textContent="جاري إرسال الطلب...";
+try{
+const response=await fetch("/api/orders",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+customer_name:name,
+phone:phone,
+governorate:governorate,
+area:area,
+address:address,
+notes:notes,
+payment_method:"cash",
+items:items,
+subtotal:subtotal,
+discount:discount,
+delivery_fee:delivery,
+total:total,
+guest:true
+})
+});
+const data=await response.json().catch(()=>({}));
+if(!response.ok){
+throw new Error(
+data.error||
+"تعذر إرسال الطلب"
+);
+}
+localStorage.removeItem(CART_KEY);
+document.getElementById("checkoutArea").style.display="none";
+document.getElementById("success").style.display="block";
+document.getElementById("orderNumber").textContent=
+"رقم الطلب: #"+(data.order_id||data.id||"تم التأكيد");
+}catch(error){
+alert(error.message||"حدث خطأ أثناء إرسال الطلب.");
+button.disabled=false;
+button.textContent="✓ تأكيد الطلب";
+}
+}
+function escapeHtml(value){
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+loadCart();
+loadProducts();
+</script>
+</body>
+</html>
