@@ -2814,21 +2814,50 @@ id="toast">
 <script>
 
 let products=[];
-
 let current="all";
 
-let cart=
-JSON.parse(
-localStorage.getItem("hz_cart") || "[]"
+function readStoredArray(key){
+
+try{
+
+const value=
+localStorage.getItem(key);
+
+if(!value){
+return [];
+}
+
+const parsed=
+JSON.parse(value);
+
+return Array.isArray(parsed)
+? parsed
+: [];
+
+}catch(error){
+
+console.warn(
+"HZ.SHOP: تجاهل بيانات محلية غير صالحة:",
+key
 );
+
+try{
+localStorage.removeItem(key);
+}catch(removeError){}
+
+return [];
+
+}
+
+}
+
+let cart=
+readStoredArray("hz_cart");
 
 let favorites=
-JSON.parse(
-localStorage.getItem("hz_fav") || "[]"
-);
+readStoredArray("hz_fav");
 
 let discountRate=0;
-
 let selectedPayment="الدفع عند الاستلام";
 
 /* =========================================
