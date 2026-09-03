@@ -46,7 +46,10 @@ async function uploadImageToGitHub(file, env) {
             "2022-11-28",
 
           "User-Agent":
-            "HZ-SHOP"
+            "HZ-SHOP",
+
+          "Content-Type":
+            "application/json"
         },
 
         body:
@@ -82,15 +85,44 @@ async function uploadImageToGitHub(file, env) {
 
 function normalizeImages(value) {
 
-  if (!value) {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
     return [];
   }
 
   if (Array.isArray(value)) {
 
     return value
-      .filter(Boolean)
-      .map(String);
+      .map(image => {
+
+        if (
+          typeof image === "string"
+        ) {
+          return image.trim();
+        }
+
+        if (
+          image &&
+          typeof image === "object"
+        ) {
+
+          return String(
+            image.url ||
+            image.image ||
+            image.src ||
+            image.path ||
+            ""
+          ).trim();
+
+        }
+
+        return "";
+
+      })
+      .filter(Boolean);
 
   }
 
@@ -111,13 +143,38 @@ function normalizeImages(value) {
       if (Array.isArray(parsed)) {
 
         return parsed
-          .filter(Boolean)
-          .map(String);
+          .map(image => {
+
+            if (
+              typeof image === "string"
+            ) {
+              return image.trim();
+            }
+
+            if (
+              image &&
+              typeof image === "object"
+            ) {
+
+              return String(
+                image.url ||
+                image.image ||
+                image.src ||
+                image.path ||
+                ""
+              ).trim();
+
+            }
+
+            return "";
+
+          })
+          .filter(Boolean);
 
       }
 
     } catch {
-      // صورة واحدة قديمة
+      /* صورة واحدة قديمة */
     }
 
     return [trimmed];
@@ -137,10 +194,7 @@ function normalizePhone(phone) {
 
   return String(phone || "")
     .trim()
-    .replace(/\s+/g, "")
-    .replace(/-/g, "")
-    .replace(/\(/g, "")
-    .replace(/\)/g, "");
+    .replace(/[^\d+]/g, "");
 
 }
 
@@ -443,6 +497,7 @@ async function verifyCustomerSession(
     }
 
     if (
+      timestamp > Date.now() ||
       Date.now() -
         timestamp >
       7 *
@@ -829,17 +884,17 @@ export default {
 
         const name =
           String(
-            data.name || ""
+            data?.name || ""
           ).trim();
 
         const phone =
           normalizePhone(
-            data.phone
+            data?.phone
           );
 
         const password =
           String(
-            data.password || ""
+            data?.password || ""
           );
 
         if (
@@ -938,7 +993,21 @@ export default {
             .run();
 
         const customerId =
-          result.meta.last_row_id;
+          result?.meta?.last_row_id;
+
+        if (!customerId) {
+
+          return Response.json(
+            {
+              error:
+                "تعذر إنشاء الحساب"
+            },
+            {
+              status: 500
+            }
+          );
+
+        }
 
         const session =
           await createCustomerSession(
@@ -975,7 +1044,7 @@ export default {
             headers: {
 
               "Content-Type":
-                "application/json",
+                "application/json; charset=utf-8",
 
               "Set-Cookie":
                 `hz_customer=${encodeURIComponent(session)}; ` +
@@ -995,7 +1064,7 @@ export default {
 
         console.error(
           "CUSTOMER_REGISTER_ERROR",
-          error.message
+          error?.message || error
         );
 
         return Response.json(
@@ -1031,12 +1100,12 @@ export default {
 
         const phone =
           normalizePhone(
-            data.phone
+            data?.phone
           );
 
         const password =
           String(
-            data.password || ""
+            data?.password || ""
           );
 
         if (
@@ -1142,7 +1211,7 @@ export default {
             headers: {
 
               "Content-Type":
-                "application/json",
+                "application/json; charset=utf-8",
 
               "Set-Cookie":
                 `hz_customer=${encodeURIComponent(session)}; ` +
@@ -1162,7 +1231,7 @@ export default {
 
         console.error(
           "CUSTOMER_LOGIN_ERROR",
-          error.message
+          error?.message || error
         );
 
         return Response.json(
@@ -1265,7 +1334,7 @@ export default {
           headers: {
 
             "Content-Type":
-              "application/json",
+              "application/json; charset=utf-8",
 
             "Set-Cookie":
               "hz_customer=; " +
@@ -1286,7 +1355,6 @@ export default {
 
     /* =====================================================
        API: جلب طلبات العميل
-       هذه هي الإضافة المهمة لصفحة العميل
     ===================================================== */
 
     if (
@@ -1299,32 +1367,33 @@ export default {
       try {
 
         const customer =
-  await verifyCustomerSession(
-    request,
-    env
-  );
+          await verifyCustomerSession(
+            request,
+            env
+          );
 
-const data =
-  await request.json();
+        if (!customer) {
 
-const isGuest =
-  data.guest === true;
+          return Response.json(
+            {
+              success:
+                false,
 
-if (!customer && !isGuest) {
+              error:
+                "يجب تسجيل الدخول لرؤية الطلبات",
 
-  return Response.json(
-    {
-      error:
-        "يجب تسجيل الدخول قبل إتمام الطلب"
-    },
-    {
-      status: 401
-    }
-  );
+              orders:
+                []
+            },
+            {
+              status:
+                401
+            }
+          );
 
-}
+        }
 
-        const { results } =
+        const query =
           await env.DB
             .prepare(`
               SELECT
@@ -1334,9 +1403,18 @@ if (!customer && !isGuest) {
               ORDER BY id DESC
             `)
             .bind(
-              customer.id
+              Number(
+                customer.id
+              )
             )
             .all();
+
+        const results =
+          Array.isArray(
+            query?.results
+          )
+            ? query.results
+            : [];
 
         return Response.json({
 
@@ -1344,7 +1422,7 @@ if (!customer && !isGuest) {
             true,
 
           orders:
-            results || []
+            results
 
         });
 
@@ -1352,16 +1430,20 @@ if (!customer && !isGuest) {
 
         console.error(
           "CUSTOMER_ORDERS_ERROR",
-          error.message
+          error?.message || error
         );
 
         return Response.json(
           {
             error:
-              "تعذر جلب الطلبات"
+              "تعذر جلب الطلبات",
+
+            orders:
+              []
           },
           {
-            status: 500
+            status:
+              500
           }
         );
 
@@ -1440,6 +1522,9 @@ if (!customer && !isGuest) {
         const file =
           formData.get(
             "image"
+          ) ||
+          formData.get(
+            "file"
           );
 
         if (
@@ -1461,7 +1546,9 @@ if (!customer && !isGuest) {
         }
 
         if (
-          !file.type.startsWith(
+          !String(
+            file.type || ""
+          ).startsWith(
             "image/"
           )
         ) {
@@ -1470,6 +1557,26 @@ if (!customer && !isGuest) {
             {
               error:
                 "الملف يجب أن يكون صورة"
+            },
+            {
+              status: 400
+            }
+          );
+
+        }
+
+        if (
+          file.size &&
+          file.size >
+          8 *
+          1024 *
+          1024
+        ) {
+
+          return Response.json(
+            {
+              error:
+                "حجم الصورة كبير جدًا"
             },
             {
               status: 400
@@ -1490,16 +1597,25 @@ if (!customer && !isGuest) {
             true,
 
           image:
+            imageUrl,
+
+          url:
             imageUrl
 
         });
 
       } catch (error) {
 
+        console.error(
+          "UPLOAD_IMAGE_ERROR",
+          error?.message || error
+        );
+
         return Response.json(
           {
             error:
-              error.message
+              error?.message ||
+              "تعذر رفع الصورة"
           },
           {
             status: 500
@@ -1527,7 +1643,7 @@ if (!customer && !isGuest) {
         const data =
           await request.json();
 
-        if (!data.password) {
+        if (!data?.password) {
 
           return Response.json(
             {
@@ -1620,7 +1736,7 @@ if (!customer && !isGuest) {
             headers: {
 
               "Content-Type":
-                "application/json",
+                "application/json; charset=utf-8",
 
               "Set-Cookie":
                 `hz_admin=${encodeURIComponent(
@@ -1640,6 +1756,11 @@ if (!customer && !isGuest) {
 
       } catch (error) {
 
+        console.error(
+          "ADMIN_LOGIN_ERROR",
+          error?.message || error
+        );
+
         return Response.json(
           {
             error:
@@ -1657,7 +1778,6 @@ if (!customer && !isGuest) {
 
     /* =====================================================
        API: إنشاء طلب جديد
-       وربطه بالعميل
     ===================================================== */
 
     if (
@@ -1675,18 +1795,20 @@ if (!customer && !isGuest) {
             env
           );
 
-        
         const data =
           await request.json();
 
         if (
-          !data.customer_name ||
-          !data.phone ||
-          !data.governorate ||
-          !data.area ||
-          !data.address ||
-          !data.payment_method ||
-          !data.items
+          !data?.customer_name ||
+          !data?.phone ||
+          !data?.governorate ||
+          !data?.area ||
+          !data?.address ||
+          !data?.payment_method ||
+          !Array.isArray(
+            data?.items
+          ) ||
+          !data.items.length
         ) {
 
           return Response.json(
@@ -1725,8 +1847,8 @@ if (!customer && !isGuest) {
             .bind(
 
               customer
-  ? Number(customer.id)
-  : null,
+                ? Number(customer.id)
+                : null,
 
               String(
                 data.customer_name
@@ -1781,7 +1903,21 @@ if (!customer && !isGuest) {
             .run();
 
         const orderId =
-          result.meta.last_row_id;
+          result?.meta?.last_row_id;
+
+        if (!orderId) {
+
+          return Response.json(
+            {
+              error:
+                "تعذر حفظ الطلب"
+            },
+            {
+              status: 500
+            }
+          );
+
+        }
 
         console.log(
           "ORDER_SAVED",
@@ -1791,9 +1927,9 @@ if (!customer && !isGuest) {
               orderId,
 
             customer_id:
-  customer
-    ? customer.id
-    : null
+              customer
+                ? customer.id
+                : null
 
           })
         );
@@ -1889,11 +2025,12 @@ if (!customer && !isGuest) {
 
           console.error(
             "WHATSAPP_SEND_FAILED",
-            error.message
+            error?.message || error
           );
 
           whatsappError =
-            error.message;
+            error?.message ||
+            "فشل إرسال WhatsApp";
 
         }
 
@@ -1905,7 +2042,9 @@ if (!customer && !isGuest) {
               orderId,
 
             customer_id:
-              customer.id,
+              customer
+                ? customer.id
+                : null,
 
             whatsapp_sent:
               whatsappSent,
@@ -1942,7 +2081,7 @@ if (!customer && !isGuest) {
 
         console.error(
           "ORDER_ERROR",
-          error.message
+          error?.message || error
         );
 
         return Response.json(
@@ -1980,7 +2119,7 @@ if (!customer && !isGuest) {
 
         const match =
           cookie.match(
-            /hz_admin=([^;]+)/
+            /(?:^|;\s*)hz_admin=([^;]+)/
           );
 
         if (!match) {
@@ -1997,7 +2136,7 @@ if (!customer && !isGuest) {
 
         }
 
-        const { results } =
+        const query =
           await env.DB
             .prepare(`
               SELECT *
@@ -2005,6 +2144,13 @@ if (!customer && !isGuest) {
               ORDER BY id DESC
             `)
             .all();
+
+        const results =
+          Array.isArray(
+            query?.results
+          )
+            ? query.results
+            : [];
 
         return Response.json(
           results
@@ -2015,7 +2161,8 @@ if (!customer && !isGuest) {
         return Response.json(
           {
             error:
-              error.message
+              error?.message ||
+              "تعذر جلب الطلبات"
           },
           {
             status: 500
@@ -2047,7 +2194,7 @@ if (!customer && !isGuest) {
 
         const match =
           cookie.match(
-            /hz_admin=([^;]+)/
+            /(?:^|;\s*)hz_admin=([^;]+)/
           );
 
         if (!match) {
@@ -2068,8 +2215,8 @@ if (!customer && !isGuest) {
           await request.json();
 
         if (
-          !data.id ||
-          !data.status
+          !data?.id ||
+          !data?.status
         ) {
 
           return Response.json(
@@ -2113,7 +2260,8 @@ if (!customer && !isGuest) {
         return Response.json(
           {
             error:
-              error.message
+              error?.message ||
+              "تعذر تحديث الطلب"
           },
           {
             status: 500
@@ -2145,12 +2293,33 @@ if (!customer && !isGuest) {
 
         try {
 
-          const { results } =
+          if (!env.DB) {
+
+            return Response.json(
+              {
+                error:
+                  "D1 DB binding غير موجود"
+              },
+              {
+                status: 500
+              }
+            );
+
+          }
+
+          const query =
             await env.DB
               .prepare(
                 "SELECT * FROM products ORDER BY id DESC"
               )
               .all();
+
+          const results =
+            Array.isArray(
+              query?.results
+            )
+              ? query.results
+              : [];
 
           const products =
             results.map(
@@ -2158,34 +2327,115 @@ if (!customer && !isGuest) {
 
                 const images =
                   normalizeImages(
-                    product.image
+                    product?.image
                   );
 
                 return {
 
                   ...product,
 
+                  id:
+                    Number(
+                      product?.id
+                    ),
+
+                  name:
+                    String(
+                      product?.name ?? ""
+                    ),
+
+                  category:
+                    String(
+                      product?.category ?? ""
+                    ),
+
+                  description:
+                    String(
+                      product?.description ?? ""
+                    ),
+
+                  price:
+                    Number(
+                      product?.price ?? 0
+                    ),
+
+                  old_price:
+                    product?.old_price ===
+                      null ||
+                    product?.old_price ===
+                      undefined ||
+                    product?.old_price ===
+                      ""
+                      ? null
+                      : Number(
+                          product.old_price
+                        ),
+
+                  stock:
+                    Number(
+                      product?.stock ?? 0
+                    ),
+
+                  badge:
+                    String(
+                      product?.badge ?? ""
+                    ),
+
                   images:
                     images,
 
                   image:
-                    images[0] || ""
+                    images[0] ||
+                    String(
+                      product?.image || ""
+                    )
 
                 };
 
               }
             );
 
-          return Response.json(
-            products
+          return new Response(
+            JSON.stringify(
+              products
+            ),
+            {
+              status:
+                200,
+
+              headers: {
+
+                "Content-Type":
+                  "application/json; charset=utf-8",
+
+                "Cache-Control":
+                  "no-store, no-cache, must-revalidate, max-age=0",
+
+                "Pragma":
+                  "no-cache",
+
+                "Expires":
+                  "0"
+
+              }
+
+            }
           );
 
         } catch (error) {
 
+          console.error(
+            "PRODUCTS_GET_ERROR",
+            error?.stack ||
+            error?.message ||
+            error
+          );
+
           return Response.json(
             {
               error:
-                error.message
+                error?.message ||
+                "تعذر تحميل المنتجات"
             },
             {
               status: 500
@@ -2215,7 +2465,7 @@ if (!customer && !isGuest) {
 
         const match =
           cookie.match(
-            /hz_admin=([^;]+)/
+            /(?:^|;\s*)hz_admin=([^;]+)/
           );
 
         if (!match) {
@@ -2238,8 +2488,8 @@ if (!customer && !isGuest) {
             await request.json();
 
           if (
-            !data.name ||
-            !data.category ||
+            !data?.name ||
+            !data?.category ||
             data.price ===
               undefined
           ) {
@@ -2265,9 +2515,9 @@ if (!customer && !isGuest) {
           ) {
 
             images =
-              data.images
-                .filter(Boolean)
-                .map(String);
+              normalizeImages(
+                data.images
+              );
 
           } else if (
             data.image
@@ -2286,6 +2536,65 @@ if (!customer && !isGuest) {
                   images
                 )
               : "";
+
+          const price =
+            Number(
+              data.price
+            );
+
+          if (
+            !Number.isFinite(
+              price
+            )
+          ) {
+
+            return Response.json(
+              {
+                error:
+                  "السعر غير صحيح"
+              },
+              {
+                status: 400
+              }
+            );
+
+          }
+
+          const oldPrice =
+            data.old_price ===
+              null ||
+            data.old_price ===
+              undefined ||
+            data.old_price ===
+              ""
+              ? null
+              : Number(
+                  data.old_price
+                );
+
+          const stock =
+            Number(
+              data.stock ?? 0
+            );
+
+          if (
+            !Number.isFinite(
+              stock
+            )
+          ) {
+
+            return Response.json(
+              {
+                error:
+                  "المخزون غير صحيح"
+              },
+              {
+                status: 400
+              }
+            );
+
+          }
+
 
           /* إضافة منتج */
 
@@ -2312,32 +2621,31 @@ if (!customer && !isGuest) {
                 `)
                 .bind(
 
-                  data.name,
-
-                  data.category,
-
-                  data.description ||
-                    "",
-
-                  Number(
-                    data.price
+                  String(
+                    data.name
                   ),
 
-                  data.old_price
-                    ? Number(
-                        data.old_price
-                      )
-                    : null,
+                  String(
+                    data.category
+                  ),
+
+                  String(
+                    data.description ||
+                    ""
+                  ),
+
+                  price,
+
+                  oldPrice,
 
                   imagesValue,
 
-                  Number(
-                    data.stock ||
-                      0
-                  ),
+                  stock,
 
-                  data.badge ||
+                  String(
+                    data.badge ||
                     ""
+                  )
 
                 )
                 .run();
@@ -2348,16 +2656,17 @@ if (!customer && !isGuest) {
                 true,
 
               id:
-                result.meta
-                  .last_row_id
+                result?.meta
+                  ?.last_row_id
 
             });
 
           }
 
+
           /* تعديل منتج */
 
-          if (!data.id) {
+          if (!data?.id) {
 
             return Response.json(
               {
@@ -2387,32 +2696,31 @@ if (!customer && !isGuest) {
             `)
             .bind(
 
-              data.name,
-
-              data.category,
-
-              data.description ||
-                "",
-
-              Number(
-                data.price
+              String(
+                data.name
               ),
 
-              data.old_price
-                ? Number(
-                    data.old_price
-                  )
-                : null,
+              String(
+                data.category
+              ),
+
+              String(
+                data.description ||
+                ""
+              ),
+
+              price,
+
+              oldPrice,
 
               imagesValue,
 
-              Number(
-                data.stock ||
-                  0
-              ),
+              stock,
 
-              data.badge ||
-                "",
+              String(
+                data.badge ||
+                ""
+              ),
 
               Number(
                 data.id
@@ -2428,10 +2736,18 @@ if (!customer && !isGuest) {
 
         } catch (error) {
 
+          console.error(
+            "PRODUCTS_WRITE_ERROR",
+            error?.stack ||
+            error?.message ||
+            error
+          );
+
           return Response.json(
             {
               error:
-                error.message
+                error?.message ||
+                "تعذر حفظ المنتج"
             },
             {
               status: 500
@@ -2459,7 +2775,7 @@ if (!customer && !isGuest) {
 
         const match =
           cookie.match(
-            /hz_admin=([^;]+)/
+            /(?:^|;\s*)hz_admin=([^;]+)/
           );
 
         if (!match) {
@@ -2516,7 +2832,8 @@ if (!customer && !isGuest) {
           return Response.json(
             {
               error:
-                error.message
+                error?.message ||
+                "تعذر حذف المنتج"
             },
             {
               status: 500
@@ -2531,59 +2848,163 @@ if (!customer && !isGuest) {
 
 
     /* =====================================================
-       باقي ملفات الموقع
+       HEALTH CHECK
     ===================================================== */
 
-/* =====================================================
-   باقي ملفات الموقع + SOCIAL SHARE IMAGE
-===================================================== */
+    if (
+      url.pathname ===
+        "/api/health" &&
+      request.method ===
+        "GET"
+    ) {
 
-const assetResponse =
-  await env.ASSETS.fetch(request);
+      try {
 
-if (
-  request.method === "GET" &&
-  new URL(request.url).pathname === "/"
-) {
+        if (!env.DB) {
 
-  const contentType =
-    assetResponse.headers.get("content-type") || "";
-
-  if (
-    contentType.includes("text/html")
-  ) {
-
-    const ogImage =
-      "https://i.ibb.co/v4Xbhb88/IMG-3508.jpg";
-
-    return new HTMLRewriter()
-
-      .on("head", {
-
-        element(element) {
-
-          element.append(
-            `<meta property="og:image" content="${ogImage}">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1440">
-<meta property="og:image:height" content="768">`,
+          return Response.json(
             {
-              html: true
+              ok:
+                false,
+
+              db:
+                false,
+
+              error:
+                "D1 DB binding غير موجود"
+            },
+            {
+              status:
+                500
             }
           );
 
         }
 
-      })
+        const result =
+          await env.DB
+            .prepare(
+              "SELECT COUNT(*) AS count FROM products"
+            )
+            .first();
 
-      .transform(assetResponse);
+        return Response.json({
+
+          ok:
+            true,
+
+          db:
+            true,
+
+          products:
+            Number(
+              result?.count || 0
+            )
+
+        });
+
+      } catch (error) {
+
+        return Response.json(
+          {
+            ok:
+              false,
+
+            db:
+              false,
+
+            error:
+              error?.message ||
+              "D1 error"
+          },
+          {
+            status:
+              500
+          }
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       باقي ملفات الموقع + SOCIAL SHARE IMAGE
+    ===================================================== */
+
+    if (!env.ASSETS) {
+
+      return new Response(
+        "ASSETS binding غير موجود",
+        {
+          status:
+            500,
+
+          headers: {
+            "Content-Type":
+              "text/plain; charset=utf-8"
+          }
+
+        }
+      );
+
+    }
+
+    const assetResponse =
+      await env.ASSETS.fetch(
+        request
+      );
+
+    if (
+      request.method === "GET" &&
+      url.pathname === "/"
+    ) {
+
+      const contentType =
+        assetResponse.headers.get(
+          "content-type"
+        ) || "";
+
+      if (
+        contentType.includes(
+          "text/html"
+        )
+      ) {
+
+        const ogImage =
+          "https://i.ibb.co/v4Xbhb88/IMG-3508.jpg";
+
+        return new HTMLRewriter()
+
+          .on("head", {
+
+            element(element) {
+
+              element.append(
+                `<meta property="og:image" content="${ogImage}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1440">
+<meta property="og:image:height" content="768">`,
+                {
+                  html:
+                    true
+                }
+              );
+
+            }
+
+          })
+
+          .transform(
+            assetResponse
+          );
+
+      }
+
+    }
+
+    return assetResponse;
 
   }
 
-}
-
-return assetResponse;
-
-  }
-
-};    
+};
