@@ -2539,38 +2539,56 @@ export default {
        باقي ملفات الموقع
     ===================================================== */
 
-    const assetResponse = await env.ASSETS.fetch(request);
+/* =====================================================
+   باقي ملفات الموقع + SOCIAL SHARE IMAGE
+===================================================== */
 
-if (request.method === "GET" && new URL(request.url).pathname === "/") {
-  const contentType = assetResponse.headers.get("content-type") || "";
+const assetResponse =
+  await env.ASSETS.fetch(request);
 
-  if (contentType.includes("text/html")) {
-    let html = await assetResponse.text();
+if (
+  request.method === "GET" &&
+  new URL(request.url).pathname === "/"
+) {
 
-    const ogImage = "https://i.ibb.co/v4Xbhb88/IMG-3508.jpg";
+  const contentType =
+    assetResponse.headers.get("content-type") || "";
 
-    html = html.replace(
-      /<meta\s+property=["']og:image["'][^>]*>/i,
-      `<meta property="og:image" content="${ogImage}">`
-    );
+  if (
+    contentType.includes("text/html")
+  ) {
 
-    if (!/<meta\s+property=["']og:image["']/i.test(html)) {
-      html = html.replace(
-        /<\/head>/i,
-        `<meta property="og:image" content="${ogImage}">
-</head>`
-      );
-    }
+    const ogImage =
+      "https://i.ibb.co/v4Xbhb88/IMG-3508.jpg";
 
-    return new Response(html, {
-      status: assetResponse.status,
-      headers: assetResponse.headers
-    });
+    return new HTMLRewriter()
+
+      .on("head", {
+
+        element(element) {
+
+          element.append(
+            `<meta property="og:image" content="${ogImage}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1440">
+<meta property="og:image:height" content="768">`,
+            {
+              html: true
+            }
+          );
+
+        }
+
+      })
+
+      .transform(assetResponse);
+
   }
+
 }
 
 return assetResponse;
 
   }
 
-};
+};    
