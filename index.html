@@ -4008,6 +4008,138 @@ return;
 
 }
 
+/*
+  فتح صفحة المنتج الكاملة بدل النافذة الصغيرة
+*/
+window.location.href =
+"/product.html?id=" +
+encodeURIComponent(product.id);
+
+}
+
+
+/*
+  ملاحظة:
+  كود نافذة تفاصيل المنتج القديمة تم إلغاؤه من هنا،
+  لأن صفحة المنتج أصبحت product.html.
+*/
+
+function addFromDetails(id){
+
+add(id);
+
+closeProductDetails();
+
+}
+
+
+function closeProductDetails(event){
+
+if(
+event &&
+event.target !==
+document.getElementById(
+"productDetailsModal"
+)
+){
+
+return;
+
+}
+
+document
+.getElementById(
+"productDetailsModal"
+)
+.classList.remove("show");
+
+document.body.style.overflow="";
+
+}
+
+
+function category(cat,btn){
+
+current=cat;
+
+document
+.querySelectorAll(".nav button")
+.forEach(
+x=>x.classList.remove("active")
+);
+
+document
+.querySelectorAll(".filter")
+.forEach(
+x=>x.classList.remove("active")
+);
+
+if(btn){
+
+btn.classList.add("active");
+
+}
+
+const names={
+
+all:"منتجاتنا",
+
+perfumes:"العطور",
+
+skin:"العناية بالبشرة",
+
+personal:"العناية الشخصية",
+
+cleaning:"النظافة"
+
+};
+
+document
+.getElementById("shopTitle")
+.textContent=
+names[cat] || "منتجاتنا";
+
+render();
+
+goShop();
+
+}
+
+
+function searchProducts(){
+
+current="all";
+
+document
+.querySelectorAll(".nav button")
+.forEach(
+x=>x.classList.remove("active")
+);
+
+document
+.querySelectorAll(".filter")
+.forEach(
+x=>x.classList.remove("active")
+);
+
+render();
+
+goShop();
+
+}
+const product =
+products.find(
+x => x.id === Number(id)
+);
+
+if(!product){
+
+toast("المنتج غير موجود");
+
+return;
+
+}
+
 window.location.href =
 "/product.html?id=" +
 encodeURIComponent(product.id);
