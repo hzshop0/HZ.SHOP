@@ -3072,15 +3072,13 @@ box.innerHTML=
 
 try{
 
-const response=
-await fetch(
-"/api/products",
-{
-method:"GET",
-cache:"no-store"
-}
+const response = await fetch(
+  "/api/products?t=" + Date.now(),
+  {
+    method:"GET",
+    cache:"no-store"
+  }
 );
-
 if(!response.ok){
 
 throw new Error(
