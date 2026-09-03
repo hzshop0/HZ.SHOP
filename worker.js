@@ -1675,20 +1675,7 @@ if (!customer && !isGuest) {
             env
           );
 
-        if (!customer) {
-
-          return Response.json(
-            {
-              error:
-                "يجب تسجيل الدخول قبل إتمام الطلب"
-            },
-            {
-              status: 401
-            }
-          );
-
-        }
-
+        
         const data =
           await request.json();
 
@@ -1737,9 +1724,9 @@ if (!customer && !isGuest) {
             `)
             .bind(
 
-              Number(
-                customer.id
-              ),
+              customer
+  ? Number(customer.id)
+  : null,
 
               String(
                 data.customer_name
@@ -1804,7 +1791,9 @@ if (!customer && !isGuest) {
               orderId,
 
             customer_id:
-              customer.id
+  customer
+    ? customer.id
+    : null
 
           })
         );
