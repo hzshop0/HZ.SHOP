@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HZ.SHOP | المنتج</title>
+
+<meta name="description" content="HZ.SHOP — اكتشف تفاصيل المنتج وتسوق بسهولة.">
+<meta name="theme-color" content="#fffdf9">
+
+<style>
+
+:root{
+--gold:#a27f25;
+--gold-light:#d2b15c;
+--dark:#292722;
+--text:#403d37;
+--muted:#77736b;
+--line:#ddd8ce;
+--bg:#fffdf9;
+--soft:#f7f5f0;
+}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+Tahoma,
+Arial,
+sans-serif;
+background:var(--bg);
+color:var(--text);
+line-height:1.7;
+}
+
+button,
+input{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.topbar{
+background:#292722;
+color:#fff;
+text-align:center;
+font-size:11px;
+padding:8px 15px;
+letter-spacing:.2px;
+}
+
+header{
+position:sticky;
+top:0;
+z-index:1000;
+background:rgba(255,253,249,.96);
+backdrop-filter:blur(12px);
+border-bottom:1px solid var(--line);
+}
+
+.header{
+max-width:1400px;
+margin:auto;
+height:78px;
+padding:0 25px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+}
+
+.logo{
+display:flex;
+flex-direction:column;
+min-width:150px;
+}
+
+.logo strong{
+font-size:24px;
+letter-spacing:2px;
+color:#292722;
+line-height:1;
+}
+
+.logo small{
+font-size:8px;
+letter-spacing:2px;
+color:var(--gold);
+margin-top:5px;
+}
+
+.header-actions{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.icon-btn{
+position:relative;
+width:44px;
+height:44px;
+border:1px solid var(--line);
+background:#fffdf9;
+color:#5d584f;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:19px;
+transition:.2s;
+}
+
+.icon-btn:hover{
+border-color:var(--gold);
+color:var(--gold);
+transform:translateY(-1px);
+}
+
+.badge{
+position:absolute;
+top:-4px;
+right:-3px;
+min-width:19px;
+height:19px;
+padding:0 5px;
+border-radius:50px;
+background:#292722;
+color:#fff;
+font-size:9px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.page{
+max-width:1300px;
+margin:auto;
+padding:30px 25px 70px;
+}
+
+.breadcrumb{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:11px;
+color:#8b867d;
+margin-bottom:25px;
+flex-wrap:wrap;
+}
+
+.breadcrumb button{
+border:0;
+background:none;
+color:var(--gold);
+font-size:11px;
+}
+
+.product-layout{
+display:grid;
+grid-template-columns:minmax(0,1.08fr) minmax(350px,.92fr);
+gap:55px;
+align-items:start;
+}
+
+.gallery-section{
+min-width:0;
+}
+
+.main-image{
+position:relative;
+width:100%;
+height:620px;
+background:#f7f5f0;
+border:1px solid var(--line);
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.main-image img{
+width:100%;
+height:100%;
+object-fit:contain;
+display:block;
+}
+
+.fallback{
+display:none;
+align-items:center;
+justify-content:center;
+width:100%;
+height:100%;
+padding:30px;
+text-align:center;
+font-size:28px;
+color:var(--gold);
+font-weight:bold;
+}
+
+.gallery-arrow{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+width:42px;
+height:42px;
+border-radius:50%;
+border:1px solid var(--line);
+background:rgba(255,253,249,.94);
+color:var(--gold);
+font-size:28px;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:3;
+}
+
+.gallery-arrow:hover{
+border-color:var(--gold);
+}
+
+.gallery-arrow.prev{
+right:15px;
+}
+
+.gallery-arrow.next{
+left:15px;
+}
+
+.thumbs{
+display:flex;
+gap:10px;
+overflow-x:auto;
+padding:12px 2px 3px;
+scrollbar-width:none;
+}
+
+.thumbs::-webkit-scrollbar{
+display:none;
+}
+
+.thumb{
+flex:0 0 78px;
+height:78px;
+border:1px solid var(--line);
+background:#f7f5f0;
+padding:3px;
+overflow:hidden;
+}
+
+.thumb.active{
+border:2px solid var(--gold);
+}
+
+.thumb img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.product-info{
+padding:10px 0;
+}
+
+.category{
+font-size:11px;
+color:var(--gold);
+letter-spacing:.5px;
+margin-bottom:8px;
+}
+
+.product-name{
+font-size:38px;
+line-height:1.25;
+font-weight:600;
+color:#292722;
+margin-bottom:18px;
+}
+
+.description{
+font-size:14px;
+color:var(--muted);
+line-height:2;
+margin-bottom:25px;
+white-space:pre-line;
+}
+
+.price-box{
+display:flex;
+align-items:center;
+gap:15px;
+padding:20px 0;
+border-top:1px solid var(--line);
+border-bottom:1px solid var(--line);
+margin-bottom:25px;
+}
+
+.price{
+font-size:31px;
+font-weight:bold;
+color:var(--gold);
+}
+
+.old-price{
+font-size:17px;
+color:#aaa;
+text-decoration:line-through;
+}
+
+.stock{
+display:inline-flex;
+align-items:center;
+gap:7px;
+font-size:12px;
+color:#4f7656;
+background:#f1f6f0;
+border:1px solid #d8e6d5;
+padding:7px 12px;
+margin-bottom:20px;
+}
+
+.quantity-row{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:15px;
+}
+
+.quantity-label{
+font-size:12px;
+color:var(--muted);
+}
+
+.quantity{
+display:flex;
+height:48px;
+border:1px solid var(--line);
+background:#fffdf9;
+}
+
+.quantity button{
+width:45px;
+border:0;
+background:#f7f5f0;
+color:var(--gold);
+font-size:20px;
+}
+
+.quantity input{
+width:55px;
+border:0;
+border-left:1px solid var(--line);
+border-right:1px solid var(--line);
+background:#fffdf9;
+text-align:center;
+outline:none;
+}
+
+.add-btn{
+width:100%;
+min-height:55px;
+border:0;
+border-radius:4px;
+background:linear-gradient(
+135deg,
+#a47e27,
+#d2b15c,
+#a47e27
+);
+color:#fff;
+font-weight:bold;
+font-size:15px;
+box-shadow:0 8px 25px rgba(60,50,30,.14);
+transition:.2s;
+}
+
+.add-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 12px 30px rgba(60,50,30,.2);
+}
+
+.buy-info{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:15px;
+}
+
+.info-box{
+border:1px solid var(--line);
+background:#f7f5f0;
+padding:13px;
+text-align:center;
+font-size:11px;
+color:#77736b;
+}
+
+.loading,
+.error{
+min-height:500px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:#77736b;
+font-size:14px;
+padding:30px;
+}
+
+.error{
+flex-direction:column;
+gap:15px;
+}
+
+.back-btn{
+border:1px solid var(--gold);
+background:#fffdf9;
+color:var(--gold);
+padding:11px 20px;
+border-radius:4px;
+}
+
+.toast{
+position:fixed;
+bottom:25px;
+right:25px;
+z-index:5000;
+background:#fffdf9;
+border:1px solid var(--gold);
+padding:14px 18px;
+color:#403d37;
+transform:translateY(120px);
+opacity:0;
+transition:.3s;
+box-shadow:0 10px 30px rgba(60,50,30,.12);
+}
+
+.toast.show{
+transform:translateY(0);
+opacity:1;
+}
+
+@media(max-width:900px){
+
+.header{
+height:68px;
+padding:0 15px;
+}
+
+.logo strong{
+font-size:20px;
+}
+
+.product-layout{
+grid-template-columns:1fr;
+gap:30px;
+}
+
+.main-image{
+height:480px;
+}
+
+.product-name{
+font-size:30px;
+}
+
+.page{
+padding:22px 15px 50px;
+}
+
+}
+
+@media(max-width:520px){
+
+.topbar{
+font-size:9px;
+}
+
+.header{
+padding:0 10px;
+}
+
+.header-actions{
+gap:5px;
+}
+
+.icon-btn{
+width:40px;
+height:40px;
+min-width:40px;
+font-size:17px;
+}
+
+.main-image{
+height:390px;
+}
+
+.product-name{
+font-size:27px;
+}
+
+.description{
+font-size:13px;
+}
+
+.price{
+font-size:27px;
+}
+
+.price-box{
+padding:16px 0;
+}
+
+.buy-info{
+grid-template-columns:1fr;
+}
+
+.thumb{
+flex-basis:65px;
+height:65px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+✦ مرحبًا بكم في HZ.SHOP — تجربة تسوق فاخرة ✦
+</div>
+
+<header>
+
+<div class="header">
+
+<div class="logo">
+<strong>HZ.SHOP</strong>
+<small>LUXURY BEAUTY STORE</small>
+</div>
+
+<div class="header-actions">
+
+<button
+class="icon-btn"
+onclick="goHome()"
+title="الرئيسية"
+aria-label="الرئيسية"
+>
+⌂
+</button>
+
+<button
+class="icon-btn"
+onclick="openCart()"
+title="السلة"
+aria-label="السلة"
+>
+🛒
+<span
+class="badge"
+id="cartCount"
+>
+0
+</span>
+</button>
+
+<button
+class="icon-btn"
+onclick="openAccount()"
+title="حساب العميل"
+aria-label="حساب العميل"
+>
+♙
+</button>
+
+</div>
+
+</div>
+
+</header>
+
+<main class="page">
+
+<div class="breadcrumb">
+
+<button onclick="goHome()">
+الرئيسية
+</button>
+
+<span>›</span>
+
+<span id="breadcrumbCategory">
+المنتج
+</span>
+
+<span>›</span>
+
+<strong id="breadcrumbName">
+جاري التحميل...
+</strong>
+
+</div>
+
+<div id="productContainer">
+
+<div class="loading">
+جاري تحميل المنتج...
+</div>
+
+</div>
+
+</main>
+
+<div
+class="toast"
+id="toast"
+></div>
+
+<script>
+
+let product=null;
+
+let images=[];
+
+let currentImage=0;
+
+let cart=
+JSON.parse(
+localStorage.getItem("hz_cart") || "[]"
+);
+
+function escapeHtml(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+function normalizeImages(product){
+
+let raw=
+product &&
+product.images !== undefined &&
+product.images !== null
+?
+product.images
+:
+product?.image || [];
+
+if(typeof raw==="string"){
+
+const value=raw.trim();
+
+if(!value){
+
+return [];
+
+}
+
+if(
+value.startsWith("[") &&
+value.endsWith("]")
+){
+
+try{
+
+const parsed=JSON.parse(value);
+
+if(Array.isArray(parsed)){
+
+raw=parsed;
+
+}else{
+
+raw=[value];
+
+}
+
+}catch(error){
+
+raw=[value];
+
+}
+
+}else if(value.includes("\n")){
+
+raw=
+value
+.split(/\r?\n/)
+.map(x=>x.trim())
+.filter(Boolean);
+
+}else if(value.includes(",")){
+
+raw=
+value
+.split(",")
+.map(x=>x.trim())
+.filter(Boolean);
+
+}else{
+
+raw=[value];
+
+}
+
+}
+
+if(!Array.isArray(raw)){
+
+raw=[raw];
+
+}
+
+return raw
+.map(image=>{
+
+if(typeof image==="string"){
+
+return image.trim();
+
+}
+
+if(
+image &&
+typeof image==="object"
+){
+
+return String(
+image.url ||
+image.image ||
+image.src ||
+image.path ||
+""
+).trim();
+
+}
+
+return "";
+
+})
+.filter(Boolean);
+
+}
+
+function getProductId(){
+
+const params=
+new URLSearchParams(
+window.location.search
+);
+
+const id=
+Number(
+params.get("id")
+);
+
+return Number.isFinite(id) && id>0
+?
+id
+:
+null;
+
+}
+
+async function loadProduct(){
+
+const container=
+document.getElementById(
+"productContainer"
+);
+
+const id=
+getProductId();
+
+if(!id){
+
+showError(
+"رابط المنتج غير صحيح."
+);
+
+return;
+
+}
+
+try{
+
+const response=
+await fetch(
+"/api/products",
+{
+method:"GET",
+cache:"no-store"
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+"تعذر تحميل المنتجات"
+);
+
+}
+
+const data=
+await response.json();
+
+if(!Array.isArray(data)){
+
+throw new Error(
+"بيانات المنتجات غير صحيحة"
+);
+
+}
+
+const found=
+data.find(
+item=>Number(item.id)===id
+);
+
+if(!found){
+
+showError(
+"المنتج غير موجود."
+);
+
+return;
+
+}
+
+product=found;
+
+images=
+normalizeImages(product);
+
+if(!images.length && product.image){
+
+images=[
+String(product.image)
+];
+
+}
+
+document.title=
+String(product.name || "HZ.SHOP")
++
+" | HZ.SHOP";
+
+document
+.getElementById("breadcrumbCategory")
+.textContent=
+categoryName(
+product.category
+);
+
+document
+.getElementById("breadcrumbName")
+.textContent=
+product.name || "المنتج";
+
+renderProduct();
+
+updateCartCount();
+
+}catch(error){
+
+console.error(error);
+
+showError(
+"تعذر تحميل المنتج. حاول تحديث الصفحة."
+);
+
+}
+
+}
+
+function categoryName(value){
+
+const text=
+String(value || "")
+.trim()
+.toLowerCase();
+
+const names={
+
+perfumes:"العطور",
+
+perfume:"العطور",
+
+skin:"العناية بالبشرة",
+
+personal:"العناية الشخصية",
+
+cleaning:"النظافة"
+
+};
+
+return names[text] ||
+String(value || "المنتج");
+
+}
+
+function renderProduct(){
+
+const container=
+document.getElementById(
+"productContainer"
+);
+
+const price=
+Number(product.price || 0);
+
+const old=
+product.old_price !== null &&
+product.old_price !== undefined &&
+product.old_price !== ""
+?
+Number(product.old_price)
+:
+null;
+
+const hasMultiple=
+images.length>1;
+
+const mainImage=
+images[0] || "";
+
+let thumbs="";
+
+if(hasMultiple){
+
+thumbs=
+images
+.map(
+(image,index)=>`
+
+<button
+class="thumb ${index===0 ? "active" : ""}"
+onclick="changeImage(${index})"
+type="button"
+>
+<img
+src="${escapeHtml(image)}"
+alt="${escapeHtml(product.name)} - ${index+1}"
+loading="${index===0 ? "eager" : "lazy"}"
+>
+</button>
+
+`
+)
+.join("");
+
+}
+
+const gallery=`
+
+<div class="gallery-section">
+
+<div class="main-image">
+
+${
+mainImage
+?
+`
+
+<img
+id="mainProductImage"
+src="${escapeHtml(mainImage)}"
+alt="${escapeHtml(product.name)}"
+onerror="imageError(this)"
+>
+
+<div
+class="fallback"
+id="fallback"
+>
+${escapeHtml(product.name)}
+</div>
+
+`
+:
+`
+
+<div
+class="fallback"
+style="display:flex"
+>
+${escapeHtml(product.name)}
+</div>
+
+`
+}
+
+${
+hasMultiple
+?
+`
+
+<button
+class="gallery-arrow prev"
+onclick="changeImage(currentImage-1)"
+type="button"
+aria-label="الصورة السابقة"
+>
+›
+</button>
+
+<button
+class="gallery-arrow next"
+onclick="changeImage(currentImage+1)"
+type="button"
+aria-label="الصورة التالية"
+>
+‹
+</button>
+
+`
+:
+""
+}
+
+</div>
+
+${
+hasMultiple
+?
+`
+
+<div class="thumbs">
+${thumbs}
+</div>
+
+`
+:
+""
+}
+
+</div>
+
+`;
+
+const stock=
+Number(product.stock || 0);
+
+container.innerHTML=`
+
+<div class="product-layout">
+
+${gallery}
+
+<div class="product-info">
+
+<div class="category">
+${escapeHtml(
+categoryName(product.category)
+)}
+</div>
+
+<h1 class="product-name">
+${escapeHtml(product.name)}
+</h1>
+
+<div class="description">
+${escapeHtml(
+product.description ||
+"اكتشف تفاصيل هذا المنتج من HZ.SHOP."
+)}
+</div>
+
+<div class="price-box">
+
+<strong class="price">
+$${price.toFixed(2)}
+</strong>
+
+${
+old !== null && !isNaN(old)
+?
+`
+
+<del class="old-price">
+$${old.toFixed(2)}
+</del>
+
+`
+:
+""
+}
+
+</div>
+
+<div class="stock">
+✓ المنتج متوفر
+</div>
+
+<div class="quantity-row">
+
+<span class="quantity-label">
+الكمية
+</span>
+
+<div class="quantity">
+
+<button
+type="button"
+onclick="changeQuantity(-1)"
+>
+−
+</button>
+
+<input
+id="quantity"
+type="number"
+value="1"
+min="1"
+max="99"
+inputmode="numeric"
+>
+ 
+<button
+type="button"
+onclick="changeQuantity(1)"
+>
++
+</button>
+
+</div>
+
+</div>
+
+<button
+class="add-btn"
+onclick="addToCart()"
+type="button"
+>
+🛒 أضف إلى السلة
+</button>
+
+<div class="buy-info">
+
+<div class="info-box">
+🚚 توصيل سريع
+</div>
+
+<div class="info-box">
+💳 الدفع عند الاستلام
+</div>
+
+<div class="info-box">
+🔒 تسوق آمن
+</div>
+
+<div class="info-box">
+💬 خدمة العملاء عبر WhatsApp
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function imageError(img){
+
+img.style.display="none";
+
+const fallback=
+document.getElementById(
+"fallback"
+);
+
+if(fallback){
+
+fallback.style.display="flex";
+
+}
+
+}
+
+function changeImage(index){
+
+if(!images.length){
+
+return;
+
+}
+
+if(index<0){
+
+index=
+images.length-1;
+
+}
+
+if(index>=images.length){
+
+index=0;
+
+}
+
+currentImage=index;
+
+const main=
+document.getElementById(
+"mainProductImage"
+);
+
+if(main){
+
+main.src=images[index];
+
+main.alt=
+String(product.name || "المنتج")
++
+" - "
++
+(index+1);
+
+main.style.display="block";
+
+}
+
+document
+.querySelectorAll(".thumb")
+.forEach(
+(thumb,i)=>{
+thumb.classList.toggle(
+"active",
+i===index
+);
+}
+);
+
+const active=
+document.querySelector(
+".thumb.active"
+);
+
+if(active){
+
+active.scrollIntoView({
+behavior:"smooth",
+block:"nearest",
+inline:"center"
+});
+
+}
+
+}
+
+function changeQuantity(amount){
+
+const input=
+document.getElementById(
+"quantity"
+);
+
+if(!input){
+
+return;
+
+}
+
+let value=
+Number(input.value || 1);
+
+value+=amount;
+
+if(value<1){
+
+value=1;
+
+}
+
+if(value>99){
+
+value=99;
+
+}
+
+input.value=value;
+
+}
+
+function addToCart(){
+
+if(!product){
+
+return;
+
+}
+
+const input=
+document.getElementById(
+"quantity"
+);
+
+let quantity=
+Number(input?.value || 1);
+
+if(!Number.isFinite(quantity)){
+
+quantity=1;
+
+}
+
+quantity=
+Math.max(
+1,
+Math.min(99,Math.floor(quantity))
+);
+
+const id=
+Number(product.id);
+
+const item=
+cart.find(
+x=>Number(x.id)===id
+);
+
+if(item){
+
+item.quantity+=quantity;
+
+}else{
+
+cart.push({
+
+id:id,
+
+name:
+String(product.name || ""),
+
+price:
+Number(product.price || 0),
+
+image:
+images[0] ||
+String(product.image || ""),
+
+quantity:quantity
+
+});
+
+}
+
+saveCart();
+
+updateCartCount();
+
+toast(
+product.name+
+" تمت إضافته إلى السلة"
+);
+
+}
+
+function saveCart(){
+
+localStorage.setItem(
+"hz_cart",
+JSON.stringify(cart)
+);
+
+}
+
+function updateCartCount(){
+
+const count=
+cart.reduce(
+(total,item)=>
+total+
+Number(item.quantity || 0),
+0
+);
+
+const badge=
+document.getElementById(
+"cartCount"
+);
+
+if(badge){
+
+badge.textContent=count;
+
+}
+
+}
+
+function toast(message){
+
+const box=
+document.getElementById(
+"toast"
+);
+
+if(!box){
+
+return;
+
+}
+
+box.textContent=message;
+
+box.classList.add("show");
+
+clearTimeout(
+window.__hzToastTimer
+);
+
+window.__hzToastTimer=
+setTimeout(
+()=>{
+box.classList.remove("show");
+},
+2600
+);
+
+}
+
+function goHome(){
+
+window.location.href="/";
+
+}
+
+function openCart(){
+
+window.location.href="/#shop";
+
+}
+
+function openAccount(){
+
+window.location.href="/#customer";
+
+}
+
+function showError(message){
+
+document
+.getElementById("productContainer")
+.innerHTML=`
+
+<div class="error">
+
+<div>
+${escapeHtml(message)}
+</div>
+
+<button
+class="back-btn"
+onclick="goHome()"
+type="button"
+>
+العودة إلى المتجر
+</button>
+
+</div>
+
+`;
+
+}
+
+let touchStartX=0;
+
+document.addEventListener(
+"touchstart",
+event=>{
+
+if(
+event.touches &&
+event.touches.length
+){
+
+touchStartX=
+event.touches[0].clientX;
+
+}
+
+},
+{
+passive:true
+}
+);
+
+document.addEventListener(
+"touchend",
+event=>{
+
+if(!images.length){
+
+return;
+
+}
+
+if(
+!event.changedTouches ||
+!event.changedTouches.length
+){
+
+return;
+
+}
+
+const endX=
+event.changedTouches[0].clientX;
+
+const difference=
+touchStartX-endX;
+
+if(Math.abs(difference)<45){
+
+return;
+
+}
+
+if(difference>0){
+
+changeImage(currentImage+1);
+
+}else{
+
+changeImage(currentImage-1);
+
+}
+
+},
+{
+passive:true
+}
+);
+
+loadProduct();
+
+</script>
+
+</body>
+</html>
