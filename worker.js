@@ -1299,24 +1299,30 @@ export default {
       try {
 
         const customer =
-          await verifyCustomerSession(
-            request,
-            env
-          );
+  await verifyCustomerSession(
+    request,
+    env
+  );
 
-        if (!customer) {
+const data =
+  await request.json();
 
-          return Response.json(
-            {
-              error:
-                "يجب تسجيل الدخول"
-            },
-            {
-              status: 401
-            }
-          );
+const isGuest =
+  data.guest === true;
 
-        }
+if (!customer && !isGuest) {
+
+  return Response.json(
+    {
+      error:
+        "يجب تسجيل الدخول قبل إتمام الطلب"
+    },
+    {
+      status: 401
+    }
+  );
+
+}
 
         const { results } =
           await env.DB
