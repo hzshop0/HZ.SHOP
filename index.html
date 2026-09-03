@@ -4604,11 +4604,13 @@ function checkout(){
 
 if(!cart.length){
 
-toast(
-"السلة فارغة"
-);
+toast("السلة فارغة");
 
 return;
+
+}
+
+window.location.href="/checkout.html";
 
 }
 
