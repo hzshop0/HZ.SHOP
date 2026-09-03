@@ -3997,9 +3997,9 @@ passive:true
 
 function openProductDetails(id){
 
-const product=
+const product =
 products.find(
-x=>x.id===Number(id)
+x => x.id === Number(id)
 );
 
 if(!product){
@@ -4010,12 +4010,11 @@ return;
 
 }
 
-window.location.href=
-"/product.html?id="+
+window.location.href =
+"/product.html?id=" +
 encodeURIComponent(product.id);
 
 }
-
 const modal=
 document.getElementById(
 "productDetailsModal"
