@@ -2539,9 +2539,37 @@ export default {
        باقي ملفات الموقع
     ===================================================== */
 
-    return env.ASSETS.fetch(
-      request
+    const assetResponse = await env.ASSETS.fetch(request);
+
+if (request.method === "GET" && new URL(request.url).pathname === "/") {
+  const contentType = assetResponse.headers.get("content-type") || "";
+
+  if (contentType.includes("text/html")) {
+    let html = await assetResponse.text();
+
+    const ogImage = "https://i.ibb.co/v4Xbhb88/IMG-3508.jpg";
+
+    html = html.replace(
+      /<meta\s+property=["']og:image["'][^>]*>/i,
+      `<meta property="og:image" content="${ogImage}">`
     );
+
+    if (!/<meta\s+property=["']og:image["']/i.test(html)) {
+      html = html.replace(
+        /<\/head>/i,
+        `<meta property="og:image" content="${ogImage}">
+</head>`
+      );
+    }
+
+    return new Response(html, {
+      status: assetResponse.status,
+      headers: assetResponse.headers
+    });
+  }
+}
+
+return assetResponse;
 
   }
 
