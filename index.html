@@ -6,7 +6,7 @@
 <title>HZ.SHOP | Luxury Store</title>
 <!-- HZ.SHOP - Social Share Image -->
 <meta property="og:type" content="website">
-  <meta property="og:url" content="https://hz-shop.hasanfneish82-3db.workers.dev/">
+<meta property="og:url" content="https://hz-shop.hasanfneish82-3db.workers.dev/">
 <meta property="og:title" content="HZ.SHOP | Luxury Beauty Store">
 <meta property="og:description" content="متجر HZ.SHOP للعطور ومنتجات العناية والجمال">
 
@@ -2114,6 +2114,7 @@ oninput="searchProducts()">
 🛒
 <span class="badge" id="cartCount">0</span>
 </button>
+
 <button
   class="icon-btn"
   onclick="openCustomerAuth()"
@@ -2672,7 +2673,7 @@ onclick="closeCheckout()">
 </button>
 
 <button
-class="whatsapp" style="display:none"
+class="whatsapp"
 id="whatsappButton"
 onclick="sendWhatsApp()">
 📱 إرسال الطلب عبر WhatsApp
@@ -2816,3752 +2817,605 @@ id="toast">
 let products=[];
 let current="all";
 
+function toast(msg){
+const t = document.getElementById("toast");
+if(!t) return;
+t.textContent = msg;
+t.classList.add("show");
+setTimeout(()=>{
+t.classList.remove("show");
+},3000);
+}
+
+function openCustomerAuth(){
+window.location.href = "/login.html";
+}
+
 function readStoredArray(key){
-
 try{
-
-const value=
-localStorage.getItem(key);
-
-if(!value){
-return [];
-}
-
-const parsed=
-JSON.parse(value);
-
-return Array.isArray(parsed)
-? parsed
-: [];
-
+const value = localStorage.getItem(key);
+if(!value) return [];
+const parsed = JSON.parse(value);
+return Array.isArray(parsed) ? parsed : [];
 }catch(error){
-
-console.warn(
-"HZ.SHOP: تجاهل بيانات محلية غير صالحة:",
-key
-);
-
-try{
-localStorage.removeItem(key);
-}catch(removeError){}
-
+console.warn("HZ.SHOP: تجاهل بيانات محلية غير صالحة:", key);
+try{ localStorage.removeItem(key); }catch(e){}
 return [];
-
+}
 }
 
-}
-
-let cart=
-readStoredArray("hz_cart");
-
-let favorites=
-readStoredArray("hz_fav");
-
-let discountRate=0;
-let selectedPayment="الدفع عند الاستلام";
-
-/* =========================================
-   الصور المتعددة
-   يدعم:
-   images: [...]
-   image: [...]
-   image: "..."
-   image: JSON string
-   ========================================= */
+let cart = readStoredArray("hz_cart");
+let favorites = readStoredArray("hz_fav");
+let discountRate = 0;
+let selectedPayment = "الدفع عند الاستلام";
 
 function normalizeImages(product){
-
-let rawImages=[];
-
-/* الأولوية للحقل images */
-
-if(
-product &&
-product.images !== undefined &&
-product.images !== null
-){
-
-rawImages=product.images;
-
+let rawImages = [];
+if(product && product.images !== undefined && product.images !== null){
+rawImages = product.images;
+}else if(product && product.image !== undefined && product.image !== null){
+rawImages = product.image;
 }
 
-/* إذا لم يوجد images نستخدم image */
-
-else if(
-product &&
-product.image !== undefined &&
-product.image !== null
-){
-
-rawImages=product.image;
-
-}
-
-/* تحويل JSON string إلى array إذا لزم */
-
-if(typeof rawImages==="string"){
-
-const value=rawImages.trim();
-
-if(!value){
-
-return [];
-
-}
-
-if(
-(value.startsWith("[") && value.endsWith("]"))
-){
-
+if(typeof rawImages === "string"){
+const value = rawImages.trim();
+if(!value) return [];
+if(value.startsWith("[") && value.endsWith("]")){
 try{
-
-const parsed=JSON.parse(value);
-
-if(Array.isArray(parsed)){
-
-rawImages=parsed;
-
-}else{
-
-rawImages=[value];
-
+const parsed = JSON.parse(value);
+rawImages = Array.isArray(parsed) ? parsed : [value];
+}catch(e){
+rawImages = [value];
 }
-
-}catch(error){
-
-rawImages=[value];
-
-}
-
 }else{
-
-/*
-إذا كانت الصور مرسلة مفصولة بفاصلة
-أو بسطر جديد، نتعامل معها أيضًا.
-*/
-
 if(value.includes("\n")){
-
-rawImages=
-value
-.split(/\r?\n/)
-.map(x=>x.trim())
-.filter(Boolean);
-
+rawImages = value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
 }else if(value.includes(",")){
-
-rawImages=
-value
-.split(",")
-.map(x=>x.trim())
-.filter(Boolean);
-
+rawImages = value.split(",").map(x=>x.trim()).filter(Boolean);
 }else{
-
-rawImages=[value];
-
+rawImages = [value];
+}
+}
 }
 
+if(!Array.isArray(rawImages)) rawImages = [rawImages];
+
+return rawImages.map(image => {
+if(typeof image === "string") return image.trim();
+if(image && typeof image === "object"){
+return String(image.url || image.image || image.src || image.path || "").trim();
 }
-
-}
-
-if(!Array.isArray(rawImages)){
-
-rawImages=[rawImages];
-
-}
-
-return rawImages
-.map(image=>{
-
-if(
-typeof image==="string"
-){
-
-return image.trim();
-
-}
-
-if(
-image &&
-typeof image==="object"
-){
-
-return String(
-image.url ||
-image.image ||
-image.src ||
-image.path ||
-""
-).trim();
-
-}
-
 return "";
-
-})
-.filter(Boolean);
-
+}).filter(Boolean);
 }
 
 function normalizeCategory(value){
-
-const text=
-String(value || "")
-.trim()
-.toLowerCase();
-
-if(
-text==="perfumes" ||
-text==="perfume" ||
-text==="العطور"
-){
-return "perfumes";
-}
-
-if(
-text==="skin" ||
-text==="العناية بالبشرة"
-){
-return "skin";
-}
-
-if(
-text==="personal" ||
-text==="العناية الشخصية"
-){
-return "personal";
-}
-
-if(
-text==="cleaning" ||
-text==="النظافة"
-){
-return "cleaning";
-}
-
+const text = String(value || "").trim().toLowerCase();
+if(text === "perfumes" || text === "perfume" || text === "العطور") return "perfumes";
+if(text === "skin" || text === "العناية بالبشرة") return "skin";
+if(text === "personal" || text === "العناية الشخصية") return "personal";
+if(text === "cleaning" || text === "النظافة") return "cleaning";
 return text;
-
 }
 
 function categoryName(value){
-
-const cat=
-normalizeCategory(value);
-
-const names={
-perfumes:"العطور",
-skin:"العناية بالبشرة",
-personal:"العناية الشخصية",
-cleaning:"النظافة"
+const cat = normalizeCategory(value);
+const names = {
+perfumes: "العطور",
+skin: "العناية بالبشرة",
+personal: "العناية الشخصية",
+cleaning: "النظافة"
 };
-
-return names[cat] ||
-String(value || "");
-
+return names[cat] || String(value || "");
 }
 
 async function loadProducts(){
-
-const box=
-document.getElementById("products");
-
-box.innerHTML=
-'<div class="loading">جاري تحميل المنتجات...</div>';
+const box = document.getElementById("products");
+box.innerHTML = '<div class="loading">جاري تحميل المنتجات...</div>';
 
 try{
+const response = await fetch("/api/products?t=" + Date.now(), {
+method: "GET",
+cache: "no-store"
+});
+if(!response.ok) throw new Error("تعذر تحميل المنتجات");
 
-const response = await fetch(
-  "/api/products?t=" + Date.now(),
-  {
-    method:"GET",
-    cache:"no-store"
-  }
-);
-if(!response.ok){
+const data = await response.json();
+if(!Array.isArray(data)) throw new Error("بيانات المنتجات غير صحيحة");
 
-throw new Error(
-"تعذر تحميل المنتجات"
-);
-
-}
-
-const data=
-await response.json();
-
-if(!Array.isArray(data)){
-
-throw new Error(
-"بيانات المنتجات غير صحيحة"
-);
-
-}
-
-products=
-data.map(product=>{
-
-const images=
-normalizeImages(product);
-
+products = data.map(product => {
+const images = normalizeImages(product);
 return {
-
-id:Number(product.id),
-
-name:
-String(product.name || ""),
-
-category:
-normalizeCategory(product.category),
-
-categoryName:
-categoryName(product.category),
-
-description:
-String(product.description || ""),
-
-price:
-Number(product.price || 0),
-
-old:
-product.old_price !== null &&
-product.old_price !== undefined &&
-product.old_price !== ""
-?
-Number(product.old_price)
-:
-null,
-
-/*
-نحتفظ بالصورة القديمة أيضًا للتوافق
-*/
-
-image:
-images[0] || String(product.image || ""),
-
-/*
-المهم: جميع الصور هنا
-*/
-
-images:images,
-
-stock:
-Number(product.stock || 0),
-
-badge:
-String(product.badge || "")
-
+id: Number(product.id),
+name: String(product.name || ""),
+category: normalizeCategory(product.category),
+categoryName: categoryName(product.category),
+description: String(product.description || ""),
+price: Number(product.price || 0),
+old: (product.old_price !== null && product.old_price !== undefined && product.old_price !== "") ? Number(product.old_price) : null,
+image: images[0] || String(product.image || ""),
+images: images,
+stock: Number(product.stock || 0),
+badge: String(product.badge || "")
 };
-
 });
 
 render();
-
+renderCart();
 }catch(error){
-
 console.error(error);
-
-box.innerHTML=
-'<div class="loading">تعذر تحميل المنتجات. حاول تحديث الصفحة.</div>';
-
-document.getElementById("results").textContent=
-"حدث خطأ في تحميل المنتجات";
-
+box.innerHTML = '<div class="loading">تعذر تحميل المنتجات. حاول تحديث الصفحة.</div>';
+document.getElementById("results").textContent = "حدث خطأ في تحميل المنتجات";
 }
-
 }
 
 function save(){
-
-localStorage.setItem(
-"hz_cart",
-JSON.stringify(cart)
-);
-
-localStorage.setItem(
-"hz_fav",
-JSON.stringify(favorites)
-);
-
+localStorage.setItem("hz_cart", JSON.stringify(cart));
+localStorage.setItem("hz_fav", JSON.stringify(favorites));
 }
-
-/* =========================================
-   إنشاء معرض الصور داخل بطاقة المنتج
-   ========================================= */
 
 function createProductGallery(product){
-
-const images=
-Array.isArray(product.images)
-?
-product.images
-:
-normalizeImages(product);
-
+const images = Array.isArray(product.images) ? product.images : normalizeImages(product);
 if(!images.length){
-
-return `
-<div class="bottle">
-${escapeHtml(product.name)}
-</div>
-`;
-
+return `<div class="bottle">${escapeHtml(product.name)}</div>`;
 }
 
-/* صورة واحدة */
-
-if(images.length===1){
-
+if(images.length === 1){
 return `
 <div class="product-gallery">
-
 <div class="product-gallery-slide">
-<img
-src="${escapeHtml(images[0])}"
-alt="${escapeHtml(product.name)}"
-loading="lazy"
-onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-
-<div
-class="bottle"
-style="display:none">
-${escapeHtml(product.name)}
+<img src="${escapeHtml(images[0])}" alt="${escapeHtml(product.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+<div class="bottle" style="display:none">${escapeHtml(product.name)}</div>
 </div>
-</div>
-
 </div>
 `;
-
 }
 
-/* عدة صور */
-
-const slides=
-images.map((image,index)=>`
-
+const slides = images.map((image, index) => `
 <div class="product-gallery-slide">
-
-<img
-src="${escapeHtml(image)}"
-alt="${escapeHtml(product.name)} - ${index+1}"
-loading="${index===0 ? "eager" : "lazy"}"
-onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-
-<div
-class="bottle"
-style="display:none">
-${escapeHtml(product.name)}
+<img src="${escapeHtml(image)}" alt="${escapeHtml(product.name)} - ${index+1}" loading="${index===0 ? "eager" : "lazy"}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+<div class="bottle" style="display:none">${escapeHtml(product.name)}</div>
 </div>
-
-</div>
-
 `).join("");
 
-const dots=
-images.map((_,index)=>`
-
-<button
-class="product-gallery-dot ${index===0 ? "active" : ""}"
-onclick="event.stopPropagation();changeCardImage(${product.id},${index})">
-</button>
-
+const dots = images.map((_, index) => `
+<button class="product-gallery-dot ${index===0 ? "active" : ""}" onclick="event.stopPropagation();changeCardImage(${product.id},${index})"></button>
 `).join("");
 
 return `
-
-<div
-class="product-gallery"
-id="gallery-${product.id}"
-data-index="0"
-data-count="${images.length}">
-
-<div
-class="product-gallery-track"
-id="gallery-track-${product.id}">
-
-${slides}
-
+<div class="product-gallery" id="gallery-${product.id}" data-index="0" data-count="${images.length}">
+<div class="product-gallery-track" id="gallery-track-${product.id}">${slides}</div>
+<button class="product-gallery-arrow prev" onclick="event.stopPropagation();changeCardImage(${product.id},getCardImageIndex(${product.id})-1)">‹</button>
+<button class="product-gallery-arrow next" onclick="event.stopPropagation();changeCardImage(${product.id},getCardImageIndex(${product.id})+1)">›</button>
+<div class="product-gallery-dots">${dots}</div>
 </div>
-
-<button
-class="product-gallery-arrow prev"
-onclick="event.stopPropagation();changeCardImage(${product.id},getCardImageIndex(${product.id})-1)">
-‹
-</button>
-
-<button
-class="product-gallery-arrow next"
-onclick="event.stopPropagation();changeCardImage(${product.id},getCardImageIndex(${product.id})+1)">
-›
-</button>
-
-<div class="product-gallery-dots">
-
-${dots}
-
-</div>
-
-</div>
-
 `;
-
 }
 
 function getCardImageIndex(id){
-
-const gallery=
-document.getElementById(
-"gallery-"+id
-);
-
-if(!gallery){
-
-return 0;
-
+const gallery = document.getElementById("gallery-" + id);
+return gallery ? Number(gallery.dataset.index || 0) : 0;
 }
 
-return Number(
-gallery.dataset.index || 0
-);
+function changeCardImage(id, index){
+const product = products.find(x => x.id === Number(id));
+if(!product) return;
+const images = Array.isArray(product.images) ? product.images : normalizeImages(product);
+if(images.length <= 1) return;
 
+if(index < 0) index = images.length - 1;
+if(index >= images.length) index = 0;
+
+const gallery = document.getElementById("gallery-" + id);
+const track = document.getElementById("gallery-track-" + id);
+if(!gallery || !track) return;
+
+gallery.dataset.index = index;
+track.style.transform = "translateX(-" + (index * 100) + "%)";
+
+const dots = gallery.querySelectorAll(".product-gallery-dot");
+dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
 }
-
-function changeCardImage(id,index){
-
-const product=
-products.find(
-x=>x.id===Number(id)
-);
-
-if(!product){
-
-return;
-
-}
-
-const images=
-Array.isArray(product.images)
-?
-product.images
-:
-normalizeImages(product);
-
-if(images.length<=1){
-
-return;
-
-}
-
-if(index<0){
-
-index=images.length-1;
-
-}
-
-if(index>=images.length){
-
-index=0;
-
-}
-
-const gallery=
-document.getElementById(
-"gallery-"+id
-);
-
-const track=
-document.getElementById(
-"gallery-track-"+id
-);
-
-if(!gallery || !track){
-
-return;
-
-}
-
-gallery.dataset.index=index;
-
-track.style.transform=
-"translateX(-"+(index*100)+"%)";
-
-const dots=
-gallery.querySelectorAll(
-".product-gallery-dot"
-);
-
-dots.forEach(
-(dot,i)=>
-dot.classList.toggle(
-"active",
-i===index
-)
-);
-
-}
-
-/* =========================================
-   لمس / سحب الصور على الهاتف
-   ========================================= */
 
 function enableGallerySwipe(){
+document.querySelectorAll(".product-gallery").forEach(gallery => {
+let startX = 0;
+gallery.addEventListener("touchstart", e => {
+if(e.touches.length) startX = e.touches[0].clientX;
+}, {passive: true});
 
-document
-.querySelectorAll(".product-gallery")
-.forEach(gallery=>{
-
-let startX=0;
-let endX=0;
-
-gallery.addEventListener(
-"touchstart",
-event=>{
-
-if(!event.touches.length){
-
-return;
-
-}
-
-startX=
-event.touches[0].clientX;
-
-},
-{
-passive:true
-}
-);
-
-gallery.addEventListener(
-"touchend",
-event=>{
-
-if(!event.changedTouches.length){
-
-return;
-
-}
-
-endX=
-event.changedTouches[0].clientX;
-
-const difference=
-startX-endX;
-
-if(Math.abs(difference)<35){
-
-return;
-
-}
-
-const id=
-gallery.id.replace(
-"gallery-",
-""
-);
-
-const currentIndex=
-getCardImageIndex(id);
-
-if(difference>0){
-
-changeCardImage(
-id,
-currentIndex+1
-);
-
-}else{
-
-changeCardImage(
-id,
-currentIndex-1
-);
-
-}
-
-},
-{
-passive:true
-}
-);
-
+gallery.addEventListener("touchend", e => {
+if(!e.changedTouches.length) return;
+const difference = startX - e.changedTouches[0].clientX;
+if(Math.abs(difference) < 35) return;
+const id = gallery.id.replace("gallery-", "");
+const currentIndex = getCardImageIndex(id);
+changeCardImage(id, difference > 0 ? currentIndex + 1 : currentIndex - 1);
+}, {passive: true});
 });
+}
 
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function render(){
+let list = [...products];
+const search = document.getElementById("search").value.trim().toLowerCase();
 
-let list=
-[...products];
-
-const search=
-document
-.getElementById("search")
-.value
-.trim()
-.toLowerCase();
-
-if(current!=="all"){
-
-list=
-list.filter(
-p=>normalizeCategory(p.category)===current
-);
-
+if(current !== "all"){
+list = list.filter(p => normalizeCategory(p.category) === current);
 }
 
 if(search){
-
-list=
-list.filter(p=>
-
-p.name
-.toLowerCase()
-.includes(search)
-
-||
-
-p.description
-.toLowerCase()
-.includes(search)
-
-||
-
-p.categoryName
-.toLowerCase()
-.includes(search)
-
-);
-
+list = list.filter(p => p.name.toLowerCase().includes(search) || p.description.toLowerCase().includes(search) || p.categoryName.toLowerCase().includes(search));
 }
 
-const sort=
-document
-.getElementById("sort")
-.value;
+const sort = document.getElementById("sort").value;
+if(sort === "low") list.sort((a,b) => a.price - b.price);
+if(sort === "high") list.sort((a,b) => b.price - a.price);
+if(sort === "name") list.sort((a,b) => a.name.localeCompare(b.name, "ar"));
 
-if(sort==="low"){
-
-list.sort(
-(a,b)=>a.price-b.price
-);
-
-}
-
-if(sort==="high"){
-
-list.sort(
-(a,b)=>b.price-a.price
-);
-
-}
-
-if(sort==="name"){
-
-list.sort(
-(a,b)=>
-a.name.localeCompare(
-b.name,
-"ar"
-)
-);
-
-}
-
-document
-.getElementById("results")
-.textContent=
-list.length+" منتجات";
-
-const box=
-document.getElementById("products");
+document.getElementById("results").textContent = list.length + " منتجات";
+const box = document.getElementById("products");
 
 if(!list.length){
-
-box.innerHTML=
-'<div class="loading">لا توجد منتجات في هذا القسم.</div>';
-
+box.innerHTML = '<div class="loading">لا توجد منتجات في هذا القسم.</div>';
 return;
-
 }
 
-box.innerHTML="";
+box.innerHTML = "";
+list.forEach(p => {
+const fav = favorites.includes(p.id);
+const galleryHtml = createProductGallery(p);
+const canBuy = p.stock > 0 || p.stock === 0;
 
-list.forEach(p=>{
-
-const fav=
-favorites.includes(p.id);
-
-const galleryHtml=
-createProductGallery(p);
-
-const canBuy=
-p.stock>0 || p.stock===0;
-
-box.innerHTML+=`
-
-<article
-class="product"
-onclick="openProductDetails(${p.id})">
-
+box.innerHTML += `
+<article class="product" onclick="openProductDetails(${p.id})">
 <div class="product-image">
-
-${p.badge
-?
-`
-<div class="product-badge">
-${escapeHtml(p.badge)}
-</div>
-`
-:""}
-
-<button
-class="heart ${fav?"active":""}"
-onclick="event.stopPropagation();toggleFav(${p.id})">
-${fav?"♥":"♡"}
-</button>
-
+${p.badge ? `<div class="product-badge">${escapeHtml(p.badge)}</div>` : ""}
+<button class="heart ${fav ? "active" : ""}" onclick="event.stopPropagation();toggleFav(${p.id})">${fav ? "♥" : "♡"}</button>
 ${galleryHtml}
-
 </div>
-
 <div class="product-info">
-
-<div class="product-category">
-${escapeHtml(p.categoryName)}
-</div>
-
-<div class="product-name">
-${escapeHtml(p.name)}
-</div>
-
-<div class="product-desc">
-${escapeHtml(p.description)}
-</div>
-
+<div class="product-category">${escapeHtml(p.categoryName)}</div>
+<div class="product-name">${escapeHtml(p.name)}</div>
+<div class="product-desc">${escapeHtml(p.description)}</div>
 <div class="price">
-
-<strong>
-$${Number(p.price).toFixed(2)}
-</strong>
-
-${p.old !== null && !isNaN(p.old)
-?
-`
-<del>
-$${Number(p.old).toFixed(2)}
-</del>
-`
-:""}
-
+<strong>$${Number(p.price).toFixed(2)}</strong>
+${p.old !== null && !isNaN(p.old) ? `<del>$${Number(p.old).toFixed(2)}</del>` : ""}
 </div>
-
-${
-canBuy
-?
-`
-<button
-class="add"
-onclick="event.stopPropagation();add(${p.id})">
-🛒 أضف إلى السلة
-</button>
-`
-:
-`
-<button
-class="out-of-stock"
-disabled
-onclick="event.stopPropagation()">
-غير متوفر
-</button>
-`
-}
-
+${canBuy ? `<button class="add" onclick="event.stopPropagation();add(${p.id})">🛒 أضف إلى السلة</button>` : `<button class="out-of-stock" disabled onclick="event.stopPropagation()">غير متوفر</button>`}
 </div>
-
 </article>
-
 `;
-
 });
-
-/* تشغيل السحب بعد إنشاء البطاقات */
 
 enableGallerySwipe();
-
-}
-
-/* =========================================
-   معرض الصور في صفحة تفاصيل المنتج
-   ========================================= */
-
-function createDetailsGallery(product){
-
-const images=
-Array.isArray(product.images)
-?
-product.images
-:
-normalizeImages(product);
-
-if(!images.length){
-
-return `
-<div class="product-details-bottle">
-${escapeHtml(product.name)}
-</div>
-`;
-
-}
-
-if(images.length===1){
-
-return `
-
-<div class="details-gallery">
-
-<div class="details-gallery-main">
-
-<img
-src="${escapeHtml(images[0])}"
-alt="${escapeHtml(product.name)}"
-onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-
-<div
-class="product-details-bottle"
-style="display:none">
-${escapeHtml(product.name)}
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-const thumbs=
-images.map((image,index)=>`
-
-<button
-class="details-gallery-thumb ${index===0 ? "active" : ""}"
-onclick="changeDetailsImage(${product.id},${index})">
-
-<img
-src="${escapeHtml(image)}"
-alt="${escapeHtml(product.name)} - ${index+1}"
-loading="lazy">
-
-</button>
-
-`).join("");
-
-return `
-
-<div
-class="details-gallery"
-id="details-gallery-${product.id}"
-data-index="0">
-
-<div
-class="details-gallery-main"
-id="details-main-${product.id}">
-
-<img
-src="${escapeHtml(images[0])}"
-alt="${escapeHtml(product.name)}">
-
-</div>
-
-<button
-class="details-gallery-arrow prev"
-onclick="changeDetailsImage(${product.id},getDetailsImageIndex(${product.id})-1)">
-‹
-</button>
-
-<button
-class="details-gallery-arrow next"
-onclick="changeDetailsImage(${product.id},getDetailsImageIndex(${product.id})+1)">
-›
-</button>
-
-<div class="details-gallery-thumbs">
-
-${thumbs}
-
-</div>
-
-</div>
-
-`;
-
-}
-
-function getDetailsImageIndex(id){
-
-const gallery=
-document.getElementById(
-"details-gallery-"+id
-);
-
-if(!gallery){
-
-return 0;
-
-}
-
-return Number(
-gallery.dataset.index || 0
-);
-
-}
-
-function changeDetailsImage(id,index){
-
-const product=
-products.find(
-x=>x.id===Number(id)
-);
-
-if(!product){
-
-return;
-
-}
-
-const images=
-Array.isArray(product.images)
-?
-product.images
-:
-normalizeImages(product);
-
-if(images.length<=1){
-
-return;
-
-}
-
-if(index<0){
-
-index=images.length-1;
-
-}
-
-if(index>=images.length){
-
-index=0;
-
-}
-
-const gallery=
-document.getElementById(
-"details-gallery-"+id
-);
-
-const main=
-document.getElementById(
-"details-main-"+id
-);
-
-if(!gallery || !main){
-
-return;
-
-}
-
-gallery.dataset.index=index;
-
-main.innerHTML=`
-
-<img
-src="${escapeHtml(images[index])}"
-alt="${escapeHtml(product.name)} - ${index+1}"
->
-
-`;
-
-const thumbs=
-gallery.querySelectorAll(
-".details-gallery-thumb"
-);
-
-thumbs.forEach(
-(thumb,i)=>
-thumb.classList.toggle(
-"active",
-i===index
-)
-);
-
-const activeThumb=
-thumbs[index];
-
-if(activeThumb){
-
-activeThumb.scrollIntoView({
-behavior:"smooth",
-block:"nearest",
-inline:"center"
-});
-
-}
-
-}
-
-function enableDetailsSwipe(id){
-
-const gallery=
-document.getElementById(
-"details-gallery-"+id
-);
-
-if(!gallery){
-
-return;
-
-}
-
-let startX=0;
-
-gallery.addEventListener(
-"touchstart",
-event=>{
-
-if(!event.touches.length){
-
-return;
-
-}
-
-startX=
-event.touches[0].clientX;
-
-},
-{
-passive:true
-}
-);
-
-gallery.addEventListener(
-"touchend",
-event=>{
-
-if(!event.changedTouches.length){
-
-return;
-
-}
-
-const endX=
-event.changedTouches[0].clientX;
-
-const difference=
-startX-endX;
-
-if(Math.abs(difference)<35){
-
-return;
-
-}
-
-const currentIndex=
-getDetailsImageIndex(id);
-
-if(difference>0){
-
-changeDetailsImage(
-id,
-currentIndex+1
-);
-
-}else{
-
-changeDetailsImage(
-id,
-currentIndex-1
-);
-
-}
-
-},
-{
-passive:true
-}
-);
-
 }
 
 function openProductDetails(id){
-
-const product =
-products.find(
-x => x.id === Number(id)
-);
-
+const product = products.find(x => x.id === Number(id));
 if(!product){
-
 toast("المنتج غير موجود");
-
 return;
-
+}
+window.location.href = "/product.html?id=" + encodeURIComponent(product.id);
 }
 
-/*
-  فتح صفحة المنتج الكاملة بدل النافذة الصغيرة
-*/
-window.location.href =
-"/product.html?id=" +
-encodeURIComponent(product.id);
+function category(cat, btn){
+current = cat;
+document.querySelectorAll(".nav button").forEach(x => x.classList.remove("active"));
+document.querySelectorAll(".filter").forEach(x => x.classList.remove("active"));
+if(btn) btn.classList.add("active");
 
-}
-
-
-/*
-  ملاحظة:
-  كود نافذة تفاصيل المنتج القديمة تم إلغاؤه من هنا،
-  لأن صفحة المنتج أصبحت product.html.
-*/
-
-function addFromDetails(id){
-
-add(id);
-
-closeProductDetails();
-
-}
-
-
-function closeProductDetails(event){
-
-if(
-event &&
-event.target !==
-document.getElementById(
-"productDetailsModal"
-)
-){
-
-return;
-
-}
-
-document
-.getElementById(
-"productDetailsModal"
-)
-.classList.remove("show");
-
-document.body.style.overflow="";
-
-}
-
-
-function category(cat,btn){
-
-current=cat;
-
-document
-.querySelectorAll(".nav button")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-document
-.querySelectorAll(".filter")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-if(btn){
-
-btn.classList.add("active");
-
-}
-
-const names={
-
-all:"منتجاتنا",
-
-perfumes:"العطور",
-
-skin:"العناية بالبشرة",
-
-personal:"العناية الشخصية",
-
-cleaning:"النظافة"
-
+const names = {
+all: "منتجاتنا",
+perfumes: "العطور",
+skin: "العناية بالبشرة",
+personal: "العناية الشخصية",
+cleaning: "النظافة"
 };
 
-document
-.getElementById("shopTitle")
-.textContent=
-names[cat] || "منتجاتنا";
-
+document.getElementById("shopTitle").textContent = names[cat] || "منتجاتنا";
 render();
-
 goShop();
-
-}
-
-
-function searchProducts(){
-
-current="all";
-
-document
-.querySelectorAll(".nav button")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-document
-.querySelectorAll(".filter")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-render();
-
-goShop();
-
-}
-const product =
-products.find(
-x => x.id === Number(id)
-);
-
-if(!product){
-
-toast("المنتج غير موجود");
-
-return;
-
-}
-
-window.location.href =
-"/product.html?id=" +
-encodeURIComponent(product.id);
-
-}
-const modal=
-document.getElementById(
-"productDetailsModal"
-);
-
-const content=
-document.getElementById(
-"productDetailsContent"
-);
-
-const galleryHtml=
-createDetailsGallery(product);
-
-const stockText=
-product.stock>0
-?
-"✓ المنتج متوفر"
-:
-"✓ المنتج متوفر";
-
-content.innerHTML=`
-
-<div class="product-details-image">
-
-${galleryHtml}
-
-</div>
-
-<div class="product-details-info">
-
-<div class="product-details-category">
-${escapeHtml(product.categoryName)}
-</div>
-
-<h2 class="product-details-name">
-${escapeHtml(product.name)}
-</h2>
-
-<div class="product-details-description">
-${escapeHtml(
-product.description ||
-"لا يوجد وصف إضافي لهذا المنتج حاليًا."
-)}
-</div>
-
-<div class="product-details-price">
-
-<strong>
-$${Number(product.price).toFixed(2)}
-</strong>
-
-${
-product.old !== null &&
-!isNaN(product.old)
-?
-`
-<del>
-$${Number(product.old).toFixed(2)}
-</del>
-`
-:
-""
-}
-
-</div>
-
-<div class="product-details-stock">
-${stockText}
-</div>
-
-<button
-class="product-details-add"
-onclick="addFromDetails(${product.id})">
-🛒 أضف إلى السلة
-</button>
-<!-- CUSTOMER ACCOUNT ICON -->
-
-<button
-  type="button"
-  onclick="openCustomerAuth()"
-  aria-label="حساب العميل"
-  title="حساب العميل"
-  style="
-    width:42px;
-    height:42px;
-    border:1px solid #d8c7a0;
-    border-radius:50%;
-    background:transparent;
-    color:#a27f25;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    font-size:20px;
-  "
->
-  ♙
-</button>
-</div>
-
-`;
-
-modal.classList.add("show");
-
-document.body.style.overflow="hidden";
-
-enableDetailsSwipe(product.id);
-
-}
-
-function addFromDetails(id){
-
-add(id);
-
-closeProductDetails();
-
-}
-
-function closeProductDetails(event){
-
-if(
-event &&
-event.target !==
-document.getElementById(
-"productDetailsModal"
-)
-){
-
-return;
-
-}
-
-document
-.getElementById(
-"productDetailsModal"
-)
-.classList.remove("show");
-
-document.body.style.overflow="";
-
-}
-
-function category(cat,btn){
-
-current=cat;
-
-document
-.querySelectorAll(".nav button")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-document
-.querySelectorAll(".filter")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-if(btn){
-
-btn.classList.add("active");
-
-}
-
-const names={
-
-all:"منتجاتنا",
-
-perfumes:"العطور",
-
-skin:"العناية بالبشرة",
-
-personal:"العناية الشخصية",
-
-cleaning:"النظافة"
-
-};
-
-document
-.getElementById("shopTitle")
-.textContent=
-names[cat] || "منتجاتنا";
-
-render();
-
-goShop();
-
 }
 
 function searchProducts(){
-
-current="all";
-
-document
-.querySelectorAll(".nav button")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-document
-.querySelectorAll(".filter")
-.forEach(
-x=>x.classList.remove("active")
-);
-
+current = "all";
+document.querySelectorAll(".nav button").forEach(x => x.classList.remove("active"));
+document.querySelectorAll(".filter").forEach(x => x.classList.remove("active"));
 render();
-
 goShop();
-
 }
 
 function goShop(){
-
-document
-.getElementById("shop")
-.scrollIntoView({
-behavior:"smooth"
-});
-
+document.getElementById("shop").scrollIntoView({behavior: "smooth"});
 }
 
 function add(id){
-
-const p=
-products.find(
-x=>x.id===id
-);
-
+const p = products.find(x => x.id === id);
 if(!p){
-
 toast("المنتج غير موجود");
-
 return;
-
 }
 
-const item=
-cart.find(
-x=>x.id===id
-);
-
+const item = cart.find(x => x.id === id);
 if(item){
-
 item.quantity++;
-
 }else{
-
 cart.push({
-
-id:p.id,
-
-name:p.name,
-
-price:p.price,
-
-image:p.image || "",
-
-quantity:1
-
+id: p.id,
+name: p.name,
+price: p.price,
+image: p.image || "",
+quantity: 1
 });
-
 }
 
 save();
-
 renderCart();
-
-toast(
-p.name+
-" تمت إضافته إلى السلة"
-);
-
+toast(p.name + " تمت إضافته إلى السلة");
 }
 
-function change(id,num){
-
-const item=
-cart.find(
-x=>x.id===id
-);
-
-if(!item)return;
-
-item.quantity+=num;
-
-if(item.quantity<=0){
-
-cart=
-cart.filter(
-x=>x.id!==id
-);
-
+function change(id, num){
+const item = cart.find(x => x.id === id);
+if(!item) return;
+item.quantity += num;
+if(item.quantity <= 0){
+cart = cart.filter(x => x.id !== id);
 }
-
 save();
-
 renderCart();
-
 }
-
 
 function removeItem(id){
-
-cart =
-cart.filter(
-x => x.id !== id
-);
-
+cart = cart.filter(x => x.id !== id);
 save();
-
 renderCart();
-
 }
-
 
 function renderCart(){
+const box = document.getElementById("cartItems");
+const count = cart.reduce((a,b) => a + b.quantity, 0);
 
-const box =
-document.getElementById("cartItems");
-
-const count =
-cart.reduce(
-(a,b) => a + b.quantity,
-0
-);
-
-document
-.getElementById("cartCount")
-.textContent = count;
-
-document
-.getElementById("floatingCartCount")
-.textContent = count;
-
+document.getElementById("cartCount").textContent = count;
+document.getElementById("floatingCartCount").textContent = count;
 
 if(!cart.length){
-
-box.innerHTML =
-`
-<div class="empty">
-السلة فارغة 🛒
-<br><br>
-أضف المنتجات التي تريد شراءها.
-</div>
-`;
-
+box.innerHTML = `<div class="empty">السلة فارغة 🛒<br><br>أضف المنتجات التي تريد شراءها.</div>`;
 updateTotals();
-
 return;
-
 }
-
 
 box.innerHTML = "";
-
-
 cart.forEach(item => {
-
-box.innerHTML +=
-`
+box.innerHTML += `
 <div class="cart-item">
-
 <div class="cart-top">
-
-<div
-style="
-display:flex;
-align-items:center;
-gap:10px;
-"
->
-
-${
-item.image
-?
-`
-<img
-src="${item.image}"
-alt="${escapeHtml(item.name)}"
-style="
-width:55px;
-height:55px;
-object-fit:cover;
-border-radius:8px;
-flex-shrink:0;
-"
->
-`
-:
-""
-}
-
+<div style="display:flex;align-items:center;gap:10px;">
+${item.image ? `<img src="${item.image}" alt="${escapeHtml(item.name)}" style="width:55px;height:55px;object-fit:cover;border-radius:8px;flex-shrink:0;">` : ""}
 <div>
-
-<div class="cart-name">
-${escapeHtml(item.name)}
+<div class="cart-name">${escapeHtml(item.name)}</div>
+<div class="cart-price">$${Number(item.price).toFixed(2)} للـقطعة</div>
 </div>
-
-<div class="cart-price">
-$${Number(item.price).toFixed(2)}
-للـقطعة
 </div>
-
+<button class="remove" onclick="removeItem(${item.id})">حذف</button>
 </div>
-
-</div>
-
-
-<button
-class="remove"
-onclick="removeItem(${item.id})"
->
-حذف
-</button>
-
-</div>
-
-
 <div class="qty">
-
-<button
-onclick="change(${item.id},1)"
->
-+
-</button>
-
-<strong>
-${item.quantity}
-</strong>
-
-<button
-onclick="change(${item.id},-1)"
->
-−
-</button>
-
-<span class="item-total">
-$${(
-Number(item.price) *
-Number(item.quantity)
-).toFixed(2)}
-</span>
-
+<button onclick="change(${item.id},1)">+</button>
+<strong>${item.quantity}</strong>
+<button onclick="change(${item.id},-1)">−</button>
+<span class="item-total">$${(Number(item.price) * Number(item.quantity)).toFixed(2)}</span>
 </div>
-
 </div>
 `;
-
 });
 
-
 updateTotals();
-
 }
-
 
 function updateTotals(){
+const subtotal = cart.reduce((a,b) => a + Number(b.price) * Number(b.quantity), 0);
+const discount = subtotal * discountRate;
+const total = subtotal - discount;
 
-const subtotal=
-cart.reduce(
-(a,b)=>
-a+
-Number(b.price)*
-Number(b.quantity),
-0
-);
-
-const discount=
-subtotal*discountRate;
-
-const total=
-subtotal-discount;
-
-document
-.getElementById("subtotal")
-.textContent=
-"$"+subtotal.toFixed(2);
-
-document
-.getElementById("discount")
-.textContent=
-"-$"+discount.toFixed(2);
-
-document
-.getElementById("total")
-.textContent=
-"$"+total.toFixed(2);
-
+document.getElementById("subtotal").textContent = "$" + subtotal.toFixed(2);
+document.getElementById("discount").textContent = "-$" + discount.toFixed(2);
+document.getElementById("total").textContent = "$" + total.toFixed(2);
 }
-
 
 function openCart(){
-
-document
-.getElementById("cart")
-.classList.add("open");
-
-document
-.getElementById("overlay")
-.classList.add("show");
-
+document.getElementById("cart").classList.add("open");
+document.getElementById("overlay").classList.add("show");
 }
-
 
 function closeCart(){
-
-document
-.getElementById("cart")
-.classList.remove("open");
-
-document
-.getElementById("overlay")
-.classList.remove("show");
-
+document.getElementById("cart").classList.remove("open");
+document.getElementById("overlay").classList.remove("show");
 }
-
 
 function applyCoupon(){
-
-const code=
-document
-.getElementById("coupon")
-.value
-.trim()
-.toUpperCase();
-
-if(code==="HZ10"){
-
-discountRate=.10;
-
-toast(
-"تم تطبيق خصم 10%"
-);
-
+const code = document.getElementById("coupon").value.trim().toUpperCase();
+if(code === "HZ10"){
+discountRate = 0.10;
+toast("تم تطبيق خصم 10%");
 }else{
-
-discountRate=0;
-
-toast(
-"كود الخصم غير صحيح"
-);
-
+discountRate = 0;
+toast("كود الخصم غير صحيح");
 }
-
 updateTotals();
-
 }
-
 
 function toggleFav(id){
-
-if(
-favorites.includes(id)
-){
-
-favorites=
-favorites.filter(
-x=>x!==id
-);
-
+if(favorites.includes(id)){
+favorites = favorites.filter(x => x !== id);
 }else{
-
 favorites.push(id);
-
 }
-
 save();
-
-document
-.getElementById("favCount")
-.textContent=
-favorites.length;
-
+document.getElementById("favCount").textContent = favorites.length;
 render();
-
 }
-
 
 function openFavorites(){
-
-const list=
-products.filter(
-x=>favorites.includes(x.id)
-);
-
+const list = products.filter(x => favorites.includes(x.id));
 if(!list.length){
-
-toast(
-"لا توجد منتجات في المفضلة"
-);
-
+toast("لا توجد منتجات في المفضلة");
 return;
-
 }
-
-let text=
-"المفضلة:\n\n";
-
-list.forEach(x=>{
-
-text+=
-x.name+
-" — $"+
-Number(x.price).toFixed(2)+
-"\n";
-
+let text = "المفضلة:\n\n";
+list.forEach(x => {
+text += x.name + " — $" + Number(x.price).toFixed(2) + "\n";
 });
-
 alert(text);
-
 }
-
 
 function checkout(){
-
 if(!cart.length){
-
 toast("السلة فارغة");
-
 return;
-
 }
-
-window.location.href="/checkout.html";
-
+renderSummary();
+document.getElementById("modal").classList.add("show");
+closeCart();
 }
-
-
-
 
 function closeCheckout(){
-
-document
-.getElementById("modal")
-.classList.remove("show");
-
+document.getElementById("modal").classList.remove("show");
 }
-
 
 function renderSummary(){
+const box = document.getElementById("summary");
+box.innerHTML = "";
 
-const box=
-document.getElementById("summary");
-
-box.innerHTML="";
-
-cart.forEach(item=>{
-
-box.innerHTML+=`
-
+cart.forEach(item => {
+box.innerHTML += `
 <div class="summary-row">
-
-<span>
-${escapeHtml(item.name)}
-×
-${item.quantity}
-</span>
-
-<span>
-$${(
-Number(item.price)*
-Number(item.quantity)
-).toFixed(2)}
-</span>
-
+<span>${escapeHtml(item.name)} × ${item.quantity}</span>
+<span>$${(Number(item.price) * Number(item.quantity)).toFixed(2)}</span>
 </div>
-
 `;
-
 });
 
-const subtotal=
-cart.reduce(
-(a,b)=>
-a+
-Number(b.price)*
-Number(b.quantity),
-0
-);
+const subtotal = cart.reduce((a,b) => a + Number(b.price) * Number(b.quantity), 0);
+const total = subtotal - (subtotal * discountRate);
 
-const total=
-subtotal-
-(
-subtotal*
-discountRate
-);
-
-document
-.getElementById("summaryTotal")
-.textContent=
-"$"+total.toFixed(2);
-
+document.getElementById("summaryTotal").textContent = "$" + total.toFixed(2);
 }
 
-
-function payment(el,type){
-
-document
-.querySelectorAll(".pay")
-.forEach(
-x=>x.classList.remove("selected")
-);
-
+function payment(el, type){
+document.querySelectorAll(".pay").forEach(x => x.classList.remove("selected"));
 el.classList.add("selected");
-
-selectedPayment=type;
-
+selectedPayment = type;
 }
 
-
-function isMobileDevice(){
-
-return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-navigator.userAgent
-);
-
-}
-
-
-function setCheckoutButtons(){
-
-const whatsappButton=
-document.getElementById("whatsappButton");
-
-const computerButton=
-document.getElementById("computerOrderButton");
-
-whatsappButton.style.display="none";
-
-computerButton.style.display="block";
-
-}
 function getOrderData(){
+const name = document.getElementById("customerName").value.trim();
+const phone = document.getElementById("phone").value.trim();
+const governorate = document.getElementById("governorate").value;
+const area = document.getElementById("area").value.trim();
+const address = document.getElementById("address").value.trim();
+const notes = document.getElementById("notes").value.trim();
 
-const name=
-document
-.getElementById("customerName")
-.value
-.trim();
-
-const phone=
-document
-.getElementById("phone")
-.value
-.trim();
-
-const governorate=
-document
-.getElementById("governorate")
-.value;
-
-const area=
-document
-.getElementById("area")
-.value
-.trim();
-
-const address=
-document
-.getElementById("address")
-.value
-.trim();
-
-const notes=
-document
-.getElementById("notes")
-.value
-.trim();
-
-if(
-!name ||
-!phone ||
-!governorate ||
-!area ||
-!address
-){
-
-toast(
-"يرجى تعبئة جميع المعلومات المطلوبة"
-);
-
+if(!name || !phone || !governorate || !area || !address){
+toast("يرجى تعبئة جميع المعلومات المطلوبة");
 return null;
-
 }
 
-const subtotal=
-cart.reduce(
-(a,b)=>
-a+
-Number(b.price)*
-Number(b.quantity),
-0
-);
-
-const discount=
-subtotal*
-discountRate;
-
-const total=
-subtotal-discount;
+const subtotal = cart.reduce((a,b) => a + Number(b.price) * Number(b.quantity), 0);
+const discount = subtotal * discountRate;
+const total = subtotal - discount;
 
 return {
-
-customer_name:name,
-
-phone:phone,
-
-governorate:governorate,
-
-area:area,
-
-address:address,
-
-notes:notes,
-
-payment_method:selectedPayment,
-
-items:cart.map(item=>({
-
-id:Number(item.id),
-
-name:String(item.name),
-
-price:Number(item.price),
-
-quantity:Number(item.quantity)
-
+customer_name: name,
+phone: phone,
+governorate: governorate,
+area: area,
+address: address,
+notes: notes,
+payment_method: selectedPayment,
+items: cart.map(item => ({
+id: Number(item.id),
+name: String(item.name),
+price: Number(item.price),
+quantity: Number(item.quantity)
 })),
-
-subtotal:Number(subtotal.toFixed(2)),
-
-discount:Number(discount.toFixed(2)),
-
-total:Number(total.toFixed(2))
-
+subtotal: Number(subtotal.toFixed(2)),
+discount: Number(discount.toFixed(2)),
+total: Number(total.toFixed(2))
 };
-
 }
-
 
 async function sendWhatsApp(){
+const order = getOrderData();
+if(!order) return;
 
-try{
-
-const authResponse =
-await fetch(
-"/api/customer-me",
-{
-method:"GET",
-credentials:"same-origin"
-}
-);
-
-const authData =
-await authResponse.json();
-
-if(!authData.logged_in){
-
-toast("يجب تسجيل الدخول أولًا");
-
-if(
-typeof openCustomerAuth === "function"
-){
-
-openCustomerAuth();
-
-}
-
-return;
-
-}
-
-}catch(error){
-
-console.error(
-"CUSTOMER_AUTH_CHECK_ERROR",
-error
-);
-
-toast(
-"تعذر التحقق من تسجيل الدخول"
-);
-
-return;
-
-}
-
-
-const order =
-getOrderData();
-
-if(!order){
-
-return;
-
-}
-
-
-let message =
-"🛍️ طلب جديد من HZ.SHOP\n\n";
-
-
-message +=
-"👤 الاسم: " +
-order.customer_name +
-"\n";
-
-
-message +=
-"📞 الهاتف: " +
-order.phone +
-"\n";
-
-
-message +=
-"📍 المحافظة: " +
-order.governorate +
-"\n";
-
-
-message +=
-"📍 المنطقة: " +
-order.area +
-"\n";
-
-
-message +=
-"🏠 العنوان: " +
-order.address +
-"\n";
-
-
-message +=
-"💳 الدفع: " +
-order.payment_method +
-"\n";
-
+let message = "🛍️ طلب جديد من HZ.SHOP\n\n";
+message += "👤 الاسم: " + order.customer_name + "\n";
+message += "📞 الهاتف: " + order.phone + "\n";
+message += "📍 المحافظة: " + order.governorate + "\n";
+message += "📍 المنطقة: " + order.area + "\n";
+message += "🏠 العنوان: " + order.address + "\n";
+message += "💳 الدفع: " + order.payment_method + "\n";
 
 if(order.notes){
-
-message +=
-"📝 الملاحظات: " +
-order.notes +
-"\n";
-
+message += "📝 الملاحظات: " + order.notes + "\n";
 }
 
-
-message +=
-"\n🛒 المنتجات:\n";
-
-
-order.items.forEach(item=>{
-
-const itemTotal =
-Number(item.price) *
-Number(item.quantity);
-
-message +=
-"• " +
-item.name +
-" × " +
-item.quantity +
-" = $" +
-itemTotal.toFixed(2) +
-"\n";
-
+message += "\n🛒 المنتجات:\n";
+order.items.forEach(item => {
+const itemTotal = Number(item.price) * Number(item.quantity);
+message += "• " + item.name + " × " + item.quantity + " = $" + itemTotal.toFixed(2) + "\n";
 });
 
-
-message +=
-"\n💰 المجموع: $" +
-order.total.toFixed(2);
-
-
-if(order.discount){
-
-message +=
-"\n🏷️ الخصم: $" +
-order.discount.toFixed(2);
-
+message += "\n💰 المجموع: $" + order.total.toFixed(2);
+if(order.discount > 0){
+message += "\n🏷️ الخصم: $" + order.discount.toFixed(2);
 }
 
-
-const deliveryFee = 4;
-
-
-const finalTotal =
-Number(order.total) +
-deliveryFee;
-
-
-message +=
-"\n🚚 كلفة التوصيل: $" +
-deliveryFee.toFixed(2);
-
-
-message +=
-"\n💵 الإجمالي النهائي: $" +
-finalTotal.toFixed(2);
-
-
-const url =
-"https://wa.me/96171142827?text=" +
-encodeURIComponent(message);
-
-
-window.open(
-url,
-"_blank"
-);
-
+const encodedMessage = encodeURIComponent(message);
+window.open("https://wa.me/96171142827?text=" + encodedMessage, "_blank");
 }
-
 
 async function submitComputerOrder(){
+const order = getOrderData();
+if(!order) return;
 
-try{
+try {
+const response = await fetch("/api/orders", {
+method: "POST",
+headers: {"Content-Type": "application/json"},
+body: JSON.stringify(order)
+});
 
-const authResponse =
-await fetch(
-"/api/customer-me",
-{
-method:"GET",
-credentials:"same-origin"
-}
-);
-
-const authData =
-await authResponse.json();
-
-if(!authData.logged_in){
-
-toast("يجب تسجيل الدخول أولًا");
-
-if(
-typeof openCustomerAuth === "function"
-){
-
-openCustomerAuth();
-
-}
-
-return;
-
-}
-
-}catch(error){
-
-console.error(
-"CUSTOMER_AUTH_CHECK_ERROR",
-error
-);
-
-toast(
-"تعذر التحقق من تسجيل الدخول"
-);
-
-return;
-
-}
-
-
-const order =
-getOrderData();
-
-if(!order){
-
-return;
-
-}
-
-
-const button =
-document.getElementById(
-"computerOrderButton"
-);
-
-button.disabled = true;
-
-button.textContent =
-"جاري إرسال الطلب...";
-
-
-try{
-
-const response =
-await fetch(
-"/api/orders",
-{
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-credentials:
-"same-origin",
-
-body:
-JSON.stringify(order)
-
-}
-);
-
-
-const data =
-await response.json();
-
-
-if(
-!response.ok ||
-!data.success
-){
-
-throw new Error(
-data.error ||
-"تعذر حفظ الطلب"
-);
-
-}
-
-
+if(response.ok){
 cart = [];
-
 save();
-
 renderCart();
-
-
-const modalBox =
-document.querySelector(
-".modal-box"
-);
-
-
-modalBox.innerHTML = `
-
-<div class="order-success">
-
-<div class="success-icon">
-✓
-</div>
-
-<h3>
-تم استلام طلبك بنجاح
-</h3>
-
-<p>
-شكرًا لطلبك من HZ.SHOP.
-<br>
-تم تسجيل طلبك لدينا وسيتم التواصل معك لتأكيده.
-</p>
-
-${
-data.order_id
-?
-`
-<div class="order-number">
-رقم الطلب: #${escapeHtml(data.order_id)}
-</div>
-`
-:
-""
+closeCheckout();
+toast("تم إرسال طلبك بنجاح!");
+} else {
+toast("حدث خطأ أثناء إرسال الطلب، يُرجى المحاولة لاحقاً");
+}
+} catch(e) {
+console.error(e);
+toast("تعذر الاتصال بالسيرفر");
+}
 }
 
-<br>
-
-<button
-class="gold"
-onclick="finishComputerOrder()"
-style="margin-top:20px;width:100%"
->
-العودة إلى المتجر
-</button>
-
-</div>
-
-`;
-
-
-}catch(error){
-
-console.error(error);
-
-toast(
-"تعذر إرسال الطلب. حاول مرة أخرى."
-);
-
-button.disabled = false;
-
-button.textContent =
-"✓ تأكيد وإرسال الطلب";
-
-}
-
-}
-
-
-function finishComputerOrder(){
-
-document
-.getElementById("modal")
-.classList.remove("show");
-
-location.reload();
-
-}
-
-
-function toast(message){
-
-const box=
-document.getElementById("toast");
-
-box.textContent=message;
-
-box.classList.add("show");
-
-setTimeout(
-()=>{
-box.classList.remove("show");
-},
-2500
-);
-
-}
-
-
-function escapeHtml(value){
-
-return String(value)
-
-.replace(
-/&/g,
-"&amp;"
-)
-
-.replace(
-/</g,
-"&lt;"
-)
-
-.replace(
-/>/g,
-"&gt;"
-)
-
-.replace(
-/"/g,
-"&quot;"
-)
-
-.replace(
-/'/g,
-"&#039;"
-);
-
-}
-
-
-renderCart();
-
-document
-.getElementById("favCount")
-.textContent=
-favorites.length;
-
+// تشغيل السكربت عند التحميل
+window.addEventListener("DOMContentLoaded", () => {
 loadProducts();
+});
 
 </script>
-
-<!-- =========================================================
-     CUSTOMER ACCOUNT
-     تسجيل / دخول العميل
-========================================================= -->
-
-<style>
-#customerAuthModal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:rgba(40,35,25,.55);
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-#customerAuthModal.show{
-  display:flex;
-}
-
-.customer-auth-box{
-  width:420px;
-  max-width:100%;
-  background:#fffdf9;
-  border:1px solid #b08d35;
-  border-radius:8px;
-  padding:28px;
-  position:relative;
-  box-shadow:0 20px 60px rgba(0,0,0,.18);
-}
-
-.customer-auth-close{
-  position:absolute;
-  top:10px;
-  left:10px;
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  border:1px solid #ddd8ce;
-  background:#fffdf9;
-  color:#77736b;
-  font-size:22px;
-}
-
-.customer-auth-title{
-  text-align:center;
-  margin-bottom:22px;
-}
-
-.customer-auth-title small{
-  display:block;
-  color:#a27f25;
-  letter-spacing:4px;
-  font-size:9px;
-  margin-bottom:7px;
-}
-
-.customer-auth-title h2{
-  color:#302e29;
-  font-size:25px;
-}
-
-.customer-auth-form{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.customer-auth-form input{
-  width:100%;
-  height:46px;
-  border:1px solid #ddd8ce;
-  background:#fff;
-  color:#292722;
-  padding:0 14px;
-  border-radius:4px;
-  outline:none;
-}
-
-.customer-auth-form input:focus{
-  border-color:#b08d35;
-}
-
-.customer-auth-submit{
-  height:46px;
-  border:0;
-  border-radius:4px;
-  background:linear-gradient(135deg,#a47e27,#d2b15c,#a47e27);
-  color:#fff;
-  font-weight:bold;
-}
-
-.customer-auth-switch{
-  text-align:center;
-  margin-top:16px;
-  color:#77736b;
-  font-size:12px;
-}
-
-.customer-auth-switch button{
-  border:0;
-  background:none;
-  color:#a27f25;
-  font-weight:bold;
-  padding:0;
-}
-
-.customer-auth-message{
-  min-height:20px;
-  text-align:center;
-  font-size:12px;
-  color:#a27f25;
-  margin-top:8px;
-}
-</style>
-
-<div id="customerAuthModal">
-
-<div class="customer-auth-box">
-
-<button
-type="button"
-class="customer-auth-close"
-onclick="closeCustomerAuth()"
->×</button>
-
-
-<div id="customerLoginView">
-
-<div class="customer-auth-title">
-
-<small>HZ.SHOP</small>
-
-<h2>
-تسجيل الدخول
-</h2>
-
-</div>
-
-
-<form
-class="customer-auth-form"
-onsubmit="customerLogin(event)"
->
-
-<input
-id="loginPhone"
-type="tel"
-placeholder="رقم الهاتف"
-autocomplete="tel"
-required
->
-
-<input
-id="loginPassword"
-type="password"
-placeholder="الرمز"
-minlength="6"
-autocomplete="current-password"
-required
->
-
-<button
-class="customer-auth-submit"
-type="submit"
->
-تسجيل الدخول
-</button>
-
-</form>
-
-
-<div
-id="customerLoginMessage"
-class="customer-auth-message"
-></div>
-
-
-<div class="customer-auth-switch">
-
-ليس لديك حساب؟
-
-<button
-type="button"
-onclick="showCustomerRegister()"
->
-إنشاء حساب
-</button>
-
-</div>
-
-</div>
-
-
-<div
-id="customerRegisterView"
-style="display:none"
->
-
-<div class="customer-auth-title">
-
-<small>HZ.SHOP</small>
-
-<h2>
-إنشاء حساب
-</h2>
-
-</div>
-
-
-<form
-class="customer-auth-form"
-onsubmit="customerRegister(event)"
->
-
-<input
-id="registerName"
-type="text"
-placeholder="الاسم"
-autocomplete="name"
-required
->
-
-<input
-id="registerPhone"
-type="tel"
-placeholder="رقم الهاتف"
-autocomplete="tel"
-required
->
-
-<input
-id="registerPassword"
-type="password"
-placeholder="الرمز — 6 أحرف أو أرقام على الأقل"
-minlength="6"
-autocomplete="new-password"
-required
->
-
-<button
-class="customer-auth-submit"
-type="submit"
->
-إنشاء الحساب
-</button>
-
-</form>
-
-
-<div
-id="customerRegisterMessage"
-class="customer-auth-message"
-></div>
-
-
-<div class="customer-auth-switch">
-
-لديك حساب؟
-
-<button
-type="button"
-onclick="showCustomerLogin()"
->
-تسجيل الدخول
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<script>
-
-/* =========================================================
-   CUSTOMER AUTH
-========================================================= */
-
-function openCustomerAuth(){
-
-checkCustomerAndOpenAccount();
-
-}
-
-
-/* =========================================================
-   CHECK CUSTOMER
-========================================================= */
-
-async function checkCustomerAndOpenAccount(){
-
-try{
-
-const response =
-await fetch(
-"/api/customer-me",
-{
-method:"GET",
-credentials:"include"
-}
-);
-
-const data =
-await response.json();
-
-if(
-data.logged_in &&
-data.customer
-){
-
-updateCustomerAccountUI(
-data.customer
-);
-
-openCustomerAccount(
-data.customer
-);
-
-return;
-
-}
-
-}catch(error){
-
-console.log(
-"Customer session check failed"
-);
-
-}
-
-openCustomerLoginModal();
-
-}
-
-
-/* =========================================================
-   OPEN LOGIN
-========================================================= */
-
-function openCustomerLoginModal(){
-
-const modal =
-document.getElementById(
-"customerAuthModal"
-);
-
-if(modal){
-
-modal.classList.add("show");
-
-showCustomerLogin();
-
-}
-
-}
-
-
-/* =========================================================
-   CLOSE LOGIN
-========================================================= */
-
-function closeCustomerAuth(){
-
-const modal =
-document.getElementById(
-"customerAuthModal"
-);
-
-if(modal){
-
-modal.classList.remove("show");
-
-}
-
-}
-
-
-/* =========================================================
-   LOGIN VIEW
-========================================================= */
-
-function showCustomerLogin(){
-
-const login =
-document.getElementById(
-"customerLoginView"
-);
-
-const register =
-document.getElementById(
-"customerRegisterView"
-);
-
-if(login){
-
-login.style.display =
-"block";
-
-}
-
-if(register){
-
-register.style.display =
-"none";
-
-}
-
-}
-
-
-/* =========================================================
-   REGISTER VIEW
-========================================================= */
-
-function showCustomerRegister(){
-
-const login =
-document.getElementById(
-"customerLoginView"
-);
-
-const register =
-document.getElementById(
-"customerRegisterView"
-);
-
-if(login){
-
-login.style.display =
-"none";
-
-}
-
-if(register){
-
-register.style.display =
-"block";
-
-}
-
-}
-
-
-/* =========================================================
-   NORMALIZE PHONE
-========================================================= */
-
-function normalizeCustomerPhone(phone){
-
-return String(phone || "")
-.trim()
-.replace(/\s+/g,"")
-.replace(/-/g,"")
-.replace(/\(/g,"")
-.replace(/\)/g,"");
-
-}
-
-
-/* =========================================================
-   REGISTER
-========================================================= */
-
-async function customerRegister(event){
-
-event.preventDefault();
-
-
-const name =
-document.getElementById(
-"registerName"
-).value.trim();
-
-
-const phone =
-normalizeCustomerPhone(
-document.getElementById(
-"registerPhone"
-).value
-);
-
-
-const password =
-document.getElementById(
-"registerPassword"
-).value;
-
-
-const message =
-document.getElementById(
-"customerRegisterMessage"
-);
-
-
-message.textContent =
-"جاري إنشاء الحساب...";
-
-
-try{
-
-const response =
-await fetch(
-"/api/customer-register",
-{
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-credentials:"include",
-
-body:JSON.stringify({
-name:name,
-phone:phone,
-password:password
-})
-
-}
-);
-
-
-const data =
-await response.json();
-
-
-if(!response.ok){
-
-message.textContent =
-data.error ||
-"تعذر إنشاء الحساب";
-
-return;
-
-}
-
-
-message.textContent =
-"تم إنشاء الحساب بنجاح";
-
-
-setTimeout(
-()=>{
-
-closeCustomerAuth();
-
-updateCustomerAccountUI(
-data.customer
-);
-
-openCustomerAccount(
-data.customer
-);
-
-},
-500
-);
-
-
-}catch(error){
-
-console.error(error);
-
-message.textContent =
-"تعذر الاتصال بالخادم";
-
-}
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function customerLogin(event){
-
-event.preventDefault();
-
-
-const phone =
-normalizeCustomerPhone(
-document
-.getElementById("loginPhone")
-.value
-);
-
-
-const password =
-document
-.getElementById("loginPassword")
-.value;
-
-
-const message =
-document.getElementById(
-"customerLoginMessage"
-);
-
-
-message.textContent =
-"جاري تسجيل الدخول...";
-
-
-try{
-
-const response =
-await fetch(
-"/api/customer-login",
-{
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-credentials:"include",
-
-body:JSON.stringify({
-phone:phone,
-password:password
-})
-
-}
-);
-
-
-const data =
-await response.json();
-
-
-if(!response.ok){
-
-message.textContent =
-data.error ||
-"رقم الهاتف أو الرمز غير صحيح";
-
-return;
-
-}
-
-
-/* إغلاق نافذة تسجيل الدخول فور نجاح الدخول */
-
-closeCustomerAuth();
-
-
-updateCustomerAccountUI(
-data.customer
-);
-
-
-}catch(error){
-
-console.error(error);
-
-message.textContent =
-"تعذر الاتصال بالخادم";
-
-}
-
-}
-
-
-/* =========================================================
-   CHECK CURRENT SESSION
-========================================================= */
-
-async function loadCustomerSession(){
-
-try{
-
-const response =
-await fetch(
-"/api/customer-me",
-{
-method:"GET",
-credentials:"include"
-}
-);
-
-
-const data =
-await response.json();
-
-
-if(
-data.logged_in &&
-data.customer
-){
-
-updateCustomerAccountUI(
-data.customer
-);
-
-}
-
-}catch(error){
-
-console.log(
-"Customer session check failed"
-);
-
-}
-
-}
-
-
-/* =========================================================
-   UPDATE ACCOUNT BUTTON
-========================================================= */
-
-function updateCustomerAccountUI(customer){
-
-const buttons =
-document.querySelectorAll(
-"button"
-);
-
-
-buttons.forEach(
-button=>{
-
-const text =
-button.textContent.trim();
-
-
-const aria =
-button.getAttribute(
-"aria-label"
-) || "";
-
-
-if(
-text === "👤" ||
-text === "♡" ||
-aria.includes("حساب") ||
-aria.includes("account")
-){
-
-button.title =
-customer
-?
-`حساب ${customer.name}`
-:
-"حساب العميل";
-
-}
-
-}
-);
-
-}
-
-
-/* =========================================================
-   CUSTOMER ACCOUNT PAGE
-========================================================= */
-
-function openCustomerAccount(customer){
-
-let accountModal =
-document.getElementById(
-"customerAccountModal"
-);
-
-
-if(!accountModal){
-
-accountModal =
-document.createElement(
-"div"
-);
-
-
-accountModal.id =
-"customerAccountModal";
-
-
-accountModal.style.cssText = `
-position:fixed;
-inset:0;
-z-index:10000;
-background:rgba(0,0,0,.55);
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-`;
-
-
-accountModal.innerHTML = `
-
-<div
-style="
-width:440px;
-max-width:100%;
-max-height:90vh;
-overflow:auto;
-background:#fffdf9;
-border:1px solid #b08d35;
-border-radius:8px;
-padding:28px;
-position:relative;
-box-shadow:0 20px 60px rgba(0,0,0,.25);
-direction:rtl;
-"
->
-
-<button
-type="button"
-onclick="closeCustomerAccount()"
-style="
-position:absolute;
-top:10px;
-left:10px;
-width:38px;
-height:38px;
-border-radius:50%;
-border:1px solid #ddd8ce;
-background:#fffdf9;
-color:#77736b;
-font-size:22px;
-cursor:pointer;
-"
->
-×
-</button>
-
-
-<div
-style="
-text-align:center;
-margin-bottom:25px;
-"
->
-
-<div
-style="
-color:#a27f25;
-letter-spacing:4px;
-font-size:10px;
-margin-bottom:8px;
-"
->
-HZ.SHOP
-</div>
-
-
-<h2
-style="
-margin:0;
-color:#302e29;
-font-size:25px;
-"
->
-حسابي
-</h2>
-
-</div>
-
-
-<div
-style="
-border:1px solid #e1ddd4;
-border-radius:6px;
-padding:18px;
-margin-bottom:18px;
-"
->
-
-<div
-style="
-color:#77736b;
-font-size:12px;
-margin-bottom:6px;
-"
->
-الاسم
-</div>
-
-
-<strong
-id="accountCustomerName"
-style="
-display:block;
-color:#302e29;
-font-size:17px;
-margin-bottom:15px;
-"
-></strong>
-
-
-<div
-style="
-color:#77736b;
-font-size:12px;
-margin-bottom:6px;
-"
->
-رقم الهاتف
-</div>
-
-
-<strong
-id="accountCustomerPhone"
-style="
-display:block;
-color:#302e29;
-font-size:17px;
-"
-></strong>
-
-</div>
-
-
-<div
-style="
-border:1px solid #e1ddd4;
-border-radius:6px;
-padding:18px;
-margin-bottom:18px;
-text-align:center;
-"
->
-
-<h3
-style="
-margin:0 0 8px;
-color:#302e29;
-"
->
-طلباتي
-</h3>
-
-
-<p
-style="
-margin:0;
-color:#77736b;
-font-size:13px;
-"
->
-سيتم عرض طلباتك هنا.
-</p>
-
-</div>
-
-
-<button
-type="button"
-onclick="customerLogout()"
-style="
-width:100%;
-height:46px;
-border:1px solid #b08d35;
-border-radius:4px;
-background:#fffdf9;
-color:#a27f25;
-font-weight:bold;
-cursor:pointer;
-"
->
-تسجيل الخروج
-</button>
-
-
-</div>
-
-`;
-
-
-document.body.appendChild(
-accountModal
-);
-
-}
-
-
-const nameElement =
-document.getElementById(
-"accountCustomerName"
-);
-
-
-const phoneElement =
-document.getElementById(
-"accountCustomerPhone"
-);
-
-
-if(nameElement){
-
-nameElement.textContent =
-customer.name || "";
-
-}
-
-
-if(phoneElement){
-
-phoneElement.textContent =
-customer.phone || "";
-
-}
-
-
-accountModal.style.display =
-"flex";
-
-}
-
-
-/* =========================================================
-   CLOSE CUSTOMER ACCOUNT
-========================================================= */
-
-function closeCustomerAccount(){
-
-const modal =
-document.getElementById(
-"customerAccountModal"
-);
-
-if(modal){
-
-modal.style.display =
-"none";
-
-}
-
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-async function customerLogout(){
-
-try{
-
-await fetch(
-"/api/customer-logout",
-{
-method:"POST",
-credentials:"include"
-}
-);
-
-}catch(error){
-
-console.log(
-"Logout error"
-);
-
-}
-
-
-closeCustomerAccount();
-
-location.reload();
-
-}
-
-
-/* =========================================================
-   CLICK OUTSIDE LOGIN
-========================================================= */
-
-const customerAuthModal =
-document.getElementById(
-"customerAuthModal"
-);
-
-
-if(customerAuthModal){
-
-customerAuthModal.addEventListener(
-"click",
-function(event){
-
-if(
-event.target === this
-){
-
-closeCustomerAuth();
-
-}
-
-}
-);
-
-}
-
-
-/* =========================================================
-   CLICK OUTSIDE ACCOUNT
-========================================================= */
-
-document.addEventListener(
-"click",
-function(event){
-
-const modal =
-document.getElementById(
-"customerAccountModal"
-);
-
-
-if(
-modal &&
-event.target === modal
-){
-
-closeCustomerAccount();
-
-}
-
-}
-);
-
-
-/* =========================================================
-   START CUSTOMER SESSION
-========================================================= */
-
-document.addEventListener(
-"DOMContentLoaded",
-function(){
-
-loadCustomerSession();
-
-}
-);
-
-</script>
-
 </body>
 </html>
