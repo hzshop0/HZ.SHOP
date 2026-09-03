@@ -3074,7 +3074,7 @@ box.innerHTML = "";
 list.forEach(p => {
 const fav = favorites.includes(p.id);
 const galleryHtml = createProductGallery(p);
-const canBuy = p.stock > 0 || p.stock === 0;
+const canBuy = p.stock > 0;
 
 box.innerHTML += `
 <article class="product" onclick="openProductDetails(${p.id})">
