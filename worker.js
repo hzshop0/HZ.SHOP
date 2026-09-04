@@ -652,16 +652,16 @@ async function sendOrderToWhatsApp(
   }
 
   const productsText =
-    Array.isArray(items)
-      ? items
-          .map(item =>
-            `${item.name} x ${item.quantity} = $${(
-              Number(item.price || 0) *
-              Number(item.quantity || 0)
-            ).toFixed(2)}`
-          )
-          .join("\")
-      : "";
+  Array.isArray(items)
+    ? items
+        .map(item =>
+          `${item.name} x ${item.quantity} = $${(
+            Number(item.price || 0) *
+            Number(item.quantity || 0)
+          ).toFixed(2)}`
+        )
+        .join(" | ")
+    : "";
 
   const deliveryCost =
     4;
