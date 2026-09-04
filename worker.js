@@ -1208,10 +1208,15 @@ async function sendOrderToWhatsApp(
   /*
      رسم التوصيل الثابت للطلبات:
      $4.00
+
+     نستخدم القيمة التي حسبها السيرفر
+     داخل order.delivery.
   */
 
   const deliveryCost =
-    toMoney(4);
+    toMoney(
+      order.delivery
+    );
 
   const finalTotal =
     toMoney(
