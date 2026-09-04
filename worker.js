@@ -1,13 +1,220 @@
 /* =========================================================
    HZ.SHOP WORKER
+   Production Store Worker
 ========================================================= */
+
+
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
+const CUSTOMER_SESSION_MAX_AGE =
+  7 * 24 * 60 * 60 * 1000;
+
+const ADMIN_SESSION_MAX_AGE =
+  24 * 60 * 60 * 1000;
+
+const MAX_ORDER_ITEMS =
+  100;
+
+const MAX_ITEM_QUANTITY =
+  999;
+
+const MAX_NAME_LENGTH =
+  120;
+
+const MAX_PHONE_LENGTH =
+  30;
+
+const MAX_ADDRESS_LENGTH =
+  500;
+
+const MAX_TEXT_LENGTH =
+  1000;
+
+const MAX_NOTES_LENGTH =
+  1000;
+
+const MAX_PRODUCT_NAME_LENGTH =
+  200;
+
+const MAX_PRODUCT_DESCRIPTION_LENGTH =
+  5000;
+
+const MAX_PRODUCT_BADGE_LENGTH =
+  100;
+
+const MAX_IMAGES =
+  10;
+
+
+/* =========================================================
+   JSON RESPONSE
+========================================================= */
+
+function jsonResponse(
+  data,
+  status = 200,
+  extraHeaders = {}
+) {
+
+  return new Response(
+    JSON.stringify(data),
+    {
+      status,
+
+      headers: {
+        "Content-Type":
+          "application/json; charset=utf-8",
+
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, max-age=0",
+
+        "Pragma":
+          "no-cache",
+
+        "Expires":
+          "0",
+
+        ...extraHeaders
+      }
+    }
+  );
+
+}
+
+
+/* =========================================================
+   ERROR RESPONSE
+========================================================= */
+
+function errorResponse(
+  message,
+  status = 400
+) {
+
+  return jsonResponse(
+    {
+      error:
+        message
+    },
+    status
+  );
+
+}
+
+
+/* =========================================================
+   SAFE STRING
+========================================================= */
+
+function safeString(
+  value,
+  maxLength = 1000
+) {
+
+  return String(
+    value ?? ""
+  )
+    .replace(/\u0000/g, "")
+    .trim()
+    .slice(
+      0,
+      maxLength
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE PHONE
+========================================================= */
+
+function normalizePhone(
+  phone
+) {
+
+  return String(
+    phone || ""
+  )
+    .trim()
+    .replace(/[^\d+]/g, "")
+    .slice(
+      0,
+      MAX_PHONE_LENGTH
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE NUMBER
+========================================================= */
+
+function toMoney(
+  value
+) {
+
+  const number =
+    Number(value);
+
+  if (
+    !Number.isFinite(number)
+  ) {
+
+    return 0;
+
+  }
+
+  return Math.round(
+    number * 100
+  ) / 100;
+
+}
+
+
+/* =========================================================
+   NORMALIZE INTEGER
+========================================================= */
+
+function toInteger(
+  value
+) {
+
+  const number =
+    Number(value);
+
+  if (
+    !Number.isFinite(number)
+  ) {
+
+    return 0;
+
+  }
+
+  return Math.floor(
+    number
+  );
+
+}
 
 
 /* =========================================================
    UPLOAD IMAGE TO GITHUB
 ========================================================= */
 
-async function uploadImageToGitHub(file, env) {
+async function uploadImageToGitHub(
+  file,
+  env
+) {
+
+  if (!env.GITHUB_TOKEN) {
+
+    throw new Error(
+      "GITHUB_TOKEN غير موجود"
+    );
+
+  }
 
   const bytes =
     new Uint8Array(
@@ -16,26 +223,54 @@ async function uploadImageToGitHub(file, env) {
 
   let binary = "";
 
-  for (const byte of bytes) {
-    binary += String.fromCharCode(byte);
+  const chunkSize =
+    0x8000;
+
+  for (
+    let i = 0;
+    i < bytes.length;
+    i += chunkSize
+  ) {
+
+    binary += String.fromCharCode(
+      ...bytes.subarray(
+        i,
+        Math.min(
+          i + chunkSize,
+          bytes.length
+        )
+      )
+    );
+
   }
 
   const base64 =
     btoa(binary);
 
-  const fileName =
-    `images/${Date.now()}-${file.name.replace(
+  const originalName =
+    safeString(
+      file.name || "image",
+      150
+    );
+
+  const safeFileName =
+    originalName.replace(
       /[^a-zA-Z0-9._-]/g,
       "-"
-    )}`;
+    );
+
+  const fileName =
+    `images/${Date.now()}-${safeFileName}`;
 
   const response =
     await fetch(
       `https://api.github.com/repos/hzshop0/HZ.SHOP/contents/${fileName}`,
       {
-        method: "PUT",
+        method:
+          "PUT",
 
         headers: {
+
           "Authorization":
             `Bearer ${env.GITHUB_TOKEN}`,
 
@@ -50,6 +285,7 @@ async function uploadImageToGitHub(file, env) {
 
           "Content-Type":
             "application/json"
+
         },
 
         body:
@@ -62,19 +298,27 @@ async function uploadImageToGitHub(file, env) {
               base64
 
           })
+
       }
     );
 
-  if (!response.ok) {
+  if (
+    !response.ok
+  ) {
 
     const error =
       await response.text();
 
-    throw new Error(error);
+    throw new Error(
+      error ||
+      `GitHub HTTP ${response.status}`
+    );
 
   }
 
-  return `https://raw.githubusercontent.com/hzshop0/HZ.SHOP/main/${fileName}`;
+  return (
+    `https://raw.githubusercontent.com/hzshop0/HZ.SHOP/main/${fileName}`
+  );
 
 }
 
@@ -83,101 +327,122 @@ async function uploadImageToGitHub(file, env) {
    NORMALIZE IMAGES
 ========================================================= */
 
-function normalizeImages(value) {
+function normalizeImages(
+  value
+) {
 
   if (
     value === null ||
     value === undefined ||
     value === ""
   ) {
+
     return [];
-  }
-
-  if (Array.isArray(value)) {
-
-    return value
-      .map(image => {
-
-        if (
-          typeof image === "string"
-        ) {
-          return image.trim();
-        }
-
-        if (
-          image &&
-          typeof image === "object"
-        ) {
-
-          return String(
-            image.url ||
-            image.image ||
-            image.src ||
-            image.path ||
-            ""
-          ).trim();
-
-        }
-
-        return "";
-
-      })
-      .filter(Boolean);
 
   }
 
-  if (typeof value === "string") {
+  function normalizeArray(
+    array
+  ) {
+
+    return array
+      .map(
+        image => {
+
+          if (
+            typeof image ===
+            "string"
+          ) {
+
+            return image
+              .trim()
+              .slice(0, 2000);
+
+          }
+
+          if (
+            image &&
+            typeof image ===
+            "object"
+          ) {
+
+            return String(
+              image.url ||
+              image.image ||
+              image.src ||
+              image.path ||
+              ""
+            )
+              .trim()
+              .slice(0, 2000);
+
+          }
+
+          return "";
+
+        }
+      )
+      .filter(Boolean)
+      .slice(
+        0,
+        MAX_IMAGES
+      );
+
+  }
+
+
+  if (
+    Array.isArray(value)
+  ) {
+
+    return normalizeArray(
+      value
+    );
+
+  }
+
+
+  if (
+    typeof value ===
+    "string"
+  ) {
 
     const trimmed =
       value.trim();
 
     if (!trimmed) {
+
       return [];
+
     }
 
     try {
 
       const parsed =
-        JSON.parse(trimmed);
+        JSON.parse(
+          trimmed
+        );
 
-      if (Array.isArray(parsed)) {
+      if (
+        Array.isArray(parsed)
+      ) {
 
-        return parsed
-          .map(image => {
-
-            if (
-              typeof image === "string"
-            ) {
-              return image.trim();
-            }
-
-            if (
-              image &&
-              typeof image === "object"
-            ) {
-
-              return String(
-                image.url ||
-                image.image ||
-                image.src ||
-                image.path ||
-                ""
-              ).trim();
-
-            }
-
-            return "";
-
-          })
-          .filter(Boolean);
+        return normalizeArray(
+          parsed
+        );
 
       }
 
     } catch {
-      /* صورة واحدة قديمة */
+      /* صورة واحدة */
     }
 
-    return [trimmed];
+    return [
+      trimmed.slice(
+        0,
+        2000
+      )
+    ];
 
   }
 
@@ -187,30 +452,24 @@ function normalizeImages(value) {
 
 
 /* =========================================================
-   CUSTOMER PHONE
-========================================================= */
-
-function normalizePhone(phone) {
-
-  return String(phone || "")
-    .trim()
-    .replace(/[^\d+]/g, "");
-
-}
-
-
-/* =========================================================
    BYTES TO HEX
 ========================================================= */
 
-function bytesToHex(bytes) {
+function bytesToHex(
+  bytes
+) {
 
-  return Array.from(bytes)
+  return Array.from(
+    bytes
+  )
     .map(
       b =>
         b
           .toString(16)
-          .padStart(2, "0")
+          .padStart(
+            2,
+            "0"
+          )
     )
     .join("");
 
@@ -221,11 +480,15 @@ function bytesToHex(bytes) {
    HEX TO BYTES
 ========================================================= */
 
-function hexToBytes(hex) {
+function hexToBytes(
+  hex
+) {
 
   if (
     !hex ||
-    hex.length % 2 !== 0
+    typeof hex !== "string" ||
+    hex.length % 2 !== 0 ||
+    !/^[0-9a-f]+$/i.test(hex)
   ) {
 
     return new Uint8Array();
@@ -273,12 +536,24 @@ async function hashPassword(
 
   let salt;
 
-  if (saltHex) {
+  if (
+    saltHex
+  ) {
 
     salt =
       hexToBytes(
         saltHex
       );
+
+    if (
+      salt.length !== 16
+    ) {
+
+      throw new Error(
+        "ملح كلمة المرور غير صالح"
+      );
+
+    }
 
   } else {
 
@@ -292,21 +567,34 @@ async function hashPassword(
   const keyMaterial =
     await crypto.subtle.importKey(
       "raw",
-      encoder.encode(password),
+      encoder.encode(
+        password
+      ),
       {
-        name: "PBKDF2"
+        name:
+          "PBKDF2"
       },
       false,
-      ["deriveBits"]
+      [
+        "deriveBits"
+      ]
     );
 
   const hashBuffer =
     await crypto.subtle.deriveBits(
       {
-        name: "PBKDF2",
-        salt: salt,
-        iterations: 100000,
-        hash: "SHA-256"
+        name:
+          "PBKDF2",
+
+        salt:
+          salt,
+
+        iterations:
+          100000,
+
+        hash:
+          "SHA-256"
+
       },
       keyMaterial,
       256
@@ -340,8 +628,12 @@ async function verifyPassword(
   storedPassword
 ) {
 
-  if (!storedPassword) {
+  if (
+    !storedPassword
+  ) {
+
     return false;
+
   }
 
   const parts =
@@ -363,6 +655,19 @@ async function verifyPassword(
   const storedHash =
     parts[1];
 
+  if (
+    !/^[0-9a-f]{32}$/i.test(
+      saltHex
+    ) ||
+    !/^[0-9a-f]{64}$/i.test(
+      storedHash
+    )
+  ) {
+
+    return false;
+
+  }
+
   const result =
     await hashPassword(
       password,
@@ -370,8 +675,48 @@ async function verifyPassword(
     );
 
   return (
-    result.hash ===
-    storedHash
+    result.hash.toLowerCase() ===
+    storedHash.toLowerCase()
+  );
+
+}
+
+
+/* =========================================================
+   CREATE HMAC KEY
+========================================================= */
+
+async function createHmacKey(
+  secret
+) {
+
+  if (
+    !secret
+  ) {
+
+    throw new Error(
+      "سر التشفير غير موجود"
+    );
+
+  }
+
+  return crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(
+      secret
+    ),
+    {
+      name:
+        "HMAC",
+
+      hash:
+        "SHA-256"
+    },
+    false,
+    [
+      "sign",
+      "verify"
+    ]
   );
 
 }
@@ -392,28 +737,16 @@ async function createCustomerSession(
   const value =
     `${customerId}.${timestamp}`;
 
-  const encoder =
-    new TextEncoder();
-
   const key =
-    await crypto.subtle.importKey(
-      "raw",
-      encoder.encode(
-        env.ADMIN_PASSWORD
-      ),
-      {
-        name: "HMAC",
-        hash: "SHA-256"
-      },
-      false,
-      ["sign"]
+    await createHmacKey(
+      env.ADMIN_PASSWORD
     );
 
   const signatureBuffer =
     await crypto.subtle.sign(
       "HMAC",
       key,
-      encoder.encode(
+      new TextEncoder().encode(
         value
       )
     );
@@ -433,6 +766,93 @@ async function createCustomerSession(
 
 
 /* =========================================================
+   CREATE ADMIN SESSION
+========================================================= */
+
+async function createAdminSession(
+  env
+) {
+
+  const timestamp =
+    Date.now().toString();
+
+  const key =
+    await createHmacKey(
+      env.ADMIN_PASSWORD
+    );
+
+  const signatureBuffer =
+    await crypto.subtle.sign(
+      "HMAC",
+      key,
+      new TextEncoder().encode(
+        timestamp
+      )
+    );
+
+  const signature =
+    bytesToHex(
+      new Uint8Array(
+        signatureBuffer
+      )
+    );
+
+  return (
+    `${timestamp}.${signature}`
+  );
+
+}
+
+
+/* =========================================================
+   GET COOKIE
+========================================================= */
+
+function getCookie(
+  request,
+  name
+) {
+
+  const cookie =
+    request.headers.get(
+      "Cookie"
+    ) || "";
+
+  const escaped =
+    name.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+
+  const match =
+    cookie.match(
+      new RegExp(
+        `(?:^|;\\s*)${escaped}=([^;]+)`
+      )
+    );
+
+  if (!match) {
+
+    return null;
+
+  }
+
+  try {
+
+    return decodeURIComponent(
+      match[1]
+    );
+
+  } catch {
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
    VERIFY CUSTOMER SESSION
 ========================================================= */
 
@@ -441,29 +861,31 @@ async function verifyCustomerSession(
   env
 ) {
 
-  const cookie =
-    request.headers.get(
-      "Cookie"
-    ) || "";
+  if (
+    !env.DB ||
+    !env.ADMIN_PASSWORD
+  ) {
 
-  const match =
-    cookie.match(
-      /(?:^|;\s*)hz_customer=([^;]+)/
+    return null;
+
+  }
+
+  const cookie =
+    getCookie(
+      request,
+      "hz_customer"
     );
 
-  if (!match) {
+  if (!cookie) {
+
     return null;
+
   }
 
   try {
 
-    const cookieValue =
-      decodeURIComponent(
-        match[1]
-      );
-
     const parts =
-      cookieValue.split(".");
+      cookie.split(".");
 
     if (
       parts.length !== 3
@@ -487,8 +909,13 @@ async function verifyCustomerSession(
       parts[2];
 
     if (
-      !customerId ||
-      !timestamp ||
+      !Number.isSafeInteger(
+        customerId
+      ) ||
+      customerId <= 0 ||
+      !Number.isSafeInteger(
+        timestamp
+      ) ||
       !signature
     ) {
 
@@ -496,39 +923,22 @@ async function verifyCustomerSession(
 
     }
 
-    if (
-      timestamp > Date.now() ||
+    const age =
       Date.now() -
-        timestamp >
-      7 *
-        24 *
-        60 *
-        60 *
-        1000
+      timestamp;
+
+    if (
+      age < 0 ||
+      age > CUSTOMER_SESSION_MAX_AGE
     ) {
 
       return null;
 
     }
 
-    const value =
-      `${customerId}.${timestamp}`;
-
-    const encoder =
-      new TextEncoder();
-
     const key =
-      await crypto.subtle.importKey(
-        "raw",
-        encoder.encode(
-          env.ADMIN_PASSWORD
-        ),
-        {
-          name: "HMAC",
-          hash: "SHA-256"
-        },
-        false,
-        ["verify"]
+      await createHmacKey(
+        env.ADMIN_PASSWORD
       );
 
     const valid =
@@ -538,13 +948,15 @@ async function verifyCustomerSession(
         hexToBytes(
           signature
         ),
-        encoder.encode(
-          value
+        new TextEncoder().encode(
+          `${customerId}.${timestamp}`
         )
       );
 
     if (!valid) {
+
       return null;
+
     }
 
     const customer =
@@ -565,7 +977,9 @@ async function verifyCustomerSession(
         .first();
 
     if (!customer) {
+
       return null;
+
     }
 
     return customer;
@@ -580,30 +994,136 @@ async function verifyCustomerSession(
 
 
 /* =========================================================
-   WHATSAPP PARAMETER CLEANER
+   VERIFY ADMIN SESSION
 ========================================================= */
 
-function cleanWhatsAppParam(value) {
+async function verifyAdminSession(
+  request,
+  env
+) {
 
-  return String(value ?? "")
-    .replace(/\s+/gu, " ")
-    .trim();
+  if (
+    !env.ADMIN_PASSWORD
+  ) {
+
+    return false;
+
+  }
+
+  const cookie =
+    getCookie(
+      request,
+      "hz_admin"
+    );
+
+  if (!cookie) {
+
+    return false;
+
+  }
+
+  try {
+
+    const parts =
+      cookie.split(".");
+
+    if (
+      parts.length !== 2
+    ) {
+
+      return false;
+
+    }
+
+    const timestamp =
+      Number(
+        parts[0]
+      );
+
+    const signature =
+      parts[1];
+
+    if (
+      !Number.isSafeInteger(
+        timestamp
+      ) ||
+      !signature
+    ) {
+
+      return false;
+
+    }
+
+    const age =
+      Date.now() -
+      timestamp;
+
+    if (
+      age < 0 ||
+      age > ADMIN_SESSION_MAX_AGE
+    ) {
+
+      return false;
+
+    }
+
+    const key =
+      await createHmacKey(
+        env.ADMIN_PASSWORD
+      );
+
+    return await crypto.subtle.verify(
+      "HMAC",
+      key,
+      hexToBytes(
+        signature
+      ),
+      new TextEncoder().encode(
+        String(timestamp)
+      )
+    );
+
+  } catch {
+
+    return false;
+
+  }
 
 }
 
 
 /* =========================================================
-   WHATSAPP
+   WHATSAPP PARAMETER CLEANER
+========================================================= */
+
+function cleanWhatsAppParam(
+  value
+) {
+
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /\s+/gu,
+      " "
+    )
+    .trim()
+    .slice(
+      0,
+      1024
+    );
+
+}
+
+
+/* =========================================================
+   SEND ORDER TO WHATSAPP
 ========================================================= */
 
 async function sendOrderToWhatsApp(
   order,
   env
 ) {
-
-  console.log(
-    "WHATSAPP_START"
-  );
 
   if (
     !env.WHATSAPP_ACCESS_TOKEN
@@ -634,14 +1154,20 @@ async function sendOrderToWhatsApp(
   const apiUrl =
     `https://graph.facebook.com/v23.0/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
 
-  let items = order.items;
+  let items =
+    order.items;
 
-  if (typeof items === "string") {
+  if (
+    typeof items ===
+    "string"
+  ) {
 
     try {
 
       items =
-        JSON.parse(items);
+        JSON.parse(
+          items
+        );
 
     } catch {
 
@@ -652,26 +1178,54 @@ async function sendOrderToWhatsApp(
   }
 
   const productsText =
-  Array.isArray(items)
-    ? items
-        .map(item =>
-          `${item.name} x ${item.quantity} = $${(
-            Number(item.price || 0) *
-            Number(item.quantity || 0)
-          ).toFixed(2)}`
-        )
-        .join(" | ")
-    : "";
+    Array.isArray(items)
+      ? items
+          .map(
+            item => {
+
+              const price =
+                toMoney(
+                  item.price
+                );
+
+              const quantity =
+                toInteger(
+                  item.quantity
+                );
+
+              return (
+                `${cleanWhatsAppParam(item.name)} x ${quantity} = $${(
+                  price *
+                  quantity
+                ).toFixed(2)}`
+              );
+
+            }
+          )
+          .join(" | ")
+      : "";
+
+  /*
+     index.html الحالي لا يضيف رسم توصيل.
+     لذلك يجب ألا نطرح $4 من total.
+     نرسل 0.00 للتوصيل مع الحفاظ على عدد
+     متغيرات قالب WhatsApp الحالي.
+  */
 
   const deliveryCost =
-    4;
+    0;
 
   const finalTotal =
-    Number(order.total || 0);
+    toMoney(
+      order.total
+    );
 
   const totalBeforeDelivery =
-    finalTotal -
-    deliveryCost;
+    Math.max(
+      0,
+      finalTotal -
+      deliveryCost
+    );
 
   let response;
 
@@ -724,6 +1278,7 @@ async function sendOrderToWhatsApp(
                 components: [
 
                   {
+
                     type:
                       "body",
 
@@ -745,7 +1300,7 @@ async function sendOrderToWhatsApp(
 
                         text:
                           cleanWhatsAppParam(
-                            order.customer_name || ""
+                            order.customer_name
                           )
                       },
 
@@ -755,7 +1310,7 @@ async function sendOrderToWhatsApp(
 
                         text:
                           cleanWhatsAppParam(
-                            order.phone || ""
+                            order.phone
                           )
                       },
 
@@ -765,7 +1320,7 @@ async function sendOrderToWhatsApp(
 
                         text:
                           cleanWhatsAppParam(
-                            order.governorate || ""
+                            order.governorate
                           )
                       },
 
@@ -775,7 +1330,7 @@ async function sendOrderToWhatsApp(
 
                         text:
                           cleanWhatsAppParam(
-                            order.area || ""
+                            order.area
                           )
                       },
 
@@ -785,7 +1340,7 @@ async function sendOrderToWhatsApp(
 
                         text:
                           cleanWhatsAppParam(
-                            order.address || ""
+                            order.address
                           )
                       },
 
@@ -795,7 +1350,7 @@ async function sendOrderToWhatsApp(
 
                         text:
                           cleanWhatsAppParam(
-                            order.payment_method || ""
+                            order.payment_method
                           )
                       },
 
@@ -844,10 +1399,15 @@ async function sendOrderToWhatsApp(
         }
       );
 
-  } catch (error) {
+  } catch (
+    error
+  ) {
 
     throw new Error(
-      `فشل الاتصال بـ WhatsApp API: ${error.message}`
+      `فشل الاتصال بـ WhatsApp API: ${
+        error?.message ||
+        "خطأ غير معروف"
+      }`
     );
 
   }
@@ -869,8 +1429,10 @@ async function sendOrderToWhatsApp(
   } catch {
 
     result = {
+
       raw_response:
         rawResponse
+
     };
 
   }
@@ -891,7 +1453,9 @@ async function sendOrderToWhatsApp(
     })
   );
 
-  if (!response.ok) {
+  if (
+    !response.ok
+  ) {
 
     const metaError =
       result?.error?.message ||
@@ -908,6 +1472,628 @@ async function sendOrderToWhatsApp(
   return result;
 
 }
+
+
+/* =========================================================
+   NORMALIZE PRODUCT FOR PUBLIC API
+========================================================= */
+
+function normalizeProduct(
+  product
+) {
+
+  const images =
+    normalizeImages(
+      product?.image
+    );
+
+  const price =
+    toMoney(
+      product?.price
+    );
+
+  const oldPrice =
+    product?.old_price ===
+      null ||
+    product?.old_price ===
+      undefined ||
+    product?.old_price ===
+      ""
+      ? null
+      : toMoney(
+          product.old_price
+        );
+
+  const stock =
+    Math.max(
+      0,
+      toInteger(
+        product?.stock
+      )
+    );
+
+  return {
+
+    ...product,
+
+    id:
+      toInteger(
+        product?.id
+      ),
+
+    name:
+      safeString(
+        product?.name,
+        MAX_PRODUCT_NAME_LENGTH
+      ),
+
+    category:
+      safeString(
+        product?.category,
+        100
+      ),
+
+    description:
+      safeString(
+        product?.description,
+        MAX_PRODUCT_DESCRIPTION_LENGTH
+      ),
+
+    price:
+      price,
+
+    old_price:
+      oldPrice,
+
+    stock:
+      stock,
+
+    badge:
+      safeString(
+        product?.badge,
+        MAX_PRODUCT_BADGE_LENGTH
+      ),
+
+    images:
+      images,
+
+    image:
+      images[0] ||
+      safeString(
+        product?.image,
+        2000
+      )
+
+  };
+
+}
+
+
+/* =========================================================
+   READ PRODUCTS
+========================================================= */
+
+async function getProducts(
+  env
+) {
+
+  const query =
+    await env.DB
+      .prepare(
+        "SELECT * FROM products ORDER BY id DESC"
+      )
+      .all();
+
+  const results =
+    Array.isArray(
+      query?.results
+    )
+      ? query.results
+      : [];
+
+  return results.map(
+    normalizeProduct
+  );
+
+}
+
+
+/* =========================================================
+   VALIDATE PRODUCT INPUT
+========================================================= */
+
+function validateProductInput(
+  data
+) {
+
+  const name =
+    safeString(
+      data?.name,
+      MAX_PRODUCT_NAME_LENGTH
+    );
+
+  const category =
+    safeString(
+      data?.category,
+      100
+    );
+
+  const description =
+    safeString(
+      data?.description,
+      MAX_PRODUCT_DESCRIPTION_LENGTH
+    );
+
+  const badge =
+    safeString(
+      data?.badge,
+      MAX_PRODUCT_BADGE_LENGTH
+    );
+
+  if (
+    !name
+  ) {
+
+    return {
+      error:
+        "اسم المنتج مطلوب"
+    };
+
+  }
+
+  if (
+    !category
+  ) {
+
+    return {
+      error:
+        "قسم المنتج مطلوب"
+    };
+
+  }
+
+  if (
+    data?.price ===
+    undefined ||
+    data?.price ===
+    null ||
+    data?.price ===
+    ""
+  ) {
+
+    return {
+      error:
+        "سعر المنتج مطلوب"
+    };
+
+  }
+
+  const price =
+    toMoney(
+      data.price
+    );
+
+  if (
+    !Number.isFinite(
+      Number(data.price)
+    ) ||
+    price < 0
+  ) {
+
+    return {
+      error:
+        "السعر غير صحيح"
+    };
+
+  }
+
+  let oldPrice =
+    null;
+
+  if (
+    data.old_price !==
+      undefined &&
+    data.old_price !==
+      null &&
+    data.old_price !==
+      ""
+  ) {
+
+    oldPrice =
+      toMoney(
+        data.old_price
+      );
+
+    if (
+      !Number.isFinite(
+        Number(data.old_price)
+      ) ||
+      oldPrice < 0
+    ) {
+
+      return {
+        error:
+          "السعر القديم غير صحيح"
+      };
+
+    }
+
+  }
+
+  let stock =
+    toInteger(
+      data?.stock ?? 0
+    );
+
+  if (
+    !Number.isFinite(
+      Number(data?.stock ?? 0)
+    ) ||
+    stock < 0
+  ) {
+
+    return {
+      error:
+        "المخزون غير صحيح"
+    };
+
+  }
+
+  const images =
+    normalizeImages(
+      Array.isArray(
+        data?.images
+      )
+        ? data.images
+        : data?.image
+    );
+
+  return {
+
+    name,
+
+    category,
+
+    description,
+
+    badge,
+
+    price,
+
+    oldPrice,
+
+    stock,
+
+    images
+
+  };
+
+}
+
+
+/* =========================================================
+   BUILD VERIFIED ORDER ITEMS
+========================================================= */
+
+async function buildVerifiedOrderItems(
+  requestedItems,
+  env
+) {
+
+  if (
+    !Array.isArray(
+      requestedItems
+    )
+  ) {
+
+    throw new Error(
+      "قائمة المنتجات غير صحيحة"
+    );
+
+  }
+
+  if (
+    requestedItems.length === 0
+  ) {
+
+    throw new Error(
+      "السلة فارغة"
+    );
+
+  }
+
+  if (
+    requestedItems.length >
+    MAX_ORDER_ITEMS
+  ) {
+
+    throw new Error(
+      "عدد المنتجات في الطلب كبير جدًا"
+    );
+
+  }
+
+  /*
+     نجمع الكميات حسب ID.
+     هذا يمنع إرسال المنتج نفسه عدة مرات
+     للتحايل على فحص المخزون.
+  */
+
+  const quantities =
+    new Map();
+
+  for (
+    const item of requestedItems
+  ) {
+
+    const id =
+      toInteger(
+        item?.id
+      );
+
+    const quantity =
+      toInteger(
+        item?.quantity
+      );
+
+    if (
+      !id ||
+      id <= 0
+    ) {
+
+      throw new Error(
+        "معرّف منتج غير صحيح"
+      );
+
+    }
+
+    if (
+      quantity <= 0 ||
+      quantity >
+      MAX_ITEM_QUANTITY
+    ) {
+
+      throw new Error(
+        "كمية منتج غير صحيحة"
+      );
+
+    }
+
+    const previous =
+      quantities.get(
+        id
+      ) || 0;
+
+    const totalQuantity =
+      previous +
+      quantity;
+
+    if (
+      totalQuantity >
+      MAX_ITEM_QUANTITY
+    ) {
+
+      throw new Error(
+        "الكمية المطلوبة كبيرة جدًا"
+      );
+
+    }
+
+    quantities.set(
+      id,
+      totalQuantity
+    );
+
+  }
+
+  const verifiedItems = [];
+
+  let subtotal =
+    0;
+
+  for (
+    const [
+      productId,
+      quantity
+    ] of quantities
+  ) {
+
+    const product =
+      await env.DB
+        .prepare(`
+          SELECT
+            id,
+            name,
+            price,
+            image,
+            stock
+          FROM products
+          WHERE id = ?
+          LIMIT 1
+        `)
+        .bind(
+          productId
+        )
+        .first();
+
+    if (
+      !product
+    ) {
+
+      throw new Error(
+        `المنتج رقم ${productId} غير موجود`
+      );
+
+    }
+
+    const price =
+      toMoney(
+        product.price
+      );
+
+    const stock =
+      Math.max(
+        0,
+        toInteger(
+          product.stock
+        )
+      );
+
+    if (
+      stock <
+      quantity
+    ) {
+
+      throw new Error(
+        `الكمية المطلوبة من "${safeString(product.name, 200)}" غير متوفرة`
+      );
+
+    }
+
+    const lineTotal =
+      toMoney(
+        price *
+        quantity
+      );
+
+    subtotal =
+      toMoney(
+        subtotal +
+        lineTotal
+      );
+
+    verifiedItems.push({
+
+      id:
+        toInteger(
+          product.id
+        ),
+
+      name:
+        safeString(
+          product.name,
+          MAX_PRODUCT_NAME_LENGTH
+        ),
+
+      price:
+        price,
+
+      image:
+        safeString(
+          product.image,
+          2000
+        ),
+
+      quantity:
+        quantity
+
+    });
+
+  }
+
+  return {
+
+    items:
+      verifiedItems,
+
+    subtotal:
+      subtotal
+
+  };
+
+}
+
+
+/* =========================================================
+   CALCULATE SERVER DISCOUNT
+========================================================= */
+
+function calculateDiscount(
+  subtotal,
+  requestedDiscount
+) {
+
+  const safeSubtotal =
+    toMoney(
+      subtotal
+    );
+
+  const requested =
+    toMoney(
+      requestedDiscount
+    );
+
+  if (
+    requested <= 0
+  ) {
+
+    return 0;
+
+  }
+
+  /*
+     index.html يستخدم HZ10 = 10%.
+     بما أن الكود الحالي لا يرسل اسم الكوبون
+     إلى Worker، نمنع أي خصم أكبر من 10%
+     من subtotal.
+  */
+
+  const maximumDiscount =
+    toMoney(
+      safeSubtotal * 0.10
+    );
+
+  return Math.min(
+    Math.max(
+      0,
+      requested
+    ),
+    maximumDiscount
+  );
+
+}
+
+
+/* =========================================================
+   VALIDATE PAYMENT METHOD
+========================================================= */
+
+function normalizePaymentMethod(
+  value
+) {
+
+  const payment =
+    safeString(
+      value,
+      100
+    );
+
+  const allowed = new Set([
+    "cash",
+    "cod",
+    "cash_on_delivery",
+    "الدفع عند الاستلام",
+    "عند الاستلام"
+  ]);
+
+  /*
+     إذا كانت الواجهة الحالية ترسل قيمة مختلفة،
+     نحافظ عليها بدل كسر الطلب.
+  */
+
+  if (
+    payment.length >
+    0
+  ) {
+
+    return payment;
+
+  }
+
+  return "";
+
+}
+
 
 /* =========================================================
    WORKER
@@ -927,7 +2113,7 @@ export default {
 
 
     /* =====================================================
-       API: إنشاء حساب عميل
+       API: CUSTOMER REGISTER
     ===================================================== */
 
     if (
@@ -939,13 +2125,25 @@ export default {
 
       try {
 
+        if (
+          !env.DB
+        ) {
+
+          return errorResponse(
+            "قاعدة البيانات غير متاحة",
+            500
+          );
+
+        }
+
         const data =
           await request.json();
 
         const name =
-          String(
-            data?.name || ""
-          ).trim();
+          safeString(
+            data?.name,
+            MAX_NAME_LENGTH
+          );
 
         const phone =
           normalizePhone(
@@ -963,30 +2161,21 @@ export default {
           !password
         ) {
 
-          return Response.json(
-            {
-              error:
-                "الاسم ورقم الهاتف وكلمة المرور مطلوبة"
-            },
-            {
-              status: 400
-            }
+          return errorResponse(
+            "الاسم ورقم الهاتف وكلمة المرور مطلوبة",
+            400
           );
 
         }
 
         if (
-          password.length < 6
+          password.length <
+          6
         ) {
 
-          return Response.json(
-            {
-              error:
-                "كلمة المرور يجب أن تكون 6 أحرف أو أرقام على الأقل"
-            },
-            {
-              status: 400
-            }
+          return errorResponse(
+            "كلمة المرور يجب أن تكون 6 أحرف أو أرقام على الأقل",
+            400
           );
 
         }
@@ -1004,16 +2193,13 @@ export default {
             )
             .first();
 
-        if (existing) {
+        if (
+          existing
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "رقم الهاتف مسجل مسبقًا"
-            },
-            {
-              status: 409
-            }
+          return errorResponse(
+            "رقم الهاتف مسجل مسبقًا",
+            409
           );
 
         }
@@ -1055,16 +2241,13 @@ export default {
         const customerId =
           result?.meta?.last_row_id;
 
-        if (!customerId) {
+        if (
+          !customerId
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "تعذر إنشاء الحساب"
-            },
-            {
-              status: 500
-            }
+          return errorResponse(
+            "تعذر إنشاء الحساب",
+            500
           );
 
         }
@@ -1075,9 +2258,9 @@ export default {
             env
           );
 
-        return new Response(
+        return jsonResponse(
 
-          JSON.stringify({
+          {
 
             success:
               true,
@@ -1095,46 +2278,38 @@ export default {
 
             }
 
-          }),
+          },
+
+          200,
 
           {
-            status:
-              200,
 
-            headers: {
-
-              "Content-Type":
-                "application/json; charset=utf-8",
-
-              "Set-Cookie":
-                `hz_customer=${encodeURIComponent(session)}; ` +
-                `Path=/; ` +
-                `HttpOnly; ` +
-                `Secure; ` +
-                `SameSite=Strict; ` +
-                `Max-Age=604800`
-
-            }
+            "Set-Cookie":
+              `hz_customer=${encodeURIComponent(session)}; ` +
+              `Path=/; ` +
+              `HttpOnly; ` +
+              `Secure; ` +
+              `SameSite=Strict; ` +
+              `Max-Age=604800`
 
           }
 
         );
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
         console.error(
           "CUSTOMER_REGISTER_ERROR",
-          error?.message || error
+          error?.stack ||
+          error?.message ||
+          error
         );
 
-        return Response.json(
-          {
-            error:
-              "تعذر إنشاء الحساب"
-          },
-          {
-            status: 500
-          }
+        return errorResponse(
+          "تعذر إنشاء الحساب",
+          500
         );
 
       }
@@ -1143,7 +2318,7 @@ export default {
 
 
     /* =====================================================
-       API: تسجيل دخول العميل
+       API: CUSTOMER LOGIN
     ===================================================== */
 
     if (
@@ -1154,6 +2329,17 @@ export default {
     ) {
 
       try {
+
+        if (
+          !env.DB
+        ) {
+
+          return errorResponse(
+            "قاعدة البيانات غير متاحة",
+            500
+          );
+
+        }
 
         const data =
           await request.json();
@@ -1173,14 +2359,9 @@ export default {
           !password
         ) {
 
-          return Response.json(
-            {
-              error:
-                "رقم الهاتف وكلمة المرور مطلوبان"
-            },
-            {
-              status: 400
-            }
+          return errorResponse(
+            "رقم الهاتف وكلمة المرور مطلوبان",
+            400
           );
 
         }
@@ -1202,16 +2383,13 @@ export default {
             )
             .first();
 
-        if (!customer) {
+        if (
+          !customer
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "رقم الهاتف أو كلمة المرور غير صحيحة"
-            },
-            {
-              status: 401
-            }
+          return errorResponse(
+            "رقم الهاتف أو كلمة المرور غير صحيحة",
+            401
           );
 
         }
@@ -1222,16 +2400,13 @@ export default {
             customer.password_hash
           );
 
-        if (!valid) {
+        if (
+          !valid
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "رقم الهاتف أو كلمة المرور غير صحيحة"
-            },
-            {
-              status: 401
-            }
+          return errorResponse(
+            "رقم الهاتف أو كلمة المرور غير صحيحة",
+            401
           );
 
         }
@@ -1242,9 +2417,9 @@ export default {
             env
           );
 
-        return new Response(
+        return jsonResponse(
 
-          JSON.stringify({
+          {
 
             success:
               true,
@@ -1262,46 +2437,38 @@ export default {
 
             }
 
-          }),
+          },
+
+          200,
 
           {
-            status:
-              200,
 
-            headers: {
-
-              "Content-Type":
-                "application/json; charset=utf-8",
-
-              "Set-Cookie":
-                `hz_customer=${encodeURIComponent(session)}; ` +
-                `Path=/; ` +
-                `HttpOnly; ` +
-                `Secure; ` +
-                `SameSite=Strict; ` +
-                `Max-Age=604800`
-
-            }
+            "Set-Cookie":
+              `hz_customer=${encodeURIComponent(session)}; ` +
+              `Path=/; ` +
+              `HttpOnly; ` +
+              `Secure; ` +
+              `SameSite=Strict; ` +
+              `Max-Age=604800`
 
           }
 
         );
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
         console.error(
           "CUSTOMER_LOGIN_ERROR",
-          error?.message || error
+          error?.stack ||
+          error?.message ||
+          error
         );
 
-        return Response.json(
-          {
-            error:
-              "حدث خطأ في تسجيل الدخول"
-          },
-          {
-            status: 500
-          }
+        return errorResponse(
+          "حدث خطأ في تسجيل الدخول",
+          500
         );
 
       }
@@ -1310,7 +2477,7 @@ export default {
 
 
     /* =====================================================
-       API: معرفة العميل الحالي
+       API: CUSTOMER ME
     ===================================================== */
 
     if (
@@ -1328,16 +2495,18 @@ export default {
             env
           );
 
-        if (!customer) {
+        if (
+          !customer
+        ) {
 
-          return Response.json({
+          return jsonResponse({
             logged_in:
               false
           });
 
         }
 
-        return Response.json({
+        return jsonResponse({
 
           logged_in:
             true,
@@ -1359,7 +2528,7 @@ export default {
 
       } catch {
 
-        return Response.json({
+        return jsonResponse({
           logged_in:
             false
         });
@@ -1370,7 +2539,7 @@ export default {
 
 
     /* =====================================================
-       API: تسجيل خروج العميل
+       API: CUSTOMER LOGOUT
     ===================================================== */
 
     if (
@@ -1380,31 +2549,24 @@ export default {
         "POST"
     ) {
 
-      return new Response(
-
-        JSON.stringify({
-          success:
-            true
-        }),
+      return jsonResponse(
 
         {
-          status:
-            200,
+          success:
+            true
+        },
 
-          headers: {
+        200,
 
-            "Content-Type":
-              "application/json; charset=utf-8",
+        {
 
-            "Set-Cookie":
-              "hz_customer=; " +
-              "Path=/; " +
-              "HttpOnly; " +
-              "Secure; " +
-              "SameSite=Strict; " +
-              "Max-Age=0"
-
-          }
+          "Set-Cookie":
+            "hz_customer=; " +
+            "Path=/; " +
+            "HttpOnly; " +
+            "Secure; " +
+            "SameSite=Strict; " +
+            "Max-Age=0"
 
         }
 
@@ -1414,7 +2576,7 @@ export default {
 
 
     /* =====================================================
-       API: جلب طلبات العميل
+       API: CUSTOMER ORDERS
     ===================================================== */
 
     if (
@@ -1426,16 +2588,30 @@ export default {
 
       try {
 
+        if (
+          !env.DB
+        ) {
+
+          return errorResponse(
+            "قاعدة البيانات غير متاحة",
+            500
+          );
+
+        }
+
         const customer =
           await verifyCustomerSession(
             request,
             env
           );
 
-        if (!customer) {
+        if (
+          !customer
+        ) {
 
-          return Response.json(
+          return jsonResponse(
             {
+
               success:
                 false,
 
@@ -1444,11 +2620,11 @@ export default {
 
               orders:
                 []
+
             },
-            {
-              status:
-                401
-            }
+
+            401
+
           );
 
         }
@@ -1476,7 +2652,7 @@ export default {
             ? query.results
             : [];
 
-        return Response.json({
+        return jsonResponse({
 
           success:
             true,
@@ -1486,25 +2662,20 @@ export default {
 
         });
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
         console.error(
           "CUSTOMER_ORDERS_ERROR",
-          error?.message || error
+          error?.stack ||
+          error?.message ||
+          error
         );
 
-        return Response.json(
-          {
-            error:
-              "تعذر جلب الطلبات",
-
-            orders:
-              []
-          },
-          {
-            status:
-              500
-          }
+        return errorResponse(
+          "تعذر جلب الطلبات",
+          500
         );
 
       }
@@ -1513,7 +2684,7 @@ export default {
 
 
     /* =====================================================
-       API: اختبار الأسرار
+       API: TEST SECRET
     ===================================================== */
 
     if (
@@ -1521,7 +2692,7 @@ export default {
       "/api/test-secret"
     ) {
 
-      return Response.json({
+      return jsonResponse({
 
         exists:
           !!env.ADMIN_PASSWORD,
@@ -1533,7 +2704,13 @@ export default {
           !!env.WHATSAPP_PHONE_NUMBER_ID,
 
         whatsapp_business_id:
-          !!env.WHATSAPP_BUSINESS_ACCOUNT_ID
+          !!env.WHATSAPP_BUSINESS_ACCOUNT_ID,
+
+        github_token:
+          !!env.GITHUB_TOKEN,
+
+        database:
+          !!env.DB
 
       });
 
@@ -1541,7 +2718,148 @@ export default {
 
 
     /* =====================================================
-       API: رفع صورة المنتج
+       API: ADMIN LOGIN
+    ===================================================== */
+
+    if (
+      url.pathname ===
+        "/api/admin-login" &&
+      request.method ===
+        "POST"
+    ) {
+
+      try {
+
+        if (
+          !env.ADMIN_PASSWORD
+        ) {
+
+          return errorResponse(
+            "ADMIN_PASSWORD غير موجود",
+            500
+          );
+
+        }
+
+        const data =
+          await request.json();
+
+        const password =
+          String(
+            data?.password || ""
+          );
+
+        if (
+          !password
+        ) {
+
+          return errorResponse(
+            "كلمة المرور مطلوبة",
+            400
+          );
+
+        }
+
+        if (
+          password !==
+          env.ADMIN_PASSWORD
+        ) {
+
+          return errorResponse(
+            "كلمة المرور غير صحيحة",
+            401
+          );
+
+        }
+
+        const session =
+          await createAdminSession(
+            env
+          );
+
+        return jsonResponse(
+
+          {
+            success:
+              true
+          },
+
+          200,
+
+          {
+
+            "Set-Cookie":
+              `hz_admin=${encodeURIComponent(session)}; ` +
+              `Path=/; ` +
+              `HttpOnly; ` +
+              `Secure; ` +
+              `SameSite=Strict; ` +
+              `Max-Age=86400`
+
+          }
+
+        );
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          "ADMIN_LOGIN_ERROR",
+          error?.stack ||
+          error?.message ||
+          error
+        );
+
+        return errorResponse(
+          "حدث خطأ في تسجيل الدخول",
+          500
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       API: ADMIN LOGOUT
+    ===================================================== */
+
+    if (
+      url.pathname ===
+        "/api/admin-logout" &&
+      request.method ===
+        "POST"
+    ) {
+
+      return jsonResponse(
+
+        {
+          success:
+            true
+        },
+
+        200,
+
+        {
+
+          "Set-Cookie":
+            "hz_admin=; " +
+            "Path=/; " +
+            "HttpOnly; " +
+            "Secure; " +
+            "SameSite=Strict; " +
+            "Max-Age=0"
+
+        }
+
+      );
+
+    }
+
+
+    /* =====================================================
+       API: UPLOAD PRODUCT IMAGE
     ===================================================== */
 
     if (
@@ -1553,25 +2871,19 @@ export default {
 
       try {
 
-        const cookie =
-          request.headers.get(
-            "Cookie"
-          ) || "";
+        const isAdmin =
+          await verifyAdminSession(
+            request,
+            env
+          );
 
         if (
-          !cookie.includes(
-            "hz_admin="
-          )
+          !isAdmin
         ) {
 
-          return Response.json(
-            {
-              error:
-                "غير مصرح"
-            },
-            {
-              status: 401
-            }
+          return errorResponse(
+            "غير مصرح",
+            401
           );
 
         }
@@ -1593,14 +2905,9 @@ export default {
             "function"
         ) {
 
-          return Response.json(
-            {
-              error:
-                "لم يتم اختيار صورة"
-            },
-            {
-              status: 400
-            }
+          return errorResponse(
+            "لم يتم اختيار صورة",
+            400
           );
 
         }
@@ -1613,14 +2920,9 @@ export default {
           )
         ) {
 
-          return Response.json(
-            {
-              error:
-                "الملف يجب أن يكون صورة"
-            },
-            {
-              status: 400
-            }
+          return errorResponse(
+            "الملف يجب أن يكون صورة",
+            400
           );
 
         }
@@ -1628,19 +2930,12 @@ export default {
         if (
           file.size &&
           file.size >
-          8 *
-          1024 *
-          1024
+          8 * 1024 * 1024
         ) {
 
-          return Response.json(
-            {
-              error:
-                "حجم الصورة كبير جدًا"
-            },
-            {
-              status: 400
-            }
+          return errorResponse(
+            "حجم الصورة كبير جدًا",
+            400
           );
 
         }
@@ -1651,7 +2946,7 @@ export default {
             env
           );
 
-        return Response.json({
+        return jsonResponse({
 
           success:
             true,
@@ -1664,22 +2959,21 @@ export default {
 
         });
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
         console.error(
           "UPLOAD_IMAGE_ERROR",
-          error?.message || error
+          error?.stack ||
+          error?.message ||
+          error
         );
 
-        return Response.json(
-          {
-            error:
-              error?.message ||
-              "تعذر رفع الصورة"
-          },
-          {
-            status: 500
-          }
+        return errorResponse(
+          error?.message ||
+          "تعذر رفع الصورة",
+          500
         );
 
       }
@@ -1688,156 +2982,7 @@ export default {
 
 
     /* =====================================================
-       API: تسجيل دخول الإدارة
-    ===================================================== */
-
-    if (
-      url.pathname ===
-        "/api/admin-login" &&
-      request.method ===
-        "POST"
-    ) {
-
-      try {
-
-        const data =
-          await request.json();
-
-        if (!data?.password) {
-
-          return Response.json(
-            {
-              error:
-                "كلمة المرور مطلوبة"
-            },
-            {
-              status: 400
-            }
-          );
-
-        }
-
-        if (
-          data.password !==
-          env.ADMIN_PASSWORD
-        ) {
-
-          return Response.json(
-            {
-              error:
-                "كلمة المرور غير صحيحة"
-            },
-            {
-              status: 401
-            }
-          );
-
-        }
-
-        const timestamp =
-          Date.now().toString();
-
-        const encoder =
-          new TextEncoder();
-
-        const key =
-          await crypto.subtle.importKey(
-            "raw",
-            encoder.encode(
-              env.ADMIN_PASSWORD
-            ),
-            {
-              name:
-                "HMAC",
-              hash:
-                "SHA-256"
-            },
-            false,
-            ["sign"]
-          );
-
-        const signatureBuffer =
-          await crypto.subtle.sign(
-            "HMAC",
-            key,
-            encoder.encode(
-              timestamp
-            )
-          );
-
-        const signature =
-          Array.from(
-            new Uint8Array(
-              signatureBuffer
-            )
-          )
-            .map(
-              b =>
-                b
-                  .toString(16)
-                  .padStart(2, "0")
-            )
-            .join("");
-
-        const cookieValue =
-          `${timestamp}.${signature}`;
-
-        return new Response(
-
-          JSON.stringify({
-            success:
-              true
-          }),
-
-          {
-            status:
-              200,
-
-            headers: {
-
-              "Content-Type":
-                "application/json; charset=utf-8",
-
-              "Set-Cookie":
-                `hz_admin=${encodeURIComponent(
-                  cookieValue
-                )}; ` +
-                `Path=/; ` +
-                `HttpOnly; ` +
-                `Secure; ` +
-                `SameSite=Strict; ` +
-                `Max-Age=86400`
-
-            }
-
-          }
-
-        );
-
-      } catch (error) {
-
-        console.error(
-          "ADMIN_LOGIN_ERROR",
-          error?.message || error
-        );
-
-        return Response.json(
-          {
-            error:
-              "حدث خطأ في تسجيل الدخول"
-          },
-          {
-            status: 500
-          }
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       API: إنشاء طلب جديد
+       API: CREATE ORDER
     ===================================================== */
 
     if (
@@ -1849,6 +2994,17 @@ export default {
 
       try {
 
+        if (
+          !env.DB
+        ) {
+
+          return errorResponse(
+            "قاعدة البيانات غير متاحة",
+            500
+          );
+
+        }
+
         const customer =
           await verifyCustomerSession(
             request,
@@ -1858,33 +3014,156 @@ export default {
         const data =
           await request.json();
 
+        const customerName =
+          safeString(
+            data?.customer_name,
+            MAX_NAME_LENGTH
+          );
+
+        const phone =
+          normalizePhone(
+            data?.phone
+          );
+
+        const governorate =
+          safeString(
+            data?.governorate,
+            MAX_TEXT_LENGTH
+          );
+
+        const area =
+          safeString(
+            data?.area,
+            MAX_TEXT_LENGTH
+          );
+
+        const address =
+          safeString(
+            data?.address,
+            MAX_ADDRESS_LENGTH
+          );
+
+        const notes =
+          safeString(
+            data?.notes,
+            MAX_NOTES_LENGTH
+          );
+
+        const paymentMethod =
+          normalizePaymentMethod(
+            data?.payment_method
+          );
+
         if (
-          !data?.customer_name ||
-          !data?.phone ||
-          !data?.governorate ||
-          !data?.area ||
-          !data?.address ||
-          !data?.payment_method ||
+          !customerName ||
+          !phone ||
+          !governorate ||
+          !area ||
+          !address ||
+          !paymentMethod
+        ) {
+
+          return errorResponse(
+            "جميع معلومات الطلب المطلوبة غير مكتملة",
+            400
+          );
+
+        }
+
+        if (
           !Array.isArray(
             data?.items
           ) ||
           !data.items.length
         ) {
 
-          return Response.json(
-            {
-              error:
-                "جميع معلومات الطلب المطلوبة غير مكتملة"
-            },
-            {
-              status: 400
-            }
+          return errorResponse(
+            "السلة فارغة",
+            400
           );
 
         }
 
-        const result =
-          await env.DB
+        /*
+           هنا يبدأ التحقق الحقيقي من المتجر:
+           لا نستخدم السعر أو الاسم أو الصورة
+           المرسلة من index.html للحساب.
+        */
+
+        const verified =
+          await buildVerifiedOrderItems(
+            data.items,
+            env
+          );
+
+        const subtotal =
+          verified.subtotal;
+
+        /*
+           الخصم القادم من المتصفح لا يمكن الوثوق به.
+           نسمح فقط بما يعادل 10% كحد أقصى،
+           وهو HZ10 الموجود في index.html.
+        */
+
+        const discount =
+          calculateDiscount(
+            subtotal,
+            data.discount
+          );
+
+        /*
+           index.html الحالي لا يضيف Delivery Fee.
+        */
+
+        const deliveryCost =
+          0;
+
+        const total =
+          toMoney(
+            Math.max(
+              0,
+              subtotal -
+              discount +
+              deliveryCost
+            )
+          );
+
+        /*
+           نجهز نسخة الطلب التي ستُحفظ في D1.
+        */
+
+        const itemsJson =
+          JSON.stringify(
+            verified.items
+          );
+
+        /*
+           خصم المخزون يتم داخل batch
+           باستخدام شرط stock >= quantity.
+           إذا لم يعد المخزون كافيًا، لن يتم الخصم.
+        */
+
+        const stockStatements =
+          verified.items.map(
+            item =>
+
+              env.DB
+                .prepare(`
+                  UPDATE products
+                  SET stock = stock - ?
+                  WHERE id = ?
+                    AND stock >= ?
+                `)
+                .bind(
+                  item.quantity,
+                  item.id,
+                  item.quantity
+                )
+
+          );
+
+        const insertStatement =
+          env.DB
             .prepare(`
               INSERT INTO orders (
                 customer_id,
@@ -1907,74 +3186,100 @@ export default {
             .bind(
 
               customer
-                ? Number(customer.id)
+                ? Number(
+                    customer.id
+                  )
                 : null,
 
-              String(
-                data.customer_name
-              ),
+              customerName,
 
-              String(
-                data.phone
-              ),
+              phone,
 
-              String(
-                data.governorate
-              ),
+              governorate,
 
-              String(
-                data.area
-              ),
+              area,
 
-              String(
-                data.address
-              ),
+              address,
 
-              String(
-                data.notes || ""
-              ),
+              notes,
 
-              String(
-                data.payment_method
-              ),
+              paymentMethod,
 
-              JSON.stringify(
-                data.items
-              ),
+              itemsJson,
 
-              Number(
-                data.subtotal || 0
-              ),
+              subtotal,
 
-              Number(
-                data.discount || 0
-              ),
+              discount,
 
-              Number(
-                data.total || 0
-              ),
+              total,
 
               "new",
 
               new Date()
                 .toISOString()
 
-            )
-            .run();
+            );
+
+        /*
+           D1 batch:
+           تحديث المخزون + إنشاء الطلب.
+        */
+
+        const statements = [
+          ...stockStatements,
+          insertStatement
+        ];
+
+        const batchResults =
+          await env.DB.batch(
+            statements
+          );
+
+        /*
+           التأكد من أن كل تحديث للمخزون نجح.
+        */
+
+        for (
+          let i = 0;
+          i < verified.items.length;
+          i++
+        ) {
+
+          const result =
+            batchResults[i];
+
+          const changes =
+            Number(
+              result?.meta?.changes ||
+              0
+            );
+
+          if (
+            changes !== 1
+          ) {
+
+            throw new Error(
+              `المخزون تغير أثناء تنفيذ الطلب للمنتج ${verified.items[i].id}`
+            );
+
+          }
+
+        }
+
+        const insertResult =
+          batchResults[
+            batchResults.length - 1
+          ];
 
         const orderId =
-          result?.meta?.last_row_id;
+          insertResult?.meta?.last_row_id;
 
-        if (!orderId) {
+        if (
+          !orderId
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "تعذر حفظ الطلب"
-            },
-            {
-              status: 500
-            }
+          throw new Error(
+            "تعذر الحصول على رقم الطلب"
           );
 
         }
@@ -1989,10 +3294,24 @@ export default {
             customer_id:
               customer
                 ? customer.id
-                : null
+                : null,
+
+            subtotal:
+              subtotal,
+
+            discount:
+              discount,
+
+            total:
+              total
 
           })
         );
+
+        /*
+           نرسل إلى WhatsApp فقط البيانات
+           التي تحقق منها السيرفر.
+        */
 
         const orderForWhatsApp = {
 
@@ -2000,59 +3319,37 @@ export default {
             orderId,
 
           customer_name:
-            String(
-              data.customer_name
-            ),
+            customerName,
 
           phone:
-            String(
-              data.phone
-            ),
+            phone,
 
           governorate:
-            String(
-              data.governorate
-            ),
+            governorate,
 
           area:
-            String(
-              data.area
-            ),
+            area,
 
           address:
-            String(
-              data.address
-            ),
+            address,
 
           notes:
-            String(
-              data.notes || ""
-            ),
+            notes,
 
           payment_method:
-            String(
-              data.payment_method
-            ),
+            paymentMethod,
 
           items:
-            JSON.stringify(
-              data.items
-            ),
+            verified.items,
 
           subtotal:
-            Number(
-              data.subtotal || 0
-            ),
+            subtotal,
 
           discount:
-            Number(
-              data.discount || 0
-            ),
+            discount,
 
           total:
-            Number(
-              data.total || 0
-            )
+            total
 
         };
 
@@ -2081,11 +3378,14 @@ export default {
               ?.messages?.[0]?.id ||
             null;
 
-        } catch (error) {
+        } catch (
+          error
+        ) {
 
           console.error(
             "WHATSAPP_SEND_FAILED",
-            error?.message || error
+            error?.message ||
+            error
           );
 
           whatsappError =
@@ -2118,13 +3418,36 @@ export default {
           })
         );
 
-        return Response.json({
+        /*
+           index.html الحالي يبحث عن:
+           order_number / orderNumber / id
+        */
+
+        return jsonResponse({
 
           success:
             true,
 
           order_id:
             orderId,
+
+          order_number:
+            orderId,
+
+          orderNumber:
+            orderId,
+
+          subtotal:
+            subtotal,
+
+          discount:
+            discount,
+
+          delivery:
+            deliveryCost,
+
+          total:
+            total,
 
           whatsapp_sent:
             whatsappSent,
@@ -2137,21 +3460,46 @@ export default {
 
         });
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
         console.error(
           "ORDER_ERROR",
-          error?.message || error
+          error?.stack ||
+          error?.message ||
+          error
         );
 
-        return Response.json(
-          {
-            error:
-              "تعذر حفظ الطلب"
-          },
-          {
-            status: 500
-          }
+        const message =
+          error?.message ||
+          "";
+
+        if (
+          message.includes(
+            "غير متوفرة"
+          ) ||
+          message.includes(
+            "المخزون"
+          ) ||
+          message.includes(
+            "الكمية"
+          ) ||
+          message.includes(
+            "السلة"
+          )
+        ) {
+
+          return errorResponse(
+            message,
+            409
+          );
+
+        }
+
+        return errorResponse(
+          "تعذر حفظ الطلب",
+          500
         );
 
       }
@@ -2160,7 +3508,7 @@ export default {
 
 
     /* =====================================================
-       API: جلب الطلبات للإدارة
+       API: ADMIN GET ORDERS
     ===================================================== */
 
     if (
@@ -2172,26 +3520,19 @@ export default {
 
       try {
 
-        const cookie =
-          request.headers.get(
-            "Cookie"
-          ) || "";
-
-        const match =
-          cookie.match(
-            /(?:^|;\s*)hz_admin=([^;]+)/
+        const isAdmin =
+          await verifyAdminSession(
+            request,
+            env
           );
 
-        if (!match) {
+        if (
+          !isAdmin
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "غير مصرح"
-            },
-            {
-              status: 401
-            }
+          return errorResponse(
+            "غير مصرح",
+            401
           );
 
         }
@@ -2212,21 +3553,24 @@ export default {
             ? query.results
             : [];
 
-        return Response.json(
+        return jsonResponse(
           results
         );
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
-        return Response.json(
-          {
-            error:
-              error?.message ||
-              "تعذر جلب الطلبات"
-          },
-          {
-            status: 500
-          }
+        console.error(
+          "ADMIN_ORDERS_GET_ERROR",
+          error?.stack ||
+          error?.message ||
+          error
+        );
+
+        return errorResponse(
+          "تعذر جلب الطلبات",
+          500
         );
 
       }
@@ -2235,7 +3579,7 @@ export default {
 
 
     /* =====================================================
-       API: تحديث حالة الطلب
+       API: UPDATE ORDER STATUS
     ===================================================== */
 
     if (
@@ -2247,26 +3591,19 @@ export default {
 
       try {
 
-        const cookie =
-          request.headers.get(
-            "Cookie"
-          ) || "";
-
-        const match =
-          cookie.match(
-            /(?:^|;\s*)hz_admin=([^;]+)/
+        const isAdmin =
+          await verifyAdminSession(
+            request,
+            env
           );
 
-        if (!match) {
+        if (
+          !isAdmin
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "غير مصرح"
-            },
-            {
-              status: 401
-            }
+          return errorResponse(
+            "غير مصرح",
+            401
           );
 
         }
@@ -2274,58 +3611,111 @@ export default {
         const data =
           await request.json();
 
+        const id =
+          toInteger(
+            data?.id
+          );
+
+        const status =
+          safeString(
+            data?.status,
+            50
+          );
+
         if (
-          !data?.id ||
-          !data?.status
+          !id ||
+          !status
         ) {
 
-          return Response.json(
-            {
-              error:
-                "معرّف الطلب والحالة مطلوبان"
-            },
-            {
-              status: 400
-            }
+          return errorResponse(
+            "معرّف الطلب والحالة مطلوبان",
+            400
           );
 
         }
 
-        await env.DB
-          .prepare(`
-            UPDATE orders
-            SET status = ?
-            WHERE id = ?
-          `)
-          .bind(
+        /*
+           الحالات الأساسية للمتجر.
+           نسمح أيضًا بالقيمة الموجودة حاليًا
+           إذا كانت الإدارة تستخدم تسمية أخرى.
+        */
 
-            String(
-              data.status
-            ),
+        const allowedStatuses =
+          new Set([
+            "new",
+            "confirmed",
+            "processing",
+            "shipped",
+            "delivered",
+            "cancelled",
+            "completed",
+            "pending"
+          ]);
 
-            Number(
-              data.id
-            )
-
+        if (
+          !allowedStatuses.has(
+            status
           )
-          .run();
+        ) {
 
-        return Response.json({
+          return errorResponse(
+            "حالة الطلب غير صحيحة",
+            400
+          );
+
+        }
+
+        const result =
+          await env.DB
+            .prepare(`
+              UPDATE orders
+              SET status = ?
+              WHERE id = ?
+            `)
+            .bind(
+              status,
+              id
+            )
+            .run();
+
+        const changes =
+          Number(
+            result?.meta?.changes ||
+            0
+          );
+
+        if (
+          changes === 0
+        ) {
+
+          return errorResponse(
+            "الطلب غير موجود",
+            404
+          );
+
+        }
+
+        return jsonResponse({
+
           success:
             true
+
         });
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
-        return Response.json(
-          {
-            error:
-              error?.message ||
-              "تعذر تحديث الطلب"
-          },
-          {
-            status: 500
-          }
+        console.error(
+          "ORDER_STATUS_UPDATE_ERROR",
+          error?.stack ||
+          error?.message ||
+          error
+        );
+
+        return errorResponse(
+          "تعذر تحديث الطلب",
+          500
         );
 
       }
@@ -2334,7 +3724,7 @@ export default {
 
 
     /* =====================================================
-       API: المنتجات
+       API: PRODUCTS
     ===================================================== */
 
     if (
@@ -2342,8 +3732,9 @@ export default {
       "/api/products"
     ) {
 
+
       /* ===================================================
-         GET المنتجات
+         GET PRODUCTS
       =================================================== */
 
       if (
@@ -2353,136 +3744,29 @@ export default {
 
         try {
 
-          if (!env.DB) {
+          if (
+            !env.DB
+          ) {
 
-            return Response.json(
-              {
-                error:
-                  "D1 DB binding غير موجود"
-              },
-              {
-                status: 500
-              }
+            return errorResponse(
+              "D1 DB binding غير موجود",
+              500
             );
 
           }
 
-          const query =
-            await env.DB
-              .prepare(
-                "SELECT * FROM products ORDER BY id DESC"
-              )
-              .all();
-
-          const results =
-            Array.isArray(
-              query?.results
-            )
-              ? query.results
-              : [];
-
           const products =
-            results.map(
-              product => {
-
-                const images =
-                  normalizeImages(
-                    product?.image
-                  );
-
-                return {
-
-                  ...product,
-
-                  id:
-                    Number(
-                      product?.id
-                    ),
-
-                  name:
-                    String(
-                      product?.name ?? ""
-                    ),
-
-                  category:
-                    String(
-                      product?.category ?? ""
-                    ),
-
-                  description:
-                    String(
-                      product?.description ?? ""
-                    ),
-
-                  price:
-                    Number(
-                      product?.price ?? 0
-                    ),
-
-                  old_price:
-                    product?.old_price ===
-                      null ||
-                    product?.old_price ===
-                      undefined ||
-                    product?.old_price ===
-                      ""
-                      ? null
-                      : Number(
-                          product.old_price
-                        ),
-
-                  stock:
-                    Number(
-                      product?.stock ?? 0
-                    ),
-
-                  badge:
-                    String(
-                      product?.badge ?? ""
-                    ),
-
-                  images:
-                    images,
-
-                  image:
-                    images[0] ||
-                    String(
-                      product?.image || ""
-                    )
-
-                };
-
-              }
+            await getProducts(
+              env
             );
 
-          return new Response(
-            JSON.stringify(
-              products
-            ),
-            {
-              status:
-                200,
-
-              headers: {
-
-                "Content-Type":
-                  "application/json; charset=utf-8",
-
-                "Cache-Control":
-                  "no-store, no-cache, must-revalidate, max-age=0",
-
-                "Pragma":
-                  "no-cache",
-
-                "Expires":
-                  "0"
-
-              }
-
-            }
+          return jsonResponse(
+            products
           );
 
-        } catch (error) {
+        } catch (
+          error
+        ) {
 
           console.error(
             "PRODUCTS_GET_ERROR",
@@ -2491,15 +3775,9 @@ export default {
             error
           );
 
-          return Response.json(
-            {
-              error:
-                error?.message ||
-                "تعذر تحميل المنتجات"
-            },
-            {
-              status: 500
-            }
+          return errorResponse(
+            "تعذر تحميل المنتجات",
+            500
           );
 
         }
@@ -2508,7 +3786,7 @@ export default {
 
 
       /* ===================================================
-         POST / PUT المنتجات
+         ADMIN CREATE / UPDATE PRODUCT
       =================================================== */
 
       if (
@@ -2518,26 +3796,19 @@ export default {
           "PUT"
       ) {
 
-        const cookie =
-          request.headers.get(
-            "Cookie"
-          ) || "";
-
-        const match =
-          cookie.match(
-            /(?:^|;\s*)hz_admin=([^;]+)/
+        const isAdmin =
+          await verifyAdminSession(
+            request,
+            env
           );
 
-        if (!match) {
+        if (
+          !isAdmin
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "غير مصرح"
-            },
-            {
-              status: 401
-            }
+          return errorResponse(
+            "غير مصرح",
+            401
           );
 
         }
@@ -2547,116 +3818,26 @@ export default {
           const data =
             await request.json();
 
-          if (
-            !data?.name ||
-            !data?.category ||
-            data.price ===
-              undefined
-          ) {
-
-            return Response.json(
-              {
-                error:
-                  "الاسم والقسم والسعر مطلوبة"
-              },
-              {
-                status: 400
-              }
-            );
-
-          }
-
-          let images = [];
-
-          if (
-            Array.isArray(
-              data.images
-            )
-          ) {
-
-            images =
-              normalizeImages(
-                data.images
-              );
-
-          } else if (
-            data.image
-          ) {
-
-            images =
-              normalizeImages(
-                data.image
-              );
-
-          }
-
-          const imagesValue =
-            images.length
-              ? JSON.stringify(
-                  images
-                )
-              : "";
-
-          const price =
-            Number(
-              data.price
+          const product =
+            validateProductInput(
+              data
             );
 
           if (
-            !Number.isFinite(
-              price
-            )
+            product.error
           ) {
 
-            return Response.json(
-              {
-                error:
-                  "السعر غير صحيح"
-              },
-              {
-                status: 400
-              }
-            );
-
-          }
-
-          const oldPrice =
-            data.old_price ===
-              null ||
-            data.old_price ===
-              undefined ||
-            data.old_price ===
-              ""
-              ? null
-              : Number(
-                  data.old_price
-                );
-
-          const stock =
-            Number(
-              data.stock ?? 0
-            );
-
-          if (
-            !Number.isFinite(
-              stock
-            )
-          ) {
-
-            return Response.json(
-              {
-                error:
-                  "المخزون غير صحيح"
-              },
-              {
-                status: 400
-              }
+            return errorResponse(
+              product.error,
+              400
             );
 
           }
 
 
-          /* إضافة منتج */
+          /* ===============================================
+             CREATE PRODUCT
+          =============================================== */
 
           if (
             request.method ===
@@ -2681,120 +3862,131 @@ export default {
                 `)
                 .bind(
 
-                  String(
-                    data.name
-                  ),
+                  product.name,
 
-                  String(
-                    data.category
-                  ),
+                  product.category,
 
-                  String(
-                    data.description ||
-                    ""
-                  ),
+                  product.description,
 
-                  price,
+                  product.price,
 
-                  oldPrice,
+                  product.oldPrice,
 
-                  imagesValue,
+                  product.images.length
+                    ? JSON.stringify(
+                        product.images
+                      )
+                    : "",
 
-                  stock,
+                  product.stock,
 
-                  String(
-                    data.badge ||
-                    ""
-                  )
+                  product.badge
 
                 )
                 .run();
 
-            return Response.json({
+            return jsonResponse({
 
               success:
                 true,
 
               id:
-                result?.meta
-                  ?.last_row_id
+                result?.meta?.last_row_id
 
             });
 
           }
 
 
-          /* تعديل منتج */
+          /* ===============================================
+             UPDATE PRODUCT
+          =============================================== */
 
-          if (!data?.id) {
+          const id =
+            toInteger(
+              data?.id
+            );
 
-            return Response.json(
-              {
-                error:
-                  "معرّف المنتج مطلوب"
-              },
-              {
-                status: 400
-              }
+          if (
+            !id
+          ) {
+
+            return errorResponse(
+              "معرّف المنتج مطلوب",
+              400
             );
 
           }
 
-          await env.DB
-            .prepare(`
-              UPDATE products
-              SET
-                name = ?,
-                category = ?,
-                description = ?,
-                price = ?,
-                old_price = ?,
-                image = ?,
-                stock = ?,
-                badge = ?
-              WHERE id = ?
-            `)
-            .bind(
+          const result =
+            await env.DB
+              .prepare(`
+                UPDATE products
+                SET
+                  name = ?,
+                  category = ?,
+                  description = ?,
+                  price = ?,
+                  old_price = ?,
+                  image = ?,
+                  stock = ?,
+                  badge = ?
+                WHERE id = ?
+              `)
+              .bind(
 
-              String(
-                data.name
-              ),
+                product.name,
 
-              String(
-                data.category
-              ),
+                product.category,
 
-              String(
-                data.description ||
-                ""
-              ),
+                product.description,
 
-              price,
+                product.price,
 
-              oldPrice,
+                product.oldPrice,
 
-              imagesValue,
+                product.images.length
+                  ? JSON.stringify(
+                      product.images
+                    )
+                  : "",
 
-              stock,
+                product.stock,
 
-              String(
-                data.badge ||
-                ""
-              ),
+                product.badge,
 
-              Number(
-                data.id
+                id
+
               )
+              .run();
 
-            )
-            .run();
+          const changes =
+            Number(
+              result?.meta?.changes ||
+              0
+            );
 
-          return Response.json({
+          if (
+            changes === 0
+          ) {
+
+            return errorResponse(
+              "المنتج غير موجود",
+              404
+            );
+
+          }
+
+          return jsonResponse({
+
             success:
               true
+
           });
 
-        } catch (error) {
+        } catch (
+          error
+        ) {
 
           console.error(
             "PRODUCTS_WRITE_ERROR",
@@ -2803,15 +3995,9 @@ export default {
             error
           );
 
-          return Response.json(
-            {
-              error:
-                error?.message ||
-                "تعذر حفظ المنتج"
-            },
-            {
-              status: 500
-            }
+          return errorResponse(
+            "تعذر حفظ المنتج",
+            500
           );
 
         }
@@ -2820,7 +4006,7 @@ export default {
 
 
       /* ===================================================
-         DELETE المنتج
+         DELETE PRODUCT
       =================================================== */
 
       if (
@@ -2828,76 +4014,91 @@ export default {
         "DELETE"
       ) {
 
-        const cookie =
-          request.headers.get(
-            "Cookie"
-          ) || "";
-
-        const match =
-          cookie.match(
-            /(?:^|;\s*)hz_admin=([^;]+)/
+        const isAdmin =
+          await verifyAdminSession(
+            request,
+            env
           );
 
-        if (!match) {
+        if (
+          !isAdmin
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "غير مصرح"
-            },
-            {
-              status: 401
-            }
+          return errorResponse(
+            "غير مصرح",
+            401
           );
 
         }
 
         const id =
-          url.searchParams.get(
-            "id"
+          toInteger(
+            url.searchParams.get(
+              "id"
+            )
           );
 
-        if (!id) {
+        if (
+          !id
+        ) {
 
-          return Response.json(
-            {
-              error:
-                "معرّف المنتج مطلوب"
-            },
-            {
-              status: 400
-            }
+          return errorResponse(
+            "معرّف المنتج مطلوب",
+            400
           );
 
         }
 
         try {
 
-          await env.DB
-            .prepare(
-              "DELETE FROM products WHERE id = ?"
-            )
-            .bind(
-              Number(id)
-            )
-            .run();
+          const result =
+            await env.DB
+              .prepare(
+                "DELETE FROM products WHERE id = ?"
+              )
+              .bind(
+                id
+              )
+              .run();
 
-          return Response.json({
+          const changes =
+            Number(
+              result?.meta?.changes ||
+              0
+            );
+
+          if (
+            changes === 0
+          ) {
+
+            return errorResponse(
+              "المنتج غير موجود",
+              404
+            );
+
+          }
+
+          return jsonResponse({
+
             success:
               true
+
           });
 
-        } catch (error) {
+        } catch (
+          error
+        ) {
 
-          return Response.json(
-            {
-              error:
-                error?.message ||
-                "تعذر حذف المنتج"
-            },
-            {
-              status: 500
-            }
+          console.error(
+            "PRODUCT_DELETE_ERROR",
+            error?.stack ||
+            error?.message ||
+            error
+          );
+
+          return errorResponse(
+            "تعذر حذف المنتج",
+            500
           );
 
         }
@@ -2920,10 +4121,13 @@ export default {
 
       try {
 
-        if (!env.DB) {
+        if (
+          !env.DB
+        ) {
 
-          return Response.json(
+          return jsonResponse(
             {
+
               ok:
                 false,
 
@@ -2932,11 +4136,11 @@ export default {
 
               error:
                 "D1 DB binding غير موجود"
+
             },
-            {
-              status:
-                500
-            }
+
+            500
+
           );
 
         }
@@ -2948,7 +4152,7 @@ export default {
             )
             .first();
 
-        return Response.json({
+        return jsonResponse({
 
           ok:
             true,
@@ -2958,15 +4162,27 @@ export default {
 
           products:
             Number(
-              result?.count || 0
+              result?.count ||
+              0
             )
 
         });
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
-        return Response.json(
+        console.error(
+          "HEALTH_ERROR",
+          error?.stack ||
+          error?.message ||
+          error
+        );
+
+        return jsonResponse(
+
           {
+
             ok:
               false,
 
@@ -2974,13 +4190,12 @@ export default {
               false,
 
             error:
-              error?.message ||
               "D1 error"
+
           },
-          {
-            status:
-              500
-          }
+
+          500
+
         );
 
       }
@@ -2989,20 +4204,26 @@ export default {
 
 
     /* =====================================================
-       باقي ملفات الموقع + SOCIAL SHARE IMAGE
+       STATIC ASSETS
+       + SOCIAL SHARE IMAGE
     ===================================================== */
 
-    if (!env.ASSETS) {
+    if (
+      !env.ASSETS
+    ) {
 
       return new Response(
         "ASSETS binding غير موجود",
         {
+
           status:
             500,
 
           headers: {
+
             "Content-Type":
               "text/plain; charset=utf-8"
+
           }
 
         }
@@ -3015,9 +4236,16 @@ export default {
         request
       );
 
+
+    /* =====================================================
+       SOCIAL SHARE IMAGE
+    ===================================================== */
+
     if (
-      request.method === "GET" &&
-      url.pathname === "/"
+      request.method ===
+        "GET" &&
+      url.pathname ===
+        "/"
     ) {
 
       const contentType =
@@ -3036,24 +4264,32 @@ export default {
 
         return new HTMLRewriter()
 
-          .on("head", {
+          .on(
+            "head",
+            {
 
-            element(element) {
+              element(
+                element
+              ) {
 
-              element.append(
-                `<meta property="og:image" content="${ogImage}">
+                element.append(
+
+                  `<meta property="og:image" content="${ogImage}">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1440">
 <meta property="og:image:height" content="768">`,
-                {
-                  html:
-                    true
-                }
-              );
+
+                  {
+                    html:
+                      true
+                  }
+
+                );
+
+              }
 
             }
-
-          })
+          )
 
           .transform(
             assetResponse
@@ -3062,6 +4298,7 @@ export default {
       }
 
     }
+
 
     return assetResponse;
 
