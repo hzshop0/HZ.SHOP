@@ -3346,36 +3346,6 @@ total: Number(total.toFixed(2))
 };
 }
 
-async function sendWhatsApp(){
-const order = getOrderData();
-if(!order) return;
-
-let message = "🛍️ طلب جديد من HZ.SHOP\n\n";
-message += "👤 الاسم: " + order.customer_name + "\n";
-message += "📞 الهاتف: " + order.phone + "\n";
-message += "📍 المحافظة: " + order.governorate + "\n";
-message += "📍 المنطقة: " + order.area + "\n";
-message += "🏠 العنوان: " + order.address + "\n";
-message += "💳 الدفع: " + order.payment_method + "\n";
-
-if(order.notes){
-message += "📝 الملاحظات: " + order.notes + "\n";
-}
-
-message += "\n🛒 المنتجات:\n";
-order.items.forEach(item => {
-const itemTotal = Number(item.price) * Number(item.quantity);
-message += "• " + item.name + " × " + item.quantity + " = $" + itemTotal.toFixed(2) + "\n";
-});
-
-message += "\n💰 المجموع: $" + order.total.toFixed(2);
-if(order.discount > 0){
-message += "\n🏷️ الخصم: $" + order.discount.toFixed(2);
-}
-
-const encodedMessage = encodeURIComponent(message);
-window.open("https://wa.me/96171142827?text=" + encodedMessage, "_blank");
-}
 
 async function submitComputerOrder(){
 const order = getOrderData();
