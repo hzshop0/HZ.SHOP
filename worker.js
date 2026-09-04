@@ -1206,14 +1206,12 @@ async function sendOrderToWhatsApp(
       : "";
 
   /*
-     index.html الحالي لا يضيف رسم توصيل.
-     لذلك يجب ألا نطرح $4 من total.
-     نرسل 0.00 للتوصيل مع الحفاظ على عدد
-     متغيرات قالب WhatsApp الحالي.
+     رسم التوصيل الثابت للطلبات:
+     $4.00
   */
 
   const deliveryCost =
-    0;
+    toMoney(4);
 
   const finalTotal =
     toMoney(
@@ -3112,11 +3110,14 @@ export default {
           );
 
         /*
-           index.html الحالي لا يضيف Delivery Fee.
+           رسم التوصيل الثابت للطلبات:
+           $4.00
         */
 
         const deliveryCost =
-          0;
+          subtotal > 0
+            ? 4
+            : 0;
 
         const total =
           toMoney(
@@ -3302,6 +3303,9 @@ export default {
             discount:
               discount,
 
+            delivery:
+              deliveryCost,
+
             total:
               total
 
@@ -3347,6 +3351,9 @@ export default {
 
           discount:
             discount,
+
+          delivery:
+            deliveryCost,
 
           total:
             total
