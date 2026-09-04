@@ -634,6 +634,28 @@ async function sendOrderToWhatsApp(
   const apiUrl =
     `https://graph.facebook.com/v23.0/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
 
+  const productsText =
+    Array.isArray(order.items)
+      ? order.items
+          .map(item =>
+            `${item.name} × ${item.quantity} = $${(
+              Number(item.price || 0) *
+              Number(item.quantity || 0)
+            ).toFixed(2)}`
+          )
+          .join("\n")
+      : "";
+
+  const totalBeforeDelivery =
+    Number(order.total || 0);
+
+  const deliveryCost =
+    4;
+
+  const finalTotal =
+    totalBeforeDelivery +
+    deliveryCost;
+
   let response;
 
   try {
@@ -765,9 +787,31 @@ async function sendOrderToWhatsApp(
                           "text",
 
                         text:
-                          cleanWhatsAppParam(
-                            order.total || ""
-                          )
+                          productsText
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          totalBeforeDelivery.toFixed(2)
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          deliveryCost.toFixed(2)
+                      },
+
+                      {
+                        type:
+                          "text",
+
+                        text:
+                          finalTotal.toFixed(2)
                       }
 
                     ]
@@ -847,7 +891,6 @@ async function sendOrderToWhatsApp(
   return result;
 
 }
-
 
 /* =========================================================
    WORKER
