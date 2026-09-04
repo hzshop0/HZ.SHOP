@@ -2068,6 +2068,11 @@ placeholder="كود الخصم">
 <span id="discount">$0.00</span>
 </div>
 
+<div class="line">
+<span>التوصيل</span>
+<span id="delivery">$0.00</span>
+</div>
+
 <div class="line total">
 <span>الإجمالي</span>
 <strong id="total">$0.00</strong>
@@ -2221,6 +2226,21 @@ onclick="payment(this,'دفع إلكتروني')">
 <h3>ملخص الطلب</h3>
 
 <div id="summary"></div>
+
+<div class="summary-row">
+<span>المجموع</span>
+<span id="summarySubtotal">$0.00</span>
+</div>
+
+<div class="summary-row">
+<span>الخصم</span>
+<span id="summaryDiscount">$0.00</span>
+</div>
+
+<div class="summary-row">
+<span>التوصيل</span>
+<strong id="summaryDelivery">$0.00</strong>
+</div>
 
 <div class="summary-total">
 
@@ -2432,6 +2452,8 @@ id="toast">
 /* =========================
    HZ.SHOP STORE ENGINE
 ========================= */
+
+const DELIVERY_FEE = 4;
 
 let products = [];
 let current = "all";
@@ -3872,10 +3894,19 @@ Number(b.quantity),
 const discount =
 subtotal * discountRate;
 
+const delivery =
+subtotal > 0
+?
+DELIVERY_FEE
+:
+0;
+
 const total =
 Math.max(
 0,
-subtotal - discount
+subtotal -
+discount +
+delivery
 );
 
 document.getElementById(
@@ -3887,6 +3918,11 @@ document.getElementById(
 "discount"
 ).textContent =
 "-$" + discount.toFixed(2);
+
+document.getElementById(
+"delivery"
+).textContent =
+"$" + delivery.toFixed(2);
 
 document.getElementById(
 "total"
@@ -4214,8 +4250,35 @@ Number(b.quantity),
 const discount =
 subtotal * discountRate;
 
+const delivery =
+subtotal > 0
+?
+DELIVERY_FEE
+:
+0;
+
 const total =
-subtotal - discount;
+Math.max(
+0,
+subtotal -
+discount +
+delivery
+);
+
+document.getElementById(
+"summarySubtotal"
+).textContent =
+"$" + subtotal.toFixed(2);
+
+document.getElementById(
+"summaryDiscount"
+).textContent =
+"-$" + discount.toFixed(2);
+
+document.getElementById(
+"summaryDelivery"
+).textContent =
+"$" + delivery.toFixed(2);
 
 document.getElementById(
 "summaryTotal"
@@ -4371,8 +4434,20 @@ Number(b.quantity),
 const discount =
 subtotal * discountRate;
 
+const delivery =
+subtotal > 0
+?
+DELIVERY_FEE
+:
+0;
+
 const total =
-subtotal - discount;
+Math.max(
+0,
+subtotal -
+discount +
+delivery
+);
 
 return {
 
@@ -4409,6 +4484,9 @@ Number(subtotal.toFixed(2)),
 
 discount:
 Number(discount.toFixed(2)),
+
+delivery_fee:
+Number(delivery.toFixed(2)),
 
 total:
 Number(total.toFixed(2))
