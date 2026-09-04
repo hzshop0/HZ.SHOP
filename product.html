@@ -6,7 +6,7 @@
 
 <title>HZ.SHOP | المنتج</title>
 
-<meta name="description" content="HZ.SHOP — اكتشف تفاصيل المنتج وتسوق بسهولة.">
+<meta id="metaDescription" name="description" content="HZ.SHOP — اكتشف تفاصيل المنتج وتسوق بسهولة.">
 <meta name="theme-color" content="#fffdf9">
 
 <style>
@@ -52,6 +52,10 @@ font:inherit;
 
 button{
 cursor:pointer;
+}
+
+button:disabled{
+cursor:not-allowed;
 }
 
 .topbar{
@@ -334,6 +338,12 @@ padding:7px 12px;
 margin-bottom:20px;
 }
 
+.stock.out{
+color:#9b4b4b;
+background:#faf0f0;
+border-color:#ead4d4;
+}
+
 .quantity-row{
 display:flex;
 align-items:center;
@@ -392,6 +402,12 @@ transition:.2s;
 .add-btn:hover{
 transform:translateY(-2px);
 box-shadow:0 12px 30px rgba(60,50,30,.2);
+}
+
+.add-btn:disabled{
+background:#b8b4ac;
+box-shadow:none;
+transform:none;
 }
 
 .buy-info{
@@ -641,10 +657,35 @@ let images=[];
 
 let currentImage=0;
 
-let cart=
+function loadCart(){
+
+try{
+
+const parsed=
 JSON.parse(
 localStorage.getItem("hz_cart") || "[]"
 );
+
+return Array.isArray(parsed)
+?
+parsed
+:
+[];
+
+}catch(error){
+
+console.warn(
+"تعذر قراءة سلة HZ.SHOP:",
+error
+);
+
+return [];
+
+}
+
+}
+
+let cart=loadCart();
 
 function escapeHtml(value){
 
@@ -784,6 +825,57 @@ null;
 
 }
 
+function getStock(){
+
+if(
+!product ||
+product.stock === undefined ||
+product.stock === null ||
+product.stock === ""
+){
+
+return null;
+
+}
+
+const value=
+Number(product.stock);
+
+if(!Number.isFinite(value)){
+
+return null;
+
+}
+
+return Math.max(
+0,
+Math.floor(value)
+);
+
+}
+
+function getMaxQuantity(){
+
+const stock=
+getStock();
+
+return stock === null
+?
+99
+:
+stock;
+
+}
+
+function isAvailable(){
+
+const stock=
+getStock();
+
+return stock === null || stock>0;
+
+}
+
 async function loadProduct(){
 
 const container=
@@ -862,10 +954,28 @@ String(product.image)
 
 }
 
+const productName=
+String(
+product.name || "HZ.SHOP"
+);
+
 document.title=
-String(product.name || "HZ.SHOP")
-+
+productName+
 " | HZ.SHOP";
+
+const meta=
+document.getElementById(
+"metaDescription"
+);
+
+if(meta){
+
+meta.setAttribute(
+"content",
+"HZ.SHOP — "+productName+"، اكتشف تفاصيل المنتج وتسوق بسهولة."
+);
+
+}
 
 document
 .getElementById("breadcrumbCategory")
@@ -877,7 +987,7 @@ product.category
 document
 .getElementById("breadcrumbName")
 .textContent=
-product.name || "المنتج";
+productName;
 
 renderProduct();
 
@@ -931,14 +1041,32 @@ document.getElementById(
 const price=
 Number(product.price || 0);
 
-const old=
-product.old_price !== null &&
-product.old_price !== undefined &&
-product.old_price !== ""
+const oldRaw=
+product.old !== undefined &&
+product.old !== null &&
+product.old !== ""
 ?
-Number(product.old_price)
+product.old
+:
+product.old_price;
+
+const old=
+oldRaw !== undefined &&
+oldRaw !== null &&
+oldRaw !== ""
+?
+Number(oldRaw)
 :
 null;
+
+const stock=
+getStock();
+
+const available=
+isAvailable();
+
+const maxQuantity=
+getMaxQuantity();
 
 const hasMultiple=
 images.length>1;
@@ -959,11 +1087,13 @@ images
 class="thumb ${index===0 ? "active" : ""}"
 onclick="changeImage(${index})"
 type="button"
+aria-label="الصورة ${index+1}"
 >
 <img
 src="${escapeHtml(image)}"
 alt="${escapeHtml(product.name)} - ${index+1}"
 loading="${index===0 ? "eager" : "lazy"}"
+onerror="this.style.opacity='.35'"
 >
 </button>
 
@@ -1060,9 +1190,6 @@ ${thumbs}
 
 `;
 
-const stock=
-Number(product.stock || 0);
-
 container.innerHTML=`
 
 <div class="product-layout">
@@ -1095,7 +1222,9 @@ $${price.toFixed(2)}
 </strong>
 
 ${
-old !== null && !isNaN(old)
+old !== null &&
+Number.isFinite(old) &&
+old>price
 ?
 `
 
@@ -1110,8 +1239,20 @@ $${old.toFixed(2)}
 
 </div>
 
-<div class="stock">
+<div class="stock ${available ? "" : "out"}">
+
+${
+available
+?
+`
 ✓ المنتج متوفر
+`
+:
+`
+✕ المنتج غير متوفر حاليًا
+`
+}
+
 </div>
 
 <div class="quantity-row">
@@ -1125,6 +1266,7 @@ $${old.toFixed(2)}
 <button
 type="button"
 onclick="changeQuantity(-1)"
+${available ? "" : "disabled"}
 >
 −
 </button>
@@ -1132,15 +1274,17 @@ onclick="changeQuantity(-1)"
 <input
 id="quantity"
 type="number"
-value="1"
-min="1"
-max="99"
+value="${available ? 1 : 0}"
+min="${available ? 1 : 0}"
+max="${maxQuantity}"
 inputmode="numeric"
+${available ? "" : "disabled"}
 >
- 
+
 <button
 type="button"
 onclick="changeQuantity(1)"
+${available ? "" : "disabled"}
 >
 +
 </button>
@@ -1153,8 +1297,15 @@ onclick="changeQuantity(1)"
 class="add-btn"
 onclick="addToCart()"
 type="button"
+${available ? "" : "disabled"}
 >
-🛒 أضف إلى السلة
+${
+available
+?
+"🛒 أضف إلى السلة"
+:
+"المنتج غير متوفر"
+}
 </button>
 
 <div class="buy-info">
@@ -1280,14 +1431,26 @@ document.getElementById(
 "quantity"
 );
 
-if(!input){
+if(!input || !isAvailable()){
 
 return;
 
 }
 
+const max=
+getMaxQuantity();
+
 let value=
 Number(input.value || 1);
+
+if(!Number.isFinite(value)){
+
+value=1;
+
+}
+
+value=
+Math.floor(value);
 
 value+=amount;
 
@@ -1297,9 +1460,9 @@ value=1;
 
 }
 
-if(value>99){
+if(value>max){
 
-value=99;
+value=max;
 
 }
 
@@ -1310,6 +1473,16 @@ input.value=value;
 function addToCart(){
 
 if(!product){
+
+return;
+
+}
+
+if(!isAvailable()){
+
+toast(
+"هذا المنتج غير متوفر حاليًا"
+);
 
 return;
 
@@ -1332,7 +1505,10 @@ quantity=1;
 quantity=
 Math.max(
 1,
-Math.min(99,Math.floor(quantity))
+Math.min(
+getMaxQuantity(),
+Math.floor(quantity)
+)
 );
 
 const id=
@@ -1343,9 +1519,54 @@ cart.find(
 x=>Number(x.id)===id
 );
 
+const existingQuantity=
+item
+?
+Math.max(
+0,
+Math.floor(
+Number(item.quantity) || 0
+)
+)
+:
+0;
+
+const max=
+getMaxQuantity();
+
+if(existingQuantity+quantity>max){
+
+const remaining=
+Math.max(
+0,
+max-existingQuantity
+);
+
+if(remaining===0){
+
+toast(
+"لا يمكن إضافة كمية إضافية من هذا المنتج"
+);
+
+}else{
+
+toast(
+"المتاح لك حاليًا: "+
+remaining+
+" فقط"
+);
+
+}
+
+return;
+
+}
+
 if(item){
 
-item.quantity+=quantity;
+item.quantity=
+existingQuantity+
+quantity;
 
 }else{
 
@@ -1374,7 +1595,7 @@ saveCart();
 updateCartCount();
 
 toast(
-product.name+
+String(product.name || "المنتج")+
 " تمت إضافته إلى السلة"
 );
 
@@ -1395,7 +1616,10 @@ const count=
 cart.reduce(
 (total,item)=>
 total+
-Number(item.quantity || 0),
+Math.max(
+0,
+Number(item.quantity || 0)
+),
 0
 );
 
