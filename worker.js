@@ -655,12 +655,12 @@ async function sendOrderToWhatsApp(
     Array.isArray(items)
       ? items
           .map(item =>
-            `${item.name} × ${item.quantity} = $${(
+            `${item.name} x ${item.quantity} = $${(
               Number(item.price || 0) *
               Number(item.quantity || 0)
             ).toFixed(2)}`
           )
-          .join("\n")
+          .join("\")
       : "";
 
   const deliveryCost =
