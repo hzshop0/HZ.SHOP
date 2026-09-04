@@ -1145,6 +1145,13 @@ async function sendOrderToWhatsApp(
 
   }
 
+  console.log(
+    "WHATSAPP_PHONE_NUMBER_ID_LAST4",
+    String(
+      env.WHATSAPP_PHONE_NUMBER_ID
+    ).slice(-4)
+  );
+
   const recipient =
     "96171142827";
 
