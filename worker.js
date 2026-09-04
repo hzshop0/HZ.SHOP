@@ -634,9 +634,26 @@ async function sendOrderToWhatsApp(
   const apiUrl =
     `https://graph.facebook.com/v23.0/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
 
+  let items = order.items;
+
+  if (typeof items === "string") {
+
+    try {
+
+      items =
+        JSON.parse(items);
+
+    } catch {
+
+      items = [];
+
+    }
+
+  }
+
   const productsText =
-    Array.isArray(order.items)
-      ? order.items
+    Array.isArray(items)
+      ? items
           .map(item =>
             `${item.name} × ${item.quantity} = $${(
               Number(item.price || 0) *
@@ -646,14 +663,14 @@ async function sendOrderToWhatsApp(
           .join("\n")
       : "";
 
-  const totalBeforeDelivery =
-    Number(order.total || 0);
-
   const deliveryCost =
     4;
 
   const finalTotal =
-    totalBeforeDelivery +
+    Number(order.total || 0);
+
+  const totalBeforeDelivery =
+    finalTotal -
     deliveryCost;
 
   let response;
