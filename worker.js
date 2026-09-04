@@ -1292,6 +1292,20 @@ async function sendOrderToWhatsApp(
                     type:
                       "body",
 
+                    /*
+                       قالب الاختبار الحالي يحتوي
+                       على 8 متغيرات فقط:
+
+                       1 رقم الطلب
+                       2 اسم الزبون
+                       3 رقم الهاتف
+                       4 المحافظة
+                       5 المنطقة
+                       6 العنوان
+                       7 طريقة الدفع
+                       8 المجموع النهائي
+                    */
+
                     parameters: [
 
                       {
@@ -1362,30 +1376,6 @@ async function sendOrderToWhatsApp(
                           cleanWhatsAppParam(
                             order.payment_method
                           )
-                      },
-
-                      {
-                        type:
-                          "text",
-
-                        text:
-                          productsText
-                      },
-
-                      {
-                        type:
-                          "text",
-
-                        text:
-                          totalBeforeDelivery.toFixed(2)
-                      },
-
-                      {
-                        type:
-                          "text",
-
-                        text:
-                          deliveryCost.toFixed(2)
                       },
 
                       {
