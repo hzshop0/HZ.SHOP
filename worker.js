@@ -424,7 +424,9 @@ function normalizeImages(
         );
 
       if (
-        Array.isArray(parsed)
+        Array.isArray(
+          parsed
+        )
       ) {
 
         return normalizeArray(
@@ -1212,14 +1214,6 @@ async function sendOrderToWhatsApp(
           .join(" | ")
       : "";
 
-  /*
-     رسم التوصيل الثابت للطلبات:
-     $4.00
-
-     نستخدم القيمة التي حسبها السيرفر
-     داخل order.delivery.
-  */
-
   const deliveryCost =
     toMoney(
       order.delivery
@@ -1291,23 +1285,6 @@ async function sendOrderToWhatsApp(
 
                     type:
                       "body",
-
-                    /*
-                       قالب WhatsApp الحالي يحتوي
-                       على 11 متغيرًا:
-
-                       1 رقم الطلب
-                       2 اسم الزبون
-                       3 رقم الهاتف
-                       4 المحافظة
-                       5 المنطقة
-                       6 العنوان
-                       7 طريقة الدفع
-                       8 المنتجات
-                       9 المجموع قبل التوصيل
-                       10 كلفة التوصيل
-                       11 الإجمالي النهائي
-                    */
 
                     parameters: [
 
@@ -1466,6 +1443,8 @@ async function sendOrderToWhatsApp(
   }
 
 }
+
+
 /* =========================================================
    NORMALIZE PRODUCT FOR PUBLIC API
 ========================================================= */
@@ -1805,12 +1784,6 @@ async function buildVerifiedOrderItems(
 
   }
 
-  /*
-     نجمع الكميات حسب ID.
-     هذا يمنع إرسال المنتج نفسه عدة مرات
-     للتحايل على فحص المخزون.
-  */
-
   const quantities =
     new Map();
 
@@ -2023,13 +1996,6 @@ function calculateDiscount(
 
   }
 
-  /*
-     index.html يستخدم HZ10 = 10%.
-     بما أن الكود الحالي لا يرسل اسم الكوبون
-     إلى Worker، نمنع أي خصم أكبر من 10%
-     من subtotal.
-  */
-
   const maximumDiscount =
     toMoney(
       safeSubtotal * 0.10
@@ -2067,11 +2033,6 @@ function normalizePaymentMethod(
     "الدفع عند الاستلام",
     "عند الاستلام"
   ]);
-
-  /*
-     إذا كانت الواجهة الحالية ترسل قيمة مختلفة،
-     نحافظ عليها بدل كسر الطلب.
-  */
 
   if (
     payment.length >
@@ -3076,12 +3037,6 @@ export default {
 
         }
 
-        /*
-           هنا يبدأ التحقق الحقيقي من المتجر:
-           لا نستخدم السعر أو الاسم أو الصورة
-           المرسلة من index.html للحساب.
-        */
-
         const verified =
           await buildVerifiedOrderItems(
             data.items,
@@ -3091,22 +3046,11 @@ export default {
         const subtotal =
           verified.subtotal;
 
-        /*
-           الخصم القادم من المتصفح لا يمكن الوثوق به.
-           نسمح فقط بما يعادل 10% كحد أقصى،
-           وهو HZ10 الموجود في index.html.
-        */
-
         const discount =
           calculateDiscount(
             subtotal,
             data.discount
           );
-
-        /*
-           رسم التوصيل الثابت للطلبات:
-           $4.00
-        */
 
         const deliveryCost =
           subtotal > 0
@@ -3123,20 +3067,10 @@ export default {
             )
           );
 
-        /*
-           نجهز نسخة الطلب التي ستُحفظ في D1.
-        */
-
         const itemsJson =
           JSON.stringify(
             verified.items
           );
-
-        /*
-           خصم المخزون يتم داخل batch
-           باستخدام شرط stock >= quantity.
-           إذا لم يعد المخزون كافيًا، لن يتم الخصم.
-        */
 
         const stockStatements =
           verified.items.map(
@@ -3215,11 +3149,6 @@ export default {
 
             );
 
-        /*
-           D1 batch:
-           تحديث المخزون + إنشاء الطلب.
-        */
-
         const statements = [
           ...stockStatements,
           insertStatement
@@ -3229,10 +3158,6 @@ export default {
           await env.DB.batch(
             statements
           );
-
-        /*
-           التأكد من أن كل تحديث للمخزون نجح.
-        */
 
         for (
           let i = 0;
@@ -3305,11 +3230,6 @@ export default {
 
           })
         );
-
-        /*
-           نرسل إلى WhatsApp فقط البيانات
-           التي تحقق منها السيرفر.
-        */
 
         const orderForWhatsApp = {
 
@@ -3418,11 +3338,6 @@ export default {
 
           })
         );
-
-        /*
-           index.html الحالي يبحث عن:
-           order_number / orderNumber / id
-        */
 
         return jsonResponse({
 
@@ -3634,12 +3549,6 @@ export default {
           );
 
         }
-
-        /*
-           الحالات الأساسية للمتجر.
-           نسمح أيضًا بالقيمة الموجودة حاليًا
-           إذا كانت الإدارة تستخدم تسمية أخرى.
-        */
 
         const allowedStatuses =
           new Set([
@@ -4108,163 +4017,246 @@ export default {
 
     }
 
-/* =====================================================
-   API: META PRODUCT FEED
-===================================================== */
-if (
-  url.pathname ===
-    "/api/product-feed" &&
-  request.method ===
-    "GET"
-) {
-  try {
-    if (!env.DB) {
-      return new Response(
-        "D1 DB binding غير موجود",
-        {
-          status: 500,
-          headers: {
-            "Content-Type":
-              "text/plain; charset=utf-8"
-          }
-        }
-      );
-    }
-    const result =
-      await env.DB
-        .prepare(`
-          SELECT
-            id,
-            name,
-            description,
-            price,
-            stock,
-            image
-          FROM products
-          ORDER BY id DESC
-        `)
-        .all();
-    const products =
-      Array.isArray(
-        result?.results
-      )
-        ? result.results
-        : [];
-    function csvEscape(
-      value
+
+    /* =====================================================
+       API: META PRODUCT FEED
+    ===================================================== */
+
+    if (
+      url.pathname ===
+        "/api/product-feed" &&
+      request.method ===
+        "GET"
     ) {
-      return `"${String(
-        value ?? ""
-      )
-        .replace(
-          /"/g,
-          '""'
-        )
-        .replace(
-          /\r?\n|\r/g,
-          " "
-        )}"`;
-    }
-    const rows = [];
-    rows.push(
-      [
-        "id",
-        "title",
-        "description",
-        "availability",
-        "condition",
-        "price",
-        "link",
-        "image_link",
-        "brand"
-      ]
-        .map(csvEscape)
-        .join(",")
-    );
-    for (
-      const product of products
-    ) {
-      let imageLink =
-        product.image ||
-        "";
+
       try {
-        const parsed =
-          JSON.parse(
-            imageLink
-          );
+
         if (
-          Array.isArray(
-            parsed
-          )
+          !env.DB
         ) {
-          imageLink =
-            parsed[0] ||
+
+          return new Response(
+            "D1 DB binding غير موجود",
+            {
+              status:
+                500,
+
+              headers: {
+                "Content-Type":
+                  "text/plain; charset=utf-8"
+              }
+            }
+          );
+
+        }
+
+        const result =
+          await env.DB
+            .prepare(`
+              SELECT
+                id,
+                name,
+                description,
+                price,
+                stock,
+                image
+              FROM products
+              ORDER BY id DESC
+            `)
+            .all();
+
+        const products =
+          Array.isArray(
+            result?.results
+          )
+            ? result.results
+            : [];
+
+
+        /* =================================================
+           CSV ESCAPE
+        ================================================= */
+
+        function csvEscape(
+          value
+        ) {
+
+          return `"${String(
+            value ?? ""
+          )
+            .replace(
+              /"/g,
+              '""'
+            )
+            .replace(
+              /\r?\n|\r/g,
+              " "
+            )}"`;
+
+        }
+
+
+        /* =================================================
+           CSV HEADER
+        ================================================= */
+
+        const rows = [];
+
+        rows.push(
+          [
+            "id",
+            "title",
+            "description",
+            "availability",
+            "condition",
+            "price",
+            "link",
+            "image_link",
+            "brand"
+          ]
+            .map(
+              csvEscape
+            )
+            .join(",")
+        );
+
+
+        /* =================================================
+           PRODUCTS
+        ================================================= */
+
+        for (
+          const product of products
+        ) {
+
+          const images =
+            normalizeImages(
+              product?.image
+            );
+
+          const imageLink =
+            images[0] ||
             "";
+
+          const stock =
+            Math.max(
+              0,
+              toInteger(
+                product?.stock
+              )
+            );
+
+          const price =
+            toMoney(
+              product?.price
+            );
+
+          /*
+             نستخدم دومين الطلب الحالي
+             بدل دومين ثابت قديم.
+
+             هذا يعني أن Meta سيحصل على:
+             https://hz-shop.hasanfneish82-3db.workers.dev/product.html?id=123
+
+             أو أي دومين متصل بالـWorker لاحقًا.
+          */
+
+          const productLink =
+            `${url.origin}/product.html?id=${encodeURIComponent(
+              String(
+                product?.id ?? ""
+              )
+            )}`;
+
+          rows.push(
+            [
+              product?.id,
+              safeString(
+                product?.name,
+                MAX_PRODUCT_NAME_LENGTH
+              ),
+              safeString(
+                product?.description,
+                MAX_PRODUCT_DESCRIPTION_LENGTH
+              ),
+              stock > 0
+                ? "in stock"
+                : "out of stock",
+              "new",
+              `${price.toFixed(
+                2
+              )} USD`,
+              productLink,
+              imageLink,
+              "HZ.SHOP"
+            ]
+              .map(
+                csvEscape
+              )
+              .join(",")
+          );
+
         }
-      } catch {
-        /* صورة واحدة */
+
+
+        /* =================================================
+           RETURN CSV
+        ================================================= */
+
+        return new Response(
+          rows.join(
+            "\n"
+          ),
+          {
+            status:
+              200,
+
+            headers: {
+
+              "Content-Type":
+                "text/csv; charset=utf-8",
+
+              "Cache-Control":
+                "public, max-age=300",
+
+              "Access-Control-Allow-Origin":
+                "*"
+
+            }
+          }
+        );
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          "META_PRODUCT_FEED_ERROR",
+          error?.stack ||
+          error?.message ||
+          error
+        );
+
+        return new Response(
+          "تعذر إنشاء Product Feed",
+          {
+            status:
+              500,
+
+            headers: {
+
+              "Content-Type":
+                "text/plain; charset=utf-8"
+
+            }
+          }
+        );
+
       }
-      const stock =
-        Number(
-          product.stock
-        ) || 0;
-      const price =
-        Number(
-          product.price
-        ) || 0;
-      rows.push(
-        [
-          product.id,
-          product.name,
-          product.description,
-          stock > 0
-            ? "in stock"
-            : "out of stock",
-          "new",
-          `${price.toFixed(
-            2
-          )} USD`,
-          `https://hz.shop/product.html?id=${product.id}`,
-          imageLink,
-          "HZ.SHOP"
-        ]
-          .map(csvEscape)
-          .join(",")
-      );
+
     }
-    return new Response(
-      rows.join("\n"),
-      {
-        status: 200,
-        headers: {
-          "Content-Type":
-            "text/csv; charset=utf-8",
-          "Cache-Control":
-            "no-cache, no-store, must-revalidate"
-        }
-      }
-    );
-  } catch (
-    error
-  ) {
-    console.error(
-      "META_PRODUCT_FEED_ERROR",
-      error?.stack ||
-      error?.message ||
-      error
-    );
-    return new Response(
-      "تعذر إنشاء Product Feed",
-      {
-        status: 500,
-        headers: {
-          "Content-Type":
-            "text/plain; charset=utf-8"
-        }
-      }
-    );
-  }
-}
+
+
     /* =====================================================
        HEALTH CHECK
     ===================================================== */
