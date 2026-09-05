@@ -4062,7 +4062,163 @@ export default {
 
     }
 
-
+/* =====================================================
+   API: META PRODUCT FEED
+===================================================== */
+if (
+  url.pathname ===
+    "/api/product-feed" &&
+  request.method ===
+    "GET"
+) {
+  try {
+    if (!env.DB) {
+      return new Response(
+        "D1 DB binding غير موجود",
+        {
+          status: 500,
+          headers: {
+            "Content-Type":
+              "text/plain; charset=utf-8"
+          }
+        }
+      );
+    }
+    const result =
+      await env.DB
+        .prepare(`
+          SELECT
+            id,
+            name,
+            description,
+            price,
+            stock,
+            image
+          FROM products
+          ORDER BY id DESC
+        `)
+        .all();
+    const products =
+      Array.isArray(
+        result?.results
+      )
+        ? result.results
+        : [];
+    function csvEscape(
+      value
+    ) {
+      return `"${String(
+        value ?? ""
+      )
+        .replace(
+          /"/g,
+          '""'
+        )
+        .replace(
+          /\r?\n|\r/g,
+          " "
+        )}"`;
+    }
+    const rows = [];
+    rows.push(
+      [
+        "id",
+        "title",
+        "description",
+        "availability",
+        "condition",
+        "price",
+        "link",
+        "image_link",
+        "brand"
+      ]
+        .map(csvEscape)
+        .join(",")
+    );
+    for (
+      const product of products
+    ) {
+      let imageLink =
+        product.image ||
+        "";
+      try {
+        const parsed =
+          JSON.parse(
+            imageLink
+          );
+        if (
+          Array.isArray(
+            parsed
+          )
+        ) {
+          imageLink =
+            parsed[0] ||
+            "";
+        }
+      } catch {
+        /* صورة واحدة */
+      }
+      const stock =
+        Number(
+          product.stock
+        ) || 0;
+      const price =
+        Number(
+          product.price
+        ) || 0;
+      rows.push(
+        [
+          product.id,
+          product.name,
+          product.description,
+          stock > 0
+            ? "in stock"
+            : "out of stock",
+          "new",
+          `${price.toFixed(
+            2
+          )} USD`,
+          `https://hz.shop/product.html?id=${product.id}`,
+          imageLink,
+          "HZ.SHOP"
+        ]
+          .map(csvEscape)
+          .join(",")
+      );
+    }
+    return new Response(
+      rows.join("\n"),
+      {
+        status: 200,
+        headers: {
+          "Content-Type":
+            "text/csv; charset=utf-8",
+          "Cache-Control":
+            "no-cache, no-store, must-revalidate"
+        }
+      }
+    );
+  } catch (
+    error
+  ) {
+    console.error(
+      "META_PRODUCT_FEED_ERROR",
+      error?.stack ||
+      error?.message ||
+      error
+    );
+    return new Response(
+      "تعذر إنشاء Product Feed",
+      {
+        status: 500,
+        headers: {
+          "Content-Type":
+            "text/plain; charset=utf-8"
+        }
+      }
+    );
+  }
+}
     /* =====================================================
        HEALTH CHECK
     ===================================================== */
