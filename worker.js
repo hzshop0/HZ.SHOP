@@ -1293,148 +1293,179 @@ async function sendOrderToWhatsApp(
                       "body",
 
                     /*
-   قالب WhatsApp الحالي يحتوي
-   على 11 متغيرًا:
+                       قالب WhatsApp الحالي يحتوي
+                       على 11 متغيرًا:
 
-   1 رقم الطلب
-   2 اسم الزبون
-   3 رقم الهاتف
-   4 المحافظة
-   5 المنطقة
-   6 العنوان
-   7 طريقة الدفع
-   8 المنتجات
-   9 المجموع قبل التوصيل
-   10 كلفة التوصيل
-   11 الإجمالي النهائي
-*/
+                       1 رقم الطلب
+                       2 اسم الزبون
+                       3 رقم الهاتف
+                       4 المحافظة
+                       5 المنطقة
+                       6 العنوان
+                       7 طريقة الدفع
+                       8 المنتجات
+                       9 المجموع قبل التوصيل
+                       10 كلفة التوصيل
+                       11 الإجمالي النهائي
+                    */
 
-                   parameters: [
+                    parameters: [
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        order.id
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            order.id
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        order.customer_name
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            order.customer_name
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        order.phone
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            order.phone
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        order.governorate
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            order.governorate
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        order.area
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            order.area
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        order.address
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            order.address
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        order.payment_method
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            order.payment_method
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        productsText
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            productsText
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        totalBeforeDelivery.toFixed(2)
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            totalBeforeDelivery.toFixed(2)
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        deliveryCost.toFixed(2)
-                      )
-                  },
+                        text:
+                          cleanWhatsAppParam(
+                            deliveryCost.toFixed(2)
+                          )
+                      },
 
-                  {
-                    type:
-                      "text",
+                      {
+                        type:
+                          "text",
 
-                    text:
-                      cleanWhatsAppParam(
-                        finalTotal.toFixed(2)
-                      )
+                        text:
+                          cleanWhatsAppParam(
+                            finalTotal.toFixed(2)
+                          )
+                      }
+
+                    ]
+
                   }
 
                 ]
 
               }
 
-            ]
+            })
 
-          }
+        }
+      );
 
-        })
+    if (
+      !response.ok
+    ) {
+
+      const errorText =
+        await response.text();
+
+      throw new Error(
+        errorText ||
+        `WhatsApp HTTP ${response.status}`
+      );
 
     }
 
-  );
-} catch ( error ) {
+    return await response.json();
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "WHATSAPP_SEND_ERROR",
+      error?.stack ||
+      error?.message ||
+      error
+    );
+
+    throw error;
+
+  }
+
+}
 /* =========================================================
    NORMALIZE PRODUCT FOR PUBLIC API
 ========================================================= */
