@@ -1308,171 +1308,117 @@ async function sendOrderToWhatsApp(
 
                     parameters: [
 
-                      {
-                        type:
-                          "text",
+  {
+    type:
+      "text",
 
-                        text:
-                          cleanWhatsAppParam(
-                            order.id
-                          )
-                      },
+    text:
+      cleanWhatsAppParam(
+        order.id
+      )
+  },
 
-                      {
-                        type:
-                          "text",
+  {
+    type:
+      "text",
 
-                        text:
-                          cleanWhatsAppParam(
-                            order.customer_name
-                          )
-                      },
+    text:
+      cleanWhatsAppParam(
+        order.customer_name
+      )
+  },
 
-                      {
-                        type:
-                          "text",
+  {
+    type:
+      "text",
 
-                        text:
-                          cleanWhatsAppParam(
-                            order.phone
-                          )
-                      },
+    text:
+      cleanWhatsAppParam(
+        order.phone
+      )
+  },
 
-                      {
-                        type:
-                          "text",
+  {
+    type:
+      "text",
 
-                        text:
-                          cleanWhatsAppParam(
-                            order.governorate
-                          )
-                      },
+    text:
+      cleanWhatsAppParam(
+        order.governorate
+      )
+  },
 
-                      {
-                        type:
-                          "text",
+  {
+    type:
+      "text",
 
-                        text:
-                          cleanWhatsAppParam(
-                            order.area
-                          )
-                      },
+    text:
+      cleanWhatsAppParam(
+        order.area
+      )
+  },
 
-                      {
-                        type:
-                          "text",
+  {
+    type:
+      "text",
 
-                        text:
-                          cleanWhatsAppParam(
-                            order.address
-                          )
-                      },
+    text:
+      cleanWhatsAppParam(
+        order.address
+      )
+  },
 
-                      {
-                        type:
-                          "text",
+  {
+    type:
+      "text",
 
-                        text:
-                          cleanWhatsAppParam(
-                            order.payment_method
-                          )
-                      },
+    text:
+      cleanWhatsAppParam(
+        order.payment_method
+      )
+  },
 
-                      {
-                        type:
-                          "text",
+  {
+    type:
+      "text",
 
-                        text:
-                          finalTotal.toFixed(2)
-                      }
+    text:
+      cleanWhatsAppParam(
+        productsText
+      )
+  },
 
-                    ]
+  {
+    type:
+      "text",
 
-                  }
+    text:
+      cleanWhatsAppParam(
+        totalBeforeDelivery.toFixed(2)
+      )
+  },
 
-                ]
+  {
+    type:
+      "text",
 
-              }
+    text:
+      cleanWhatsAppParam(
+        deliveryCost.toFixed(2)
+      )
+  },
 
-            })
+  {
+    type:
+      "text",
 
-        }
-      );
-
-  } catch (
-    error
-  ) {
-
-    throw new Error(
-      `فشل الاتصال بـ WhatsApp API: ${
-        error?.message ||
-        "خطأ غير معروف"
-      }`
-    );
-
+    text:
+      cleanWhatsAppParam(
+        finalTotal.toFixed(2)
+      )
   }
 
-  const rawResponse =
-    await response.text();
-
-  let result;
-
-  try {
-
-    result =
-      rawResponse
-        ? JSON.parse(
-            rawResponse
-          )
-        : {};
-
-  } catch {
-
-    result = {
-
-      raw_response:
-        rawResponse
-
-    };
-
-  }
-
-  console.log(
-    "WHATSAPP_RESPONSE",
-    JSON.stringify({
-
-      status:
-        response.status,
-
-      ok:
-        response.ok,
-
-      result:
-        result
-
-    })
-  );
-
-  if (
-    !response.ok
-  ) {
-
-    const metaError =
-      result?.error?.message ||
-      result?.error?.error_user_msg ||
-      result?.error?.type ||
-      `HTTP ${response.status}`;
-
-    throw new Error(
-      `WhatsApp API: ${metaError}`
-    );
-
-  }
-
-  return result;
-
-}
-
+]
 
 /* =========================================================
    NORMALIZE PRODUCT FOR PUBLIC API
