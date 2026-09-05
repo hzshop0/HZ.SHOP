@@ -1306,120 +1306,132 @@ async function sendOrderToWhatsApp(
                        8 المجموع النهائي
                     */
 
-                    parameters: [
+                   parameters: [
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        order.id
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        order.id
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        order.customer_name
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        order.customer_name
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        order.phone
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        order.phone
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        order.governorate
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        order.governorate
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        order.area
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        order.area
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        order.address
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        order.address
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        order.payment_method
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        order.payment_method
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        productsText
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        productsText
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        totalBeforeDelivery.toFixed(2)
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        totalBeforeDelivery.toFixed(2)
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        deliveryCost.toFixed(2)
-      )
-  },
+                    text:
+                      cleanWhatsAppParam(
+                        deliveryCost.toFixed(2)
+                      )
+                  },
 
-  {
-    type:
-      "text",
+                  {
+                    type:
+                      "text",
 
-    text:
-      cleanWhatsAppParam(
-        finalTotal.toFixed(2)
-      )
-  }
+                    text:
+                      cleanWhatsAppParam(
+                        finalTotal.toFixed(2)
+                      )
+                  }
 
-]
+                ]
 
+              }
+
+            ]
+
+          }
+
+        })
+
+    }
+
+  );
+} catch ( error ) {
 /* =========================================================
    NORMALIZE PRODUCT FOR PUBLIC API
 ========================================================= */
