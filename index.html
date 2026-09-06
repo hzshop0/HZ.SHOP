@@ -4662,7 +4662,37 @@ result.order_number ||
 result.orderNumber ||
 result.id
 );
+/* Meta Pixel — Purchase */
+if(typeof fbq === "function"){
 
+fbq("track","Purchase",{
+
+content_ids:
+cart.map(item=>String(item.id)),
+
+content_type:"product",
+
+num_items:
+cart.reduce(
+(sum,item)=>
+sum + Number(item.quantity),
+0
+),
+
+value:
+Number(
+result && result.total != null
+?
+result.total
+:
+order.total
+),
+
+currency:"USD"
+
+});
+
+}
 cart = [];
 
 discountRate = 0;
