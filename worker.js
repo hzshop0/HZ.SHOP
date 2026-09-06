@@ -4354,6 +4354,7 @@ export default {
 
     /* =====================================================
        STATIC ASSETS
+       + META PIXEL
        + SOCIAL SHARE IMAGE
     ===================================================== */
 
@@ -4387,14 +4388,14 @@ export default {
 
 
     /* =====================================================
-       SOCIAL SHARE IMAGE
+       HTML PAGES
+       + META PIXEL
+       + SOCIAL SHARE IMAGE
     ===================================================== */
 
     if (
       request.method ===
-        "GET" &&
-      url.pathname ===
-        "/"
+        "GET"
     ) {
 
       const contentType =
@@ -4413,6 +4414,10 @@ export default {
 
         return new HTMLRewriter()
 
+          /* =================================================
+             META PIXEL
+          ================================================= */
+
           .on(
             "head",
             {
@@ -4423,10 +4428,25 @@ export default {
 
                 element.append(
 
-                  `<meta property="og:image" content="${ogImage}">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1440">
-<meta property="og:image:height" content="768">`,
+                  `
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1105197418611201');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1105197418611201&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+`,
 
                   {
                     html:
@@ -4434,6 +4454,45 @@ export default {
                   }
 
                 );
+
+              }
+
+            }
+          )
+
+          /* =================================================
+             SOCIAL SHARE IMAGE
+             ROOT PAGE ONLY
+          ================================================= */
+
+          .on(
+            "head",
+            {
+
+              element(
+                element
+              ) {
+
+                if (
+                  url.pathname ===
+                  "/"
+                ) {
+
+                  element.append(
+
+                    `<meta property="og:image" content="${ogImage}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1440">
+<meta property="og:image:height" content="768">`,
+
+                    {
+                      html:
+                        true
+                    }
+
+                  );
+
+                }
 
               }
 
