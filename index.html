@@ -3368,12 +3368,32 @@ return;
 
 }
 
+/* Meta Pixel — ViewContent */
+if(typeof fbq === "function"){
+
+fbq("track","ViewContent",{
+
+content_ids:[
+String(product.id)
+],
+
+content_type:"product",
+
+content_name:product.name,
+
+value:Number(product.price),
+
+currency:"USD"
+
+});
+
+}
+
 window.location.href =
 "/product.html?id=" +
 encodeURIComponent(product.id);
 
 }
-
 /* =========================
    CATEGORY
 ========================= */
