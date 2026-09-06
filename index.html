@@ -4225,7 +4225,57 @@ return;
 }
 
 renderSummary();
+/* Meta Pixel — InitiateCheckout */
+if(typeof fbq === "function"){
 
+const subtotal =
+cart.reduce(
+(a,b)=>
+a +
+Number(b.price) *
+Number(b.quantity),
+0
+);
+
+const discount =
+subtotal * discountRate;
+
+const delivery =
+subtotal > 0
+?
+DELIVERY_FEE
+:
+0;
+
+const total =
+Math.max(
+0,
+subtotal -
+discount +
+delivery
+);
+
+fbq("track","InitiateCheckout",{
+
+content_ids:
+cart.map(item=>String(item.id)),
+
+content_type:"product",
+
+num_items:
+cart.reduce(
+(sum,item)=>
+sum + Number(item.quantity),
+0
+),
+
+value:Number(total.toFixed(2)),
+
+currency:"USD"
+
+});
+
+}
 document.getElementById(
 "modal"
 ).classList.add("show");
