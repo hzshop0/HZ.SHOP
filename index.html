@@ -862,7 +862,16 @@ JSON.stringify(favorites)
 
 function openCustomerAuth(){
 
-window.location.href = "/login.html";
+const modal = document.getElementById("customerAuthModal");
+
+if(!modal){
+console.error("Customer auth modal not found");
+return;
+}
+
+modal.classList.add("open");
+
+checkCustomerSession();
 
 }
 
@@ -3320,6 +3329,252 @@ loadProducts();
 );
 
 </script>
+<!-- =========================
+     CUSTOMER AUTH
+========================= -->
 
+<div
+  class="modal"
+  id="customerAuthModal"
+  onclick="closeCustomerAuth(event)"
+  style="display:none;"
+>
+  <div
+    class="modal-box customer-auth-box"
+    onclick="event.stopPropagation()"
+  >
+
+    <div class="modal-head">
+      <h2 id="customerAuthTitle">حساب العميل</h2>
+
+      <button
+        type="button"
+        class="modal-close"
+        onclick="closeCustomerAuth()"
+        aria-label="إغلاق"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- LOGIN / REGISTER TABS -->
+
+    <div class="customer-auth-tabs" id="customerAuthTabs">
+
+      <button
+        type="button"
+        id="customerLoginTab"
+        class="customer-auth-tab active"
+        onclick="switchAuthMode('login')"
+      >
+        تسجيل الدخول
+      </button>
+
+      <button
+        type="button"
+        id="customerRegisterTab"
+        class="customer-auth-tab"
+        onclick="switchAuthMode('register')"
+      >
+        إنشاء حساب
+      </button>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <div id="customerLoginPanel">
+
+      <div class="auth-intro">
+        <strong>مرحبًا بك في HZ.SHOP</strong>
+        <span>سجّل الدخول إلى حسابك للمتابعة.</span>
+      </div>
+
+      <div class="field">
+
+        <label for="customerLoginPhone">
+          رقم الهاتف
+        </label>
+
+        <input
+          type="tel"
+          id="customerLoginPhone"
+          placeholder="أدخل رقم الهاتف"
+          autocomplete="tel"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="customerLoginPassword">
+          كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="customerLoginPassword"
+          placeholder="أدخل كلمة المرور"
+          autocomplete="current-password"
+        >
+
+      </div>
+
+      <button
+        type="button"
+        class="customer-auth-submit"
+        id="customerLoginButton"
+        onclick="submitCustomerLogin()"
+      >
+        تسجيل الدخول
+      </button>
+
+      <div class="auth-switch-text">
+        ليس لديك حساب؟
+        <button
+          type="button"
+          onclick="switchAuthMode('register')"
+        >
+          إنشاء حساب
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- REGISTER -->
+
+    <div
+      id="customerRegisterPanel"
+      style="display:none;"
+    >
+
+      <div class="auth-intro">
+        <strong>إنشاء حساب جديد</strong>
+        <span>أنشئ حسابك في HZ.SHOP خلال دقائق.</span>
+      </div>
+
+      <div class="field">
+
+        <label for="customerRegisterName">
+          الاسم
+        </label>
+
+        <input
+          type="text"
+          id="customerRegisterName"
+          placeholder="أدخل اسمك"
+          autocomplete="name"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="customerRegisterPhone">
+          رقم الهاتف
+        </label>
+
+        <input
+          type="tel"
+          id="customerRegisterPhone"
+          placeholder="أدخل رقم الهاتف"
+          autocomplete="tel"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="customerRegisterPassword">
+          كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="customerRegisterPassword"
+          placeholder="6 أحرف على الأقل"
+          autocomplete="new-password"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="customerRegisterPasswordConfirm">
+          تأكيد كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="customerRegisterPasswordConfirm"
+          placeholder="أعد كتابة كلمة المرور"
+          autocomplete="new-password"
+        >
+
+      </div>
+
+      <button
+        type="button"
+        class="customer-auth-submit"
+        id="customerRegisterButton"
+        onclick="submitCustomerRegister()"
+      >
+        إنشاء الحساب
+      </button>
+
+      <div class="auth-switch-text">
+        لديك حساب بالفعل؟
+        <button
+          type="button"
+          onclick="switchAuthMode('login')"
+        >
+          تسجيل الدخول
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- LOGGED IN -->
+
+    <div
+      id="customerAccountPanel"
+      style="display:none;"
+    >
+
+      <div class="customer-account-welcome">
+
+        <div class="customer-account-icon">
+          👤
+        </div>
+
+        <div>
+
+          <strong id="customerAccountName">
+            العميل
+          </strong>
+
+          <span id="customerAccountPhone">
+            —
+          </span>
+
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="customer-logout-button"
+        onclick="customerLogout()"
+      >
+        تسجيل الخروج
+      </button>
+
+    </div>
+
+  </div>
+</div>
 </body>
 </html>
