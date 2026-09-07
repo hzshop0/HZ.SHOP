@@ -3495,7 +3495,427 @@ closeSuccess();
 
 }
 );
+/* =========================
+   CUSTOMER AUTH
+========================= */
 
+let currentCustomer = null;
+
+function openCustomerAuth(){
+
+  const modal = document.getElementById("customerAuthModal");
+
+  if(!modal){
+    console.error("Customer auth modal not found");
+    return;
+  }
+
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+
+  checkCustomerSession();
+
+}
+
+
+function closeCustomerAuth(event){
+
+  if(event && event.target !== event.currentTarget){
+    return;
+  }
+
+  const modal = document.getElementById("customerAuthModal");
+
+  if(!modal){
+    return;
+  }
+
+  modal.classList.remove("show");
+  document.body.style.overflow = "";
+
+}
+
+
+function switchAuthMode(mode){
+
+  const loginPanel =
+    document.getElementById("customerLoginPanel");
+
+  const registerPanel =
+    document.getElementById("customerRegisterPanel");
+
+  const accountPanel =
+    document.getElementById("customerAccountPanel");
+
+  const loginTab =
+    document.getElementById("customerLoginTab");
+
+  const registerTab =
+    document.getElementById("customerRegisterTab");
+
+  const tabs =
+    document.getElementById("customerAuthTabs");
+
+  const title =
+    document.getElementById("customerAuthTitle");
+
+
+  if(currentCustomer){
+
+    loginPanel.style.display = "none";
+    registerPanel.style.display = "none";
+    accountPanel.style.display = "block";
+    tabs.style.display = "none";
+
+    title.textContent = "حساب العميل";
+
+    return;
+  }
+
+
+  accountPanel.style.display = "none";
+  tabs.style.display = "grid";
+
+
+  if(mode === "register"){
+
+    loginPanel.style.display = "none";
+    registerPanel.style.display = "block";
+
+    loginTab.classList.remove("active");
+    registerTab.classList.add("active");
+
+    title.textContent = "إنشاء حساب";
+
+  }else{
+
+    loginPanel.style.display = "block";
+    registerPanel.style.display = "none";
+
+    loginTab.classList.add("active");
+    registerTab.classList.remove("active");
+
+    title.textContent = "تسجيل الدخول";
+
+  }
+
+}
+
+
+async function checkCustomerSession(){
+
+  try{
+
+    const response = await fetch(
+      "/api/customer-me",
+      {
+        method:"GET",
+        credentials:"include"
+      }
+    );
+
+    const data = await response.json();
+
+    if(response.ok && data.customer){
+
+      currentCustomer = data.customer;
+
+      document.getElementById(
+        "customerAccountName"
+      ).textContent =
+        data.customer.name || "العميل";
+
+      document.getElementById(
+        "customerAccountPhone"
+      ).textContent =
+        data.customer.phone || "—";
+
+      switchAuthMode("account");
+
+    }else{
+
+      currentCustomer = null;
+
+      switchAuthMode("login");
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Customer session error:",
+      error
+    );
+
+    currentCustomer = null;
+
+    switchAuthMode("login");
+
+  }
+
+}
+
+
+async function submitCustomerLogin(){
+
+  const phone =
+    document.getElementById(
+      "customerLoginPhone"
+    ).value.trim();
+
+  const password =
+    document.getElementById(
+      "customerLoginPassword"
+    ).value;
+
+
+  if(!phone || !password){
+
+    alert("يرجى إدخال رقم الهاتف وكلمة المرور.");
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "customerLoginButton"
+    );
+
+  button.disabled = true;
+  button.textContent = "جاري تسجيل الدخول...";
+
+
+  try{
+
+    const response = await fetch(
+      "/api/customer-login",
+      {
+        method:"POST",
+        credentials:"include",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          phone:phone,
+          password:password
+        })
+      }
+    );
+
+
+    const data = await response.json();
+
+
+    if(!response.ok){
+
+      alert(
+        data.error ||
+        data.message ||
+        "فشل تسجيل الدخول."
+      );
+
+      return;
+
+    }
+
+
+    currentCustomer =
+      data.customer || null;
+
+
+    await checkCustomerSession();
+
+    alert("تم تسجيل الدخول بنجاح.");
+
+  }catch(error){
+
+    console.error(
+      "Customer login error:",
+      error
+    );
+
+    alert(
+      "حدث خطأ أثناء تسجيل الدخول."
+    );
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = "تسجيل الدخول";
+
+  }
+
+}
+
+
+async function submitCustomerRegister(){
+
+  const name =
+    document.getElementById(
+      "customerRegisterName"
+    ).value.trim();
+
+  const phone =
+    document.getElementById(
+      "customerRegisterPhone"
+    ).value.trim();
+
+  const password =
+    document.getElementById(
+      "customerRegisterPassword"
+    ).value;
+
+  const passwordConfirm =
+    document.getElementById(
+      "customerRegisterPasswordConfirm"
+    ).value;
+
+
+  if(!name || !phone || !password || !passwordConfirm){
+
+    alert("يرجى تعبئة جميع الحقول.");
+
+    return;
+
+  }
+
+
+  if(password.length < 6){
+
+    alert(
+      "كلمة المرور يجب أن تكون 6 أحرف على الأقل."
+    );
+
+    return;
+
+  }
+
+
+  if(password !== passwordConfirm){
+
+    alert(
+      "كلمتا المرور غير متطابقتين."
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "customerRegisterButton"
+    );
+
+  button.disabled = true;
+  button.textContent = "جاري إنشاء الحساب...";
+
+
+  try{
+
+    const response = await fetch(
+      "/api/customer-register",
+      {
+        method:"POST",
+        credentials:"include",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          name:name,
+          phone:phone,
+          password:password
+        })
+      }
+    );
+
+
+    const data = await response.json();
+
+
+    if(!response.ok){
+
+      alert(
+        data.error ||
+        data.message ||
+        "فشل إنشاء الحساب."
+      );
+
+      return;
+
+    }
+
+
+    currentCustomer =
+      data.customer || null;
+
+
+    await checkCustomerSession();
+
+    alert(
+      "تم إنشاء الحساب بنجاح."
+    );
+
+  }catch(error){
+
+    console.error(
+      "Customer register error:",
+      error
+    );
+
+    alert(
+      "حدث خطأ أثناء إنشاء الحساب."
+    );
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = "إنشاء الحساب";
+
+  }
+
+}
+
+
+async function customerLogout(){
+
+  try{
+
+    await fetch(
+      "/api/customer-logout",
+      {
+        method:"POST",
+        credentials:"include"
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "Customer logout error:",
+      error
+    );
+
+  }
+
+
+  currentCustomer = null;
+
+  switchAuthMode("login");
+
+  document.getElementById(
+    "customerLoginPhone"
+  ).value = "";
+
+  document.getElementById(
+    "customerLoginPassword"
+  ).value = "";
+
+  alert("تم تسجيل الخروج بنجاح.");
+
+}
 /* =========================
    INIT
 ========================= */
