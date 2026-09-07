@@ -1562,12 +1562,172 @@ async function getProducts(
       ? query.results
       : [];
 
+
+  /* =====================================================
+     CALCULATE REAL SALES COUNT
+  ===================================================== */
+
+  const salesCount =
+    new Map();
+
+
+  try {
+
+    const ordersQuery =
+      await env.DB
+        .prepare(`
+          SELECT
+            status,
+            items
+          FROM orders
+        `)
+        .all();
+
+    const orders =
+      Array.isArray(
+        ordersQuery?.results
+      )
+        ? ordersQuery.results
+        : [];
+
+
+    for (
+      const order of orders
+    ) {
+
+      /* الطلبات الملغاة لا تُحسب كمبيعات */
+
+      if (
+        String(
+          order?.status || ""
+        ).toLowerCase() ===
+        "cancelled"
+      ) {
+
+        continue;
+
+      }
+
+
+      let items =
+        order?.items;
+
+
+      if (
+        typeof items ===
+        "string"
+      ) {
+
+        try {
+
+          items =
+            JSON.parse(
+              items
+            );
+
+        } catch {
+
+          items = [];
+
+        }
+
+      }
+
+
+      if (
+        !Array.isArray(
+          items
+        )
+      ) {
+
+        continue;
+
+      }
+
+
+      for (
+        const item of items
+      ) {
+
+        const productId =
+          toInteger(
+            item?.id
+          );
+
+        const quantity =
+          toInteger(
+            item?.quantity
+          );
+
+
+        if (
+          !productId ||
+          quantity <= 0
+        ) {
+
+          continue;
+
+        }
+
+
+        const previous =
+          salesCount.get(
+            productId
+          ) || 0;
+
+
+        salesCount.set(
+          productId,
+          previous +
+          quantity
+        );
+
+      }
+
+    }
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "PRODUCT_SALES_COUNT_ERROR",
+      error?.stack ||
+      error?.message ||
+      error
+    );
+
+  }
+
+
+  /* =====================================================
+     RETURN PRODUCTS WITH REAL SALES COUNT
+  ===================================================== */
+
   return results.map(
-    normalizeProduct
+    product => {
+
+      const normalized =
+        normalizeProduct(
+          product
+        );
+
+
+      return {
+
+        ...normalized,
+
+        salesCount:
+          salesCount.get(
+            normalized.id
+          ) || 0
+
+      };
+
+    }
   );
 
 }
-
 
 /* =========================================================
    VALIDATE PRODUCT INPUT
