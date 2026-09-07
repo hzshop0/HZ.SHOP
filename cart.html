@@ -2082,25 +2082,11 @@ async function submitComputerOrder(){
 
     if(!authData.logged_in){
 
-      toast(
-        "يجب تسجيل الدخول أولًا"
-      );
+  openCartCustomerAuth();
 
+  return;
 
-      /*
-       * نعيد المستخدم للصفحة الرئيسية
-       * حيث توجد نافذة تسجيل الدخول الأصلية.
-       */
-      setTimeout(
-        ()=>{
-          window.location.href="/?openAccount=1";
-        },
-        900
-      );
-
-      return;
-
-    }
+}
 
   }catch(error){
 
