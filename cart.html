@@ -1797,17 +1797,28 @@ function changeQty(index,delta){
 
   if(!cart[index]) return;
 
-  cart[index].quantity =
-    Math.max(
-      1,
-      Number(cart[index].quantity || 1) + delta
-    );
+  const newQuantity =
+    Number(cart[index].quantity || 1) + delta;
+
+  if(newQuantity <= 0){
+
+    cart.splice(index,1);
+
+    saveCart();
+    render();
+
+    toast("تم حذف المنتج من السلة");
+
+    return;
+
+  }
+
+  cart[index].quantity = newQuantity;
 
   saveCart();
   render();
 
 }
-
 
 function removeItem(index){
 
