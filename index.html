@@ -1982,13 +1982,41 @@ newRail.innerHTML = newestItems.map(p=>smartProductCard(p,"وصل حديثًا")
 
 /* Best sellers: prefer real backend sales/order data. If unavailable,
    use the current API order as a safe fallback without inventing sales numbers. */
-const salesData = products.filter(p => Number.isFinite(p.salesCount) && p.salesCount >= 0);
-const best = salesData.length
-? [...salesData].sort((a,b)=>b.salesCount-a.salesCount).slice(0,8)
-: products.slice(0,8);
+const salesData = products.filter(
+  p =>
+    Number.isFinite(Number(p.salesCount)) &&
+    Number(p.salesCount) > 0
+);
 
-bestSection.style.display = best.length ? "block" : "none";
-bestRail.innerHTML = best.map(p=>smartProductCard(p,"الأكثر طلبًا")).join("");
+const best = [...salesData]
+  .sort(
+    (a,b) =>
+      Number(b.salesCount) -
+      Number(a.salesCount)
+  )
+  .slice(0,8);
+
+if(!best.length){
+
+  bestSection.style.display = "none";
+  bestRail.innerHTML = "";
+
+}else{
+
+  bestSection.style.display = "block";
+
+  bestRail.innerHTML =
+    best
+      .map(
+        p =>
+          smartProductCard(
+            p,
+            "الأكثر طلبًا"
+          )
+      )
+      .join("");
+
+}
 
 enableGallerySwipe();
 
