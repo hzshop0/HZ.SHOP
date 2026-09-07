@@ -2489,8 +2489,404 @@ document.addEventListener(
 
   }
 );
+async function submitCartCustomerRegister(){
 
+  const name =
+    document.getElementById(
+      "cartCustomerRegisterName"
+    ).value.trim();
+
+  const phone =
+    document.getElementById(
+      "cartCustomerRegisterPhone"
+    ).value.trim();
+
+  const password =
+    document.getElementById(
+      "cartCustomerRegisterPassword"
+    ).value;
+
+  const passwordConfirm =
+    document.getElementById(
+      "cartCustomerRegisterPasswordConfirm"
+    ).value;
+
+
+  if(
+    !name ||
+    !phone ||
+    !password ||
+    !passwordConfirm
+  ){
+
+    alert(
+      "يرجى تعبئة جميع الحقول."
+    );
+
+    return;
+
+  }
+
+
+  if(password.length < 6){
+
+    alert(
+      "كلمة المرور يجب أن تكون 6 أحرف على الأقل."
+    );
+
+    return;
+
+  }
+
+
+  if(password !== passwordConfirm){
+
+    alert(
+      "كلمتا المرور غير متطابقتين."
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "cartCustomerRegisterButton"
+    );
+
+  button.disabled = true;
+
+  button.textContent =
+    "جاري إنشاء الحساب...";
+
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-register",
+        {
+          method:"POST",
+          credentials:"include",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+          body:JSON.stringify({
+            name:name,
+            phone:phone,
+            password:password
+          })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      alert(
+        data.error ||
+        data.message ||
+        "فشل إنشاء الحساب."
+      );
+
+      return;
+
+    }
+
+
+    cartCustomer =
+      data.customer || null;
+
+
+    closeCartCustomerAuth();
+
+    toast(
+      "تم إنشاء الحساب بنجاح"
+    );
+
+
+    /*
+     * نرسل الطلب مباشرة بعد إنشاء الحساب.
+     * بيانات السلة والنموذج لم تتغير.
+     */
+
+    setTimeout(
+      ()=>{
+        submitComputerOrder();
+      },
+      300
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "CART_CUSTOMER_REGISTER_ERROR",
+      error
+    );
+
+    alert(
+      "حدث خطأ أثناء إنشاء الحساب."
+    );
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      "إنشاء الحساب";
+
+  }
+
+}
 </script>
+<!-- CUSTOMER AUTH MODAL -->
 
+<div
+  class="modal"
+  id="cartCustomerAuthModal"
+  style="display:none;"
+>
+  <div
+    class="modal-box customer-auth-box"
+  >
+
+    <div class="modal-head">
+
+      <h2 id="cartCustomerAuthTitle">
+        تسجيل الدخول
+      </h2>
+
+      <button
+        type="button"
+        class="modal-close"
+        onclick="closeCartCustomerAuth()"
+        aria-label="إغلاق"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- TABS -->
+
+    <div
+      class="customer-auth-tabs"
+      id="cartCustomerAuthTabs"
+    >
+
+      <button
+        type="button"
+        id="cartCustomerLoginTab"
+        class="customer-auth-tab active"
+        onclick="switchCartCustomerAuth('login')"
+      >
+        تسجيل الدخول
+      </button>
+
+      <button
+        type="button"
+        id="cartCustomerRegisterTab"
+        class="customer-auth-tab"
+        onclick="switchCartCustomerAuth('register')"
+      >
+        إنشاء حساب
+      </button>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <div id="cartCustomerLoginPanel">
+
+      <div class="auth-intro">
+
+        <strong>
+          مرحبًا بك في HZ.SHOP
+        </strong>
+
+        <span>
+          سجّل الدخول للمتابعة وإرسال طلبك.
+        </span>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerLoginPhone">
+          رقم الهاتف
+        </label>
+
+        <input
+          type="tel"
+          id="cartCustomerLoginPhone"
+          placeholder="أدخل رقم الهاتف"
+          autocomplete="tel"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerLoginPassword">
+          كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="cartCustomerLoginPassword"
+          placeholder="أدخل كلمة المرور"
+          autocomplete="current-password"
+        >
+
+      </div>
+
+
+      <button
+        type="button"
+        class="customer-auth-submit"
+        id="cartCustomerLoginButton"
+        onclick="submitCartCustomerLogin()"
+      >
+        تسجيل الدخول
+      </button>
+
+
+      <div class="auth-switch-text">
+
+        ليس لديك حساب؟
+
+        <button
+          type="button"
+          onclick="switchCartCustomerAuth('register')"
+        >
+          إنشاء حساب
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- REGISTER -->
+
+    <div
+      id="cartCustomerRegisterPanel"
+      style="display:none;"
+    >
+
+      <div class="auth-intro">
+
+        <strong>
+          إنشاء حساب جديد
+        </strong>
+
+        <span>
+          أنشئ حسابك في HZ.SHOP للمتابعة.
+        </span>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerRegisterName">
+          الاسم
+        </label>
+
+        <input
+          type="text"
+          id="cartCustomerRegisterName"
+          placeholder="أدخل اسمك"
+          autocomplete="name"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerRegisterPhone">
+          رقم الهاتف
+        </label>
+
+        <input
+          type="tel"
+          id="cartCustomerRegisterPhone"
+          placeholder="أدخل رقم الهاتف"
+          autocomplete="tel"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerRegisterPassword">
+          كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="cartCustomerRegisterPassword"
+          placeholder="6 أحرف على الأقل"
+          autocomplete="new-password"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerRegisterPasswordConfirm">
+          تأكيد كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="cartCustomerRegisterPasswordConfirm"
+          placeholder="أعد كتابة كلمة المرور"
+          autocomplete="new-password"
+        >
+
+      </div>
+
+
+      <button
+        type="button"
+        class="customer-auth-submit"
+        id="cartCustomerRegisterButton"
+        onclick="submitCartCustomerRegister()"
+      >
+        إنشاء الحساب
+      </button>
+
+
+      <div class="auth-switch-text">
+
+        لديك حساب بالفعل؟
+
+        <button
+          type="button"
+          onclick="switchCartCustomerAuth('login')"
+        >
+          تسجيل الدخول
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
 </body>
 </html>
