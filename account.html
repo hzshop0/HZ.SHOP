@@ -23,7 +23,7 @@
       min-height:100vh;
       background:#0b0b0d;
       color:#f5f1e8;
-      font-family:Arial, sans-serif;
+      font-family:Arial,sans-serif;
     }
 
     .account-page{
@@ -54,6 +54,11 @@
       padding:10px 18px;
       border-radius:10px;
       cursor:pointer;
+      transition:.2s;
+    }
+
+    .back-btn:hover{
+      background:rgba(201,168,78,.08);
     }
 
     .account-container{
@@ -74,6 +79,103 @@
       line-height:1.8;
     }
 
+    .loading{
+      color:#aaa;
+      margin-top:25px;
+    }
+
+    .customer-card{
+      margin-top:25px;
+      padding:24px;
+      border:1px solid rgba(201,168,78,.2);
+      border-radius:16px;
+      background:#0d0d10;
+    }
+
+    .customer-welcome{
+      font-size:22px;
+      font-weight:700;
+      margin-bottom:22px;
+    }
+
+    .customer-info{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:15px;
+    }
+
+    .info-item{
+      padding:18px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      background:#111114;
+    }
+
+    .info-label{
+      display:block;
+      color:#999;
+      font-size:13px;
+      margin-bottom:8px;
+    }
+
+    .info-value{
+      color:#f5f1e8;
+      font-size:16px;
+      font-weight:600;
+      word-break:break-word;
+    }
+
+    .login-message{
+      margin-top:25px;
+      padding:20px;
+      border:1px solid rgba(201,168,78,.2);
+      border-radius:14px;
+      background:#0d0d10;
+      color:#ccc;
+      line-height:1.8;
+    }
+
+    .login-btn{
+      margin-top:18px;
+      border:1px solid #b08d35;
+      background:#b08d35;
+      color:#0b0b0d;
+      padding:11px 20px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    .error-message{
+      margin-top:25px;
+      color:#d8a6a6;
+      line-height:1.8;
+    }
+
+    @media(max-width:700px){
+
+      .account-page{
+        padding:20px 14px;
+      }
+
+      .account-header{
+        align-items:flex-start;
+      }
+
+      .brand{
+        font-size:24px;
+      }
+
+      .account-container{
+        padding:20px;
+      }
+
+      .customer-info{
+        grid-template-columns:1fr;
+      }
+
+    }
+
   </style>
 
 </head>
@@ -90,6 +192,7 @@
 
       <button
         class="back-btn"
+        type="button"
         onclick="window.location.href='/'"
       >
         العودة للمتجر
@@ -104,78 +207,239 @@
         حسابي
       </h1>
 
-      <p class="page-description">
-        سيتم عرض حساب العميل هنا.
+      <p
+        class="page-description"
+        id="accountDescription"
+      >
+        جاري تحميل بيانات حسابك...
       </p>
+
+
+      <div
+        class="loading"
+        id="accountLoading"
+      >
+        يرجى الانتظار...
+      </div>
+
+
+      <div
+        class="customer-card"
+        id="customerCard"
+        style="display:none;"
+      >
+
+        <div
+          class="customer-welcome"
+          id="customerWelcome"
+        >
+        </div>
+
+        <div class="customer-info">
+
+          <div class="info-item">
+
+            <span class="info-label">
+              الاسم
+            </span>
+
+            <div
+              class="info-value"
+              id="customerName"
+            >
+            </div>
+
+          </div>
+
+
+          <div class="info-item">
+
+            <span class="info-label">
+              رقم الهاتف
+            </span>
+
+            <div
+              class="info-value"
+              id="customerPhone"
+            >
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="login-message"
+        id="loginMessage"
+        style="display:none;"
+      >
+
+        أنت غير مسجل الدخول حاليًا.
+        <br>
+        سجّل الدخول للوصول إلى حسابك وبياناتك.
+
+        <br>
+
+        <button
+          class="login-btn"
+          type="button"
+          onclick="window.location.href='/'"
+        >
+          العودة للمتجر وتسجيل الدخول
+        </button>
+
+      </div>
+
+
+      <div
+        class="error-message"
+        id="accountError"
+        style="display:none;"
+      >
+        حدث خطأ أثناء تحميل بيانات الحساب.
+      </div>
 
     </section>
 
   </main>
-<script>
 
-let currentCustomer = null;
 
-async function checkCustomerSession(){
+  <script>
 
-  try{
+    let currentCustomer = null;
 
-    const response =
-      await fetch(
-        "/api/customer-me",
-        {
-          method:"GET",
-          credentials:"include",
-          cache:"no-store"
+
+    async function checkCustomerSession(){
+
+      const loading =
+        document.getElementById("accountLoading");
+
+      const customerCard =
+        document.getElementById("customerCard");
+
+      const loginMessage =
+        document.getElementById("loginMessage");
+
+      const accountError =
+        document.getElementById("accountError");
+
+      const description =
+        document.getElementById("accountDescription");
+
+      try{
+
+        const response =
+          await fetch(
+            "/api/customer-me",
+            {
+              method:"GET",
+              credentials:"include",
+              cache:"no-store"
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        loading.style.display = "none";
+
+
+        if(
+          response.ok &&
+          data.logged_in === true &&
+          data.customer
+        ){
+
+          currentCustomer =
+            data.customer;
+
+
+          document.getElementById("customerName").textContent =
+            currentCustomer.name || "—";
+
+
+          document.getElementById("customerPhone").textContent =
+            currentCustomer.phone || "—";
+
+
+          document.getElementById("customerWelcome").textContent =
+            "مرحبًا بك، " +
+            (currentCustomer.name || "عميل HZ.SHOP");
+
+
+          description.textContent =
+            "هذه هي منطقة حسابك الخاصة في HZ.SHOP.";
+
+
+          customerCard.style.display =
+            "block";
+
+
+          loginMessage.style.display =
+            "none";
+
+
+          console.log(
+            "CUSTOMER_SESSION_OK",
+            currentCustomer
+          );
+
+
+          return;
+
         }
-      );
 
-    const data =
-      await response.json();
 
-    if(
-      response.ok &&
-      data.customer
-    ){
+        currentCustomer = null;
 
-      currentCustomer =
-        data.customer;
 
-      console.log(
-        "CUSTOMER_SESSION_OK",
-        currentCustomer
-      );
+        description.textContent =
+          "قم بتسجيل الدخول للوصول إلى حسابك.";
 
-      return true;
+
+        loginMessage.style.display =
+          "block";
+
+
+        console.log(
+          "CUSTOMER_NOT_LOGGED_IN"
+        );
+
+
+      }catch(error){
+
+        loading.style.display =
+          "none";
+
+        currentCustomer = null;
+
+        description.textContent =
+          "تعذر الاتصال بخدمة الحساب.";
+
+
+        accountError.style.display =
+          "block";
+
+
+        console.error(
+          "CUSTOMER_SESSION_ERROR",
+          error
+        );
+
+      }
 
     }
 
-    currentCustomer = null;
 
-    console.log(
-      "CUSTOMER_NOT_LOGGED_IN"
-    );
+    checkCustomerSession();
 
-    return false;
+  </script>
 
-  }catch(error){
-
-    console.error(
-      "CUSTOMER_SESSION_ERROR",
-      error
-    );
-
-    currentCustomer = null;
-
-    return false;
-
-  }
-
-}
-
-
-checkCustomerSession();
-
-</script>
 </body>
 
 </html>
