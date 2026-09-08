@@ -3289,10 +3289,29 @@ async function submitCartCustomerLogin(){
 
     closeCartCustomerAuth();
 
+if(cartCustomer){
 
-    toast(
-      "تم تسجيل الدخول بنجاح"
-    );
+  const nameInput =
+    document.getElementById("customerName");
+
+  const phoneInput =
+    document.getElementById("phone");
+
+  if(nameInput && cartCustomer.name){
+    nameInput.value =
+      cartCustomer.name;
+  }
+
+  if(phoneInput && cartCustomer.phone){
+    phoneInput.value =
+      cartCustomer.phone;
+  }
+
+}
+
+toast(
+  "تم تسجيل الدخول بنجاح"
+);
 
 
     /*
