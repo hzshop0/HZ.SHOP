@@ -3778,7 +3778,208 @@ function getCart(){
 
 }
 
+function renderCustomerCart(){
 
+  const panel =
+    $("customerCartPanel");
+
+  const container =
+    $("customerCart");
+
+  if(!panel || !container) return;
+
+
+  const cart =
+    getCart();
+
+
+  panel.style.display =
+    "block";
+
+
+  if(!cart.length){
+
+    container.innerHTML = `
+      <div class="customer-cart-empty">
+
+        <div class="customer-cart-empty-icon">
+          🛒
+        </div>
+
+        <strong>
+          السلة فارغة
+        </strong>
+
+        <p>
+          لم تضف أي منتجات إلى السلة بعد.
+        </p>
+
+        <div class="customer-cart-actions">
+
+          <button
+            class="customer-cart-action primary"
+            type="button"
+            onclick="window.location.href='/'"
+          >
+            اكتشف المنتجات
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  let total =
+    0;
+
+
+  const itemsHTML =
+    cart.map((item,index) => {
+
+      const name =
+        item.name ||
+        item.title ||
+        "منتج HZ.SHOP";
+
+
+      const price =
+        Number(
+          item.price ||
+          item.unit_price ||
+          0
+        );
+
+
+      const quantity =
+        Number(
+          item.quantity ||
+          item.qty ||
+          1
+        );
+
+
+      const itemTotal =
+        price * quantity;
+
+
+      total +=
+        itemTotal;
+
+
+      let image =
+        item.image ||
+        item.image_url ||
+        "";
+
+
+      if(
+        !image &&
+        Array.isArray(item.images) &&
+        item.images.length
+      ){
+        image =
+          item.images[0];
+      }
+
+
+      return `
+        <div class="customer-cart-item">
+
+          ${
+            image
+              ? `
+                <img
+                  class="customer-cart-image"
+                  src="${image}"
+                  alt="${name}"
+                  loading="lazy"
+                >
+              `
+              : `
+                <div
+                  class="customer-cart-image"
+                  style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:24px;
+                  "
+                >
+                  🛍️
+                </div>
+              `
+          }
+
+
+          <div class="customer-cart-info">
+
+            <div class="customer-cart-name">
+              ${name}
+            </div>
+
+            <div class="customer-cart-price">
+              ${price.toFixed(2)} $
+            </div>
+
+            <div class="customer-cart-quantity">
+              الكمية: ${quantity}
+            </div>
+
+          </div>
+
+
+          <div class="customer-cart-total">
+            ${itemTotal.toFixed(2)} $
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+
+  container.innerHTML = `
+
+    <div class="customer-cart">
+
+      ${itemsHTML}
+
+
+      <div class="customer-cart-summary">
+
+        <span class="customer-cart-summary-label">
+          إجمالي السلة
+        </span>
+
+        <strong class="customer-cart-summary-total">
+          ${total.toFixed(2)} $
+        </strong>
+
+      </div>
+
+
+      <div class="customer-cart-actions">
+
+        <button
+          class="customer-cart-action primary"
+          type="button"
+          onclick="window.location.href='/'"
+        >
+          متابعة التسوق
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
 function updateCartStat(){
 
   const cart =
