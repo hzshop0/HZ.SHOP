@@ -111,7 +111,71 @@
     </section>
 
   </main>
+<script>
 
+let currentCustomer = null;
+
+async function checkCustomerSession(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-me",
+        {
+          method:"GET",
+          credentials:"include",
+          cache:"no-store"
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(
+      response.ok &&
+      data.customer
+    ){
+
+      currentCustomer =
+        data.customer;
+
+      console.log(
+        "CUSTOMER_SESSION_OK",
+        currentCustomer
+      );
+
+      return true;
+
+    }
+
+    currentCustomer = null;
+
+    console.log(
+      "CUSTOMER_NOT_LOGGED_IN"
+    );
+
+    return false;
+
+  }catch(error){
+
+    console.error(
+      "CUSTOMER_SESSION_ERROR",
+      error
+    );
+
+    currentCustomer = null;
+
+    return false;
+
+  }
+
+}
+
+
+checkCustomerSession();
+
+</script>
 </body>
 
 </html>
