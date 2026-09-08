@@ -722,6 +722,47 @@ header{
 
 
 /* =========================
+   ORDER PRODUCT IMAGES
+========================= */
+
+.order-products{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-top:8px;
+  min-height:44px;
+  direction:rtl;
+}
+
+.order-product-thumb{
+  width:40px;
+  height:44px;
+  border:1px solid #eee;
+  border-radius:4px;
+  background:#f7f7f7;
+  object-fit:cover;
+  display:block;
+  flex-shrink:0;
+}
+
+.order-product-more{
+  min-width:40px;
+  height:44px;
+  padding:0 6px;
+  border:1px solid #eee;
+  border-radius:4px;
+  background:#f7f7f7;
+  color:#777;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:9px;
+  font-weight:bold;
+  flex-shrink:0;
+}
+
+
+/* =========================
    PROFILE CARD
 ========================= */
 
@@ -1078,6 +1119,21 @@ header{
 
   .order-open{
     justify-self:end;
+  }
+
+  .order-products{
+    margin-top:6px;
+    gap:4px;
+  }
+
+  .order-product-thumb{
+    width:34px;
+    height:38px;
+  }
+
+  .order-product-more{
+    min-width:34px;
+    height:38px;
   }
 
   .recommendations{
@@ -2085,6 +2141,7 @@ header{
 
 let currentCustomer = null;
 let customerOrders = [];
+let customerProducts = [];
 
 const DELIVERY_FEE = 4;
 
@@ -2246,6 +2303,8 @@ function showCustomerHub(){
     "block";
 
   renderCustomer();
+
+  loadCustomerProducts();
 
   loadCustomerOrders();
 
@@ -2585,6 +2644,433 @@ async function refreshCustomer(){
 
 
 /* =========================
+   PRODUCTS
+========================= */
+
+/*
+  المنتجات يتم تحميلها من API المتجر
+  حتى نستخدم صور المنتجات الحقيقية
+  الموجودة أصلًا في قاعدة البيانات.
+*/
+
+async function loadCustomerProducts(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/products",
+        {
+          method:"GET",
+          credentials:"include",
+          cache:"no-store"
+        }
+      );
+
+
+    if(!response.ok){
+
+      customerProducts = [];
+
+      renderRecentOrders();
+
+      return;
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    const products =
+      Array.isArray(data)
+        ? data
+        : Array.isArray(data.products)
+          ? data.products
+          : [];
+
+
+    customerProducts =
+      products;
+
+
+    renderRecentOrders();
+
+
+  }catch(error){
+
+    console.error(
+      "CUSTOMER_PRODUCTS_ERROR",
+      error
+    );
+
+    customerProducts = [];
+
+    renderRecentOrders();
+
+  }
+
+}
+
+
+/* =========================
+   PRODUCT IMAGE HELPERS
+========================= */
+
+function normalizeProductImages(value){
+
+  if(Array.isArray(value)){
+
+    return value
+      .filter(Boolean)
+      .map(
+        item =>
+          String(item).trim()
+      )
+      .filter(Boolean);
+
+  }
+
+
+  if(typeof value === "string"){
+
+    const trimmed =
+      value.trim();
+
+
+    if(!trimmed){
+      return [];
+    }
+
+
+    try{
+
+      const parsed =
+        JSON.parse(trimmed);
+
+
+      if(Array.isArray(parsed)){
+
+        return parsed
+          .filter(Boolean)
+          .map(
+            item =>
+              String(item).trim()
+          )
+          .filter(Boolean);
+
+      }
+
+
+      if(
+        typeof parsed === "string" &&
+        parsed.trim()
+      ){
+
+        return [
+          parsed.trim()
+        ];
+
+      }
+
+    }catch(error){
+
+      /*
+        إذا لم تكن القيمة JSON
+        نتعامل معها كرابط صورة مباشر.
+      */
+
+    }
+
+
+    return [
+      trimmed
+    ];
+
+  }
+
+
+  return [];
+
+}
+
+
+function getOrderItems(order){
+
+  if(!order) return [];
+
+
+  try{
+
+    const items =
+      typeof order.items === "string"
+        ? JSON.parse(order.items)
+        : order.items;
+
+
+    return Array.isArray(items)
+      ? items
+      : [];
+
+  }catch(error){
+
+    return [];
+
+  }
+
+}
+
+
+function getProductIdCandidate(item){
+
+  if(!item) return null;
+
+
+  return (
+    item.product_id ??
+    item.productId ??
+    item.productID ??
+    item.product?.id ??
+    null
+  );
+
+}
+
+
+function getProductNameCandidate(item){
+
+  if(!item) return "";
+
+
+  return String(
+    item.product_name ??
+    item.productName ??
+    item.name ??
+    item.title ??
+    item.product?.name ??
+    ""
+  ).trim();
+
+}
+
+
+function findProductForOrderItem(item){
+
+  if(!customerProducts.length){
+    return null;
+  }
+
+
+  const productId =
+    getProductIdCandidate(item);
+
+
+  /*
+    أولًا: البحث باستخدام ID المنتج
+  */
+
+  if(
+    productId !== null &&
+    productId !== undefined &&
+    String(productId).trim() !== ""
+  ){
+
+    const byId =
+      customerProducts.find(
+        product =>
+          String(product?.id ?? "") ===
+          String(productId)
+      );
+
+
+    if(byId){
+      return byId;
+    }
+
+  }
+
+
+  /*
+    ثانيًا: محاولة المطابقة باستخدام اسم المنتج
+  */
+
+  const itemName =
+    getProductNameCandidate(item);
+
+
+  if(itemName){
+
+    const normalizedItemName =
+      itemName.toLowerCase().trim();
+
+
+    const byName =
+      customerProducts.find(
+        product =>
+          String(
+            product?.name ?? ""
+          )
+          .toLowerCase()
+          .trim() === normalizedItemName
+      );
+
+
+    if(byName){
+      return byName;
+    }
+
+  }
+
+
+  return null;
+
+}
+
+
+function getOrderItemImage(item){
+
+  /*
+    الأفضلية للمنتج الموجود في /api/products
+    لأن الصورة هناك هي الصورة الرسمية للمنتج.
+  */
+
+  const product =
+    findProductForOrderItem(item);
+
+
+  if(product){
+
+    const productImages =
+      normalizeProductImages(
+        product.image
+      );
+
+
+    if(productImages.length){
+
+      return productImages[0];
+
+    }
+
+  }
+
+
+  /*
+    إذا لم نستطع مطابقة المنتج،
+    نحاول استخدام الصورة المحفوظة مباشرة داخل الطلب.
+  */
+
+  const directImage =
+    item?.image ??
+    item?.image_url ??
+    item?.imageUrl ??
+    item?.product?.image ??
+    "";
+
+
+  const directImages =
+    normalizeProductImages(
+      directImage
+    );
+
+
+  return directImages.length
+    ? directImages[0]
+    : "";
+
+}
+
+
+function renderOrderProductImages(order){
+
+  const items =
+    getOrderItems(order);
+
+
+  if(!items.length){
+    return "";
+  }
+
+
+  const images = [];
+
+
+  for(const item of items){
+
+    const image =
+      getOrderItemImage(item);
+
+
+    if(image){
+
+      images.push(image);
+
+    }
+
+  }
+
+
+  if(!images.length){
+
+    return "";
+
+  }
+
+
+  const uniqueImages =
+    [...new Set(images)];
+
+
+  const visibleImages =
+    uniqueImages.slice(0,4);
+
+
+  const remaining =
+    uniqueImages.length -
+    visibleImages.length;
+
+
+  return `
+
+    <div
+      class="order-products"
+      aria-label="صور منتجات الطلب"
+    >
+
+      ${visibleImages.map(
+        image => `
+
+          <img
+            class="order-product-thumb"
+            src="${escapeHtml(image)}"
+            alt="منتج"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          >
+
+        `
+      ).join("")}
+
+
+      ${
+        remaining > 0
+          ? `
+            <div class="order-product-more">
+              +${remaining}
+            </div>
+          `
+          : ""
+      }
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
    ORDERS
 ========================= */
 
@@ -2818,6 +3304,7 @@ function renderRecentOrders(){
           <div class="order-row">
 
             <div>
+
               <div class="order-number">
                 #${escapeHtml(
                   order.id ??
@@ -2831,6 +3318,9 @@ function renderRecentOrders(){
                   formatOrderDate(order)
                 )}
               </div>
+
+              ${renderOrderProductImages(order)}
+
             </div>
 
 
@@ -3208,6 +3698,7 @@ async function logoutCustomer(){
 
   currentCustomer = null;
   customerOrders = [];
+  customerProducts = [];
 
 
   showAuthScreen();
