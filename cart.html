@@ -3609,10 +3609,29 @@ async function submitCartCustomerRegister(){
 
     closeCartCustomerAuth();
 
+if(cartCustomer){
 
-    toast(
-      "تم إنشاء الحساب بنجاح"
-    );
+  const nameInput =
+    document.getElementById("customerName");
+
+  const phoneInput =
+    document.getElementById("phone");
+
+  if(nameInput && cartCustomer.name){
+    nameInput.value =
+      cartCustomer.name;
+  }
+
+  if(phoneInput && cartCustomer.phone){
+    phoneInput.value =
+      cartCustomer.phone;
+  }
+
+}
+
+toast(
+  "تم إنشاء الحساب بنجاح"
+);
 
 
     /*
