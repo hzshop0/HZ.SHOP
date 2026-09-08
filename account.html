@@ -3705,11 +3705,17 @@ function showSection(section, button){
 
 
   if(section === "cart"){
-  renderCustomerCart();
-  return;
-}
 
-  
+    renderCustomerCart();
+
+    $("customerCartPanel").scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+    return;
+
+  }
 
 
   if(
