@@ -2,1223 +2,3241 @@
 <html lang="ar" dir="rtl">
 
 <head>
-  <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta charset="UTF-8">
 
-  <title>HZ.SHOP | حسابي</title>
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+>
 
-  <style>
+<title>HZ.SHOP | حسابي</title>
 
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
+<style>
 
-    body{
-      min-height:100vh;
-      background:#0b0b0d;
-      color:#f5f1e8;
-      font-family:Arial,sans-serif;
-    }
+:root{
+  --black:#0b0b0b;
+  --black2:#151515;
+  --black3:#1d1d1d;
+  --white:#ffffff;
+  --soft:#f7f7f7;
+  --line:#e7e7e7;
+  --muted:#707070;
+  --orange:#ff6a00;
+  --orange2:#ff7a1a;
+  --danger:#d93025;
+  --success:#188038;
+}
 
-    button,
-    input{
-      font:inherit;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    .account-page{
-      width:100%;
-      max-width:1200px;
-      margin:auto;
-      padding:30px 20px;
-    }
+html{
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
 
-    .account-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      margin-bottom:30px;
-    }
+body{
+  min-height:100vh;
+  background:#fff;
+  color:#151515;
+  font-family:Arial,Tahoma,sans-serif;
+  overflow-x:hidden;
+}
 
-    .brand{
-      font-size:28px;
-      font-weight:800;
-      letter-spacing:1px;
-    }
+button,
+input{
+  font-family:inherit;
+}
 
-    .back-btn{
-      border:1px solid #b08d35;
-      background:transparent;
-      color:#c9a84e;
-      padding:10px 18px;
-      border-radius:10px;
-      cursor:pointer;
-      transition:.2s;
-    }
+button{
+  cursor:pointer;
+}
 
-    .back-btn:hover{
-      background:rgba(201,168,78,.08);
-    }
+a{
+  text-decoration:none;
+  color:inherit;
+}
 
-    .account-container{
-      border:1px solid rgba(201,168,78,.25);
-      border-radius:20px;
-      padding:30px;
-      background:#111114;
-    }
 
-    .page-title{
-      font-size:28px;
-      margin-bottom:10px;
-    }
+/* =========================
+   HEADER
+========================= */
 
-    .page-description{
-      color:#aaa;
-      line-height:1.8;
-      margin-bottom:25px;
-    }
+.topbar{
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#050505;
+  color:#ddd;
+  font-size:11px;
+  padding:0 10px;
+  white-space:nowrap;
+  overflow:hidden;
+  border-bottom:1px solid #252525;
+}
 
-    /* AUTH */
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:var(--black);
+  color:#fff;
+  border-bottom:1px solid #252525;
+  box-shadow:0 2px 14px rgba(0,0,0,.12);
+}
 
-    .auth-box{
-      width:100%;
-      max-width:520px;
-      margin:30px auto;
-      padding:28px;
-      border:1px solid rgba(201,168,78,.22);
-      border-radius:18px;
-      background:#0d0d10;
-    }
+.header{
+  height:68px;
+  max-width:1400px;
+  margin:auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
 
-    .auth-tabs{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-      margin-bottom:25px;
-    }
+.logo{
+  display:block;
+  text-align:center;
+  min-width:140px;
+}
 
-    .auth-tab{
-      border:1px solid rgba(201,168,78,.25);
-      background:#111114;
-      color:#aaa;
-      padding:12px;
-      border-radius:10px;
-      cursor:pointer;
-    }
+.logo strong{
+  display:block;
+  font-size:25px;
+  letter-spacing:4px;
+  color:#fff;
+  line-height:1;
+}
 
-    .auth-tab.active{
-      background:#b08d35;
-      color:#0b0b0d;
-      border-color:#b08d35;
-      font-weight:700;
-    }
+.logo strong::first-letter{
+  color:var(--orange);
+}
 
-    .auth-title{
-      font-size:22px;
-      margin-bottom:8px;
-    }
+.logo small{
+  font-size:7px;
+  letter-spacing:3px;
+  color:#aaa;
+  display:block;
+  margin-top:5px;
+}
 
-    .auth-subtitle{
-      color:#999;
-      font-size:14px;
-      line-height:1.7;
-      margin-bottom:22px;
-    }
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-    .form-group{
-      margin-bottom:16px;
-    }
+.header-btn{
+  width:42px;
+  height:42px;
+  border:1px solid #333;
+  background:#171717;
+  color:#fff;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:17px;
+}
 
-    .form-label{
-      display:block;
-      color:#ccc;
-      font-size:14px;
-      margin-bottom:7px;
-    }
+.header-btn:hover{
+  border-color:var(--orange);
+  color:var(--orange);
+}
 
-    .form-input{
-      width:100%;
-      border:1px solid rgba(255,255,255,.1);
-      background:#111114;
-      color:#f5f1e8;
-      padding:13px 14px;
-      border-radius:10px;
-      outline:none;
-    }
 
-    .form-input:focus{
-      border-color:#b08d35;
-    }
+/* =========================
+   PAGE
+========================= */
 
-    .auth-submit{
-      width:100%;
-      border:1px solid #b08d35;
-      background:#b08d35;
-      color:#0b0b0d;
-      padding:13px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:700;
-      margin-top:5px;
-    }
+.page{
+  max-width:1400px;
+  margin:auto;
+  padding:28px 20px 70px;
+}
 
-    .auth-submit:disabled{
-      opacity:.6;
-      cursor:not-allowed;
-    }
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:22px;
+}
 
-    .auth-error{
-      display:none;
-      margin-top:15px;
-      padding:12px;
-      border-radius:10px;
-      background:rgba(150,40,40,.12);
-      border:1px solid rgba(180,70,70,.3);
-      color:#e2aaaa;
-      line-height:1.7;
-      font-size:14px;
-    }
+.page-heading h1{
+  font-size:27px;
+  color:#111;
+}
 
-    /* ACCOUNT */
+.page-heading p{
+  color:#777;
+  font-size:12px;
+  margin-top:7px;
+  line-height:1.7;
+}
 
-    .customer-area{
-      display:none;
-    }
+.back-store{
+  border:1px solid #ddd;
+  background:#fff;
+  color:#333;
+  padding:10px 17px;
+  border-radius:5px;
+  font-size:12px;
+}
 
-    .customer-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      padding:22px;
-      border:1px solid rgba(201,168,78,.2);
-      border-radius:16px;
-      background:#0d0d10;
-      margin-bottom:20px;
-    }
+.back-store:hover{
+  border-color:var(--orange);
+  color:var(--orange);
+}
 
-    .customer-welcome{
-      font-size:22px;
-      font-weight:700;
-      margin-bottom:7px;
-    }
 
-    .customer-note{
-      color:#999;
-      line-height:1.7;
-      font-size:14px;
-    }
+/* =========================
+   AUTH
+========================= */
 
-    .logout-btn{
-      border:1px solid rgba(190,80,80,.45);
-      background:transparent;
-      color:#dca2a2;
-      padding:10px 17px;
-      border-radius:10px;
-      cursor:pointer;
-    }
+.auth-screen{
+  min-height:620px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:30px 0;
+}
 
-    .account-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:16px;
-    }
+.auth-card{
+  width:min(470px,100%);
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 14px 40px rgba(0,0,0,.07);
+}
 
-    .account-card{
-      padding:22px;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:15px;
-      background:#0d0d10;
-    }
+.auth-top{
+  background:#111;
+  color:#fff;
+  padding:27px 25px;
+  text-align:center;
+}
 
-    .account-card-title{
-      font-size:17px;
-      margin-bottom:14px;
-    }
+.auth-brand{
+  font-size:23px;
+  font-weight:800;
+  letter-spacing:3px;
+}
 
-    .info-row{
-      display:flex;
-      justify-content:space-between;
-      gap:15px;
-      padding:10px 0;
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
+.auth-brand::first-letter{
+  color:var(--orange);
+}
 
-    .info-row:last-child{
-      border-bottom:0;
-    }
+.auth-top p{
+  color:#aaa;
+  font-size:11px;
+  margin-top:8px;
+}
 
-    .info-label{
-      color:#888;
-    }
+.auth-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border-bottom:1px solid #eee;
+}
 
-    .info-value{
-      font-weight:600;
-      word-break:break-word;
-    }
+.auth-tab{
+  height:48px;
+  border:0;
+  border-bottom:2px solid transparent;
+  background:#fff;
+  color:#777;
+  font-size:12px;
+  font-weight:bold;
+}
 
-    .coming-soon{
-      color:#888;
-      line-height:1.8;
-      font-size:14px;
-    }
+.auth-tab.active{
+  color:#111;
+  border-bottom-color:var(--orange);
+}
 
-    .status-message{
-      text-align:center;
-      color:#999;
-      padding:25px;
-    }
+.auth-content{
+  padding:25px;
+}
 
-    @media(max-width:700px){
+.auth-content h2{
+  font-size:20px;
+  margin-bottom:7px;
+}
 
-      .account-page{
-        padding:20px 14px;
-      }
+.auth-content .intro{
+  color:#777;
+  font-size:11px;
+  line-height:1.7;
+  margin-bottom:20px;
+}
 
-      .account-header{
-        align-items:flex-start;
-      }
+.field{
+  margin-bottom:15px;
+}
 
-      .brand{
-        font-size:24px;
-      }
+.field label{
+  display:block;
+  color:#333;
+  font-size:11px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
 
-      .account-container{
-        padding:20px;
-      }
+.field input{
+  width:100%;
+  height:44px;
+  border:1px solid #ddd;
+  border-radius:5px;
+  padding:0 12px;
+  color:#111;
+  background:#fff;
+  outline:none;
+  font-size:13px;
+}
 
-      .auth-box{
-        padding:20px;
-      }
+.field input:focus{
+  border-color:var(--orange);
+  box-shadow:0 0 0 2px rgba(255,106,0,.08);
+}
 
-      .customer-header{
-        flex-direction:column;
-        align-items:stretch;
-      }
+.auth-submit{
+  width:100%;
+  height:45px;
+  border:1px solid #111;
+  background:#111;
+  color:#fff;
+  border-radius:5px;
+  font-size:12px;
+  font-weight:bold;
+  margin-top:3px;
+}
 
-      .logout-btn{
-        width:100%;
-      }
+.auth-submit:hover{
+  background:var(--orange);
+  border-color:var(--orange);
+}
 
-      .account-grid{
-        grid-template-columns:1fr;
-      }
+.auth-submit:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
 
-    }
+.auth-error{
+  display:none;
+  margin-top:15px;
+  padding:11px;
+  border-radius:5px;
+  border:1px solid #f0cccc;
+  background:#fff6f6;
+  color:#b42318;
+  font-size:11px;
+  line-height:1.7;
+}
 
-  </style>
+
+/* =========================
+   CUSTOMER LAYOUT
+========================= */
+
+.customer-layout{
+  display:grid;
+  grid-template-columns:250px minmax(0,1fr);
+  gap:20px;
+  align-items:start;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:7px;
+  overflow:hidden;
+  position:sticky;
+  top:94px;
+}
+
+.profile-mini{
+  padding:20px 16px;
+  background:#111;
+  color:#fff;
+  text-align:center;
+}
+
+.profile-avatar{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:#fff;
+  color:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 11px;
+  font-size:27px;
+  font-weight:bold;
+}
+
+.profile-mini strong{
+  display:block;
+  font-size:15px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.profile-mini span{
+  display:block;
+  color:#aaa;
+  font-size:10px;
+  margin-top:6px;
+  direction:ltr;
+}
+
+.side-menu{
+  padding:7px 0;
+}
+
+.side-item{
+  width:100%;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:0 17px;
+  border:0;
+  border-right:3px solid transparent;
+  background:#fff;
+  color:#555;
+  text-align:right;
+  font-size:12px;
+}
+
+.side-item:hover{
+  background:#fafafa;
+  color:#111;
+}
+
+.side-item.active{
+  background:#fff7f1;
+  color:#111;
+  border-right-color:var(--orange);
+  font-weight:bold;
+}
+
+.side-icon{
+  width:22px;
+  text-align:center;
+  font-size:16px;
+}
+
+.side-item .count{
+  margin-right:auto;
+  min-width:19px;
+  height:19px;
+  padding:0 5px;
+  border-radius:10px;
+  background:#eee;
+  color:#555;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:9px;
+}
+
+.side-item.active .count{
+  background:var(--orange);
+  color:#fff;
+}
+
+.side-divider{
+  height:1px;
+  background:#eee;
+  margin:7px 0;
+}
+
+.logout-side{
+  color:#888;
+}
+
+.logout-side:hover{
+  color:var(--danger);
+}
+
+
+/* =========================
+   MAIN DASHBOARD
+========================= */
+
+.dashboard{
+  min-width:0;
+}
+
+.welcome-banner{
+  background:#111;
+  color:#fff;
+  border-radius:7px;
+  padding:24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:16px;
+  overflow:hidden;
+  position:relative;
+}
+
+.welcome-banner::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  border:1px solid rgba(255,106,0,.25);
+  left:-55px;
+  top:-70px;
+}
+
+.welcome-banner h2{
+  font-size:22px;
+  margin-bottom:7px;
+  position:relative;
+  z-index:1;
+}
+
+.welcome-banner p{
+  color:#aaa;
+  font-size:11px;
+  line-height:1.7;
+  position:relative;
+  z-index:1;
+}
+
+.profile-status{
+  position:relative;
+  z-index:1;
+  background:var(--orange);
+  color:#fff;
+  padding:8px 12px;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.stat{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:7px;
+  padding:17px;
+  min-width:0;
+}
+
+.stat-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.stat-icon{
+  width:36px;
+  height:36px;
+  border-radius:5px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f5f5f5;
+  font-size:17px;
+}
+
+.stat-number{
+  font-size:23px;
+  font-weight:800;
+  color:#111;
+}
+
+.stat-label{
+  color:#777;
+  font-size:10px;
+  margin-top:10px;
+}
+
+
+/* =========================
+   DASHBOARD GRID
+========================= */
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(280px,.85fr);
+  gap:16px;
+}
+
+.panel{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:7px;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.panel-head{
+  min-height:52px;
+  padding:0 17px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid #eee;
+}
+
+.panel-head h3{
+  font-size:14px;
+  color:#111;
+}
+
+.panel-head h3::before{
+  content:"";
+  display:inline-block;
+  width:3px;
+  height:14px;
+  background:var(--orange);
+  margin-left:7px;
+  vertical-align:-2px;
+  border-radius:2px;
+}
+
+.panel-link{
+  border:0;
+  background:none;
+  color:#777;
+  font-size:10px;
+}
+
+.panel-link:hover{
+  color:var(--orange);
+}
+
+.panel-body{
+  padding:16px;
+}
+
+
+/* =========================
+   ORDERS
+========================= */
+
+.order-row{
+  display:grid;
+  grid-template-columns:1.1fr 1.2fr .8fr .8fr auto;
+  gap:12px;
+  align-items:center;
+  padding:13px 0;
+  border-bottom:1px solid #eee;
+}
+
+.order-row:last-child{
+  border-bottom:0;
+}
+
+.order-number{
+  font-size:11px;
+  font-weight:bold;
+  color:#111;
+}
+
+.order-date{
+  color:#888;
+  font-size:10px;
+}
+
+.order-total{
+  font-size:12px;
+  font-weight:bold;
+}
+
+.order-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:5px 8px;
+  border-radius:4px;
+  background:#f5f5f5;
+  color:#666;
+  font-size:9px;
+  white-space:nowrap;
+}
+
+.order-status.processing{
+  background:#fff3e8;
+  color:#d95f00;
+}
+
+.order-status.completed{
+  background:#eef8f0;
+  color:#188038;
+}
+
+.order-status.cancelled{
+  background:#fff1f1;
+  color:#c5221f;
+}
+
+.order-open{
+  border:1px solid #ddd;
+  background:#fff;
+  color:#555;
+  border-radius:4px;
+  padding:6px 9px;
+  font-size:9px;
+}
+
+.order-open:hover{
+  border-color:var(--orange);
+  color:var(--orange);
+}
+
+
+/* =========================
+   PROFILE CARD
+========================= */
+
+.profile-info{
+  display:grid;
+  gap:0;
+}
+
+.profile-row{
+  min-height:49px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:1px solid #eee;
+  font-size:11px;
+}
+
+.profile-row:last-child{
+  border-bottom:0;
+}
+
+.profile-row label{
+  color:#888;
+}
+
+.profile-row strong{
+  color:#222;
+  max-width:65%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.quick{
+  min-height:76px;
+  border:1px solid #eee;
+  background:#fff;
+  border-radius:5px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  color:#555;
+  font-size:10px;
+}
+
+.quick:hover{
+  border-color:var(--orange);
+  color:#111;
+  background:#fffaf7;
+}
+
+.quick-icon{
+  font-size:20px;
+}
+
+
+/* =========================
+   RECOMMENDATIONS
+========================= */
+
+.recommendations{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.recommendation{
+  border:1px solid #eee;
+  border-radius:5px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.recommendation-image{
+  height:150px;
+  background:#f4f4f4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#aaa;
+  font-size:10px;
+}
+
+.recommendation-info{
+  padding:9px;
+}
+
+.recommendation-name{
+  font-size:11px;
+  font-weight:bold;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.recommendation-price{
+  font-size:12px;
+  font-weight:bold;
+  margin-top:7px;
+}
+
+.recommendation-btn{
+  width:100%;
+  margin-top:8px;
+  height:31px;
+  border:1px solid #111;
+  background:#111;
+  color:#fff;
+  border-radius:3px;
+  font-size:9px;
+}
+
+.recommendation-btn:hover{
+  background:var(--orange);
+  border-color:var(--orange);
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state{
+  text-align:center;
+  padding:38px 20px;
+  color:#888;
+}
+
+.empty-state-icon{
+  font-size:32px;
+  margin-bottom:10px;
+}
+
+.empty-state strong{
+  display:block;
+  color:#333;
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.empty-state p{
+  font-size:10px;
+  line-height:1.7;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+.mobile-menu{
+  display:none;
+}
+
+@media(max-width:1000px){
+
+  .customer-layout{
+    grid-template-columns:210px minmax(0,1fr);
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+  .recommendations{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+}
+
+@media(max-width:760px){
+
+  .topbar{
+    height:27px;
+    font-size:10px;
+  }
+
+  .header{
+    height:62px;
+    padding:0 10px;
+  }
+
+  .logo{
+    min-width:100px;
+  }
+
+  .logo strong{
+    font-size:20px;
+  }
+
+  .logo small{
+    display:none;
+  }
+
+  .page{
+    padding:18px 10px 80px;
+  }
+
+  .page-heading{
+    align-items:center;
+    margin-bottom:15px;
+  }
+
+  .page-heading h1{
+    font-size:21px;
+  }
+
+  .page-heading p{
+    font-size:10px;
+  }
+
+  .back-store{
+    padding:8px 11px;
+    font-size:10px;
+  }
+
+  .customer-layout{
+    display:block;
+  }
+
+  .sidebar{
+    position:static;
+    margin-bottom:12px;
+  }
+
+  .profile-mini{
+    display:flex;
+    align-items:center;
+    text-align:right;
+    gap:12px;
+    padding:13px;
+  }
+
+  .profile-avatar{
+    width:47px;
+    height:47px;
+    margin:0;
+    flex-shrink:0;
+    font-size:20px;
+  }
+
+  .profile-mini strong{
+    font-size:13px;
+  }
+
+  .side-menu{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    padding:6px;
+    gap:4px;
+  }
+
+  .side-item{
+    min-height:58px;
+    padding:5px 3px;
+    border-right:0;
+    border-bottom:2px solid transparent;
+    flex-direction:column;
+    justify-content:center;
+    gap:3px;
+    text-align:center;
+    border-radius:4px;
+    font-size:8px;
+  }
+
+  .side-item.active{
+    border-right:0;
+    border-bottom-color:var(--orange);
+  }
+
+  .side-icon{
+    font-size:17px;
+  }
+
+  .side-item .count{
+    display:none;
+  }
+
+  .side-divider{
+    display:none;
+  }
+
+  .logout-side{
+    display:none;
+  }
+
+  .welcome-banner{
+    padding:18px;
+    align-items:flex-start;
+  }
+
+  .welcome-banner h2{
+    font-size:18px;
+  }
+
+  .welcome-banner p{
+    font-size:9px;
+  }
+
+  .profile-status{
+    font-size:8px;
+    padding:6px 8px;
+  }
+
+  .stats{
+    gap:7px;
+  }
+
+  .stat{
+    padding:12px;
+  }
+
+  .stat-number{
+    font-size:20px;
+  }
+
+  .stat-icon{
+    width:31px;
+    height:31px;
+    font-size:14px;
+  }
+
+  .stat-label{
+    font-size:9px;
+  }
+
+  .order-row{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    padding:12px 0;
+  }
+
+  .order-row .order-status{
+    justify-self:start;
+  }
+
+  .order-open{
+    justify-self:end;
+  }
+
+  .recommendations{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .recommendation-image{
+    height:145px;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .auth-screen{
+    padding:5px 0 20px;
+  }
+
+  .auth-content{
+    padding:20px 16px;
+  }
+
+  .auth-top{
+    padding:22px 16px;
+  }
+
+  .page-heading{
+    gap:8px;
+  }
+
+  .page-heading p{
+    display:none;
+  }
+
+  .welcome-banner{
+    display:block;
+  }
+
+  .profile-status{
+    display:inline-block;
+    margin-top:12px;
+  }
+
+  .dashboard-grid{
+    display:block;
+  }
+
+  .quick-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .quick{
+    min-height:67px;
+    font-size:8px;
+  }
+
+  .quick-icon{
+    font-size:17px;
+  }
+
+  .panel-body{
+    padding:12px;
+  }
+
+}
+
+</style>
 
 </head>
 
 
 <body>
 
-  <main class="account-page">
 
-    <header class="account-header">
+<div class="topbar">
+  HZ.SHOP — تجربة تسوق أفضل، مصممة لك
+</div>
 
-      <div class="brand">
-        HZ.SHOP
-      </div>
+
+<header>
+
+  <div class="header">
+
+    <a
+      href="/"
+      class="logo"
+      aria-label="HZ.SHOP"
+    >
+      <strong>HZ.SHOP</strong>
+      <small>LUXURY BEAUTY STORE</small>
+    </a>
+
+
+    <div class="header-actions">
 
       <button
-        class="back-btn"
+        class="header-btn"
         type="button"
         onclick="window.location.href='/'"
+        aria-label="المتجر"
       >
-        العودة للمتجر
+        🏠
       </button>
 
-    </header>
+      <button
+        class="header-btn"
+        type="button"
+        onclick="goCart()"
+        aria-label="السلة"
+      >
+        🛒
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
 
 
-    <section class="account-container">
+<main class="page">
 
-      <!-- AUTH -->
 
-      <div id="authArea">
+  <!-- PAGE HEADING -->
 
-        <h1 class="page-title">
-          حسابي
-        </h1>
+  <div class="page-heading">
 
-        <p class="page-description">
-          سجّل الدخول إلى حسابك في HZ.SHOP أو أنشئ حسابًا جديدًا.
+    <div>
+
+      <h1>
+        حسابي
+      </h1>
+
+      <p>
+        إدارة حسابك وطلباتك وتفضيلاتك في HZ.SHOP
+      </p>
+
+    </div>
+
+
+    <button
+      class="back-store"
+      type="button"
+      onclick="window.location.href='/'"
+    >
+      ← العودة للمتجر
+    </button>
+
+  </div>
+
+
+  <!-- AUTH SCREEN -->
+
+  <section
+    id="authScreen"
+    class="auth-screen"
+  >
+
+    <div class="auth-card">
+
+
+      <div class="auth-top">
+
+        <div class="auth-brand">
+          HZ.SHOP
+        </div>
+
+        <p>
+          حسابك الخاص في HZ.SHOP
         </p>
 
+      </div>
 
-        <div class="auth-box">
 
-          <div class="auth-tabs">
+      <div class="auth-tabs">
 
-            <button
-              type="button"
-              class="auth-tab active"
-              id="loginTab"
-              onclick="switchAuth('login')"
+        <button
+          id="loginTab"
+          class="auth-tab active"
+          type="button"
+          onclick="switchAuth('login')"
+        >
+          تسجيل الدخول
+        </button>
+
+        <button
+          id="registerTab"
+          class="auth-tab"
+          type="button"
+          onclick="switchAuth('register')"
+        >
+          إنشاء حساب
+        </button>
+
+      </div>
+
+
+      <div class="auth-content">
+
+
+        <!-- LOGIN -->
+
+        <form
+          id="loginForm"
+          onsubmit="loginCustomer(event)"
+        >
+
+          <h2>
+            مرحبًا بعودتك
+          </h2>
+
+          <p class="intro">
+            سجّل الدخول للوصول إلى طلباتك وتفضيلاتك وحسابك الشخصي.
+          </p>
+
+
+          <div class="field">
+
+            <label>
+              رقم الهاتف
+            </label>
+
+            <input
+              id="loginPhone"
+              type="tel"
+              inputmode="tel"
+              autocomplete="tel"
+              placeholder="رقم الهاتف"
+              required
             >
-              تسجيل الدخول
-            </button>
-
-            <button
-              type="button"
-              class="auth-tab"
-              id="registerTab"
-              onclick="switchAuth('register')"
-            >
-              إنشاء حساب
-            </button>
 
           </div>
 
 
-          <!-- LOGIN -->
+          <div class="field">
 
-          <form
-            id="loginForm"
-            onsubmit="submitLogin(event)"
-          >
+            <label>
+              كلمة المرور
+            </label>
 
-            <h2 class="auth-title">
-              تسجيل الدخول
-            </h2>
-
-            <p class="auth-subtitle">
-              أدخل رقم الهاتف وكلمة المرور للوصول إلى حسابك.
-            </p>
-
-
-            <div class="form-group">
-
-              <label class="form-label">
-                رقم الهاتف
-              </label>
-
-              <input
-                id="loginPhone"
-                class="form-input"
-                type="tel"
-                inputmode="tel"
-                autocomplete="tel"
-                placeholder="رقم الهاتف"
-                required
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label class="form-label">
-                كلمة المرور
-              </label>
-
-              <input
-                id="loginPassword"
-                class="form-input"
-                type="password"
-                autocomplete="current-password"
-                placeholder="كلمة المرور"
-                required
-              >
-
-            </div>
-
-
-            <button
-              id="loginSubmit"
-              class="auth-submit"
-              type="submit"
+            <input
+              id="loginPassword"
+              type="password"
+              autocomplete="current-password"
+              placeholder="كلمة المرور"
+              required
             >
-              تسجيل الدخول
-            </button>
-
-          </form>
-
-
-          <!-- REGISTER -->
-
-          <form
-            id="registerForm"
-            style="display:none;"
-            onsubmit="submitRegister(event)"
-          >
-
-            <h2 class="auth-title">
-              إنشاء حساب جديد
-            </h2>
-
-            <p class="auth-subtitle">
-              أنشئ حسابك لتتمكن من متابعة طلباتك والاستفادة من خدمات HZ.SHOP.
-            </p>
-
-
-            <div class="form-group">
-
-              <label class="form-label">
-                الاسم
-              </label>
-
-              <input
-                id="registerName"
-                class="form-input"
-                type="text"
-                autocomplete="name"
-                placeholder="الاسم الكامل"
-                required
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label class="form-label">
-                رقم الهاتف
-              </label>
-
-              <input
-                id="registerPhone"
-                class="form-input"
-                type="tel"
-                inputmode="tel"
-                autocomplete="tel"
-                placeholder="رقم الهاتف"
-                required
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label class="form-label">
-                كلمة المرور
-              </label>
-
-              <input
-                id="registerPassword"
-                class="form-input"
-                type="password"
-                autocomplete="new-password"
-                placeholder="كلمة المرور"
-                minlength="6"
-                required
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label class="form-label">
-                تأكيد كلمة المرور
-              </label>
-
-              <input
-                id="registerConfirmPassword"
-                class="form-input"
-                type="password"
-                autocomplete="new-password"
-                placeholder="أعد كتابة كلمة المرور"
-                minlength="6"
-                required
-              >
-
-            </div>
-
-
-            <button
-              id="registerSubmit"
-              class="auth-submit"
-              type="submit"
-            >
-              إنشاء الحساب
-            </button>
-
-          </form>
-
-
-          <div
-            id="authError"
-            class="auth-error"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <!-- CUSTOMER ACCOUNT -->
-
-      <div
-        id="customerArea"
-        class="customer-area"
-      >
-
-        <div class="customer-header">
-
-          <div>
-
-            <div
-              id="customerWelcome"
-              class="customer-welcome"
-            >
-              مرحبًا بك
-            </div>
-
-            <div class="customer-note">
-              هذه منطقة حسابك الخاصة في HZ.SHOP.
-            </div>
 
           </div>
 
 
           <button
-            type="button"
-            class="logout-btn"
-            onclick="logoutCustomer()"
+            id="loginButton"
+            class="auth-submit"
+            type="submit"
           >
-            تسجيل الخروج
+            تسجيل الدخول
           </button>
 
+        </form>
+
+
+        <!-- REGISTER -->
+
+        <form
+          id="registerForm"
+          style="display:none"
+          onsubmit="registerCustomer(event)"
+        >
+
+          <h2>
+            أنشئ حسابك
+          </h2>
+
+          <p class="intro">
+            أنشئ حسابًا في HZ.SHOP لتتمكن من متابعة طلباتك وإدارة حسابك بسهولة.
+          </p>
+
+
+          <div class="field">
+
+            <label>
+              الاسم الكامل
+            </label>
+
+            <input
+              id="registerName"
+              type="text"
+              autocomplete="name"
+              placeholder="اسمك الكامل"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              رقم الهاتف
+            </label>
+
+            <input
+              id="registerPhone"
+              type="tel"
+              inputmode="tel"
+              autocomplete="tel"
+              placeholder="رقم الهاتف"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              كلمة المرور
+            </label>
+
+            <input
+              id="registerPassword"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              placeholder="6 أحرف على الأقل"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              تأكيد كلمة المرور
+            </label>
+
+            <input
+              id="registerConfirm"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              placeholder="أعد كتابة كلمة المرور"
+              required
+            >
+
+          </div>
+
+
+          <button
+            id="registerButton"
+            class="auth-submit"
+            type="submit"
+          >
+            إنشاء الحساب
+          </button>
+
+        </form>
+
+
+        <div
+          id="authError"
+          class="auth-error"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CUSTOMER HUB -->
+
+  <section
+    id="customerHub"
+    style="display:none"
+  >
+
+
+    <div class="customer-layout">
+
+
+      <!-- SIDEBAR -->
+
+      <aside class="sidebar">
+
+
+        <div class="profile-mini">
+
+          <div class="profile-avatar">
+            👤
+          </div>
+
+          <div>
+
+            <strong id="sideCustomerName">
+              العميل
+            </strong>
+
+            <span id="sideCustomerPhone">
+              —
+            </span>
+
+          </div>
+
         </div>
 
 
-        <div class="account-grid">
+        <div class="side-menu">
 
 
-          <div class="account-card">
+          <button
+            class="side-item active"
+            type="button"
+            onclick="showSection('overview',this)"
+          >
+            <span class="side-icon">⌂</span>
+            <span>نظرة عامة</span>
+          </button>
 
-            <h2 class="account-card-title">
-              بياناتي
+
+          <button
+            class="side-item"
+            type="button"
+            onclick="showSection('orders',this)"
+          >
+            <span class="side-icon">📦</span>
+            <span>طلباتي</span>
+            <span
+              class="count"
+              id="sideOrdersCount"
+            >
+              0
+            </span>
+          </button>
+
+
+          <button
+            class="side-item"
+            type="button"
+            onclick="showSection('favorites',this)"
+          >
+            <span class="side-icon">♡</span>
+            <span>المفضلة</span>
+            <span
+              class="count"
+              id="sideFavCount"
+            >
+              0
+            </span>
+          </button>
+
+
+          <button
+            class="side-item"
+            type="button"
+            onclick="showSection('recent',this)"
+          >
+            <span class="side-icon">◷</span>
+            <span>شوهدت مؤخرًا</span>
+          </button>
+
+
+          <button
+            class="side-item"
+            type="button"
+            onclick="showSection('cart',this)"
+          >
+            <span class="side-icon">🛒</span>
+            <span>السلة</span>
+          </button>
+
+
+          <button
+            class="side-item"
+            type="button"
+            onclick="showSection('profile',this)"
+          >
+            <span class="side-icon">👤</span>
+            <span>بياناتي</span>
+          </button>
+
+
+          <button
+            class="side-item"
+            type="button"
+            onclick="showSection('addresses',this)"
+          >
+            <span class="side-icon">📍</span>
+            <span>عناويني</span>
+          </button>
+
+
+          <button
+            class="side-item"
+            type="button"
+            onclick="showSection('notifications',this)"
+          >
+            <span class="side-icon">🔔</span>
+            <span>الإشعارات</span>
+          </button>
+
+
+          <button
+            class="side-item"
+            type="button"
+            onclick="showSection('settings',this)"
+          >
+            <span class="side-icon">⚙</span>
+            <span>الإعدادات</span>
+          </button>
+
+
+          <div class="side-divider"></div>
+
+
+          <button
+            class="side-item logout-side"
+            type="button"
+            onclick="logoutCustomer()"
+          >
+            <span class="side-icon">↪</span>
+            <span>تسجيل الخروج</span>
+          </button>
+
+
+        </div>
+
+      </aside>
+
+
+      <!-- DASHBOARD -->
+
+      <div class="dashboard">
+
+
+        <div class="welcome-banner">
+
+          <div>
+
+            <h2 id="welcomeName">
+              مرحبًا بك
             </h2>
 
-            <div class="info-row">
+            <p>
+              كل ما يخص تجربتك في HZ.SHOP أصبح في مكان واحد.
+            </p>
 
-              <span class="info-label">
-                الاسم
-              </span>
+          </div>
 
-              <span
-                id="customerName"
-                class="info-value"
+          <div class="profile-status">
+            حسابك نشط
+          </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+
+          <div class="stat">
+
+            <div class="stat-top">
+
+              <div class="stat-number" id="statOrders">
+                0
+              </div>
+
+              <div class="stat-icon">
+                📦
+              </div>
+
+            </div>
+
+            <div class="stat-label">
+              إجمالي الطلبات
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div class="stat-top">
+
+              <div class="stat-number" id="statFavorites">
+                0
+              </div>
+
+              <div class="stat-icon">
+                ♡
+              </div>
+
+            </div>
+
+            <div class="stat-label">
+              المنتجات المفضلة
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div class="stat-top">
+
+              <div class="stat-number" id="statRecent">
+                0
+              </div>
+
+              <div class="stat-icon">
+                ◷
+              </div>
+
+            </div>
+
+            <div class="stat-label">
+              شوهدت مؤخرًا
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div class="stat-top">
+
+              <div class="stat-number" id="statCart">
+                0
+              </div>
+
+              <div class="stat-icon">
+                🛒
+              </div>
+
+            </div>
+
+            <div class="stat-label">
+              منتجات في السلة
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+
+          <!-- LEFT -->
+
+          <div>
+
+
+            <!-- ORDERS -->
+
+            <div class="panel">
+
+              <div class="panel-head">
+
+                <h3>
+                  آخر الطلبات
+                </h3>
+
+                <button
+                  class="panel-link"
+                  type="button"
+                  onclick="showSection('orders')"
+                >
+                  عرض جميع الطلبات
+                </button>
+
+              </div>
+
+              <div
+                class="panel-body"
+                id="recentOrders"
               >
-              </span>
+
+                <div class="empty-state">
+
+                  <div class="empty-state-icon">
+                    📦
+                  </div>
+
+                  <strong>
+                    جاري تحميل الطلبات...
+                  </strong>
+
+                  <p>
+                    يتم تحميل طلبات حسابك.
+                  </p>
+
+                </div>
+
+              </div>
 
             </div>
 
 
-            <div class="info-row">
+            <!-- RECOMMENDATIONS -->
 
-              <span class="info-label">
-                رقم الهاتف
-              </span>
+            <div class="panel">
 
-              <span
-                id="customerPhone"
-                class="info-value"
-              >
-              </span>
+              <div class="panel-head">
+
+                <h3>
+                  مقترح لك
+                </h3>
+
+                <button
+                  class="panel-link"
+                  type="button"
+                  onclick="window.location.href='/'"
+                >
+                  اكتشف المنتجات
+                </button>
+
+              </div>
+
+              <div class="panel-body">
+
+                <div
+                  class="recommendations"
+                  id="recommendations"
+                >
+
+                  <div class="recommendation">
+
+                    <div class="recommendation-image">
+                      منتجات HZ.SHOP
+                    </div>
+
+                    <div class="recommendation-info">
+
+                      <div class="recommendation-name">
+                        اكتشف تشكيلتنا
+                      </div>
+
+                      <div class="recommendation-price">
+                        HZ.SHOP
+                      </div>
+
+                      <button
+                        class="recommendation-btn"
+                        type="button"
+                        onclick="window.location.href='/'"
+                      >
+                        تسوق الآن
+                      </button>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="recommendation">
+
+                    <div class="recommendation-image">
+                      عطور
+                    </div>
+
+                    <div class="recommendation-info">
+
+                      <div class="recommendation-name">
+                        مجموعة العطور
+                      </div>
+
+                      <div class="recommendation-price">
+                        اكتشف
+                      </div>
+
+                      <button
+                        class="recommendation-btn"
+                        type="button"
+                        onclick="window.location.href='/'"
+                      >
+                        استكشف
+                      </button>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="recommendation">
+
+                    <div class="recommendation-image">
+                      عناية وجمال
+                    </div>
+
+                    <div class="recommendation-info">
+
+                      <div class="recommendation-name">
+                        العناية والجمال
+                      </div>
+
+                      <div class="recommendation-price">
+                        اكتشف
+                      </div>
+
+                      <button
+                        class="recommendation-btn"
+                        type="button"
+                        onclick="window.location.href='/'"
+                      >
+                        استكشف
+                      </button>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="recommendation">
+
+                    <div class="recommendation-image">
+                      جميع المنتجات
+                    </div>
+
+                    <div class="recommendation-info">
+
+                      <div class="recommendation-name">
+                        جميع المنتجات
+                      </div>
+
+                      <div class="recommendation-price">
+                        HZ.SHOP
+                      </div>
+
+                      <button
+                        class="recommendation-btn"
+                        type="button"
+                        onclick="window.location.href='/'"
+                      >
+                        تسوق الآن
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
 
             </div>
 
-          </div>
-
-
-          <div class="account-card">
-
-            <h2 class="account-card-title">
-              طلباتي
-            </h2>
-
-            <p class="coming-soon">
-              سيتم عرض طلباتك هنا في الخطوة التالية.
-            </p>
 
           </div>
 
 
-          <div class="account-card">
+          <!-- RIGHT -->
 
-            <h2 class="account-card-title">
-              المفضلة
-            </h2>
-
-            <p class="coming-soon">
-              سيتم عرض المنتجات المفضلة هنا لاحقًا.
-            </p>
-
-          </div>
+          <div>
 
 
-          <div class="account-card">
+            <!-- PROFILE -->
 
-            <h2 class="account-card-title">
-              اقتراحات لك
-            </h2>
+            <div class="panel">
 
-            <p class="coming-soon">
-              سيتم بناء الاقتراحات الشخصية اعتمادًا على نشاط حسابك لاحقًا.
-            </p>
+              <div class="panel-head">
+
+                <h3>
+                  بياناتي
+                </h3>
+
+                <button
+                  class="panel-link"
+                  type="button"
+                  onclick="showSection('profile')"
+                >
+                  إدارة
+                </button>
+
+              </div>
+
+              <div class="panel-body">
+
+                <div class="profile-info">
+
+                  <div class="profile-row">
+
+                    <label>
+                      الاسم
+                    </label>
+
+                    <strong id="profileName">
+                      —
+                    </strong>
+
+                  </div>
+
+
+                  <div class="profile-row">
+
+                    <label>
+                      الهاتف
+                    </label>
+
+                    <strong id="profilePhone">
+                      —
+                    </strong>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="panel">
+
+              <div class="panel-head">
+
+                <h3>
+                  الوصول السريع
+                </h3>
+
+              </div>
+
+              <div class="panel-body">
+
+                <div class="quick-grid">
+
+
+                  <button
+                    class="quick"
+                    type="button"
+                    onclick="showSection('orders')"
+                  >
+                    <span class="quick-icon">📦</span>
+                    طلباتي
+                  </button>
+
+
+                  <button
+                    class="quick"
+                    type="button"
+                    onclick="showSection('favorites')"
+                  >
+                    <span class="quick-icon">♡</span>
+                    المفضلة
+                  </button>
+
+
+                  <button
+                    class="quick"
+                    type="button"
+                    onclick="showSection('cart')"
+                  >
+                    <span class="quick-icon">🛒</span>
+                    السلة
+                  </button>
+
+
+                  <button
+                    class="quick"
+                    type="button"
+                    onclick="showSection('profile')"
+                  >
+                    <span class="quick-icon">👤</span>
+                    بياناتي
+                  </button>
+
+
+                </div>
+
+              </div>
+
+            </div>
+
 
           </div>
 
 
         </div>
 
+
       </div>
 
-
-      <div
-        id="accountLoading"
-        class="status-message"
-      >
-        جاري التحقق من حسابك...
-      </div>
-
-    </section>
-
-  </main>
+    </div>
 
 
-  <script>
-
-    let currentCustomer = null;
+  </section>
 
 
-    function showAuthError(message){
-
-      const box =
-        document.getElementById("authError");
-
-      box.textContent =
-        message || "حدث خطأ، حاول مرة أخرى.";
-
-      box.style.display =
-        "block";
-
-    }
+</main>
 
 
-    function clearAuthError(){
+<script>
 
-      const box =
-        document.getElementById("authError");
+/* =========================
+   HZ.SHOP CUSTOMER HUB
+========================= */
 
-      box.textContent =
-        "";
+let currentCustomer = null;
+let customerOrders = [];
 
-      box.style.display =
-        "none";
-
-    }
+const DELIVERY_FEE = 4;
 
 
-    function switchAuth(type){
+/* =========================
+   HELPERS
+========================= */
 
-      clearAuthError();
-
-
-      const loginForm =
-        document.getElementById("loginForm");
-
-      const registerForm =
-        document.getElementById("registerForm");
-
-      const loginTab =
-        document.getElementById("loginTab");
-
-      const registerTab =
-        document.getElementById("registerTab");
+function $(id){
+  return document.getElementById(id);
+}
 
 
-      if(type === "register"){
+function showAuthError(message){
 
-        loginForm.style.display =
-          "none";
+  const box = $("authError");
 
-        registerForm.style.display =
-          "block";
+  if(!box) return;
 
-        loginTab.classList.remove("active");
+  box.textContent =
+    message || "حدث خطأ، حاول مرة أخرى.";
 
-        registerTab.classList.add("active");
+  box.style.display =
+    "block";
 
-      }else{
-
-        registerForm.style.display =
-          "none";
-
-        loginForm.style.display =
-          "block";
-
-        registerTab.classList.remove("active");
-
-        loginTab.classList.add("active");
-
-      }
-
-    }
+}
 
 
-    async function checkCustomerSession(){
+function clearAuthError(){
 
-      const loading =
-        document.getElementById("accountLoading");
+  const box = $("authError");
 
-      const authArea =
-        document.getElementById("authArea");
+  if(!box) return;
 
-      const customerArea =
-        document.getElementById("customerArea");
+  box.textContent = "";
 
+  box.style.display = "none";
 
-      try{
-
-        const response =
-          await fetch(
-            "/api/customer-me",
-            {
-              method:"GET",
-              credentials:"include",
-              cache:"no-store"
-            }
-          );
+}
 
 
-        const data =
-          await response.json();
+/* =========================
+   AUTH TABS
+========================= */
+
+function switchAuth(type){
+
+  clearAuthError();
+
+  const loginForm = $("loginForm");
+  const registerForm = $("registerForm");
+
+  const loginTab = $("loginTab");
+  const registerTab = $("registerTab");
 
 
-        if(
-          response.ok &&
-          data.logged_in === true &&
-          data.customer
-        ){
+  if(type === "register"){
 
-          currentCustomer =
-            data.customer;
+    loginForm.style.display = "none";
+    registerForm.style.display = "block";
 
-          renderCustomer();
+    loginTab.classList.remove("active");
+    registerTab.classList.add("active");
 
-        }else{
+  }else{
 
-          currentCustomer =
-            null;
+    registerForm.style.display = "none";
+    loginForm.style.display = "block";
 
-          authArea.style.display =
-            "block";
+    registerTab.classList.remove("active");
+    loginTab.classList.add("active");
 
-          customerArea.style.display =
-            "none";
+  }
 
+}
+
+
+/* =========================
+   SESSION
+========================= */
+
+async function checkCustomerSession(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-me",
+        {
+          method:"GET",
+          credentials:"include",
+          cache:"no-store"
         }
+      );
 
 
-      }catch(error){
+    const data =
+      await response.json();
 
-        currentCustomer =
-          null;
 
-        authArea.style.display =
-          "block";
-
-        customerArea.style.display =
-          "none";
-
-        showAuthError(
-          "تعذر الاتصال بخدمة الحساب. حاول مرة أخرى."
-        );
-
-        console.error(
-          "CUSTOMER_SESSION_ERROR",
-          error
-        );
-
-      }
-
-
-      loading.style.display =
-        "none";
-
-    }
-
-
-    function renderCustomer(){
-
-      const authArea =
-        document.getElementById("authArea");
-
-      const customerArea =
-        document.getElementById("customerArea");
-
-
-      authArea.style.display =
-        "none";
-
-      customerArea.style.display =
-        "block";
-
-
-      document.getElementById("customerName").textContent =
-        currentCustomer.name || "—";
-
-
-      document.getElementById("customerPhone").textContent =
-        currentCustomer.phone || "—";
-
-
-      document.getElementById("customerWelcome").textContent =
-        "مرحبًا بك، " +
-        (currentCustomer.name || "عميل HZ.SHOP");
-
-    }
-
-
-    async function submitLogin(event){
-
-      event.preventDefault();
-
-      clearAuthError();
-
-
-      const button =
-        document.getElementById("loginSubmit");
-
-      const phone =
-        document.getElementById("loginPhone").value.trim();
-
-      const password =
-        document.getElementById("loginPassword").value;
-
-
-      if(!phone || !password){
-
-        showAuthError(
-          "يرجى إدخال رقم الهاتف وكلمة المرور."
-        );
-
-        return;
-
-      }
-
-
-      button.disabled =
-        true;
-
-      button.textContent =
-        "جاري تسجيل الدخول...";
-
-
-      try{
-
-        const response =
-          await fetch(
-            "/api/customer-login",
-            {
-              method:"POST",
-              credentials:"include",
-              headers:{
-                "Content-Type":"application/json"
-              },
-              body:JSON.stringify({
-                phone:phone,
-                password:password
-              })
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if(
-          !response.ok ||
-          !data.success
-        ){
-
-          showAuthError(
-            data.error ||
-            "رقم الهاتف أو كلمة المرور غير صحيحة."
-          );
-
-          return;
-
-        }
-
-
-        await loadCustomerAfterAuth();
-
-
-      }catch(error){
-
-        console.error(
-          "CUSTOMER_LOGIN_ERROR",
-          error
-        );
-
-        showAuthError(
-          "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى."
-        );
-
-      }finally{
-
-        button.disabled =
-          false;
-
-        button.textContent =
-          "تسجيل الدخول";
-
-      }
-
-    }
-
-
-    async function submitRegister(event){
-
-      event.preventDefault();
-
-      clearAuthError();
-
-
-      const button =
-        document.getElementById("registerSubmit");
-
-      const name =
-        document.getElementById("registerName").value.trim();
-
-      const phone =
-        document.getElementById("registerPhone").value.trim();
-
-      const password =
-        document.getElementById("registerPassword").value;
-
-      const confirmPassword =
-        document.getElementById("registerConfirmPassword").value;
-
-
-      if(
-        !name ||
-        !phone ||
-        !password ||
-        !confirmPassword
-      ){
-
-        showAuthError(
-          "يرجى تعبئة جميع الحقول."
-        );
-
-        return;
-
-      }
-
-
-      if(password.length < 6){
-
-        showAuthError(
-          "كلمة المرور يجب أن تكون 6 أحرف على الأقل."
-        );
-
-        return;
-
-      }
-
-
-      if(password !== confirmPassword){
-
-        showAuthError(
-          "كلمتا المرور غير متطابقتين."
-        );
-
-        return;
-
-      }
-
-
-      button.disabled =
-        true;
-
-      button.textContent =
-        "جاري إنشاء الحساب...";
-
-
-      try{
-
-        const response =
-          await fetch(
-            "/api/customer-register",
-            {
-              method:"POST",
-              credentials:"include",
-              headers:{
-                "Content-Type":"application/json"
-              },
-              body:JSON.stringify({
-                name:name,
-                phone:phone,
-                password:password
-              })
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if(
-          !response.ok ||
-          !data.success
-        ){
-
-          showAuthError(
-            data.error ||
-            "تعذر إنشاء الحساب."
-          );
-
-          return;
-
-        }
-
-
-        await loadCustomerAfterAuth();
-
-
-      }catch(error){
-
-        console.error(
-          "CUSTOMER_REGISTER_ERROR",
-          error
-        );
-
-        showAuthError(
-          "حدث خطأ أثناء إنشاء الحساب. حاول مرة أخرى."
-        );
-
-      }finally{
-
-        button.disabled =
-          false;
-
-        button.textContent =
-          "إنشاء الحساب";
-
-      }
-
-    }
-
-
-    async function loadCustomerAfterAuth(){
-
-      try{
-
-        const response =
-          await fetch(
-            "/api/customer-me",
-            {
-              method:"GET",
-              credentials:"include",
-              cache:"no-store"
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if(
-          response.ok &&
-          data.logged_in === true &&
-          data.customer
-        ){
-
-          currentCustomer =
-            data.customer;
-
-          renderCustomer();
-
-          return;
-
-        }
-
-
-        showAuthError(
-          "تمت العملية ولكن تعذر تحميل بيانات الحساب."
-        );
-
-
-      }catch(error){
-
-        console.error(
-          "CUSTOMER_REFRESH_ERROR",
-          error
-        );
-
-        showAuthError(
-          "تعذر تحميل بيانات الحساب."
-        );
-
-      }
-
-    }
-
-
-    async function logoutCustomer(){
-
-      try{
-
-        await fetch(
-          "/api/customer-logout",
-          {
-            method:"POST",
-            credentials:"include",
-            cache:"no-store"
-          }
-        );
-
-      }catch(error){
-
-        console.error(
-          "CUSTOMER_LOGOUT_ERROR",
-          error
-        );
-
-      }
-
+    if(
+      response.ok &&
+      data.logged_in === true &&
+      data.customer
+    ){
 
       currentCustomer =
-        null;
+        data.customer;
 
+      showCustomerHub();
 
-      document.getElementById("customerArea").style.display =
-        "none";
-
-      document.getElementById("authArea").style.display =
-        "block";
-
-
-      document.getElementById("loginPassword").value =
-        "";
-
-      clearAuthError();
-
-      switchAuth("login");
+      return true;
 
     }
 
 
-    checkCustomerSession();
+    showAuthScreen();
 
-  </script>
+    return false;
+
+
+  }catch(error){
+
+    console.error(
+      "CUSTOMER_SESSION_ERROR",
+      error
+    );
+
+    showAuthScreen();
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================
+   SHOW STATES
+========================= */
+
+function showAuthScreen(){
+
+  $("authScreen").style.display =
+    "flex";
+
+  $("customerHub").style.display =
+    "none";
+
+}
+
+
+function showCustomerHub(){
+
+  $("authScreen").style.display =
+    "none";
+
+  $("customerHub").style.display =
+    "block";
+
+  renderCustomer();
+
+  loadCustomerOrders();
+
+}
+
+
+/* =========================
+   RENDER CUSTOMER
+========================= */
+
+function renderCustomer(){
+
+  if(!currentCustomer) return;
+
+
+  const name =
+    currentCustomer.name || "عميل HZ.SHOP";
+
+  const phone =
+    currentCustomer.phone || "—";
+
+
+  $("welcomeName").textContent =
+    "مرحبًا بك، " + name;
+
+  $("sideCustomerName").textContent =
+    name;
+
+  $("sideCustomerPhone").textContent =
+    phone;
+
+  $("profileName").textContent =
+    name;
+
+  $("profilePhone").textContent =
+    phone;
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+async function loginCustomer(event){
+
+  event.preventDefault();
+
+  clearAuthError();
+
+
+  const button =
+    $("loginButton");
+
+  const phone =
+    $("loginPhone").value.trim();
+
+  const password =
+    $("loginPassword").value;
+
+
+  if(!phone || !password){
+
+    showAuthError(
+      "يرجى إدخال رقم الهاتف وكلمة المرور."
+    );
+
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "جاري تسجيل الدخول...";
+
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-login",
+        {
+          method:"POST",
+          credentials:"include",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            phone:phone,
+            password:password
+          })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      showAuthError(
+        data.error ||
+        "رقم الهاتف أو كلمة المرور غير صحيحة."
+      );
+
+      return;
+
+    }
+
+
+    await refreshCustomer();
+
+
+  }catch(error){
+
+    console.error(
+      "CUSTOMER_LOGIN_ERROR",
+      error
+    );
+
+    showAuthError(
+      "حدث خطأ أثناء تسجيل الدخول."
+    );
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      "تسجيل الدخول";
+
+  }
+
+}
+
+
+/* =========================
+   REGISTER
+========================= */
+
+async function registerCustomer(event){
+
+  event.preventDefault();
+
+  clearAuthError();
+
+
+  const button =
+    $("registerButton");
+
+  const name =
+    $("registerName").value.trim();
+
+  const phone =
+    $("registerPhone").value.trim();
+
+  const password =
+    $("registerPassword").value;
+
+  const confirm =
+    $("registerConfirm").value;
+
+
+  if(
+    !name ||
+    !phone ||
+    !password ||
+    !confirm
+  ){
+
+    showAuthError(
+      "يرجى تعبئة جميع الحقول."
+    );
+
+    return;
+
+  }
+
+
+  if(password.length < 6){
+
+    showAuthError(
+      "كلمة المرور يجب أن تكون 6 أحرف على الأقل."
+    );
+
+    return;
+
+  }
+
+
+  if(password !== confirm){
+
+    showAuthError(
+      "كلمتا المرور غير متطابقتين."
+    );
+
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "جاري إنشاء الحساب...";
+
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-register",
+        {
+          method:"POST",
+          credentials:"include",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            name:name,
+            phone:phone,
+            password:password
+          })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      showAuthError(
+        data.error ||
+        "تعذر إنشاء الحساب."
+      );
+
+      return;
+
+    }
+
+
+    await refreshCustomer();
+
+
+  }catch(error){
+
+    console.error(
+      "CUSTOMER_REGISTER_ERROR",
+      error
+    );
+
+    showAuthError(
+      "حدث خطأ أثناء إنشاء الحساب."
+    );
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      "إنشاء الحساب";
+
+  }
+
+}
+
+
+/* =========================
+   REFRESH SESSION
+========================= */
+
+async function refreshCustomer(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-me",
+        {
+          method:"GET",
+          credentials:"include",
+          cache:"no-store"
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      response.ok &&
+      data.logged_in === true &&
+      data.customer
+    ){
+
+      currentCustomer =
+        data.customer;
+
+      showCustomerHub();
+
+      return;
+
+    }
+
+
+    showAuthError(
+      "تعذر تحميل حسابك بعد تسجيل الدخول."
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "CUSTOMER_REFRESH_ERROR",
+      error
+    );
+
+    showAuthError(
+      "تعذر تحميل بيانات الحساب."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   ORDERS
+========================= */
+
+async function loadCustomerOrders(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-orders",
+        {
+          method:"GET",
+          credentials:"include",
+          cache:"no-store"
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      response.ok &&
+      Array.isArray(data.orders)
+    ){
+
+      customerOrders =
+        data.orders;
+
+      renderOrderStats();
+
+      renderRecentOrders();
+
+      return;
+
+    }
+
+
+    customerOrders = [];
+
+    renderOrderStats();
+
+    renderRecentOrders();
+
+
+  }catch(error){
+
+    console.error(
+      "CUSTOMER_ORDERS_ERROR",
+      error
+    );
+
+    customerOrders = [];
+
+    renderOrderStats();
+
+    renderRecentOrders();
+
+  }
+
+}
+
+
+function renderOrderStats(){
+
+  const count =
+    customerOrders.length;
+
+  $("statOrders").textContent =
+    count;
+
+  $("sideOrdersCount").textContent =
+    count;
+
+}
+
+
+/* =========================
+   ORDER RENDER
+========================= */
+
+function getOrderStatus(order){
+
+  const raw =
+    String(
+      order.status ||
+      ""
+    ).toLowerCase();
+
+
+  if(
+    raw.includes("cancel")
+  ){
+
+    return {
+      text:"ملغى",
+      className:"cancelled"
+    };
+
+  }
+
+
+  if(
+    raw.includes("deliver") ||
+    raw.includes("complete") ||
+    raw.includes("done")
+  ){
+
+    return {
+      text:"تم التسليم",
+      className:"completed"
+    };
+
+  }
+
+
+  return {
+    text:
+      order.status ||
+      "قيد المعالجة",
+    className:"processing"
+  };
+
+}
+
+
+function formatOrderDate(order){
+
+  const raw =
+    order.created_at ||
+    order.date;
+
+
+  if(!raw) return "—";
+
+
+  try{
+
+    return new Intl.DateTimeFormat(
+      "ar-LB",
+      {
+        year:"numeric",
+        month:"short",
+        day:"numeric"
+      }
+    ).format(
+      new Date(raw)
+    );
+
+  }catch(error){
+
+    return String(raw);
+
+  }
+
+}
+
+
+function getOrderTotal(order){
+
+  const value =
+    order.total ??
+    order.total_amount ??
+    order.amount ??
+    0;
+
+
+  const number =
+    Number(value);
+
+
+  if(!Number.isFinite(number)){
+    return "—";
+  }
+
+
+  return "$" +
+    number.toFixed(2);
+
+}
+
+
+function renderRecentOrders(){
+
+  const container =
+    $("recentOrders");
+
+
+  if(!customerOrders.length){
+
+    container.innerHTML = `
+
+      <div class="empty-state">
+
+        <div class="empty-state-icon">
+          📦
+        </div>
+
+        <strong>
+          لا توجد طلبات حتى الآن
+        </strong>
+
+        <p>
+          عندما تقوم بإجراء طلب، سيظهر هنا تلقائيًا.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const orders =
+    customerOrders.slice(0,4);
+
+
+  container.innerHTML =
+    orders.map(
+      order => {
+
+        const status =
+          getOrderStatus(order);
+
+
+        return `
+
+          <div class="order-row">
+
+            <div>
+              <div class="order-number">
+                #${escapeHtml(
+                  order.id ??
+                  order.order_number ??
+                  "—"
+                )}
+              </div>
+
+              <div class="order-date">
+                ${escapeHtml(
+                  formatOrderDate(order)
+                )}
+              </div>
+            </div>
+
+
+            <div class="order-date">
+              ${getItemsCount(order)} منتج
+            </div>
+
+
+            <div class="order-total">
+              ${escapeHtml(
+                getOrderTotal(order)
+              )}
+            </div>
+
+
+            <div>
+
+              <span
+                class="order-status ${status.className}"
+              >
+                ${escapeHtml(status.text)}
+              </span>
+
+            </div>
+
+
+            <button
+              class="order-open"
+              type="button"
+              onclick="openOrder(${Number(order.id) || 0})"
+            >
+              التفاصيل
+            </button>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+function getItemsCount(order){
+
+  try{
+
+    const items =
+      typeof order.items === "string"
+        ? JSON.parse(order.items)
+        : order.items;
+
+
+    if(Array.isArray(items)){
+
+      return items.reduce(
+        (sum,item) =>
+          sum + Number(
+            item.quantity ||
+            item.qty ||
+            1
+          ),
+        0
+      );
+
+    }
+
+  }catch(error){}
+
+
+  return 0;
+
+}
+
+
+function openOrder(id){
+
+  if(!id){
+
+    showSection("orders");
+
+    return;
+
+  }
+
+
+  const order =
+    customerOrders.find(
+      item =>
+        Number(item.id) === Number(id)
+    );
+
+
+  if(!order){
+
+    showSection("orders");
+
+    return;
+
+  }
+
+
+  alert(
+    "طلب #" +
+    id +
+    "\n\n" +
+    "الإجمالي: " +
+    getOrderTotal(order)
+  );
+
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+function showSection(section, button){
+
+  document.querySelectorAll(
+    ".side-item"
+  ).forEach(
+    item =>
+      item.classList.remove("active")
+  );
+
+
+  if(button){
+
+    button.classList.add("active");
+
+  }
+
+
+  if(section === "overview"){
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+    return;
+
+  }
+
+
+  if(section === "orders"){
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+    $("recentOrders").scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+    return;
+
+  }
+
+
+  if(section === "profile"){
+
+    $("profileName").scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+    return;
+
+  }
+
+
+  if(section === "cart"){
+
+    goCart();
+
+    return;
+
+  }
+
+
+  if(
+    section === "favorites" ||
+    section === "recent" ||
+    section === "addresses" ||
+    section === "notifications" ||
+    section === "settings"
+  ){
+
+    showComingSoon(section);
+
+  }
+
+}
+
+
+function showComingSoon(section){
+
+  const names = {
+
+    favorites:"المفضلة",
+
+    recent:"شوهدت مؤخرًا",
+
+    addresses:"عناويني",
+
+    notifications:"الإشعارات",
+
+    settings:"الإعدادات"
+
+  };
+
+
+  alert(
+    names[section] +
+    "\n\nسيتم ربط هذا القسم بالبيانات الفعلية في مرحلة ربط الوظائف."
+  );
+
+}
+
+
+/* =========================
+   CART
+========================= */
+
+function getCart(){
+
+  try{
+
+    const data =
+      JSON.parse(
+        localStorage.getItem("hz_cart") ||
+        "[]"
+      );
+
+    return Array.isArray(data)
+      ? data
+      : [];
+
+  }catch(error){
+
+    return [];
+
+  }
+
+}
+
+
+function updateCartStat(){
+
+  const cart =
+    getCart();
+
+
+  const count =
+    cart.reduce(
+      (sum,item) =>
+        sum + Number(
+          item.quantity ||
+          item.qty ||
+          1
+        ),
+      0
+    );
+
+
+  $("statCart").textContent =
+    count;
+
+}
+
+
+function goCart(){
+
+  window.location.href =
+    "/";
+
+}
+
+
+/* =========================
+   STORAGE STATS
+========================= */
+
+function updateLocalStats(){
+
+  let favorites = [];
+
+  try{
+
+    favorites =
+      JSON.parse(
+        localStorage.getItem("hz_fav") ||
+        "[]"
+      );
+
+    if(!Array.isArray(favorites)){
+      favorites = [];
+    }
+
+  }catch(error){
+
+    favorites = [];
+
+  }
+
+
+  $("statFavorites").textContent =
+    favorites.length;
+
+  $("sideFavCount").textContent =
+    favorites.length;
+
+
+  updateCartStat();
+
+
+  /*
+    لا نعتبر المنتجات المشاهدة موجودة
+    قبل أن يتم بناء نظام التتبع الفعلي.
+  */
+
+  $("statRecent").textContent =
+    "0";
+
+}
+
+
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logoutCustomer(){
+
+  try{
+
+    await fetch(
+      "/api/customer-logout",
+      {
+        method:"POST",
+        credentials:"include",
+        cache:"no-store"
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "CUSTOMER_LOGOUT_ERROR",
+      error
+    );
+
+  }
+
+
+  currentCustomer = null;
+  customerOrders = [];
+
+
+  showAuthScreen();
+
+  switchAuth("login");
+
+
+  $("loginPassword").value =
+    "";
+
+}
+
+
+/* =========================
+   INIT
+========================= */
+
+async function initAccount(){
+
+  updateLocalStats();
+
+  await checkCustomerSession();
+
+}
+
+
+initAccount();
+
+</script>
 
 </body>
 
