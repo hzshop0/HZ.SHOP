@@ -1,5304 +1,4022 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0b0b0b">
-  <title>حسابي | HZ.SHOP</title>
-
-  <style>
-    :root{
-      --black:#0b0b0b;
-      --black-2:#121212;
-      --black-3:#1a1a1a;
-      --white:#fff;
-      --muted:#8f8f8f;
-      --line:#292929;
-      --orange:#f28c28;
-      --orange-2:#ffad55;
-      --danger:#e05252;
-      --success:#48b879;
-      --gold:#d8b36a;
-      --radius:18px;
-      --shadow:0 18px 55px rgba(0,0,0,.28);
-    }
-
-    *{
-      box-sizing:border-box;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    body{
-      margin:0;
-      min-height:100vh;
-      background:#f5f5f5;
-      color:#151515;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Tahoma,
-        Arial,
-        sans-serif;
-    }
-
-    button,
-    input,
-    textarea,
-    select{
-      font:inherit;
-    }
-
-    button{
-      cursor:pointer;
-    }
-
-    a{
-      color:inherit;
-      text-decoration:none;
-    }
-
-    .hidden{
-      display:none!important;
-    }
-
-    /* =========================
-       AUTH
-    ========================= */
-
-    #authScreen{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      background:
-        radial-gradient(circle at top right,rgba(242,140,40,.16),transparent 35%),
-        linear-gradient(135deg,#090909,#181818);
-    }
-
-    .auth-card{
-      width:min(100%,460px);
-      background:#fff;
-      border-radius:28px;
-      padding:34px;
-      box-shadow:0 30px 90px rgba(0,0,0,.4);
-    }
-
-    .brand{
-      text-align:center;
-      margin-bottom:28px;
-    }
-
-    .brand-logo{
-      width:68px;
-      height:68px;
-      margin:auto;
-      border-radius:20px;
-      display:grid;
-      place-items:center;
-      background:var(--black);
-      color:var(--orange);
-      font-weight:900;
-      font-size:24px;
-      letter-spacing:-1px;
-    }
-
-    .brand h1{
-      margin:14px 0 5px;
-      font-size:28px;
-    }
-
-    .brand p{
-      margin:0;
-      color:#777;
-      font-size:14px;
-    }
-
-    .auth-tabs{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:6px;
-      padding:5px;
-      background:#f1f1f1;
-      border-radius:13px;
-      margin-bottom:22px;
-    }
-
-    .auth-tab{
-      border:0;
-      background:transparent;
-      padding:12px;
-      border-radius:10px;
-      color:#777;
-      font-weight:700;
-    }
-
-    .auth-tab.active{
-      background:#fff;
-      color:#111;
-      box-shadow:0 3px 12px rgba(0,0,0,.08);
-    }
-
-    .field{
-      margin-bottom:15px;
-    }
-
-    .field label{
-      display:block;
-      margin-bottom:7px;
-      font-size:13px;
-      font-weight:700;
-    }
-
-    .field input,
-    .field textarea,
-    .field select{
-      width:100%;
-      border:1px solid #ddd;
-      border-radius:12px;
-      padding:13px 14px;
-      outline:none;
-      background:#fff;
-      transition:.2s;
-    }
-
-    .field textarea{
-      min-height:95px;
-      resize:vertical;
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus{
-      border-color:var(--orange);
-      box-shadow:0 0 0 3px rgba(242,140,40,.12);
-    }
-
-    .primary-btn,
-    .dark-btn,
-    .danger-btn,
-    .light-btn{
-      width:100%;
-      border:0;
-      border-radius:13px;
-      padding:14px 18px;
-      font-weight:800;
-      transition:.2s;
-    }
-
-    .primary-btn{
-      background:var(--orange);
-      color:#111;
-    }
-
-    .primary-btn:hover{
-      background:var(--orange-2);
-    }
-
-    .dark-btn{
-      background:var(--black);
-      color:#fff;
-    }
-
-    .light-btn{
-      background:#eee;
-      color:#111;
-    }
-
-    .danger-btn{
-      background:#fff0f0;
-      color:var(--danger);
-    }
-
-    .auth-message{
-      min-height:20px;
-      margin:10px 0;
-      color:var(--danger);
-      font-size:13px;
-      font-weight:700;
-      text-align:center;
-    }
-
-    /* =========================
-       HUB
-    ========================= */
-
-    #customerHub{
-      min-height:100vh;
-    }
-
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:50;
-      background:rgba(10,10,10,.96);
-      color:#fff;
-      border-bottom:1px solid #252525;
-      backdrop-filter:blur(14px);
-    }
-
-    .topbar-inner{
-      width:min(1400px,calc(100% - 32px));
-      min-height:74px;
-      margin:auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:18px;
-    }
-
-    .top-brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      font-weight:900;
-    }
-
-    .top-brand-mark{
-      width:42px;
-      height:42px;
-      display:grid;
-      place-items:center;
-      border-radius:12px;
-      background:#fff;
-      color:#111;
-      font-size:14px;
-      font-weight:900;
-    }
-
-    .top-brand span{
-      color:var(--orange);
-    }
-
-    .top-actions{
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    .top-action{
-      border:1px solid #333;
-      background:#171717;
-      color:#fff;
-      border-radius:11px;
-      padding:10px 14px;
-      font-weight:700;
-    }
-
-    .top-action:hover{
-      border-color:var(--orange);
-    }
-
-    .page{
-      width:min(1400px,calc(100% - 32px));
-      margin:28px auto 60px;
-    }
-
-    .welcome{
-      background:
-        linear-gradient(120deg,#0c0c0c,#1b1b1b);
-      color:#fff;
-      border-radius:24px;
-      padding:28px;
-      margin-bottom:22px;
-      box-shadow:var(--shadow);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .welcome:after{
-      content:"";
-      position:absolute;
-      width:260px;
-      height:260px;
-      border-radius:50%;
-      background:rgba(242,140,40,.12);
-      left:-70px;
-      top:-100px;
-    }
-
-    .welcome-content{
-      position:relative;
-      z-index:1;
-    }
-
-    .welcome small{
-      color:#aaa;
-    }
-
-    .welcome h2{
-      margin:7px 0;
-      font-size:30px;
-    }
-
-    .welcome p{
-      margin:0;
-      color:#bbb;
-    }
-
-    .layout{
-      display:grid;
-      grid-template-columns:260px minmax(0,1fr);
-      gap:22px;
-      align-items:start;
-    }
-
-    /* =========================
-       SIDEBAR
-    ========================= */
-
-    .sidebar{
-      background:#fff;
-      border:1px solid #e5e5e5;
-      border-radius:20px;
-      padding:12px;
-      position:sticky;
-      top:96px;
-    }
-
-    .side-item{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      border:0;
-      background:transparent;
-      color:#444;
-      border-radius:13px;
-      padding:13px 14px;
-      margin-bottom:4px;
-      text-align:right;
-      font-weight:700;
-    }
-
-    .side-item:hover{
-      background:#f6f6f6;
-      color:#111;
-    }
-
-    .side-item.active{
-      background:#111;
-      color:#fff;
-    }
-
-    .side-item-main{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-
-    .side-icon{
-      width:30px;
-      text-align:center;
-      font-size:18px;
-    }
-
-    .count{
-      min-width:24px;
-      height:24px;
-      padding:0 7px;
-      border-radius:20px;
-      display:grid;
-      place-items:center;
-      background:#eee;
-      color:#333;
-      font-size:11px;
-    }
-
-    .side-item.active .count{
-      background:var(--orange);
-      color:#111;
-    }
-
-    .logout{
-      margin-top:10px;
-      border-top:1px solid #eee;
-      padding-top:10px;
-    }
-
-    .logout .side-item{
-      color:var(--danger);
-    }
-
-    /* =========================
-       MAIN PANELS
-    ========================= */
-
-    .content{
-      min-width:0;
-    }
-
-    .section{
-      display:none;
-    }
-
-    .section.active{
-      display:block;
-    }
-
-    .section-title{
-      margin:0 0 16px;
-      font-size:22px;
-    }
-
-    .section-subtitle{
-      color:#777;
-      margin:-8px 0 18px;
-      font-size:14px;
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
-      margin-bottom:18px;
-    }
-
-    .stat{
-      background:#fff;
-      border:1px solid #e5e5e5;
-      border-radius:18px;
-      padding:18px;
-    }
-
-    .stat-label{
-      color:#777;
-      font-size:13px;
-    }
-
-    .stat-value{
-      font-size:26px;
-      font-weight:900;
-      margin-top:8px;
-    }
-
-    .panels-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
-
-    .panel{
-      background:#fff;
-      border:1px solid #e5e5e5;
-      border-radius:20px;
-      overflow:hidden;
-      margin-bottom:18px;
-    }
-
-    .panel-head{
-      padding:17px 19px;
-      border-bottom:1px solid #eee;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-    }
-
-    .panel-head h3{
-      margin:0;
-      font-size:16px;
-    }
-
-    .panel-link{
-      border:0;
-      background:transparent;
-      color:#c66d12;
-      font-size:13px;
-      font-weight:800;
-    }
-
-    .panel-body{
-      padding:19px;
-    }
-
-    .quick-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:10px;
-    }
-
-    .quick{
-      border:1px solid #e5e5e5;
-      background:#fafafa;
-      border-radius:14px;
-      padding:15px 10px;
-      color:#222;
-      font-weight:800;
-    }
-
-    .quick:hover{
-      border-color:var(--orange);
-      transform:translateY(-1px);
-    }
-
-    .quick-icon{
-      display:block;
-      font-size:22px;
-      margin-bottom:7px;
-    }
-
-    /* =========================
-       PROFILE
-    ========================= */
-
-    .profile-info{
-      display:grid;
-      gap:0;
-    }
-
-    .profile-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      padding:13px 0;
-      border-bottom:1px solid #eee;
-    }
-
-    .profile-row:last-child{
-      border-bottom:0;
-    }
-
-    .profile-row label{
-      color:#777;
-      font-size:13px;
-    }
-
-    .profile-row strong{
-      text-align:left;
-    }
-
-    .form-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:15px;
-    }
-
-    .form-full{
-      grid-column:1 / -1;
-    }
-
-    .form-actions{
-      display:flex;
-      gap:10px;
-      margin-top:8px;
-    }
-
-    .form-actions button{
-      width:auto;
-      min-width:130px;
-    }
-
-    /* =========================
-       ORDERS
-    ========================= */
-
-    .order-card{
-      border:1px solid #e5e5e5;
-      border-radius:16px;
-      margin-bottom:12px;
-      overflow:hidden;
-    }
-
-    .order-head{
-      padding:15px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      background:#fafafa;
-    }
-
-    .order-number{
-      font-weight:900;
-    }
-
-    .order-date{
-      color:#777;
-      font-size:12px;
-      margin-top:3px;
-    }
-
-    .status{
-      display:inline-flex;
-      padding:6px 10px;
-      border-radius:20px;
-      background:#eee;
-      font-size:11px;
-      font-weight:800;
-    }
-
-    .status.success{
-      background:#e8f8ef;
-      color:#22834e;
-    }
-
-    .status.pending{
-      background:#fff4df;
-      color:#9a5a00;
-    }
-
-    .status.cancelled{
-      background:#ffeaea;
-      color:#a33;
-    }
-
-    .order-body{
-      padding:15px;
-    }
-
-    .order-meta{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin-bottom:12px;
-    }
-
-    .meta-box{
-      background:#f7f7f7;
-      border-radius:11px;
-      padding:11px;
-    }
-
-    .meta-box small{
-      display:block;
-      color:#777;
-      margin-bottom:4px;
-    }
-
-    .meta-box strong{
-      font-size:14px;
-    }
-
-    .order-actions{
-      display:flex;
-      justify-content:flex-start;
-      gap:8px;
-    }
-
-    .small-btn{
-      border:0;
-      border-radius:10px;
-      padding:9px 13px;
-      background:#111;
-      color:#fff;
-      font-size:12px;
-      font-weight:800;
-    }
-
-    /* =========================
-       ADDRESSES
-    ========================= */
-
-    .address-list{
-      display:grid;
-      gap:12px;
-    }
-
-    .address-card{
-      border:1px solid #e5e5e5;
-      border-radius:16px;
-      padding:16px;
-      position:relative;
-    }
-
-    .address-card.default{
-      border-color:var(--orange);
-      box-shadow:0 0 0 2px rgba(242,140,40,.08);
-    }
-
-    .address-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-    }
-
-    .address-label{
-      font-weight:900;
-    }
-
-    .default-badge{
-      display:inline-block;
-      background:#fff0dd;
-      color:#9b5708;
-      padding:5px 8px;
-      border-radius:20px;
-      font-size:10px;
-      font-weight:900;
-    }
-
-    .address-details{
-      margin-top:12px;
-      color:#555;
-      line-height:1.8;
-      font-size:13px;
-    }
-
-    .address-actions{
-      display:flex;
-      gap:7px;
-      margin-top:13px;
-      flex-wrap:wrap;
-    }
-
-    .address-actions button{
-      width:auto;
-    }
-
-    /* =========================
-       FAVORITES / RECENT
-    ========================= */
-
-    .product-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-    }
-
-    .product-card{
-      border:1px solid #e5e5e5;
-      border-radius:16px;
-      overflow:hidden;
-      background:#fff;
-    }
-
-    .product-image{
-      width:100%;
-      aspect-ratio:1/1;
-      object-fit:cover;
-      background:#f5f5f5;
-      display:block;
-    }
-
-    .product-image.empty{
-      display:grid;
-      place-items:center;
-      font-size:35px;
-    }
-
-    .product-info{
-      padding:13px;
-    }
-
-    .product-name{
-      font-weight:800;
-      line-height:1.5;
-      min-height:42px;
-    }
-
-    .product-price{
-      margin-top:5px;
-      font-weight:900;
-      color:#b86310;
-    }
-
-    .product-actions{
-      display:flex;
-      gap:7px;
-      margin-top:11px;
-    }
-
-    .product-actions button{
-      flex:1;
-      border:0;
-      border-radius:9px;
-      padding:9px 6px;
-      font-size:11px;
-      font-weight:800;
-    }
-
-    /* =========================
-       NOTIFICATIONS
-    ========================= */
-
-    .notification{
-      display:flex;
-      align-items:flex-start;
-      gap:12px;
-      padding:14px 0;
-      border-bottom:1px solid #eee;
-    }
-
-    .notification:last-child{
-      border-bottom:0;
-    }
-
-    .notification-icon{
-      width:40px;
-      height:40px;
-      border-radius:12px;
-      display:grid;
-      place-items:center;
-      background:#f5f5f5;
-      flex:none;
-    }
-
-    .notification strong{
-      display:block;
-      margin-bottom:4px;
-    }
-
-    .notification p{
-      margin:0;
-      color:#777;
-      font-size:13px;
-      line-height:1.6;
-    }
-
-    /* =========================
-       SETTINGS
-    ========================= */
-
-    .setting-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:15px;
-      padding:16px 0;
-      border-bottom:1px solid #eee;
-    }
-
-    .setting-row:last-child{
-      border-bottom:0;
-    }
-
-    .setting-title{
-      font-weight:800;
-    }
-
-    .setting-desc{
-      color:#777;
-      font-size:12px;
-      margin-top:4px;
-    }
-
-    .toggle{
-      width:48px;
-      height:27px;
-      border:0;
-      border-radius:20px;
-      background:#ddd;
-      padding:3px;
-      flex:none;
-    }
-
-    .toggle span{
-      width:21px;
-      height:21px;
-      display:block;
-      border-radius:50%;
-      background:#fff;
-      transition:.2s;
-    }
-
-    .toggle.on{
-      background:var(--orange);
-    }
-
-    .toggle.on span{
-      transform:translateX(-21px);
-    }
-
-    /* =========================
-       EMPTY
-    ========================= */
-
-    .empty{
-      padding:45px 20px;
-      text-align:center;
-      color:#777;
-    }
-
-    .empty-icon{
-      font-size:42px;
-      margin-bottom:10px;
-    }
-
-    .empty strong{
-      display:block;
-      color:#222;
-      margin-bottom:6px;
-    }
-
-    .empty p{
-      margin:0 0 18px;
-      font-size:13px;
-    }
-
-    /* =========================
-       MODALS
-    ========================= */
-
-    .modal{
-      position:fixed;
-      inset:0;
-      z-index:1000;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-      background:rgba(0,0,0,.65);
-      backdrop-filter:blur(5px);
-    }
-
-    .modal.show{
-      display:flex;
-    }
-
-    .modal-card{
-      width:min(100%,650px);
-      max-height:90vh;
-      overflow:auto;
-      background:#fff;
-      border-radius:22px;
-      box-shadow:0 30px 100px rgba(0,0,0,.4);
-    }
-
-    .modal-head{
-      position:sticky;
-      top:0;
-      z-index:2;
-      background:#fff;
-      padding:17px 20px;
-      border-bottom:1px solid #eee;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-
-    .modal-close{
-      width:35px;
-      height:35px;
-      border:0;
-      border-radius:10px;
-      background:#f1f1f1;
-      font-size:22px;
-    }
-
-    .modal-body{
-      padding:20px;
-    }
-
-    .cart-item{
-      display:grid;
-      grid-template-columns:72px minmax(0,1fr) auto;
-      gap:12px;
-      align-items:center;
-      padding:12px 0;
-      border-bottom:1px solid #eee;
-    }
-
-    .cart-item:last-child{
-      border-bottom:0;
-    }
-
-    .cart-image{
-      width:72px;
-      height:72px;
-      object-fit:cover;
-      border-radius:12px;
-      background:#f5f5f5;
-    }
-
-    .cart-name{
-      font-weight:800;
-      line-height:1.5;
-    }
-
-    .cart-price{
-      color:#b86310;
-      font-weight:800;
-      margin-top:3px;
-      font-size:13px;
-    }
-
-    .cart-qty{
-      display:flex;
-      align-items:center;
-      gap:7px;
-      margin-top:8px;
-    }
-
-    .cart-qty button{
-      width:27px;
-      height:27px;
-      border:0;
-      border-radius:8px;
-      background:#eee;
-    }
-
-    .remove-cart{
-      border:0;
-      background:transparent;
-      color:var(--danger);
-      font-size:11px;
-      margin-top:6px;
-      padding:0;
-    }
-
-    .cart-total{
-      margin-top:16px;
-      padding:15px;
-      border-radius:14px;
-      background:#111;
-      color:#fff;
-      display:flex;
-      justify-content:space-between;
-      font-weight:900;
-    }
-
-    .cart-actions{
-      display:flex;
-      gap:9px;
-      margin-top:12px;
-    }
-
-    .cart-actions button{
-      width:50%;
-    }
-
-    .order-detail-item{
-      display:flex;
-      justify-content:space-between;
-      gap:15px;
-      padding:10px 0;
-      border-bottom:1px solid #eee;
-      font-size:13px;
-    }
-
-    /* =========================
-       TOAST
-    ========================= */
-
-    #toast{
-      position:fixed;
-      left:20px;
-      bottom:20px;
-      z-index:2000;
-      background:#111;
-      color:#fff;
-      padding:13px 17px;
-      border-radius:12px;
-      box-shadow:var(--shadow);
-      transform:translateY(20px);
-      opacity:0;
-      pointer-events:none;
-      transition:.25s;
-      font-size:13px;
-      font-weight:700;
-    }
-
-    #toast.show{
-      transform:translateY(0);
-      opacity:1;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media(max-width:1050px){
-      .layout{
-        grid-template-columns:220px minmax(0,1fr);
-      }
-
-      .stats{
-        grid-template-columns:repeat(2,1fr);
-      }
-
-      .product-grid{
-        grid-template-columns:repeat(2,1fr);
-      }
-    }
-
-    @media(max-width:800px){
-      .topbar-inner,
-      .page{
-        width:min(100% - 20px,1400px);
-      }
-
-      .top-brand span{
-        display:none;
-      }
-
-      .top-action{
-        padding:9px 11px;
-        font-size:12px;
-      }
-
-      .layout{
-        display:block;
-      }
-
-      .sidebar{
-        position:static;
-        display:flex;
-        overflow-x:auto;
-        gap:5px;
-        padding:8px;
-        margin-bottom:18px;
-      }
-
-      .side-item{
-        min-width:max-content;
-        width:auto;
-        margin:0;
-      }
-
-      .side-item-main{
-        gap:5px;
-      }
-
-      .side-item .count{
-        display:none;
-      }
-
-      .logout{
-        border:0;
-        padding:0;
-        margin:0;
-      }
-
-      .panels-grid{
-        grid-template-columns:1fr;
-      }
-
-      .quick-grid{
-        grid-template-columns:repeat(2,1fr);
-      }
-
-      .form-grid{
-        grid-template-columns:1fr;
-      }
-
-      .form-full{
-        grid-column:auto;
-      }
-
-      .order-meta{
-        grid-template-columns:1fr 1fr;
-      }
-    }
-
-    @media(max-width:520px){
-      .page{
-        margin-top:15px;
-      }
-
-      .welcome{
-        padding:22px 18px;
-        border-radius:20px;
-      }
-
-      .welcome h2{
-        font-size:24px;
-      }
-
-      .stats{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .stat{
-        padding:14px;
-      }
-
-      .stat-value{
-        font-size:22px;
-      }
-
-      .panel-body{
-        padding:15px;
-      }
-
-      .product-grid{
-        grid-template-columns:1fr 1fr;
-        gap:9px;
-      }
-
-      .product-info{
-        padding:10px;
-      }
-
-      .product-name{
-        font-size:12px;
-      }
-
-      .cart-item{
-        grid-template-columns:58px minmax(0,1fr);
-      }
-
-      .cart-image{
-        width:58px;
-        height:58px;
-      }
-
-      .cart-item > .cart-line-total{
-        grid-column:2;
-      }
-
-      .cart-actions{
-        flex-direction:column;
-      }
-
-      .cart-actions button{
-        width:100%;
-      }
-
-      .form-actions{
-        flex-direction:column;
-      }
-
-      .form-actions button{
-        width:100%;
-      }
-
-      .auth-card{
-        padding:25px 20px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0b">
+<title>حسابي | HZ.SHOP</title>
+
+<style>
+:root{
+  --black:#090909;
+  --black-2:#151515;
+  --orange:#f28a18;
+  --orange-2:#ff9e32;
+  --white:#fff;
+  --bg:#f5f5f3;
+  --card:#fff;
+  --text:#171717;
+  --muted:#777;
+  --border:#e7e7e7;
+  --danger:#c62828;
+  --success:#16834a;
+  --shadow:0 12px 35px rgba(0,0,0,.07);
+  --radius:18px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,"Tahoma",sans-serif;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   AUTH
+========================= */
+
+.auth-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at top,#292929 0,#111 42%,#050505 100%);
+}
+
+.auth-card{
+  width:min(470px,100%);
+  background:#fff;
+  border-radius:26px;
+  padding:30px;
+  box-shadow:0 30px 90px rgba(0,0,0,.4);
+}
+
+.auth-logo{
+  text-align:center;
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.auth-logo span{
+  color:var(--orange);
+}
+
+.auth-subtitle{
+  text-align:center;
+  color:var(--muted);
+  margin:6px 0 25px;
+}
+
+.auth-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4px;
+  background:#f1f1f1;
+  padding:4px;
+  border-radius:13px;
+  margin-bottom:18px;
+}
+
+.auth-tabs button{
+  border:0;
+  background:transparent;
+  border-radius:10px;
+  padding:11px;
+}
+
+.auth-tabs button.active{
+  background:#fff;
+  font-weight:800;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+
+.auth-form{
+  display:grid;
+  gap:12px;
+}
+
+.auth-form input{
+  width:100%;
+  padding:13px 14px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  outline:none;
+  background:#fff;
+}
+
+.auth-form input:focus{
+  border-color:var(--orange);
+}
+
+.auth-submit{
+  width:100%;
+  border:0;
+  border-radius:11px;
+  padding:14px;
+  background:var(--black);
+  color:#fff;
+  font-weight:800;
+}
+
+.auth-submit:hover{
+  background:#222;
+}
+
+.notice{
+  display:none;
+  padding:12px 14px;
+  border-radius:11px;
+  margin-bottom:13px;
+  font-size:13px;
+}
+
+.notice.show{
+  display:block;
+}
+
+.notice.error{
+  background:#fff0f0;
+  color:var(--danger);
+}
+
+.notice.success{
+  background:#edf9f2;
+  color:var(--success);
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  min-height:70px;
+  padding:12px 22px;
+  background:rgba(9,9,9,.97);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  box-shadow:0 5px 25px rgba(0,0,0,.18);
+}
+
+.logo{
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.logo span{
+  color:var(--orange);
+}
+
+.top-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.top-btn{
+  border:1px solid rgba(255,255,255,.15);
+  background:#151515;
+  color:#fff;
+  border-radius:11px;
+  padding:10px 14px;
+}
+
+.top-btn:hover{
+  background:#222;
+}
+
+.logout-top{
+  background:#7d1717;
+  border-color:#9d2929;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app{
+  min-height:100vh;
+}
+
+.layout{
+  max-width:1400px;
+  margin:auto;
+  padding:22px;
+  display:grid;
+  grid-template-columns:255px minmax(0,1fr);
+  gap:22px;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  height:max-content;
+  position:sticky;
+  top:92px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:14px;
+  box-shadow:var(--shadow);
+}
+
+.mini-profile{
+  padding:15px;
+  background:#101010;
+  color:#fff;
+  border-radius:16px;
+  margin-bottom:12px;
+}
+
+.mini-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.avatar{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:var(--orange);
+  color:#111;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:19px;
+}
+
+.mini-profile strong{
+  font-size:15px;
+}
+
+.mini-profile small{
+  color:#aaa;
+}
+
+.nav{
+  display:grid;
+  gap:5px;
+}
+
+.nav-btn{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#333;
+  text-align:right;
+  border-radius:11px;
+  padding:13px 14px;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+  background:#f1f1f1;
+  font-weight:800;
+}
+
+.nav-btn.danger{
+  color:var(--danger);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+  min-width:0;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.hero{
+  color:#fff;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(242,138,24,.25),transparent 30%),
+    linear-gradient(135deg,#0b0b0b,#262626);
+  border-radius:23px;
+  padding:30px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+
+.hero h1{
+  margin:0 0 8px;
+  font-size:29px;
+}
+
+.hero p{
+  margin:0;
+  color:#cfcfcf;
+  line-height:1.8;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.grid{
+  display:grid;
+  gap:16px;
+}
+
+.stats{
+  grid-template-columns:repeat(4,1fr);
+  margin-bottom:20px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.stat-value{
+  font-size:27px;
+  font-weight:900;
+  margin-top:8px;
+}
+
+.two{
+  grid-template-columns:1fr 1fr;
+}
+
+.three{
+  grid-template-columns:repeat(3,1fr);
+}
+
+.section-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.section-header h2{
+  margin:0;
+  font-size:21px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+}
+
+.btn-dark{
+  background:#111;
+  color:#fff;
+}
+
+.btn-orange{
+  background:var(--orange);
+  color:#111;
+  font-weight:800;
+}
+
+.btn-light{
+  background:#fff;
+  border:1px solid var(--border);
+}
+
+.btn-danger{
+  background:#fff2f2;
+  color:var(--danger);
+  border:1px solid #f0cccc;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+/* =========================
+   ORDERS
+========================= */
+
+.order{
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:15px;
+  background:#fff;
+  margin-bottom:10px;
+}
+
+.order:last-child{
+  margin-bottom:0;
+}
+
+.order-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.order-number{
+  font-weight:900;
+}
+
+.order-meta{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.order-total{
+  margin-top:9px;
+  font-weight:900;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#eee;
+  font-size:12px;
+}
+
+.badge.success{
+  background:#e9f8ef;
+  color:var(--success);
+}
+
+.badge.pending{
+  background:#fff3df;
+  color:#a85c00;
+}
+
+.badge.cancel{
+  background:#fff0f0;
+  color:var(--danger);
+}
+
+/* =========================
+   PRODUCTS
+========================= */
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.product{
+  overflow:hidden;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+}
+
+.product-image{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  background:#f1f1f1;
+}
+
+.product-placeholder{
+  aspect-ratio:1/1;
+  display:grid;
+  place-items:center;
+  background:#f2f2f2;
+  color:#888;
+  font-weight:900;
+}
+
+.product-body{
+  padding:13px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  flex:1;
+}
+
+.product-name{
+  font-weight:800;
+  line-height:1.5;
+}
+
+.product-price{
+  font-weight:900;
+}
+
+.product-actions{
+  display:flex;
+  gap:6px;
+  margin-top:auto;
+}
+
+.product-actions button{
+  flex:1;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field{
+  display:grid;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:13px;
+  font-weight:800;
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:12px;
+  background:#fff;
+  outline:none;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus{
+  border-color:var(--orange);
+}
+
+.field textarea{
+  min-height:105px;
+  resize:vertical;
+}
+
+/* =========================
+   ADDRESSES
+========================= */
+
+.address-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+}
+
+.address-title{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:9px;
+}
+
+.default{
+  color:var(--success);
+  font-size:12px;
+  font-weight:900;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:38px 15px;
+  border:1px dashed var(--border);
+  border-radius:14px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:500;
+  background:rgba(0,0,0,.58);
+  padding:18px;
+  overflow:auto;
+}
+
+.modal-backdrop.show{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal{
+  width:min(650px,100%);
+  background:#fff;
+  border-radius:21px;
+  padding:20px;
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.modal-head h2{
+  margin:0;
+}
+
+.close-btn{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  background:#eee;
+  font-size:22px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  left:20px;
+  bottom:20px;
+  z-index:900;
+  background:#111;
+  color:#fff;
+  padding:13px 17px;
+  border-radius:12px;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+  opacity:0;
+  transform:translateY(15px);
+  pointer-events:none;
+  transition:.25s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:none;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+  .product-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:850px){
+  .layout{
+    display:block;
+    padding:12px;
+  }
+
+  .sidebar{
+    position:static;
+    margin-bottom:13px;
+  }
+
+  .nav{
+    display:flex;
+    overflow-x:auto;
+    padding-bottom:2px;
+  }
+
+  .nav-btn{
+    min-width:max-content;
+    text-align:center;
+  }
+
+  .two,
+  .three{
+    grid-template-columns:1fr;
+  }
+
+  .topbar{
+    padding:10px 12px;
+  }
+
+  .top-actions .store-btn{
+    display:none;
+  }
+}
+
+@media(max-width:600px){
+  .hero{
+    padding:21px;
+  }
+
+  .hero h1{
+    font-size:24px;
+  }
+
+  .stats{
+    gap:9px;
+  }
+
+  .card{
+    padding:16px;
+  }
+
+  .product-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .topbar{
+    min-height:62px;
+  }
+
+  .logo{
+    font-size:21px;
+  }
+
+  .top-btn{
+    padding:9px 10px;
+  }
+}
+
+@media(max-width:390px){
+  .product-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .product-body{
+    padding:9px;
+  }
+
+  .product-actions{
+    flex-direction:column;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- =========================
-       AUTH SCREEN
-  ========================= -->
+<!-- =========================================================
+     AUTH SCREEN
+========================================================= -->
 
-  <section id="authScreen">
+<div id="authScreen" class="auth-screen">
 
-    <div class="auth-card">
+  <div class="auth-card">
 
-      <div class="brand">
-        <div class="brand-logo">HZ</div>
-        <h1>HZ.SHOP</h1>
-        <p>حساب العميل</p>
-      </div>
+    <div class="auth-logo">
+      HZ<span>.</span>SHOP
+    </div>
 
-      <div class="auth-tabs">
+    <div class="auth-subtitle">
+      حساب العميل
+    </div>
 
-        <button
-          id="loginTab"
-          class="auth-tab active"
-          type="button"
-          onclick="switchAuth('login')"
-        >
-          تسجيل الدخول
-        </button>
+    <div class="auth-tabs">
+      <button
+        id="loginTab"
+        class="active"
+        type="button"
+        onclick="switchAuth('login')">
+        تسجيل الدخول
+      </button>
 
-        <button
-          id="registerTab"
-          class="auth-tab"
-          type="button"
-          onclick="switchAuth('register')"
-        >
-          إنشاء حساب
-        </button>
+      <button
+        id="registerTab"
+        type="button"
+        onclick="switchAuth('register')">
+        إنشاء حساب
+      </button>
+    </div>
 
-      </div>
+    <div id="authNotice" class="notice"></div>
 
-      <div id="loginForm">
+    <!-- LOGIN -->
 
-        <div class="field">
-          <label for="loginPhone">رقم الهاتف</label>
-          <input
-            id="loginPhone"
-            type="tel"
-            autocomplete="tel"
-            placeholder="مثال: 03xxxxxx"
-          >
-        </div>
+    <form
+      id="loginForm"
+      class="auth-form"
+      onsubmit="loginCustomer(event)">
 
-        <div class="field">
-          <label for="loginPassword">كلمة المرور</label>
-          <input
-            id="loginPassword"
-            type="password"
-            autocomplete="current-password"
-            placeholder="كلمة المرور"
-          >
-        </div>
+      <input
+        id="loginPhone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="رقم الهاتف"
+        required>
 
-        <div
-          id="loginMessage"
-          class="auth-message"
-        ></div>
+      <input
+        id="loginPassword"
+        type="password"
+        autocomplete="current-password"
+        placeholder="كلمة المرور"
+        required>
 
-        <button
-          id="loginButton"
-          class="primary-btn"
-          type="button"
-          onclick="loginCustomer()"
-        >
-          تسجيل الدخول
-        </button>
+      <button
+        class="auth-submit"
+        type="submit">
+        تسجيل الدخول
+      </button>
 
-      </div>
+    </form>
 
-      <div
-        id="registerForm"
-        class="hidden"
-      >
+    <!-- REGISTER -->
 
-        <div class="field">
-          <label for="registerName">الاسم</label>
-          <input
-            id="registerName"
-            type="text"
-            autocomplete="name"
-            placeholder="الاسم الكامل"
-          >
-        </div>
+    <form
+      id="registerForm"
+      class="auth-form hidden"
+      onsubmit="registerCustomer(event)">
 
-        <div class="field">
-          <label for="registerPhone">رقم الهاتف</label>
-          <input
-            id="registerPhone"
-            type="tel"
-            autocomplete="tel"
-            placeholder="رقم الهاتف"
-          >
-        </div>
+      <input
+        id="registerName"
+        type="text"
+        autocomplete="name"
+        placeholder="الاسم الكامل"
+        required>
 
-        <div class="field">
-          <label for="registerPassword">كلمة المرور</label>
-          <input
-            id="registerPassword"
-            type="password"
-            autocomplete="new-password"
-            placeholder="6 أحرف على الأقل"
-          >
-        </div>
+      <input
+        id="registerPhone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="رقم الهاتف"
+        required>
 
-        <div class="field">
-          <label for="registerPasswordConfirm">
-            تأكيد كلمة المرور
-          </label>
-          <input
-            id="registerPasswordConfirm"
-            type="password"
-            autocomplete="new-password"
-            placeholder="أعد كتابة كلمة المرور"
-          >
-        </div>
+      <input
+        id="registerPassword"
+        type="password"
+        autocomplete="new-password"
+        minlength="6"
+        placeholder="كلمة المرور"
+        required>
 
-        <div
-          id="registerMessage"
-          class="auth-message"
-        ></div>
+      <button
+        class="auth-submit"
+        type="submit">
+        إنشاء الحساب
+      </button>
 
-        <button
-          id="registerButton"
-          class="primary-btn"
-          type="button"
-          onclick="registerCustomer()"
-        >
-          إنشاء الحساب
-        </button>
+    </form>
 
-      </div>
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     CUSTOMER HUB
+========================================================= -->
+
+<div id="app" class="app hidden">
+
+  <header class="topbar">
+
+    <a href="/#shop" class="logo">
+      HZ<span>.</span>SHOP
+    </a>
+
+    <div class="top-actions">
+
+      <button
+        class="top-btn store-btn"
+        type="button"
+        onclick="goStore()">
+        🛍️ المتجر
+      </button>
+
+      <button
+        class="top-btn"
+        type="button"
+        onclick="openMainCart()">
+        🛒 السلة
+        <span id="topCartCount">0</span>
+      </button>
+
+      <button
+        class="top-btn logout-top"
+        type="button"
+        onclick="logoutCustomer()">
+        🚪 تسجيل الخروج
+      </button>
 
     </div>
 
-  </section>
+  </header>
 
 
-  <!-- =========================
-       CUSTOMER HUB
-  ========================= -->
+  <main class="layout">
 
-  <main
-    id="customerHub"
-    class="hidden"
-  >
+    <!-- SIDEBAR -->
 
-    <header class="topbar">
+    <aside class="sidebar">
 
-      <div class="topbar-inner">
+      <div class="mini-profile">
 
-        <a
-          href="/"
-          class="top-brand"
-        >
-          <div class="top-brand-mark">
+        <div class="mini-row">
+
+          <div id="avatar" class="avatar">
             HZ
           </div>
 
-          HZ.<span>SHOP</span>
-        </a>
+          <div>
+            <strong id="sideName">
+              العميل
+            </strong>
 
-        <div class="top-actions">
+            <br>
 
-          <button
-            class="top-action"
-            type="button"
-            onclick="openMainStore()"
-          >
-            🛍️ المتجر
-          </button>
-
-          <button
-            class="top-action"
-            type="button"
-            onclick="openMainCart()"
-          >
-            🛒 السلة
-            <span id="topCartCount">0</span>
-          </button>
+            <small id="sidePhone">
+              —
+            </small>
+          </div>
 
         </div>
 
       </div>
 
-    </header>
+
+      <nav class="nav">
+
+        <button
+          class="nav-btn active"
+          data-section="overview"
+          onclick="showSection('overview')">
+          🏠 الرئيسية
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="orders"
+          onclick="showSection('orders')">
+          📦 طلباتي
+          <span id="ordersNavCount"></span>
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="favorites"
+          onclick="showSection('favorites')">
+          ❤️ المفضلة
+          <span id="favoritesNavCount"></span>
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="recent"
+          onclick="showSection('recent')">
+          🕘 شوهدت مؤخرًا
+        </button>
+
+        <button
+          class="nav-btn"
+          type="button"
+          onclick="openMainCart()">
+          🛒 السلة
+          <span id="navCartCount">0</span>
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="profile"
+          onclick="showSection('profile')">
+          👤 بياناتي
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="addresses"
+          onclick="showSection('addresses')">
+          📍 عناويني
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="notifications"
+          onclick="showSection('notifications')">
+          🔔 الإشعارات
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="settings"
+          onclick="showSection('settings')">
+          ⚙️ الإعدادات
+        </button>
+
+        <button
+          class="nav-btn danger"
+          type="button"
+          onclick="logoutCustomer()">
+          🚪 تسجيل الخروج
+        </button>
+
+      </nav>
+
+    </aside>
 
 
-    <div class="page">
+    <!-- CONTENT -->
 
-      <section class="welcome">
+    <section class="content">
 
-        <div class="welcome-content">
 
-          <small>
-            حسابك في HZ.SHOP
-          </small>
+      <!-- ================= OVERVIEW ================= -->
 
-          <h2>
-            أهلاً <span id="welcomeName">بالعميل</span> 👋
-          </h2>
+      <section
+        id="section-overview"
+        class="section active">
+
+        <div class="hero">
+
+          <h1>
+            مرحبًا،
+            <span id="heroName">
+              العميل
+            </span>
+            👋
+          </h1>
 
           <p>
-            من هنا يمكنك إدارة حسابك وطلباتك وعناوينك ومفضلاتك.
+            أهلاً بك في حسابك الخاص على HZ.SHOP.
+            يمكنك من هنا متابعة طلباتك وإدارة مفضلاتك وعناوينك وإعداداتك.
           </p>
+
+        </div>
+
+
+        <div class="grid stats">
+
+          <div class="card">
+
+            <div class="stat-label">
+              إجمالي الطلبات
+            </div>
+
+            <div
+              id="statOrders"
+              class="stat-value">
+              0
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="stat-label">
+              المفضلة
+            </div>
+
+            <div
+              id="statFavorites"
+              class="stat-value">
+              0
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="stat-label">
+              العناوين
+            </div>
+
+            <div
+              id="statAddresses"
+              class="stat-value">
+              0
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="stat-label">
+              السلة
+            </div>
+
+            <div
+              id="statCart"
+              class="stat-value">
+              0
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="grid two">
+
+
+          <div class="card">
+
+            <div class="section-header">
+
+              <h2>
+                آخر الطلبات
+              </h2>
+
+              <button
+                class="btn btn-light"
+                onclick="showSection('orders')">
+                عرض الكل
+              </button>
+
+            </div>
+
+            <div id="overviewOrders"></div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="section-header">
+
+              <h2>
+                اقتراحات لك
+              </h2>
+
+              <button
+                class="btn btn-light"
+                onclick="loadRecommendations()">
+                تحديث
+              </button>
+
+            </div>
+
+            <div
+              id="recommendations"
+              class="product-grid">
+            </div>
+
+          </div>
 
         </div>
 
       </section>
 
 
-      <div class="layout">
+      <!-- ================= ORDERS ================= -->
 
-        <!-- SIDEBAR -->
+      <section
+        id="section-orders"
+        class="section">
 
-        <aside class="sidebar">
+        <div class="card">
 
-          <button
-            class="side-item active"
-            type="button"
-            data-section="overview"
-            onclick="showSection('overview',this)"
-          >
-            <span class="side-item-main">
-              <span class="side-icon">⌂</span>
-              الرئيسية
-            </span>
-          </button>
+          <div class="section-header">
 
-          <button
-            class="side-item"
-            type="button"
-            data-section="orders"
-            onclick="showSection('orders',this)"
-          >
-            <span class="side-item-main">
-              <span class="side-icon">📦</span>
+            <h2>
               طلباتي
-            </span>
-
-            <span
-              id="sideOrdersCount"
-              class="count"
-            >
-              0
-            </span>
-          </button>
-
-          <button
-            class="side-item"
-            type="button"
-            data-section="favorites"
-            onclick="showSection('favorites',this)"
-          >
-            <span class="side-item-main">
-              <span class="side-icon">♡</span>
-              المفضلة
-            </span>
-
-            <span
-              id="sideFavoritesCount"
-              class="count"
-            >
-              0
-            </span>
-          </button>
-
-          <button
-            class="side-item"
-            type="button"
-            data-section="recent"
-            onclick="showSection('recent',this)"
-          >
-            <span class="side-item-main">
-              <span class="side-icon">◷</span>
-              شوهدت مؤخرًا
-            </span>
-
-            <span
-              id="sideRecentCount"
-              class="count"
-            >
-              0
-            </span>
-          </button>
-
-          <button
-            class="side-item"
-            type="button"
-            data-section="cart"
-            onclick="openMainCart()"
-          >
-            <span class="side-item-main">
-              <span class="side-icon">🛒</span>
-              السلة
-            </span>
-
-            <span
-              id="sideCartCount"
-              class="count"
-            >
-              0
-            </span>
-          </button>
-
-          <button
-            class="side-item"
-            type="button"
-            data-section="profile"
-            onclick="showSection('profile',this)"
-          >
-            <span class="side-item-main">
-              <span class="side-icon">👤</span>
-              بياناتي
-            </span>
-          </button>
-
-          <button
-            class="side-item"
-            type="button"
-            data-section="addresses"
-            onclick="showSection('addresses',this)"
-          >
-            <span class="side-item-main">
-              <span class="side-icon">📍</span>
-              عناويني
-            </span>
-
-            <span
-              id="sideAddressesCount"
-              class="count"
-            >
-              0
-            </span>
-          </button>
-
-          <button
-            class="side-item"
-            type="button"
-            data-section="notifications"
-            onclick="showSection('notifications',this)"
-          >
-            <span class="side-item-main">
-              <span class="side-icon">🔔</span>
-              الإشعارات
-            </span>
-
-            <span
-              id="sideNotificationsCount"
-              class="count"
-            >
-              0
-            </span>
-          </button>
-
-          <button
-            class="side-item"
-            type="button"
-            data-section="settings"
-            onclick="showSection('settings',this)"
-          >
-            <span class="side-item-main">
-              <span class="side-icon">⚙️</span>
-              الإعدادات
-            </span>
-          </button>
-
-          <div class="logout">
+            </h2>
 
             <button
-              class="side-item"
-              type="button"
-              onclick="logoutCustomer()"
-            >
-              <span class="side-item-main">
-                <span class="side-icon">↪</span>
-                تسجيل الخروج
-              </span>
+              class="btn btn-light"
+              onclick="loadOrders()">
+              ↻ تحديث
             </button>
 
           </div>
 
-        </aside>
+          <div id="ordersList"></div>
 
+        </div>
 
-        <!-- CONTENT -->
+      </section>
 
-        <section class="content">
 
+      <!-- ================= FAVORITES ================= -->
 
-          <!-- =========================
-               OVERVIEW
-          ========================= -->
+      <section
+        id="section-favorites"
+        class="section">
 
-          <div
-            id="section-overview"
-            class="section active"
-          >
+        <div class="card">
 
-            <h2 class="section-title">
-              نظرة عامة
-            </h2>
+          <div class="section-header">
 
-            <p class="section-subtitle">
-              كل ما يخص حسابك في مكان واحد.
-            </p>
-
-
-            <div class="stats">
-
-              <div class="stat">
-                <div class="stat-label">
-                  الطلبات
-                </div>
-                <div
-                  id="statOrders"
-                  class="stat-value"
-                >
-                  0
-                </div>
-              </div>
-
-              <div class="stat">
-                <div class="stat-label">
-                  المفضلة
-                </div>
-                <div
-                  id="statFavorites"
-                  class="stat-value"
-                >
-                  0
-                </div>
-              </div>
-
-              <div class="stat">
-                <div class="stat-label">
-                  العناوين
-                </div>
-                <div
-                  id="statAddresses"
-                  class="stat-value"
-                >
-                  0
-                </div>
-              </div>
-
-              <div class="stat">
-                <div class="stat-label">
-                  السلة
-                </div>
-                <div
-                  id="statCart"
-                  class="stat-value"
-                >
-                  0
-                </div>
-              </div>
-
-            </div>
-
-
-            <div class="panels-grid">
-
-
-              <div class="panel">
-
-                <div class="panel-head">
-
-                  <h3>
-                    بياناتي
-                  </h3>
-
-                  <button
-                    class="panel-link"
-                    type="button"
-                    onclick="showSection('profile')"
-                  >
-                    إدارة
-                  </button>
-
-                </div>
-
-                <div class="panel-body">
-
-                  <div class="profile-info">
-
-                    <div class="profile-row">
-                      <label>الاسم</label>
-                      <strong id="profileName">—</strong>
-                    </div>
-
-                    <div class="profile-row">
-                      <label>الهاتف</label>
-                      <strong id="profilePhone">—</strong>
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div class="panel">
-
-                <div class="panel-head">
-
-                  <h3>
-                    الوصول السريع
-                  </h3>
-
-                </div>
-
-                <div class="panel-body">
-
-                  <div class="quick-grid">
-
-                    <button
-                      class="quick"
-                      type="button"
-                      onclick="showSection('orders')"
-                    >
-                      <span class="quick-icon">📦</span>
-                      طلباتي
-                    </button>
-
-                    <button
-                      class="quick"
-                      type="button"
-                      onclick="showSection('favorites')"
-                    >
-                      <span class="quick-icon">♡</span>
-                      المفضلة
-                    </button>
-
-                    <button
-                      class="quick"
-                      type="button"
-                      onclick="openMainCart()"
-                    >
-                      <span class="quick-icon">🛒</span>
-                      السلة
-                    </button>
-
-                    <button
-                      class="quick"
-                      type="button"
-                      onclick="showSection('addresses')"
-                    >
-                      <span class="quick-icon">📍</span>
-                      العناوين
-                    </button>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div class="panel">
-
-                <div class="panel-head">
-
-                  <h3>
-                    آخر الطلبات
-                  </h3>
-
-                  <button
-                    class="panel-link"
-                    type="button"
-                    onclick="showSection('orders')"
-                  >
-                    عرض الكل
-                  </button>
-
-                </div>
-
-                <div
-                  id="recentOrders"
-                  class="panel-body"
-                ></div>
-
-              </div>
-
-
-              <div class="panel">
-
-                <div class="panel-head">
-
-                  <h3>
-                    مقترح لك
-                  </h3>
-
-                  <button
-                    class="panel-link"
-                    type="button"
-                    onclick="openMainStore()"
-                  >
-                    اكتشف المنتجات
-                  </button>
-
-                </div>
-
-                <div class="panel-body">
-
-                  <div
-                    id="recommendations"
-                    class="product-grid"
-                  ></div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- =========================
-               ORDERS
-          ========================= -->
-
-          <div
-            id="section-orders"
-            class="section"
-          >
-
-            <h2 class="section-title">
-              طلباتي
-            </h2>
-
-            <p class="section-subtitle">
-              سجل طلباتك المرتبط بحسابك.
-            </p>
-
-            <div
-              id="ordersList"
-            ></div>
-
-          </div>
-
-
-          <!-- =========================
-               FAVORITES
-          ========================= -->
-
-          <div
-            id="section-favorites"
-            class="section"
-          >
-
-            <h2 class="section-title">
+            <h2>
               المفضلة
             </h2>
 
-            <p class="section-subtitle">
-              المنتجات التي حفظتها للرجوع إليها لاحقًا.
-            </p>
-
-            <div
-              id="favoritesList"
-              class="product-grid"
-            ></div>
+            <span
+              id="favoritesInfo"
+              class="stat-label">
+            </span>
 
           </div>
 
-
-          <!-- =========================
-               RECENT
-          ========================= -->
-
           <div
-            id="section-recent"
-            class="section"
-          >
+            id="favoritesList"
+            class="product-grid">
+          </div>
 
-            <h2 class="section-title">
+        </div>
+
+      </section>
+
+
+      <!-- ================= RECENT ================= -->
+
+      <section
+        id="section-recent"
+        class="section">
+
+        <div class="card">
+
+          <div class="section-header">
+
+            <h2>
               شوهدت مؤخرًا
             </h2>
 
-            <p class="section-subtitle">
-              المنتجات التي شاهدتها مؤخرًا على HZ.SHOP.
-            </p>
-
-            <div
-              id="recentList"
-              class="product-grid"
-            ></div>
+            <button
+              class="btn btn-danger"
+              onclick="clearRecent()">
+              مسح السجل
+            </button>
 
           </div>
 
-
-          <!-- =========================
-               PROFILE
-          ========================= -->
-
           <div
-            id="section-profile"
-            class="section"
-          >
+            id="recentList"
+            class="product-grid">
+          </div>
 
-            <h2 class="section-title">
+        </div>
+
+      </section>
+
+
+      <!-- ================= PROFILE ================= -->
+
+      <section
+        id="section-profile"
+        class="section">
+
+        <div class="card">
+
+          <div class="section-header">
+
+            <h2>
               بياناتي
             </h2>
 
-            <p class="section-subtitle">
-              معلومات حسابك الأساسية.
-            </p>
+          </div>
 
-            <div class="panel">
+          <div class="notice show success">
+            بيانات الحساب الحالية مرتبطة بجلسة العميل.
+            رقم الهاتف للعرض فقط لأن الـ Worker الحالي لا يحتوي على API لتعديل بيانات العميل.
+          </div>
 
-              <div class="panel-body">
+          <div class="form-grid">
 
-                <div class="form-grid">
+            <div class="field">
 
-                  <div class="field">
-                    <label>الاسم</label>
-                    <input
-                      id="profileEditName"
-                      type="text"
-                    >
-                  </div>
+              <label>
+                الاسم
+              </label>
 
-                  <div class="field">
-                    <label>رقم الهاتف</label>
-                    <input
-                      id="profileEditPhone"
-                      type="tel"
-                      readonly
-                    >
-                  </div>
+              <input
+                id="profileName"
+                type="text"
+                readonly>
 
-                </div>
+            </div>
 
-                <div
-                  id="profileMessage"
-                  class="auth-message"
-                ></div>
 
-                <div class="form-actions">
+            <div class="field">
 
-                  <button
-                    class="primary-btn"
-                    type="button"
-                    onclick="saveProfile()"
-                  >
-                    حفظ البيانات
-                  </button>
+              <label>
+                رقم الهاتف
+              </label>
 
-                </div>
-
-                <p
-                  style="
-                    color:#777;
-                    font-size:12px;
-                    line-height:1.7;
-                    margin:15px 0 0;
-                  "
-                >
-                  رقم الهاتف مرتبط بحسابك ولا يتم تغييره من هذه الصفحة.
-                </p>
-
-              </div>
+              <input
+                id="profilePhone"
+                type="tel"
+                readonly>
 
             </div>
 
           </div>
 
+        </div>
 
-          <!-- =========================
-               ADDRESSES
-          ========================= -->
+      </section>
 
-          <div
-            id="section-addresses"
-            class="section"
-          >
 
-            <h2 class="section-title">
+      <!-- ================= ADDRESSES ================= -->
+
+      <section
+        id="section-addresses"
+        class="section">
+
+        <div class="card">
+
+          <div class="section-header">
+
+            <h2>
               عناويني
             </h2>
 
-            <p class="section-subtitle">
-              احفظ عناوين التوصيل لاستخدامها بسهولة عند إتمام الطلب.
-            </p>
-
-            <div class="panel">
-
-              <div class="panel-head">
-
-                <h3>
-                  العناوين المحفوظة
-                </h3>
-
-                <button
-                  class="panel-link"
-                  type="button"
-                  onclick="openAddressModal()"
-                >
-                  + إضافة عنوان
-                </button>
-
-              </div>
-
-              <div
-                id="addressesList"
-                class="panel-body"
-              ></div>
-
-            </div>
+            <button
+              class="btn btn-orange"
+              onclick="openAddressModal()">
+              + إضافة عنوان
+            </button>
 
           </div>
 
-
-          <!-- =========================
-               NOTIFICATIONS
-          ========================= -->
-
           <div
-            id="section-notifications"
-            class="section"
-          >
+            id="addressesList"
+            class="grid two">
+          </div>
 
-            <h2 class="section-title">
+        </div>
+
+      </section>
+
+
+      <!-- ================= NOTIFICATIONS ================= -->
+
+      <section
+        id="section-notifications"
+        class="section">
+
+        <div class="card">
+
+          <div class="section-header">
+
+            <h2>
               الإشعارات
             </h2>
 
-            <p class="section-subtitle">
-              تنبيهات وملاحظات حسابك.
-            </p>
-
-            <div class="panel">
-
-              <div
-                id="notificationsList"
-                class="panel-body"
-              ></div>
-
-            </div>
+            <button
+              class="btn btn-light"
+              onclick="markNotificationsRead()">
+              تحديد كمقروءة
+            </button>
 
           </div>
 
+          <div id="notificationsList"></div>
 
-          <!-- =========================
-               SETTINGS
-          ========================= -->
+        </div>
 
-          <div
-            id="section-settings"
-            class="section"
-          >
+      </section>
 
-            <h2 class="section-title">
+
+      <!-- ================= SETTINGS ================= -->
+
+      <section
+        id="section-settings"
+        class="section">
+
+        <div class="card">
+
+          <div class="section-header">
+
+            <h2>
               الإعدادات
             </h2>
 
-            <p class="section-subtitle">
-              تحكم بتجربة استخدام Customer Hub على هذا الجهاز.
-            </p>
-
-            <div class="panel">
-
-              <div class="panel-body">
-
-                <div class="setting-row">
-
-                  <div>
-                    <div class="setting-title">
-                      حفظ المنتجات التي شاهدتها
-                    </div>
-
-                    <div class="setting-desc">
-                      الاحتفاظ بآخر المنتجات التي شاهدتها على هذا الجهاز.
-                    </div>
-                  </div>
-
-                  <button
-                    id="recentToggle"
-                    class="toggle on"
-                    type="button"
-                    onclick="toggleSetting('recentTracking')"
-                  >
-                    <span></span>
-                  </button>
-
-                </div>
+          </div>
 
 
-                <div class="setting-row">
+          <div class="card">
 
-                  <div>
-                    <div class="setting-title">
-                      حفظ المفضلة
-                    </div>
+            <label
+              style="display:flex;justify-content:space-between;align-items:center;gap:15px">
 
-                    <div class="setting-desc">
-                      حفظ المنتجات المفضلة على هذا الجهاز.
-                    </div>
-                  </div>
+              <span>
 
-                  <button
-                    id="favoriteToggle"
-                    class="toggle on"
-                    type="button"
-                    onclick="toggleSetting('favorites')"
-                  >
-                    <span></span>
-                  </button>
+                <strong>
+                  اقتراحات المنتجات
+                </strong>
 
-                </div>
+                <br>
 
+                <small class="stat-label">
+                  استخدم نشاطك داخل الحساب لعرض اقتراحات محلية مناسبة.
+                </small>
 
-                <div class="setting-row">
+              </span>
 
-                  <div>
-                    <div class="setting-title">
-                      مسح البيانات المحلية
-                    </div>
+              <input
+                id="settingRecommendations"
+                type="checkbox"
+                onchange="saveSettings()">
 
-                    <div class="setting-desc">
-                      يمسح المفضلة والمشاهدة والعناوين المحلية فقط.
-                    </div>
-                  </div>
-
-                  <button
-                    class="danger-btn"
-                    style="width:auto"
-                    type="button"
-                    onclick="clearLocalCustomerData()"
-                  >
-                    مسح
-                  </button>
-
-                </div>
-
-              </div>
-
-            </div>
+            </label>
 
           </div>
 
-        </section>
 
-      </div>
+          <div
+            class="card"
+            style="margin-top:12px">
 
-    </div>
+            <label
+              style="display:flex;justify-content:space-between;align-items:center;gap:15px">
+
+              <span>
+
+                <strong>
+                  إشعارات الطلبات
+                </strong>
+
+                <br>
+
+                <small class="stat-label">
+                  إظهار إشعارات الطلبات داخل حسابك.
+                </small>
+
+              </span>
+
+              <input
+                id="settingNotifications"
+                type="checkbox"
+                onchange="saveSettings()">
+
+            </label>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </section>
 
   </main>
 
+</div>
 
-  <!-- =========================
-       ADDRESS MODAL
-  ========================= -->
 
-  <div
-    id="addressModal"
-    class="modal"
-    onclick="closeAddressModal(event)"
-  >
+<!-- =========================================================
+     ADDRESS MODAL
+========================================================= -->
 
-    <div
-      class="modal-card"
-      onclick="event.stopPropagation()"
-    >
+<div
+  id="addressModal"
+  class="modal-backdrop"
+  onclick="closeModalOutside(event)">
 
-      <div class="modal-head">
+  <div class="modal">
 
-        <strong id="addressModalTitle">
-          إضافة عنوان
-        </strong>
+    <div class="modal-head">
+
+      <h2 id="addressModalTitle">
+        إضافة عنوان
+      </h2>
+
+      <button
+        class="close-btn"
+        type="button"
+        onclick="closeAddressModal()">
+        ×
+      </button>
+
+    </div>
+
+
+    <form
+      class="form-grid"
+      onsubmit="saveAddress(event)">
+
+      <input
+        id="addressId"
+        type="hidden">
+
+
+      <div class="field">
+
+        <label>
+          المدينة / المنطقة
+        </label>
+
+        <input
+          id="addressCity"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          العنوان
+        </label>
+
+        <input
+          id="addressLine"
+          required>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          ملاحظات
+        </label>
+
+        <textarea
+          id="addressNotes"></textarea>
+
+      </div>
+
+
+      <label
+        class="field full"
+        style="display:flex;grid-template-columns:auto 1fr;align-items:center">
+
+        <input
+          id="addressDefault"
+          type="checkbox"
+          style="width:auto">
+
+        جعل هذا العنوان افتراضيًا
+
+      </label>
+
+
+      <div class="actions field full">
 
         <button
-          class="modal-close"
+          class="btn btn-orange"
+          type="submit">
+          حفظ العنوان
+        </button>
+
+        <button
+          class="btn btn-light"
           type="button"
-          onclick="closeAddressModal()"
-        >
-          ×
+          onclick="closeAddressModal()">
+          إلغاء
         </button>
 
       </div>
 
-      <div class="modal-body">
-
-        <div class="form-grid">
-
-          <div class="field">
-            <label>اسم العنوان</label>
-            <input
-              id="addressLabel"
-              type="text"
-              placeholder="المنزل، العمل..."
-            >
-          </div>
-
-          <div class="field">
-            <label>اسم المستلم</label>
-            <input
-              id="addressRecipient"
-              type="text"
-              placeholder="اسم المستلم"
-            >
-          </div>
-
-          <div class="field">
-            <label>رقم الهاتف</label>
-            <input
-              id="addressPhone"
-              type="tel"
-              placeholder="رقم الهاتف"
-            >
-          </div>
-
-          <div class="field">
-            <label>المنطقة / المدينة</label>
-            <input
-              id="addressCity"
-              type="text"
-              placeholder="المنطقة"
-            >
-          </div>
-
-          <div class="field form-full">
-            <label>العنوان</label>
-            <textarea
-              id="addressText"
-              placeholder="العنوان بالتفصيل"
-            ></textarea>
-          </div>
-
-          <div class="field form-full">
-            <label>ملاحظات التوصيل</label>
-            <textarea
-              id="addressNotes"
-              placeholder="تفاصيل إضافية للسائق..."
-            ></textarea>
-          </div>
-
-        </div>
-
-        <div
-          id="addressDefaultWrap"
-          style="
-            display:flex;
-            align-items:center;
-            gap:8px;
-            margin:4px 0 16px;
-            font-size:13px;
-            font-weight:700;
-          "
-        >
-
-          <input
-            id="addressIsDefault"
-            type="checkbox"
-          >
-
-          <label for="addressIsDefault">
-            اجعل هذا العنوان الافتراضي
-          </label>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button
-            class="primary-btn"
-            type="button"
-            onclick="saveAddress()"
-          >
-            حفظ العنوان
-          </button>
-
-          <button
-            class="light-btn"
-            type="button"
-            onclick="closeAddressModal()"
-          >
-            إلغاء
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
+    </form>
 
   </div>
 
-
-  <!-- =========================
-       ORDER MODAL
-  ========================= -->
-
-  <div
-    id="orderModal"
-    class="modal"
-    onclick="closeOrderModal(event)"
-  >
-
-    <div
-      class="modal-card"
-      onclick="event.stopPropagation()"
-    >
-
-      <div class="modal-head">
-
-        <strong>
-          تفاصيل الطلب
-        </strong>
-
-        <button
-          class="modal-close"
-          type="button"
-          onclick="closeOrderModal()"
-        >
-          ×
-        </button>
-
-      </div>
-
-      <div
-        id="orderModalBody"
-        class="modal-body"
-      ></div>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <div id="toast"></div>
+<div
+  id="toast"
+  class="toast">
+</div>
 
 
-  <script>
-    /* =========================================================
-       HZ.SHOP CUSTOMER HUB
-    ========================================================= */
+<script>
+"use strict";
 
-    const API = "/api";
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
 
-    let currentCustomer = null;
-    let customerOrders = [];
-    let editingAddressId = null;
-    let products = [];
+const API = "/api";
 
-    /* =========================================================
-       BASIC HELPERS
-    ========================================================= */
+let currentCustomer = null;
+let orders = [];
+let products = [];
 
-    function $(id){
-      return document.getElementById(id);
-    }
 
-    function escapeHtml(value){
-      return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-    }
+/* =========================================================
+   HELPERS
+========================================================= */
 
-    function safeNumber(value){
-      const n = Number(value);
-      return Number.isFinite(n) ? n : 0;
-    }
+function $(id){
+  return document.getElementById(id);
+}
 
-    function showToast(message){
-      const toast = $("toast");
 
-      if(!toast){
-        return;
-      }
+function escapeHtml(value){
 
-      toast.textContent = message;
-      toast.classList.add("show");
-
-      clearTimeout(window.__hubToastTimer);
-
-      window.__hubToastTimer =
-        setTimeout(() => {
-          toast.classList.remove("show");
-        },3000);
-    }
-
-    function normalizeImages(value){
-
-      if(Array.isArray(value)){
-        return value.filter(Boolean);
-      }
-
-      if(!value){
-        return [];
-      }
-
-      if(typeof value === "string"){
-
-        try{
-          const parsed = JSON.parse(value);
-
-          if(Array.isArray(parsed)){
-            return parsed.filter(Boolean);
-          }
-        }catch(error){}
-
-        return [value];
-      }
-
-      return [];
-    }
-
-    function normalizeProduct(product){
-
-      if(!product){
-        return null;
-      }
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    function(char){
 
       return {
-        ...product,
-        id:
-          product.id ??
-          product.product_id ??
-          product.productId,
-        name:
-          product.name ||
-          product.title ||
-          "منتج HZ.SHOP",
-        price:
-          safeNumber(
-            product.price ??
-            product.unit_price ??
-            0
-          ),
-        images:
-          normalizeImages(
-            product.images ??
-            product.image ??
-            product.image_url
-          )
-      };
-    }
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
 
-    /* =========================================================
-       CUSTOMER STORAGE
-    ========================================================= */
-
-    function getCustomerStorageKey(prefix){
-
-      const id =
-        currentCustomer?.id ??
-        currentCustomer?.phone ??
-        "guest";
-
-      return prefix + "_" + String(id);
+      }[char];
 
     }
+  );
 
-    function readStorageArray(key){
+}
 
-      try{
 
-        const data =
-          JSON.parse(
-            localStorage.getItem(key) || "[]"
-          );
+function readJSON(key,fallback){
 
-        return Array.isArray(data)
-          ? data
-          : [];
+  try{
 
-      }catch(error){
+    const raw =
+      localStorage.getItem(key);
 
-        return [];
-
-      }
-
+    if(raw === null){
+      return fallback;
     }
 
-    function writeStorageArray(key,value){
+    const parsed =
+      JSON.parse(raw);
 
-      try{
+    return parsed ?? fallback;
 
-        localStorage.setItem(
-          key,
-          JSON.stringify(value)
-        );
+  }catch(error){
 
-        return true;
+    return fallback;
 
-      }catch(error){
+  }
 
-        console.error(
-          "STORAGE_WRITE_ERROR",
-          error
-        );
+}
 
-        return false;
 
-      }
+function writeJSON(key,value){
 
-    }
+  try{
 
-    /* =========================================================
-       SETTINGS
-    ========================================================= */
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
 
-    function getSettings(){
+    return true;
 
-      const key =
-        getCustomerStorageKey(
-          "hz_customer_settings"
-        );
+  }catch(error){
 
-      try{
+    console.error(error);
 
-        const data =
-          JSON.parse(
-            localStorage.getItem(key) || "{}"
-          );
+    return false;
 
-        return {
-          recentTracking:
-            data.recentTracking !== false,
+  }
 
-          favorites:
-            data.favorites !== false
+}
 
-        };
 
-      }catch(error){
+function showToast(message){
 
-        return {
-          recentTracking:true,
-          favorites:true
-        };
+  const toast =
+    $("toast");
 
-      }
+  toast.textContent =
+    message;
 
-    }
+  toast.classList.add("show");
 
-    function saveSettings(settings){
+  clearTimeout(
+    showToast.timer
+  );
 
-      writeStorageArray(
-        getCustomerStorageKey(
-          "hz_customer_settings"
-        ),
-        settings
+  showToast.timer =
+    setTimeout(
+      function(){
+
+        toast.classList.remove("show");
+
+      },
+      2600
+    );
+
+}
+
+
+/* =========================================================
+   CUSTOMER STORAGE
+========================================================= */
+
+function getCustomerStorageKey(prefix){
+
+  const id =
+    currentCustomer?.id ??
+    currentCustomer?.phone ??
+    "guest";
+
+  return prefix + "_" + String(id);
+
+}
+
+
+function readStorageArray(key){
+
+  try{
+
+    const data =
+      JSON.parse(
+        localStorage.getItem(key) || "[]"
       );
 
-      /*
-        writeStorageArray expects an array in its
-        name, so settings are saved separately below.
-      */
+    return Array.isArray(data)
+      ? data
+      : [];
 
-      try{
+  }catch(error){
 
-        localStorage.setItem(
-          getCustomerStorageKey(
-            "hz_customer_settings"
-          ),
-          JSON.stringify(settings)
-        );
+    return [];
 
-      }catch(error){}
+  }
 
+}
+
+
+function customerArray(prefix){
+
+  return readStorageArray(
+    getCustomerStorageKey(prefix)
+  );
+
+}
+
+
+function saveCustomerArray(prefix,value){
+
+  return writeJSON(
+    getCustomerStorageKey(prefix),
+    Array.isArray(value)
+      ? value
+      : []
+  );
+
+}
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function api(path,options){
+
+  const opts =
+    options || {};
+
+  const fetchOptions = {
+
+    credentials:"include",
+
+    cache:"no-store",
+
+    ...opts,
+
+    headers:{
+      ...(opts.body
+        ? {"Content-Type":"application/json"}
+        : {}),
+      ...(opts.headers || {})
     }
 
-    function toggleSetting(name){
+  };
 
-      const settings =
-        getSettings();
+  const response =
+    await fetch(
+      API + path,
+      fetchOptions
+    );
 
-      settings[name] =
-        !settings[name];
-
-      saveSettings(settings);
-
-      updateSettingsUI();
-
-      if(name === "recentTracking" && !settings[name]){
-        localStorage.removeItem(
-          getCustomerStorageKey(
-            "hz_customer_recent"
-          )
-        );
-      }
-
-      if(name === "favorites" && !settings[name]){
-        localStorage.removeItem(
-          getCustomerStorageKey(
-            "hz_customer_favorites"
-          )
-        );
-      }
-
-      updateStats();
-
-      showToast("تم تحديث الإعداد.");
-
-    }
-
-    function updateSettingsUI(){
-
-      const settings =
-        getSettings();
-
-      const recentToggle =
-        $("recentToggle");
-
-      const favoriteToggle =
-        $("favoriteToggle");
-
-      if(recentToggle){
-
-        recentToggle.classList.toggle(
-          "on",
-          settings.recentTracking
-        );
-
-      }
-
-      if(favoriteToggle){
-
-        favoriteToggle.classList.toggle(
-          "on",
-          settings.favorites
-        );
-
-      }
-
-    }
-
-    /* =========================================================
-       SESSION
-    ========================================================= */
-
-    async function checkCustomerSession(){
-
-      try{
-
-        const response =
-          await fetch(
-            API + "/customer-me",
-            {
-              method:"GET",
-              credentials:"include",
-              cache:"no-store"
-            }
-          );
-
-        const data =
-          await response
-            .json()
-            .catch(() => ({}));
-
-        if(
-          response.ok &&
-          data.logged_in === true &&
-          data.customer
-        ){
-
-          currentCustomer =
-            data.customer;
-
-          showCustomerHub();
-
-          await loadOrders();
-
-          await loadProducts();
-
-          renderAll();
-
-          return true;
-
+  const data =
+    await response
+      .json()
+      .catch(
+        function(){
+          return {};
         }
-
-        showAuthScreen();
-
-        return false;
-
-      }catch(error){
-
-        console.error(
-          "CUSTOMER_SESSION_ERROR",
-          error
-        );
-
-        showAuthScreen();
-
-        return false;
-
-      }
-
-    }
-
-    function showAuthScreen(){
-
-      $("authScreen")?.classList.remove("hidden");
-      $("customerHub")?.classList.add("hidden");
-
-      document.body.style.overflow = "";
-
-    }
-
-    function showCustomerHub(){
-
-      $("authScreen")?.classList.add("hidden");
-      $("customerHub")?.classList.remove("hidden");
-
-      document.body.style.overflow = "";
-
-      updateCustomerUI();
-      updateCartStats();
-      updateSettingsUI();
-
-    }
-
-    function updateCustomerUI(){
-
-      const name =
-        currentCustomer?.name ||
-        "العميل";
-
-      const phone =
-        currentCustomer?.phone ||
-        "—";
-
-      if($("welcomeName")){
-        $("welcomeName").textContent =
-          name;
-      }
-
-      if($("profileName")){
-        $("profileName").textContent =
-          name;
-      }
-
-      if($("profilePhone")){
-        $("profilePhone").textContent =
-          phone;
-      }
-
-      if($("profileEditName")){
-        $("profileEditName").value =
-          name;
-      }
-
-      if($("profileEditPhone")){
-        $("profileEditPhone").value =
-          phone;
-      }
-
-    }
-
-    /* =========================================================
-       AUTH
-    ========================================================= */
-
-    function switchAuth(mode){
-
-      const login =
-        $("loginForm");
-
-      const register =
-        $("registerForm");
-
-      const loginTab =
-        $("loginTab");
-
-      const registerTab =
-        $("registerTab");
-
-      if(mode === "register"){
-
-        login?.classList.add("hidden");
-        register?.classList.remove("hidden");
-
-        loginTab?.classList.remove("active");
-        registerTab?.classList.add("active");
-
-      }else{
-
-        register?.classList.add("hidden");
-        login?.classList.remove("hidden");
-
-        registerTab?.classList.remove("active");
-        loginTab?.classList.add("active");
-
-      }
-
-    }
-
-    async function loginCustomer(){
-
-      const phone =
-        $("loginPhone")?.value.trim();
-
-      const password =
-        $("loginPassword")?.value;
-
-      const message =
-        $("loginMessage");
-
-      const button =
-        $("loginButton");
-
-      if(!phone || !password){
-
-        if(message){
-          message.textContent =
-            "يرجى إدخال رقم الهاتف وكلمة المرور.";
-        }
-
-        return;
-
-      }
-
-      if(button){
-        button.disabled = true;
-        button.textContent =
-          "جاري تسجيل الدخول...";
-      }
-
-      if(message){
-        message.textContent = "";
-      }
-
-      try{
-
-        const response =
-          await fetch(
-            API + "/customer-login",
-            {
-              method:"POST",
-              credentials:"include",
-              headers:{
-                "Content-Type":
-                  "application/json"
-              },
-              body:JSON.stringify({
-                phone,
-                password
-              })
-            }
-          );
-
-        const data =
-          await response
-            .json()
-            .catch(() => ({}));
-
-        if(!response.ok){
-
-          if(message){
-            message.textContent =
-              data.error ||
-              data.message ||
-              "فشل تسجيل الدخول.";
-          }
-
-          return;
-
-        }
-
-        currentCustomer =
-          data.customer || null;
-
-        const loggedIn =
-          await checkCustomerSession();
-
-        if(loggedIn){
-
-          showToast(
-            "تم تسجيل الدخول بنجاح."
-          );
-
-        }
-
-      }catch(error){
-
-        console.error(
-          "CUSTOMER_LOGIN_ERROR",
-          error
-        );
-
-        if(message){
-          message.textContent =
-            "حدث خطأ أثناء تسجيل الدخول.";
-        }
-
-      }finally{
-
-        if(button){
-          button.disabled = false;
-          button.textContent =
-            "تسجيل الدخول";
-        }
-
-      }
-
-    }
-
-    async function registerCustomer(){
-
-      const name =
-        $("registerName")?.value.trim();
-
-      const phone =
-        $("registerPhone")?.value.trim();
-
-      const password =
-        $("registerPassword")?.value;
-
-      const confirm =
-        $("registerPasswordConfirm")?.value;
-
-      const message =
-        $("registerMessage");
-
-      const button =
-        $("registerButton");
-
-      if(
-        !name ||
-        !phone ||
-        !password ||
-        !confirm
-      ){
-
-        if(message){
-          message.textContent =
-            "يرجى تعبئة جميع الحقول.";
-        }
-
-        return;
-
-      }
-
-      if(password.length < 6){
-
-        if(message){
-          message.textContent =
-            "كلمة المرور يجب أن تكون 6 أحرف على الأقل.";
-        }
-
-        return;
-
-      }
-
-      if(password !== confirm){
-
-        if(message){
-          message.textContent =
-            "كلمتا المرور غير متطابقتين.";
-        }
-
-        return;
-
-      }
-
-      if(button){
-        button.disabled = true;
-        button.textContent =
-          "جاري إنشاء الحساب...";
-      }
-
-      if(message){
-        message.textContent = "";
-      }
-
-      try{
-
-        const response =
-          await fetch(
-            API + "/customer-register",
-            {
-              method:"POST",
-              credentials:"include",
-              headers:{
-                "Content-Type":
-                  "application/json"
-              },
-              body:JSON.stringify({
-                name,
-                phone,
-                password
-              })
-            }
-          );
-
-        const data =
-          await response
-            .json()
-            .catch(() => ({}));
-
-        if(!response.ok){
-
-          if(message){
-            message.textContent =
-              data.error ||
-              data.message ||
-              "فشل إنشاء الحساب.";
-          }
-
-          return;
-
-        }
-
-        currentCustomer =
-          data.customer || null;
-
-        const loggedIn =
-          await checkCustomerSession();
-
-        if(loggedIn){
-
-          showToast(
-            "تم إنشاء الحساب بنجاح."
-          );
-
-        }
-
-      }catch(error){
-
-        console.error(
-          "CUSTOMER_REGISTER_ERROR",
-          error
-        );
-
-        if(message){
-          message.textContent =
-            "حدث خطأ أثناء إنشاء الحساب.";
-        }
-
-      }finally{
-
-        if(button){
-          button.disabled = false;
-          button.textContent =
-            "إنشاء الحساب";
-        }
-
-      }
-
-    }
-
-    async function logoutCustomer(){
-
-      const confirmed =
-        window.confirm(
-          "هل تريد تسجيل الخروج من حسابك؟"
-        );
-
-      if(!confirmed){
-        return;
-      }
-
-      try{
-
-        await fetch(
-          API + "/customer-logout",
-          {
-            method:"POST",
-            credentials:"include"
-          }
-        );
-
-      }catch(error){
-
-        console.error(
-          "CUSTOMER_LOGOUT_ERROR",
-          error
-        );
-
-      }
-
-      currentCustomer = null;
-      customerOrders = [];
-
-      showAuthScreen();
-
-      if($("loginPhone")){
-        $("loginPhone").value = "";
-      }
-
-      if($("loginPassword")){
-        $("loginPassword").value = "";
-      }
-
-      showToast(
-        "تم تسجيل الخروج."
       );
 
+  return {
+    response,
+    data
+  };
+
+}
+
+
+/* =========================================================
+   AUTH UI
+========================================================= */
+
+function switchAuth(mode){
+
+  const login =
+    mode === "login";
+
+  $("loginForm")
+    .classList
+    .toggle(
+      "hidden",
+      !login
+    );
+
+  $("registerForm")
+    .classList
+    .toggle(
+      "hidden",
+      login
+    );
+
+  $("loginTab")
+    .classList
+    .toggle(
+      "active",
+      login
+    );
+
+  $("registerTab")
+    .classList
+    .toggle(
+      "active",
+      !login
+    );
+
+  $("authNotice")
+    .className =
+    "notice";
+
+}
+
+
+function showAuthNotice(message,type){
+
+  const box =
+    $("authNotice");
+
+  box.textContent =
+    message;
+
+  box.className =
+    "notice show " +
+    (
+      type === "success"
+        ? "success"
+        : "error"
+    );
+
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+async function checkCustomerSession(){
+
+  try{
+
+    const {
+      response,
+      data
+    } =
+      await api(
+        "/customer-me",
+        {
+          method:"GET"
+        }
+      );
+
+    if(
+      response.ok &&
+      data &&
+      data.customer
+    ){
+
+      currentCustomer =
+        data.customer;
+
+      enterCustomerHub();
+
+      return true;
+
     }
 
-    /* =========================================================
-       NAVIGATION
-    ========================================================= */
+  }catch(error){
 
-    function showSection(section,button){
+    console.error(
+      "CUSTOMER_SESSION_ERROR",
+      error
+    );
 
-      document
-        .querySelectorAll(".section")
-        .forEach(item => {
-          item.classList.remove("active");
-        });
+  }
 
-      const target =
-        $("section-" + section);
+  currentCustomer =
+    null;
 
-      if(target){
-        target.classList.add("active");
-      }
+  $("authScreen")
+    .classList
+    .remove("hidden");
 
-      document
-        .querySelectorAll(".side-item")
-        .forEach(item => {
-          item.classList.remove("active");
-        });
+  $("app")
+    .classList
+    .add("hidden");
 
-      if(button){
-        button.classList.add("active");
-      }else{
+  return false;
 
-        const matching =
-          document.querySelector(
-            '.side-item[data-section="' +
-            section +
-            '"]'
-          );
+}
 
-        matching?.classList.add("active");
 
-      }
+/* =========================================================
+   LOGIN
+========================================================= */
 
-      if(section === "orders"){
-        loadOrders().then(() => {
-          renderOrders();
-          renderRecentOrders();
-        });
-      }
+async function loginCustomer(event){
 
-      if(section === "favorites"){
-        renderFavorites();
-      }
+  event.preventDefault();
 
-      if(section === "recent"){
-        renderRecent();
-      }
+  const phone =
+    normalizePhone(
+      $("loginPhone").value
+    );
 
-      if(section === "addresses"){
-        renderAddresses();
-      }
+  const password =
+    $("loginPassword").value;
 
-      if(section === "notifications"){
-        renderNotifications();
-      }
+  if(
+    !phone ||
+    !password
+  ){
 
-      if(section === "settings"){
-        updateSettingsUI();
-      }
+    showAuthNotice(
+      "أدخل رقم الهاتف وكلمة المرور."
+    );
 
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
+    return;
 
-    }
+  }
 
-    /* =========================================================
-       IMPORTANT:
-       MAIN STORE CART
-    ========================================================= */
+  try{
 
-    function getMainCart(){
+    const {
+      response,
+      data
+    } =
+      await api(
+        "/customer-login",
+        {
+          method:"POST",
 
-      try{
+          body:JSON.stringify({
+            phone,
+            password
+          })
+        }
+      );
 
-        const data =
-          JSON.parse(
-            localStorage.getItem("hz_cart") ||
-            "[]"
-          );
+    if(!response.ok){
 
-        return Array.isArray(data)
-          ? data
-          : [];
+      showAuthNotice(
+        data.message ||
+        data.error ||
+        "بيانات الدخول غير صحيحة."
+      );
 
-      }catch(error){
-
-        return [];
-
-      }
+      return;
 
     }
 
-    function updateCartStats(){
+    currentCustomer =
+      data.customer || null;
 
-      const cart =
-        getMainCart();
+    $("loginPassword").value =
+      "";
 
-      const count =
-        cart.reduce(
-          (sum,item) =>
-            sum +
-            Math.max(
-              0,
-              Number(
-                item.quantity ??
-                item.qty ??
-                1
-              )
-            ),
-          0
+    if(currentCustomer){
+
+      enterCustomerHub();
+
+    }else{
+
+      await checkCustomerSession();
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    showAuthNotice(
+      "تعذر الاتصال بالخادم. حاول مرة أخرى."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+async function registerCustomer(event){
+
+  event.preventDefault();
+
+  const name =
+    $("registerName")
+      .value
+      .trim();
+
+  const phone =
+    normalizePhone(
+      $("registerPhone").value
+    );
+
+  const password =
+    $("registerPassword").value;
+
+  if(
+    !name ||
+    !phone ||
+    password.length < 6
+  ){
+
+    showAuthNotice(
+      "تأكد من الاسم ورقم الهاتف وكلمة المرور."
+    );
+
+    return;
+
+  }
+
+  try{
+
+    const {
+      response,
+      data
+    } =
+      await api(
+        "/customer-register",
+        {
+          method:"POST",
+
+          body:JSON.stringify({
+            name,
+            phone,
+            password
+          })
+        }
+      );
+
+    if(!response.ok){
+
+      showAuthNotice(
+        data.message ||
+        data.error ||
+        "تعذر إنشاء الحساب."
+      );
+
+      return;
+
+    }
+
+    currentCustomer =
+      data.customer || null;
+
+    if(currentCustomer){
+
+      enterCustomerHub();
+
+    }else{
+
+      showAuthNotice(
+        "تم إنشاء الحساب. يمكنك تسجيل الدخول.",
+        "success"
+      );
+
+      switchAuth("login");
+
+      $("loginPhone").value =
+        phone;
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    showAuthNotice(
+      "تعذر الاتصال بالخادم."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logoutCustomer(){
+
+  const confirmed =
+    confirm(
+      "هل تريد تسجيل الخروج من حسابك؟"
+    );
+
+  if(!confirmed){
+    return;
+  }
+
+  try{
+
+    await api(
+      "/customer-logout",
+      {
+        method:"POST",
+        body:"{}"
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "LOGOUT_ERROR",
+      error
+    );
+
+  }
+
+  currentCustomer =
+    null;
+
+  orders = [];
+
+  $("app")
+    .classList
+    .add("hidden");
+
+  $("authScreen")
+    .classList
+    .remove("hidden");
+
+  switchAuth("login");
+
+  showAuthNotice(
+    "تم تسجيل الخروج بنجاح.",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   ENTER HUB
+========================================================= */
+
+function enterCustomerHub(){
+
+  $("authScreen")
+    .classList
+    .add("hidden");
+
+  $("app")
+    .classList
+    .remove("hidden");
+
+  renderCustomer();
+
+  loadAll();
+
+}
+
+
+/* =========================================================
+   CUSTOMER UI
+========================================================= */
+
+function renderCustomer(){
+
+  const name =
+    currentCustomer?.name ||
+    "العميل";
+
+  const phone =
+    currentCustomer?.phone ||
+    "—";
+
+  $("sideName").textContent =
+    name;
+
+  $("sidePhone").textContent =
+    phone;
+
+  $("heroName").textContent =
+    name;
+
+  $("profileName").value =
+    name;
+
+  $("profilePhone").value =
+    phone;
+
+  const initials =
+    name
+      .trim()
+      .split(/\s+/)
+      .slice(0,2)
+      .map(
+        function(word){
+          return word.charAt(0);
+        }
+      )
+      .join("")
+      .toUpperCase();
+
+  $("avatar").textContent =
+    initials || "HZ";
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showSection(name){
+
+  document
+    .querySelectorAll(".section")
+    .forEach(
+      function(section){
+
+        section.classList.remove(
+          "active"
         );
-
-      [
-        "topCartCount",
-        "sideCartCount",
-        "statCart"
-      ].forEach(id => {
-
-        const el = $(id);
-
-        if(el){
-          el.textContent =
-            count;
-        }
-
-      });
-
-    }
-
-    /*
-      This does NOT create another cart.
-      It only sends the customer to the original store.
-      The original index.html remains the owner of the cart UI.
-    */
-
-    function openMainCart(){
-
-      updateCartStats();
-
-      window.location.href =
-        "/#shop";
-
-    }
-
-    function openMainStore(){
-
-      window.location.href =
-        "/";
-
-    }
-
-    /* =========================================================
-       CART STORAGE CHANGES FROM OTHER TABS
-    ========================================================= */
-
-    window.addEventListener(
-      "storage",
-      event => {
-
-        if(event.key === "hz_cart"){
-          updateCartStats();
-        }
 
       }
     );
 
-    /* =========================================================
-       ORDERS
-    ========================================================= */
+  const target =
+    $("section-" + name);
 
-    async function loadOrders(){
+  if(target){
 
-      if(!currentCustomer){
-        return [];
-      }
+    target.classList.add(
+      "active"
+    );
 
-      try{
+  }
 
-        const response =
-          await fetch(
-            API + "/customer-orders",
-            {
-              method:"GET",
-              credentials:"include",
-              cache:"no-store"
-            }
-          );
+  document
+    .querySelectorAll(
+      ".nav-btn[data-section]"
+    )
+    .forEach(
+      function(button){
 
-        const data =
-          await response
-            .json()
-            .catch(() => ({}));
-
-        if(
-          response.ok &&
-          Array.isArray(data.orders)
-        ){
-
-          customerOrders =
-            data.orders;
-
-        }else{
-
-          customerOrders = [];
-
-        }
-
-      }catch(error){
-
-        console.error(
-          "CUSTOMER_ORDERS_ERROR",
-          error
+        button.classList.toggle(
+          "active",
+          button.dataset.section === name
         );
 
-        customerOrders = [];
-
       }
+    );
 
-      updateStats();
 
-      return customerOrders;
+  if(name === "orders"){
+    renderOrders();
+  }
 
-    }
+  if(name === "favorites"){
+    renderFavorites();
+  }
 
-    function getOrderId(order){
+  if(name === "recent"){
+    renderRecent();
+  }
 
-      return (
-        order?.id ??
-        order?.order_id ??
-        order?.orderId ??
-        "—"
+  if(name === "addresses"){
+    renderAddresses();
+  }
+
+  if(name === "notifications"){
+    renderNotifications();
+  }
+
+  if(name === "settings"){
+    loadSettings();
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================================================
+   LOAD ALL
+========================================================= */
+
+async function loadAll(){
+
+  updateCartStats();
+
+  renderFavorites();
+
+  renderRecent();
+
+  renderAddresses();
+
+  renderNotifications();
+
+  loadSettings();
+
+  await Promise.all([
+    loadProducts(),
+    loadOrders()
+  ]);
+
+  renderFavorites();
+
+  renderRecent();
+
+  renderOverviewOrders();
+
+  loadRecommendations();
+
+  updateStats();
+
+}
+
+
+/* =========================================================
+   ORDERS
+========================================================= */
+
+async function loadOrders(){
+
+  const box =
+    $("ordersList");
+
+  box.innerHTML =
+    '<div class="empty">جارٍ تحميل الطلبات…</div>';
+
+  try{
+
+    const {
+      response,
+      data
+    } =
+      await api(
+        "/customer-orders",
+        {
+          method:"GET"
+        }
       );
 
-    }
+    if(!response.ok){
 
-    function getOrderDate(order){
+      orders = [];
 
-      const value =
-        order?.created_at ??
-        order?.createdAt ??
-        order?.date ??
-        null;
+      box.innerHTML =
+        '<div class="empty">تعذر تحميل الطلبات.</div>';
 
-      if(!value){
-        return "—";
-      }
-
-      try{
-
-        return new Date(value)
-          .toLocaleDateString(
-            "ar-LB",
-            {
-              year:"numeric",
-              month:"short",
-              day:"numeric"
-            }
-          );
-
-      }catch(error){
-
-        return String(value);
-
-      }
+      return;
 
     }
 
-    function getOrderTotal(order){
+    orders =
+      Array.isArray(data.orders)
+        ? data.orders
+        : [];
 
-      return safeNumber(
-        order?.total ??
-        order?.total_amount ??
-        order?.amount ??
-        0
-      );
+    renderOrders();
 
-    }
+    renderOverviewOrders();
 
-    function getOrderStatus(order){
+    $("statOrders").textContent =
+      orders.length;
 
-      return (
-        order?.status ??
-        order?.order_status ??
-        "قيد المعالجة"
-      );
+    $("ordersNavCount").textContent =
+      orders.length
+        ? " (" + orders.length + ")"
+        : "";
 
-    }
+  }catch(error){
 
-    function statusClass(status){
+    console.error(
+      "ORDERS_ERROR",
+      error
+    );
 
-      const text =
-        String(status || "")
-          .toLowerCase();
+    orders = [];
 
-      if(
-        text.includes("cancel") ||
-        text.includes("ملغ")
-      ){
-        return "cancelled";
-      }
+    box.innerHTML =
+      '<div class="empty">تعذر الاتصال بالخادم.</div>';
 
-      if(
-        text.includes("complete") ||
-        text.includes("delivered") ||
-        text.includes("مكتمل") ||
-        text.includes("تم")
-      ){
-        return "success";
-      }
+  }
 
-      return "pending";
+}
 
-    }
 
-    function renderOrders(){
+function getOrderNumber(order){
 
-      const container =
-        $("ordersList");
+  return (
+    order?.order_number ??
+    order?.orderNumber ??
+    order?.id ??
+    "—"
+  );
 
-      if(!container){
-        return;
-      }
+}
 
-      if(!customerOrders.length){
 
-        container.innerHTML = `
-          <div class="panel">
-            <div class="empty">
-              <div class="empty-icon">📦</div>
-              <strong>لا توجد طلبات بعد</strong>
-              <p>عندما تقوم بإتمام أول طلب سيظهر هنا.</p>
-              <button
-                class="dark-btn"
-                style="width:auto"
-                type="button"
-                onclick="openMainStore()"
-              >
-                اكتشف المنتجات
-              </button>
-            </div>
-          </div>
-        `;
+function getOrderTotal(order){
 
-        return;
+  const value =
+    Number(
+      order?.total ??
+      order?.amount ??
+      0
+    );
 
-      }
+  return Number.isFinite(value)
+    ? value.toFixed(2)
+    : "0.00";
 
-      container.innerHTML =
-        customerOrders
-          .map(order => {
+}
 
-            const id =
-              getOrderId(order);
 
-            const status =
-              getOrderStatus(order);
+function orderStatus(status){
 
-            return `
-              <div class="order-card">
+  const value =
+    String(
+      status || ""
+    ).toLowerCase();
 
-                <div class="order-head">
+  if(
+    value.includes("deliver") ||
+    value.includes("complete") ||
+    value.includes("تم")
+  ){
 
-                  <div>
-                    <div class="order-number">
-                      طلب #${escapeHtml(id)}
-                    </div>
+    return `
+      <span class="badge success">
+        مكتمل
+      </span>
+    `;
 
-                    <div class="order-date">
-                      ${escapeHtml(
-                        getOrderDate(order)
-                      )}
-                    </div>
-                  </div>
+  }
 
-                  <span
-                    class="status ${statusClass(status)}"
-                  >
-                    ${escapeHtml(status)}
-                  </span>
+  if(
+    value.includes("cancel") ||
+    value.includes("ملغ")
+  ){
 
-                </div>
+    return `
+      <span class="badge cancel">
+        ملغي
+      </span>
+    `;
 
-                <div class="order-body">
+  }
 
-                  <div class="order-meta">
+  return `
+    <span class="badge pending">
+      قيد المعالجة
+    </span>
+  `;
 
-                    <div class="meta-box">
-                      <small>الإجمالي</small>
-                      <strong>
-                        ${getOrderTotal(order).toFixed(2)} $
-                      </strong>
-                    </div>
+}
 
-                    <div class="meta-box">
-                      <small>طريقة الدفع</small>
-                      <strong>
-                        ${escapeHtml(
-                          order?.payment_method ||
-                          order?.paymentMethod ||
-                          "—"
-                        )}
-                      </strong>
-                    </div>
 
-                    <div class="meta-box">
-                      <small>الحالة</small>
-                      <strong>
-                        ${escapeHtml(status)}
-                      </strong>
-                    </div>
+function renderOrders(){
 
-                  </div>
+  const box =
+    $("ordersList");
 
-                  <div class="order-actions">
+  if(!orders.length){
 
-                    <button
-                      class="small-btn"
-                      type="button"
-                      onclick="openOrderDetails('${escapeHtml(String(id))}')"
-                    >
-                      تفاصيل الطلب
-                    </button>
+    box.innerHTML =
+      '<div class="empty">لا توجد طلبات حتى الآن.</div>';
 
-                  </div>
+    return;
 
-                </div>
+  }
+
+  box.innerHTML =
+    orders
+      .map(
+        function(order){
+
+          return `
+            <div class="order">
+
+              <div class="order-head">
+
+                <span class="order-number">
+                  طلب #${escapeHtml(
+                    getOrderNumber(order)
+                  )}
+                </span>
+
+                ${orderStatus(
+                  order.status
+                )}
 
               </div>
-            `;
 
-          })
-          .join("");
-
-    }
-
-    function renderRecentOrders(){
-
-      const container =
-        $("recentOrders");
-
-      if(!container){
-        return;
-      }
-
-      const orders =
-        customerOrders.slice(0,3);
-
-      if(!orders.length){
-
-        container.innerHTML = `
-          <div class="empty">
-            <div class="empty-icon">📦</div>
-            <strong>لا توجد طلبات بعد</strong>
-            <p>ستظهر طلباتك الأخيرة هنا.</p>
-          </div>
-        `;
-
-        return;
-
-      }
-
-      container.innerHTML =
-        orders
-          .map(order => {
-
-            const id =
-              getOrderId(order);
-
-            const status =
-              getOrderStatus(order);
-
-            return `
-              <div
-                class="order-card"
-                style="margin-bottom:10px"
-              >
-
-                <div class="order-head">
-
-                  <div>
-                    <div class="order-number">
-                      طلب #${escapeHtml(id)}
-                    </div>
-
-                    <div class="order-date">
-                      ${escapeHtml(
-                        getOrderDate(order)
-                      )}
-                    </div>
-                  </div>
-
-                  <span
-                    class="status ${statusClass(status)}"
-                  >
-                    ${escapeHtml(status)}
-                  </span>
-
-                </div>
-
-                <div
-                  class="order-body"
-                  style="
-                    display:flex;
-                    justify-content:space-between;
-                    align-items:center;
-                    gap:10px;
-                  "
-                >
-
-                  <strong>
-                    ${getOrderTotal(order).toFixed(2)} $
-                  </strong>
-
-                  <button
-                    class="small-btn"
-                    type="button"
-                    onclick="openOrderDetails('${escapeHtml(String(id))}')"
-                  >
-                    التفاصيل
-                  </button>
-
-                </div>
-
-              </div>
-            `;
-
-          })
-          .join("");
-
-    }
-
-    function openOrderDetails(id){
-
-      const order =
-        customerOrders.find(
-          item =>
-            String(
-              getOrderId(item)
-            ) === String(id)
-        );
-
-      if(!order){
-        return;
-      }
-
-      const items =
-        order.items ||
-        order.order_items ||
-        order.products ||
-        [];
-
-      let itemsHtml = "";
-
-      if(Array.isArray(items) && items.length){
-
-        itemsHtml =
-          items
-            .map(item => {
-
-              const name =
-                item?.name ||
-                item?.title ||
-                item?.product?.name ||
-                "منتج";
-
-              const quantity =
-                Number(
-                  item?.quantity ??
-                  item?.qty ??
-                  1
-                );
-
-              const price =
-                safeNumber(
-                  item?.price ??
-                  item?.unit_price ??
-                  item?.product?.price ??
-                  0
-                );
-
-              return `
-                <div class="order-detail-item">
-                  <span>
-                    ${escapeHtml(name)}
-                    × ${quantity}
-                  </span>
-                  <strong>
-                    ${(price * quantity).toFixed(2)} $
-                  </strong>
-                </div>
-              `;
-
-            })
-            .join("");
-
-      }else{
-
-        itemsHtml = `
-          <div class="empty">
-            <div class="empty-icon">📦</div>
-            <strong>تفاصيل المنتجات غير متاحة</strong>
-          </div>
-        `;
-
-      }
-
-      $("orderModalBody").innerHTML = `
-
-        <div
-          style="
-            display:grid;
-            gap:12px;
-            margin-bottom:18px;
-          "
-        >
-
-          <div class="meta-box">
-            <small>رقم الطلب</small>
-            <strong>
-              #${escapeHtml(id)}
-            </strong>
-          </div>
-
-          <div class="meta-box">
-            <small>التاريخ</small>
-            <strong>
-              ${escapeHtml(
-                getOrderDate(order)
-              )}
-            </strong>
-          </div>
-
-          <div class="meta-box">
-            <small>الإجمالي</small>
-            <strong>
-              ${getOrderTotal(order).toFixed(2)} $
-            </strong>
-          </div>
-
-          <div class="meta-box">
-            <small>الحالة</small>
-            <strong>
-              ${escapeHtml(
-                getOrderStatus(order)
-              )}
-            </strong>
-          </div>
-
-        </div>
-
-        <h4 style="margin:0 0 8px;">
-          المنتجات
-        </h4>
-
-        ${itemsHtml}
-
-      `;
-
-      $("orderModal")
-        ?.classList.add("show");
-
-      document.body.style.overflow =
-        "hidden";
-
-    }
-
-    function closeOrderModal(event){
-
-      if(
-        event &&
-        event.target !== event.currentTarget
-      ){
-        return;
-      }
-
-      $("orderModal")
-        ?.classList.remove("show");
-
-      document.body.style.overflow = "";
-
-    }
-
-    /* =========================================================
-       ADDRESSES
-    ========================================================= */
-
-    function getAddresses(){
-
-      return readStorageArray(
-        getCustomerStorageKey(
-          "hz_customer_addresses"
-        )
-      );
-
-    }
-
-    function saveAddresses(addresses){
-
-      return writeStorageArray(
-        getCustomerStorageKey(
-          "hz_customer_addresses"
-        ),
-        addresses
-      );
-
-    }
-
-    function renderAddresses(){
-
-      const container =
-        $("addressesList");
-
-      if(!container){
-        return;
-      }
-
-      const addresses =
-        getAddresses();
-
-      if($("sideAddressesCount")){
-        $("sideAddressesCount")
-          .textContent =
-          addresses.length;
-      }
-
-      if(!addresses.length){
-
-        container.innerHTML = `
-          <div class="empty">
-            <div class="empty-icon">📍</div>
-            <strong>لا توجد عناوين محفوظة</strong>
-            <p>
-              أضف عنوانك لتسهيل إتمام الطلبات القادمة.
-            </p>
-            <button
-              class="dark-btn"
-              style="width:auto"
-              type="button"
-              onclick="openAddressModal()"
-            >
-              إضافة عنوان
-            </button>
-          </div>
-        `;
-
-        return;
-
-      }
-
-      container.innerHTML = `
-        <div class="address-list">
-          ${
-            addresses
-              .map((address,index) => {
-
-                const id =
-                  address.id ??
-                  ("address-" + index);
-
-                return `
-                  <div
-                    class="address-card ${
-                      address.isDefault
-                        ? "default"
-                        : ""
-                    }"
-                  >
-
-                    <div class="address-top">
-
-                      <div>
-                        <div class="address-label">
-                          ${escapeHtml(
-                            address.label ||
-                            "عنوان"
-                          )}
-                        </div>
-
-                        ${
-                          address.isDefault
-                            ? `
-                              <span class="default-badge">
-                                العنوان الافتراضي
-                              </span>
-                            `
-                            : ""
-                        }
-
-                      </div>
-
-                    </div>
-
-                    <div class="address-details">
-
-                      <strong>
-                        ${escapeHtml(
-                          address.recipient ||
-                          currentCustomer?.name ||
-                          ""
-                        )}
-                      </strong>
-
-                      <br>
-
-                      ${escapeHtml(
-                        address.phone ||
-                        currentCustomer?.phone ||
-                        ""
-                      )}
-
-                      <br>
-
-                      ${escapeHtml(
-                        address.city ||
-                        ""
-                      )}
-
-                      <br>
-
-                      ${escapeHtml(
-                        address.address ||
-                        ""
-                      )}
-
-                      ${
-                        address.notes
-                          ? `
-                            <br>
-                            <span>
-                              ملاحظات:
-                              ${escapeHtml(
-                                address.notes
-                              )}
-                            </span>
-                          `
-                          : ""
-                      }
-
-                    </div>
-
-                    <div class="address-actions">
-
-                      ${
-                        !address.isDefault
-                          ? `
-                            <button
-                              class="small-btn"
-                              type="button"
-                              onclick="setDefaultAddress('${escapeHtml(String(id))}')"
-                            >
-                              جعله افتراضيًا
-                            </button>
-                          `
-                          : ""
-                      }
-
-                      <button
-                        class="small-btn"
-                        type="button"
-                        onclick="editAddress('${escapeHtml(String(id))}')"
-                      >
-                        تعديل
-                      </button>
-
-                      <button
-                        class="small-btn"
-                        style="
-                          background:#fff0f0;
-                          color:#a33;
-                        "
-                        type="button"
-                        onclick="deleteAddress('${escapeHtml(String(id))}')"
-                      >
-                        حذف
-                      </button>
-
-                    </div>
-
-                  </div>
-                `;
-
-              })
-              .join("")
-          }
-        </div>
-      `;
-
-    }
-
-    function openAddressModal(){
-
-      editingAddressId = null;
-
-      $("addressModalTitle")
-        .textContent =
-        "إضافة عنوان";
-
-      $("addressLabel").value = "";
-      $("addressRecipient").value =
-        currentCustomer?.name || "";
-
-      $("addressPhone").value =
-        currentCustomer?.phone || "";
-
-      $("addressCity").value = "";
-      $("addressText").value = "";
-      $("addressNotes").value = "";
-      $("addressIsDefault").checked =
-        getAddresses().length === 0;
-
-      $("addressModal")
-        ?.classList.add("show");
-
-      document.body.style.overflow =
-        "hidden";
-
-    }
-
-    function closeAddressModal(event){
-
-      if(
-        event &&
-        event.target !== event.currentTarget
-      ){
-        return;
-      }
-
-      $("addressModal")
-        ?.classList.remove("show");
-
-      document.body.style.overflow = "";
-
-      editingAddressId = null;
-
-    }
-
-    function saveAddress(){
-
-      const label =
-        $("addressLabel").value.trim();
-
-      const recipient =
-        $("addressRecipient").value.trim();
-
-      const phone =
-        $("addressPhone").value.trim();
-
-      const city =
-        $("addressCity").value.trim();
-
-      const address =
-        $("addressText").value.trim();
-
-      const notes =
-        $("addressNotes").value.trim();
-
-      const isDefault =
-        $("addressIsDefault").checked;
-
-      if(
-        !label ||
-        !recipient ||
-        !phone ||
-        !city ||
-        !address
-      ){
-
-        showToast(
-          "يرجى تعبئة بيانات العنوان الأساسية."
-        );
-
-        return;
-
-      }
-
-      let addresses =
-        getAddresses();
-
-      const id =
-        editingAddressId ||
-        (
-          "addr-" +
-          Date.now() +
-          "-" +
-          Math.random()
-            .toString(36)
-            .slice(2,8)
-        );
-
-      const item = {
-        id,
-        label,
-        recipient,
-        phone,
-        address,
-        city,
-        notes,
-        isDefault
-      };
-
-      if(editingAddressId){
-
-        const index =
-          addresses.findIndex(
-            item =>
-              String(item.id) ===
-              String(editingAddressId)
-          );
-
-        if(index !== -1){
-          addresses[index] = item;
-        }
-
-      }else{
-
-        addresses.push(item);
-
-      }
-
-      if(
-        isDefault ||
-        addresses.length === 1
-      ){
-
-        addresses =
-          addresses.map(item => ({
-            ...item,
-            isDefault:
-              String(item.id) ===
-              String(id)
-          }));
-
-      }
-
-      saveAddresses(addresses);
-
-      closeAddressModal();
-
-      renderAddresses();
-      updateStats();
-
-      showToast(
-        "تم حفظ العنوان."
-      );
-
-    }
-
-    function editAddress(id){
-
-      const address =
-        getAddresses().find(
-          item =>
-            String(item.id) ===
-            String(id)
-        );
-
-      if(!address){
-        return;
-      }
-
-      editingAddressId =
-        address.id;
-
-      $("addressModalTitle")
-        .textContent =
-        "تعديل العنوان";
-
-      $("addressLabel").value =
-        address.label || "";
-
-      $("addressRecipient").value =
-        address.recipient || "";
-
-      $("addressPhone").value =
-        address.phone || "";
-
-      $("addressCity").value =
-        address.city || "";
-
-      $("addressText").value =
-        address.address || "";
-
-      $("addressNotes").value =
-        address.notes || "";
-
-      $("addressIsDefault").checked =
-        address.isDefault === true;
-
-      $("addressModal")
-        ?.classList.add("show");
-
-      document.body.style.overflow =
-        "hidden";
-
-    }
-
-    function setDefaultAddress(id){
-
-      const addresses =
-        getAddresses();
-
-      const exists =
-        addresses.some(
-          item =>
-            String(item.id) ===
-            String(id)
-        );
-
-      if(!exists){
-        return;
-      }
-
-      const updated =
-        addresses.map(item => ({
-          ...item,
-          isDefault:
-            String(item.id) ===
-            String(id)
-        }));
-
-      saveAddresses(updated);
-
-      renderAddresses();
-
-      showToast(
-        "تم تعيين العنوان الافتراضي."
-      );
-
-    }
-
-    function deleteAddress(id){
-
-      const confirmed =
-        window.confirm(
-          "هل تريد حذف هذا العنوان؟"
-        );
-
-      if(!confirmed){
-        return;
-      }
-
-      let addresses =
-        getAddresses();
-
-      addresses =
-        addresses.filter(
-          item =>
-            String(item.id) !==
-            String(id)
-        );
-
-      if(
-        addresses.length &&
-        !addresses.some(
-          item => item.isDefault === true
-        )
-      ){
-
-        addresses[0].isDefault = true;
-
-      }
-
-      saveAddresses(addresses);
-
-      renderAddresses();
-      updateStats();
-
-      showToast(
-        "تم حذف العنوان."
-      );
-
-    }
-
-    function getDefaultCustomerAddress(){
-
-      const addresses =
-        getAddresses();
-
-      if(!addresses.length){
-        return null;
-      }
-
-      return (
-        addresses.find(
-          address =>
-            address &&
-            address.isDefault === true
-        ) ||
-        addresses[0] ||
-        null
-      );
-
-    }
-
-    /* =========================================================
-       FAVORITES
-    ========================================================= */
-
-    function getFavorites(){
-
-      const settings =
-        getSettings();
-
-      if(!settings.favorites){
-        return [];
-      }
-
-      return readStorageArray(
-        getCustomerStorageKey(
-          "hz_customer_favorites"
-        )
-      );
-
-    }
-
-    function saveFavorites(favorites){
-
-      return writeStorageArray(
-        getCustomerStorageKey(
-          "hz_customer_favorites"
-        ),
-        favorites
-      );
-
-    }
-
-    function getProductKey(product){
-
-      return String(
-        product?.id ??
-        product?.product_id ??
-        product?.productId ??
-        ""
-      );
-
-    }
-
-    function isFavorite(id){
-
-      return getFavorites()
-        .some(
-          item =>
-            String(
-              item?.id ??
-              item?.product_id
-            ) === String(id)
-        );
-
-    }
-
-    function toggleFavorite(id){
-
-      const settings =
-        getSettings();
-
-      if(!settings.favorites){
-
-        showToast(
-          "المفضلة معطلة من الإعدادات."
-        );
-
-        return;
-
-      }
-
-      const product =
-        products.find(
-          item =>
-            String(
-              item.id
-            ) === String(id)
-        );
-
-      if(!product){
-        return;
-      }
-
-      let favorites =
-        getFavorites();
-
-      const exists =
-        favorites.some(
-          item =>
-            String(
-              item.id
-            ) === String(id)
-        );
-
-      if(exists){
-
-        favorites =
-          favorites.filter(
-            item =>
-              String(
-                item.id
-              ) !== String(id)
-          );
-
-        showToast(
-          "تمت إزالة المنتج من المفضلة."
-        );
-
-      }else{
-
-        favorites.push({
-          id:product.id,
-          name:product.name,
-          price:product.price,
-          image:
-            product.images?.[0] || ""
-        });
-
-        showToast(
-          "تمت إضافة المنتج إلى المفضلة."
-        );
-
-      }
-
-      saveFavorites(favorites);
-
-      renderFavorites();
-      renderRecommendations();
-      updateStats();
-
-    }
-
-    function renderFavorites(){
-
-      const container =
-        $("favoritesList");
-
-      if(!container){
-        return;
-      }
-
-      const favorites =
-        getFavorites();
-
-      if(!favorites.length){
-
-        container.innerHTML = `
-          <div
-            class="panel"
-            style="grid-column:1/-1"
-          >
-            <div class="empty">
-              <div class="empty-icon">♡</div>
-              <strong>لا توجد منتجات في المفضلة</strong>
-              <p>
-                احفظ المنتجات التي تعجبك لتجدها هنا.
-              </p>
-              <button
-                class="dark-btn"
-                style="width:auto"
-                type="button"
-                onclick="openMainStore()"
-              >
-                اكتشف المنتجات
-              </button>
-            </div>
-          </div>
-        `;
-
-        return;
-
-      }
-
-      container.innerHTML =
-        favorites
-          .map(product =>
-            renderProductCard(
-              product,
-              true
-            )
-          )
-          .join("");
-
-    }
-
-    /* =========================================================
-       RECENT
-    ========================================================= */
-
-    function getRecentProducts(){
-
-      const settings =
-        getSettings();
-
-      if(!settings.recentTracking){
-        return [];
-      }
-
-      return readStorageArray(
-        getCustomerStorageKey(
-          "hz_customer_recent"
-        )
-      );
-
-    }
-
-    function saveRecentProducts(items){
-
-      return writeStorageArray(
-        getCustomerStorageKey(
-          "hz_customer_recent"
-        ),
-        items
-      );
-
-    }
-
-    function rememberProduct(product){
-
-      const settings =
-        getSettings();
-
-      if(
-        !settings.recentTracking ||
-        !product
-      ){
-        return;
-      }
-
-      let recent =
-        getRecentProducts();
-
-      recent =
-        recent.filter(
-          item =>
-            String(item.id) !==
-            String(product.id)
-        );
-
-      recent.unshift({
-        id:product.id,
-        name:product.name,
-        price:product.price,
-        image:
-          product.images?.[0] || ""
-      });
-
-      recent =
-        recent.slice(0,20);
-
-      saveRecentProducts(recent);
-
-      updateStats();
-
-    }
-
-    function renderRecent(){
-
-      const container =
-        $("recentList");
-
-      if(!container){
-        return;
-      }
-
-      const recent =
-        getRecentProducts();
-
-      if(!recent.length){
-
-        container.innerHTML = `
-          <div
-            class="panel"
-            style="grid-column:1/-1"
-          >
-            <div class="empty">
-              <div class="empty-icon">◷</div>
-              <strong>لا توجد منتجات مؤخرًا</strong>
-              <p>
-                المنتجات التي تشاهدها ستظهر هنا.
-              </p>
-              <button
-                class="dark-btn"
-                style="width:auto"
-                type="button"
-                onclick="openMainStore()"
-              >
-                تصفح المتجر
-              </button>
-            </div>
-          </div>
-        `;
-
-        return;
-
-      }
-
-      container.innerHTML =
-        recent
-          .map(product =>
-            renderProductCard(
-              product,
-              false
-            )
-          )
-          .join("");
-
-    }
-
-    /* =========================================================
-       PRODUCTS
-    ========================================================= */
-
-    async function loadProducts(){
-
-      try{
-
-        const response =
-          await fetch(
-            API + "/products",
-            {
-              method:"GET",
-              cache:"no-store"
-            }
-          );
-
-        const data =
-          await response
-            .json()
-            .catch(() => ({}));
-
-        let list = [];
-
-        if(Array.isArray(data)){
-          list = data;
-        }else if(Array.isArray(data.products)){
-          list = data.products;
-        }
-
-        products =
-          list
-            .map(normalizeProduct)
-            .filter(Boolean);
-
-      }catch(error){
-
-        console.error(
-          "PRODUCTS_LOAD_ERROR",
-          error
-        );
-
-        products = [];
-
-      }
-
-      return products;
-
-    }
-
-    function renderProductCard(product,fromFavorite){
-
-      const image =
-        product?.image ||
-        product?.images?.[0] ||
-        "";
-
-      const id =
-        product?.id;
-
-      return `
-        <div class="product-card">
-
-          ${
-            image
-              ? `
-                <img
-                  class="product-image"
-                  src="${escapeHtml(image)}"
-                  alt="${escapeHtml(
-                    product?.name ||
-                    "منتج"
-                  )}"
-                  loading="lazy"
-                  onerror="this.style.display='none'"
-                >
-              `
-              : `
-                <div class="product-image empty">
-                  🛍️
-                </div>
-              `
-          }
-
-          <div class="product-info">
-
-            <div class="product-name">
-              ${escapeHtml(
-                product?.name ||
-                "منتج HZ.SHOP"
-              )}
-            </div>
-
-            <div class="product-price">
-              ${safeNumber(
-                product?.price
-              ).toFixed(2)} $
-            </div>
-
-            <div class="product-actions">
-
-              <button
-                type="button"
-                onclick="openProductInStore('${escapeHtml(String(id))}')"
-              >
-                عرض
-              </button>
-
-              ${
-                fromFavorite
-                  ? `
-                    <button
-                      type="button"
-                      onclick="toggleFavorite('${escapeHtml(String(id))}')"
-                    >
-                      إزالة
-                    </button>
-                  `
-                  : `
-                    <button
-                      type="button"
-                      onclick="toggleFavorite('${escapeHtml(String(id))}')"
-                    >
-                      ${
-                        isFavorite(id)
-                          ? "♥"
-                          : "♡"
-                      }
-                    </button>
-                  `
-              }
-
-            </div>
-
-          </div>
-
-        </div>
-      `;
-
-    }
-
-    function openProductInStore(id){
-
-      const product =
-        products.find(
-          item =>
-            String(item.id) ===
-            String(id)
-        );
-
-      if(product){
-        rememberProduct(product);
-      }
-
-      /*
-        The store remains responsible for
-        its own product modal/navigation.
-      */
-      window.location.href =
-        "/#shop";
-
-    }
-
-    function renderRecommendations(){
-
-      const container =
-        $("recommendations");
-
-      if(!container){
-        return;
-      }
-
-      if(!products.length){
-
-        container.innerHTML = `
-          <div class="empty">
-            <div class="empty-icon">✨</div>
-            <strong>اكتشف منتجات HZ.SHOP</strong>
-            <p>
-              توجه إلى المتجر لاكتشاف أحدث المنتجات.
-            </p>
-          </div>
-        `;
-
-        return;
-
-      }
-
-      const favorites =
-        getFavorites();
-
-      const recent =
-        getRecentProducts();
-
-      const favoriteIds =
-        new Set(
-          favorites.map(
-            item => String(item.id)
-          )
-        );
-
-      const recentIds =
-        new Set(
-          recent.map(
-            item => String(item.id)
-          )
-        );
-
-      let recommended =
-        products.filter(
-          product =>
-            favoriteIds.has(
-              String(product.id)
-            )
-        );
-
-      recommended =
-        recommended.concat(
-          products.filter(
-            product =>
-              recentIds.has(
-                String(product.id)
-              ) &&
-              !recommended.some(
-                item =>
-                  String(item.id) ===
-                  String(product.id)
-              )
-          )
-        );
-
-      recommended =
-        recommended.concat(
-          products.filter(
-            product =>
-              !recommended.some(
-                item =>
-                  String(item.id) ===
-                  String(product.id)
-              )
-          )
-        );
-
-      recommended =
-        recommended.slice(0,3);
-
-      container.innerHTML =
-        recommended
-          .map(product =>
-            renderProductCard(
-              product,
-              false
-            )
-          )
-          .join("");
-
-    }
-
-    /* =========================================================
-       NOTIFICATIONS
-    ========================================================= */
-
-    function getNotifications(){
-
-      const saved =
-        readStorageArray(
-          getCustomerStorageKey(
-            "hz_customer_notifications"
-          )
-        );
-
-      const generated = [];
-
-      if(currentCustomer){
-
-        generated.push({
-          id:"welcome",
-          icon:"👋",
-          title:"مرحبًا بك في HZ.SHOP",
-          text:
-            "حسابك جاهز ويمكنك إدارة طلباتك وعناوينك من هنا.",
-          time:""
-        });
-
-      }
-
-      customerOrders
-        .slice(0,3)
-        .forEach(order => {
-
-          generated.push({
-            id:
-              "order-" +
-              getOrderId(order),
-            icon:"📦",
-            title:
-              "تحديث الطلب #" +
-              getOrderId(order),
-            text:
-              "حالة الطلب: " +
-              getOrderStatus(order),
-            time:
-              getOrderDate(order)
-          });
-
-        });
-
-      return [
-        ...generated,
-        ...saved
-      ];
-
-    }
-
-    function renderNotifications(){
-
-      const container =
-        $("notificationsList");
-
-      if(!container){
-        return;
-      }
-
-      const notifications =
-        getNotifications();
-
-      if($("sideNotificationsCount")){
-        $("sideNotificationsCount")
-          .textContent =
-          notifications.length;
-      }
-
-      if(!notifications.length){
-
-        container.innerHTML = `
-          <div class="empty">
-            <div class="empty-icon">🔔</div>
-            <strong>لا توجد إشعارات</strong>
-            <p>
-              ستظهر التنبيهات المهمة هنا.
-            </p>
-          </div>
-        `;
-
-        return;
-
-      }
-
-      container.innerHTML =
-        notifications
-          .map(item => `
-            <div class="notification">
-
-              <div class="notification-icon">
+              <div class="order-meta">
                 ${escapeHtml(
-                  item.icon || "🔔"
+                  order.created_at ||
+                  order.createdAt ||
+                  ""
                 )}
               </div>
 
-              <div>
+              <div class="order-total">
+                ${getOrderTotal(order)} $
+              </div>
+
+            </div>
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+function renderOverviewOrders(){
+
+  const box =
+    $("overviewOrders");
+
+  if(!orders.length){
+
+    box.innerHTML =
+      '<div class="empty">لا توجد طلبات بعد.</div>';
+
+    return;
+
+  }
+
+  box.innerHTML =
+    orders
+      .slice(0,3)
+      .map(
+        function(order){
+
+          return `
+            <div class="order">
+
+              <div class="order-head">
+
+                <span class="order-number">
+                  طلب #${escapeHtml(
+                    getOrderNumber(order)
+                  )}
+                </span>
+
+                ${orderStatus(
+                  order.status
+                )}
+
+              </div>
+
+              <div class="order-total">
+                ${getOrderTotal(order)} $
+              </div>
+
+            </div>
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   PRODUCTS
+========================================================= */
+
+async function loadProducts(){
+
+  try{
+
+    const {
+      response,
+      data
+    } =
+      await api(
+        "/products",
+        {
+          method:"GET"
+        }
+      );
+
+    if(!response.ok){
+      products = [];
+      return;
+    }
+
+    if(
+      Array.isArray(data)
+    ){
+
+      products = data;
+
+    }else if(
+      Array.isArray(data.products)
+    ){
+
+      products =
+        data.products;
+
+    }else{
+
+      products = [];
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "PRODUCTS_ERROR",
+      error
+    );
+
+    products = [];
+
+  }
+
+}
+
+
+function productId(product){
+
+  return String(
+    product?.id ??
+    product?.product_id ??
+    ""
+  );
+
+}
+
+
+function productName(product){
+
+  return (
+    product?.name ||
+    product?.title ||
+    "منتج"
+  );
+
+}
+
+
+function productPrice(product){
+
+  const price =
+    Number(
+      product?.price ?? 0
+    );
+
+  return Number.isFinite(price)
+    ? price
+    : 0;
+
+}
+
+
+function productImage(product){
+
+  const images =
+    Array.isArray(product?.images)
+      ? product.images
+      : [];
+
+  return (
+    product?.image ||
+    product?.image_url ||
+    images[0] ||
+    ""
+  );
+
+}
+
+
+/* =========================================================
+   FAVORITES
+========================================================= */
+
+function getFavorites(){
+
+  return customerArray(
+    "hz_favorites"
+  )
+    .map(String);
+
+}
+
+
+function saveFavorites(list){
+
+  saveCustomerArray(
+    "hz_favorites",
+    list
+  );
+
+  updateStats();
+
+}
+
+
+function isFavorite(id){
+
+  return getFavorites()
+    .includes(
+      String(id)
+    );
+
+}
+
+
+function toggleFavorite(id){
+
+  const sid =
+    String(id);
+
+  let list =
+    getFavorites();
+
+  if(
+    list.includes(sid)
+  ){
+
+    list =
+      list.filter(
+        function(item){
+          return item !== sid;
+        }
+      );
+
+    showToast(
+      "تمت الإزالة من المفضلة"
+    );
+
+  }else{
+
+    list.unshift(sid);
+
+    showToast(
+      "تمت الإضافة إلى المفضلة ❤️"
+    );
+
+  }
+
+  saveFavorites(list);
+
+  renderFavorites();
+
+  loadRecommendations();
+
+}
+
+
+function renderFavorites(){
+
+  const box =
+    $("favoritesList");
+
+  const ids =
+    getFavorites();
+
+  $("statFavorites").textContent =
+    ids.length;
+
+  $("favoritesNavCount").textContent =
+    ids.length
+      ? " (" + ids.length + ")"
+      : "";
+
+  $("favoritesInfo").textContent =
+    ids.length
+      ? ids.length + " منتج"
+      : "";
+
+  const found =
+    ids
+      .map(
+        function(id){
+
+          return products.find(
+            function(product){
+
+              return (
+                productId(product) ===
+                String(id)
+              );
+
+            }
+          );
+
+        }
+      )
+      .filter(Boolean);
+
+  if(!found.length){
+
+    box.innerHTML =
+      '<div class="empty" style="grid-column:1/-1">لا توجد منتجات في المفضلة.</div>';
+
+    return;
+
+  }
+
+  box.innerHTML =
+    found
+      .map(productCard)
+      .join("");
+
+}
+
+
+/* =========================================================
+   RECENT
+========================================================= */
+
+function getRecent(){
+
+  return customerArray(
+    "hz_recent"
+  )
+    .map(String);
+
+}
+
+
+function rememberRecent(id){
+
+  const sid =
+    String(id);
+
+  let list =
+    getRecent()
+      .filter(
+        function(item){
+          return item !== sid;
+        }
+      );
+
+  list.unshift(sid);
+
+  saveCustomerArray(
+    "hz_recent",
+    list.slice(0,30)
+  );
+
+}
+
+
+function renderRecent(){
+
+  const box =
+    $("recentList");
+
+  const found =
+    getRecent()
+      .map(
+        function(id){
+
+          return products.find(
+            function(product){
+
+              return (
+                productId(product) ===
+                String(id)
+              );
+
+            }
+          );
+
+        }
+      )
+      .filter(Boolean);
+
+  if(!found.length){
+
+    box.innerHTML =
+      '<div class="empty" style="grid-column:1/-1">لا توجد منتجات شوهدت مؤخرًا.</div>';
+
+    return;
+
+  }
+
+  box.innerHTML =
+    found
+      .map(productCard)
+      .join("");
+
+}
+
+
+function clearRecent(){
+
+  saveCustomerArray(
+    "hz_recent",
+    []
+  );
+
+  renderRecent();
+
+  showToast(
+    "تم مسح سجل المشاهدة"
+  );
+
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+function productCard(product){
+
+  const id =
+    productId(product);
+
+  const name =
+    productName(product);
+
+  const image =
+    productImage(product);
+
+  const favorite =
+    isFavorite(id);
+
+  let imageHtml =
+    "";
+
+  if(image){
+
+    imageHtml =
+      `
+        <img
+          class="product-image"
+          src="${escapeHtml(image)}"
+          alt="${escapeHtml(name)}"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      `;
+
+  }else{
+
+    imageHtml =
+      `
+        <div class="product-placeholder">
+          HZ.SHOP
+        </div>
+      `;
+
+  }
+
+  return `
+    <article class="product">
+
+      ${imageHtml}
+
+      <div class="product-body">
+
+        <div class="product-name">
+          ${escapeHtml(name)}
+        </div>
+
+        <div class="product-price">
+          ${productPrice(product).toFixed(2)} $
+        </div>
+
+        <div class="product-actions">
+
+          <button
+            class="btn btn-light"
+            type="button"
+            onclick="toggleFavorite('${escapeHtml(id)}')">
+            ${favorite ? "♥" : "♡"}
+          </button>
+
+          <button
+            class="btn btn-dark"
+            type="button"
+            onclick="openProduct('${escapeHtml(id)}')">
+            عرض
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+  `;
+
+}
+
+
+function openProduct(id){
+
+  rememberRecent(id);
+
+  /*
+    لا نحاول اختراع Product API أو modal
+    غير موجود في index.html.
+    نرجع إلى المتجر الأصلي.
+  */
+
+  window.location.href =
+    "/#shop";
+
+}
+
+
+/* =========================================================
+   RECOMMENDATIONS
+========================================================= */
+
+function loadRecommendations(){
+
+  const box =
+    $("recommendations");
+
+  const settings =
+    readJSON(
+      getCustomerStorageKey(
+        "hz_settings"
+      ),
+      {
+        recommendations:true,
+        notifications:true
+      }
+    );
+
+  if(
+    settings.recommendations === false
+  ){
+
+    box.innerHTML =
+      '<div class="empty" style="grid-column:1/-1">اقتراحات المنتجات متوقفة من الإعدادات.</div>';
+
+    return;
+
+  }
+
+  const favorites =
+    getFavorites();
+
+  const recent =
+    getRecent();
+
+  const excluded =
+    [
+      ...favorites,
+      ...recent
+    ];
+
+  let list =
+    products.filter(
+      function(product){
+
+        return !excluded.includes(
+          productId(product)
+        );
+
+      }
+    );
+
+  if(!list.length){
+
+    list =
+      products;
+
+  }
+
+  list =
+    list.slice(0,4);
+
+  if(!list.length){
+
+    box.innerHTML =
+      '<div class="empty" style="grid-column:1/-1">لا توجد منتجات متاحة حاليًا.</div>';
+
+    return;
+
+  }
+
+  box.innerHTML =
+    list
+      .map(productCard)
+      .join("");
+
+}
+
+
+/* =========================================================
+   ADDRESSES
+========================================================= */
+
+function getAddresses(){
+
+  return customerArray(
+    "hz_customer_addresses"
+  );
+
+}
+
+
+function renderAddresses(){
+
+  const list =
+    getAddresses();
+
+  const box =
+    $("addressesList");
+
+  $("statAddresses").textContent =
+    list.length;
+
+  if(!list.length){
+
+    box.innerHTML =
+      '<div class="empty" style="grid-column:1/-1">لا توجد عناوين محفوظة.</div>';
+
+    return;
+
+  }
+
+  box.innerHTML =
+    list
+      .map(
+        function(address){
+
+          return `
+            <div class="address-card">
+
+              <div class="address-title">
 
                 <strong>
                   ${escapeHtml(
-                    item.title ||
-                    "إشعار"
+                    address.city ||
+                    "العنوان"
                   )}
                 </strong>
 
-                <p>
-                  ${escapeHtml(
-                    item.text ||
-                    ""
-                  )}
-                </p>
-
                 ${
-                  item.time
+                  address.isDefault
                     ? `
-                      <small
-                        style="
-                          color:#aaa;
-                          display:block;
-                          margin-top:5px;
-                        "
-                      >
-                        ${escapeHtml(
-                          item.time
-                        )}
-                      </small>
+                      <span class="default">
+                        ✓ افتراضي
+                      </span>
                     `
                     : ""
                 }
 
               </div>
 
+              <div>
+                ${escapeHtml(
+                  address.address ||
+                  ""
+                )}
+              </div>
+
+              ${
+                address.notes
+                  ? `
+                    <div
+                      class="stat-label"
+                      style="margin-top:7px">
+                      ${escapeHtml(
+                        address.notes
+                      )}
+                    </div>
+                  `
+                  : ""
+              }
+
+              <div
+                class="actions"
+                style="margin-top:13px">
+
+                <button
+                  class="btn btn-light"
+                  onclick="editAddress('${escapeHtml(address.id)}')">
+                  تعديل
+                </button>
+
+                ${
+                  !address.isDefault
+                    ? `
+                      <button
+                        class="btn btn-light"
+                        onclick="setDefaultAddress('${escapeHtml(address.id)}')">
+                        افتراضي
+                      </button>
+                    `
+                    : ""
+                }
+
+                <button
+                  class="btn btn-danger"
+                  onclick="deleteAddress('${escapeHtml(address.id)}')">
+                  حذف
+                </button>
+
+              </div>
+
             </div>
-          `)
-          .join("");
+          `;
 
+        }
+      )
+      .join("");
+
+}
+
+
+function openAddressModal(){
+
+  $("addressId").value =
+    "";
+
+  $("addressCity").value =
+    "";
+
+  $("addressLine").value =
+    "";
+
+  $("addressNotes").value =
+    "";
+
+  $("addressDefault").checked =
+    getAddresses().length === 0;
+
+  $("addressModalTitle").textContent =
+    "إضافة عنوان";
+
+  $("addressModal")
+    .classList
+    .add("show");
+
+}
+
+
+function closeAddressModal(){
+
+  $("addressModal")
+    .classList
+    .remove("show");
+
+}
+
+
+function closeModalOutside(event){
+
+  if(
+    event.target ===
+    $("addressModal")
+  ){
+
+    closeAddressModal();
+
+  }
+
+}
+
+
+function editAddress(id){
+
+  const address =
+    getAddresses().find(
+      function(item){
+
+        return String(item.id) ===
+          String(id);
+
+      }
+    );
+
+  if(!address){
+    return;
+  }
+
+  $("addressId").value =
+    address.id;
+
+  $("addressCity").value =
+    address.city || "";
+
+  $("addressLine").value =
+    address.address || "";
+
+  $("addressNotes").value =
+    address.notes || "";
+
+  $("addressDefault").checked =
+    !!address.isDefault;
+
+  $("addressModalTitle").textContent =
+    "تعديل العنوان";
+
+  $("addressModal")
+    .classList
+    .add("show");
+
+}
+
+
+function saveAddress(event){
+
+  event.preventDefault();
+
+  let list =
+    getAddresses();
+
+  const id =
+    $("addressId").value ||
+    (
+      "addr_" +
+      Date.now() +
+      "_" +
+      Math.random()
+        .toString(36)
+        .slice(2,8)
+    );
+
+  const address = {
+
+    id,
+
+    city:
+      $("addressCity")
+        .value
+        .trim(),
+
+    address:
+      $("addressLine")
+        .value
+        .trim(),
+
+    notes:
+      $("addressNotes")
+        .value
+        .trim(),
+
+    isDefault:
+      $("addressDefault")
+        .checked
+
+  };
+
+  if(address.isDefault){
+
+    list =
+      list.map(
+        function(item){
+
+          return {
+            ...item,
+            isDefault:false
+          };
+
+        }
+      );
+
+  }
+
+  const index =
+    list.findIndex(
+      function(item){
+
+        return String(item.id) ===
+          String(id);
+
+      }
+    );
+
+  if(index >= 0){
+
+    list[index] =
+      address;
+
+  }else{
+
+    list.push(address);
+
+  }
+
+  if(
+    list.length &&
+    !list.some(
+      function(item){
+        return item.isDefault;
+      }
+    )
+  ){
+
+    list[0].isDefault =
+      true;
+
+  }
+
+  saveCustomerArray(
+    "hz_customer_addresses",
+    list
+  );
+
+  closeAddressModal();
+
+  renderAddresses();
+
+  updateStats();
+
+  showToast(
+    "تم حفظ العنوان بنجاح"
+  );
+
+}
+
+
+function setDefaultAddress(id){
+
+  const list =
+    getAddresses()
+      .map(
+        function(item){
+
+          return {
+            ...item,
+            isDefault:
+              String(item.id) ===
+              String(id)
+          };
+
+        }
+      );
+
+  saveCustomerArray(
+    "hz_customer_addresses",
+    list
+  );
+
+  renderAddresses();
+
+  showToast(
+    "تم تعيين العنوان الافتراضي"
+  );
+
+}
+
+
+function deleteAddress(id){
+
+  if(
+    !confirm(
+      "هل تريد حذف هذا العنوان؟"
+    )
+  ){
+
+    return;
+
+  }
+
+  let list =
+    getAddresses()
+      .filter(
+        function(item){
+
+          return String(item.id) !==
+            String(id);
+
+        }
+      );
+
+  if(
+    list.length &&
+    !list.some(
+      function(item){
+        return item.isDefault;
+      }
+    )
+  ){
+
+    list[0].isDefault =
+      true;
+
+  }
+
+  saveCustomerArray(
+    "hz_customer_addresses",
+    list
+  );
+
+  renderAddresses();
+
+  updateStats();
+
+  showToast(
+    "تم حذف العنوان"
+  );
+
+}
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+function getNotifications(){
+
+  const key =
+    getCustomerStorageKey(
+      "hz_notifications"
+    );
+
+  const saved =
+    readJSON(
+      key,
+      null
+    );
+
+  if(
+    Array.isArray(saved)
+  ){
+
+    return saved;
+
+  }
+
+  const defaults = [
+
+    {
+      id:"welcome",
+      title:"مرحبًا بك في HZ.SHOP",
+      text:"يمكنك إدارة حسابك وطلباتك من هنا.",
+      read:true,
+      date:""
+    },
+
+    {
+      id:"security",
+      title:"حماية الحساب",
+      text:"لا تشارك كلمة المرور الخاصة بك مع أي شخص.",
+      read:true,
+      date:""
     }
 
-    /* =========================================================
-       PROFILE
-    ========================================================= */
+  ];
 
-    async function saveProfile(){
+  writeJSON(
+    key,
+    defaults
+  );
 
-      if(!currentCustomer){
-        return;
+  return defaults;
+
+}
+
+
+function renderNotifications(){
+
+  const list =
+    getNotifications();
+
+  const box =
+    $("notificationsList");
+
+  if(!list.length){
+
+    box.innerHTML =
+      '<div class="empty">لا توجد إشعارات.</div>';
+
+    return;
+
+  }
+
+  box.innerHTML =
+    list
+      .map(
+        function(notification){
+
+          return `
+            <div
+              class="order"
+              style="${
+                notification.read
+                  ? ""
+                  : "border-right:4px solid var(--orange)"
+              }">
+
+              <div class="order-head">
+
+                <strong>
+                  ${escapeHtml(
+                    notification.title
+                  )}
+                </strong>
+
+                ${
+                  notification.read
+                    ? `
+                      <span class="badge">
+                        مقروء
+                      </span>
+                    `
+                    : `
+                      <span class="badge pending">
+                        جديد
+                      </span>
+                    `
+                }
+
+              </div>
+
+              <div
+                style="margin-top:7px">
+                ${escapeHtml(
+                  notification.text
+                )}
+              </div>
+
+              ${
+                notification.date
+                  ? `
+                    <div class="order-meta">
+                      ${escapeHtml(
+                        notification.date
+                      )}
+                    </div>
+                  `
+                  : ""
+              }
+
+            </div>
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+function markNotificationsRead(){
+
+  const list =
+    getNotifications()
+      .map(
+        function(notification){
+
+          return {
+            ...notification,
+            read:true
+          };
+
+        }
+      );
+
+  writeJSON(
+    getCustomerStorageKey(
+      "hz_notifications"
+    ),
+    list
+  );
+
+  renderNotifications();
+
+  showToast(
+    "تم تحديد الإشعارات كمقروءة"
+  );
+
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function loadSettings(){
+
+  const settings =
+    readJSON(
+      getCustomerStorageKey(
+        "hz_settings"
+      ),
+      {
+        recommendations:true,
+        notifications:true
       }
+    );
 
-      const name =
-        $("profileEditName")
-          ?.value
-          .trim();
+  $("settingRecommendations")
+    .checked =
+      settings.recommendations !== false;
 
-      if(!name){
+  $("settingNotifications")
+    .checked =
+      settings.notifications !== false;
 
-        $("profileMessage").textContent =
-          "يرجى إدخال الاسم.";
+}
 
-        return;
 
-      }
+function saveSettings(){
 
-      /*
-        Current Worker API set does not expose
-        a customer-profile-update endpoint.
-        Therefore the account's server-side name
-        is not fabricated or sent to a nonexistent API.
+  writeJSON(
+    getCustomerStorageKey(
+      "hz_settings"
+    ),
+    {
+      recommendations:
+        $("settingRecommendations")
+          .checked,
 
-        We keep the editable UI ready and inform
-        the customer accurately.
-      */
-
-      $("profileMessage").textContent =
-        "بيانات الحساب الأساسية تُدار حاليًا من الحساب المسجل.";
-
-      if(
-        currentCustomer.name !== name
-      ){
-
-        showToast(
-          "تعديل الاسم يحتاج إلى API تحديث العميل في الخادم."
-        );
-
-      }
-
+      notifications:
+        $("settingNotifications")
+          .checked
     }
+  );
 
-    /* =========================================================
-       STATS
-    ========================================================= */
+  loadRecommendations();
 
-    function updateStats(){
+  showToast(
+    "تم حفظ الإعدادات"
+  );
 
-      const favorites =
-        getFavorites();
+}
 
-      const recent =
-        getRecentProducts();
 
-      const addresses =
-        getAddresses();
+/* =========================================================
+   CART
+========================================================= */
 
-      const orders =
-        customerOrders || [];
+function getCart(){
 
-      const cart =
-        getMainCart();
+  const cart =
+    readJSON(
+      "hz_cart",
+      []
+    );
 
-      const cartCount =
-        cart.reduce(
-          (sum,item) =>
-            sum +
-            Math.max(
-              0,
-              Number(
-                item.quantity ??
-                item.qty ??
-                1
-              )
-            ),
-          0
+  return Array.isArray(cart)
+    ? cart
+    : [];
+
+}
+
+
+function getCartQuantity(){
+
+  return getCart()
+    .reduce(
+      function(total,item){
+
+        const quantity =
+          Number(
+            item?.quantity ??
+            item?.qty ??
+            1
+          );
+
+        return (
+          total +
+          Math.max(
+            0,
+            Number.isFinite(quantity)
+              ? quantity
+              : 1
+          )
         );
 
-      const values = {
-        statOrders:orders.length,
-        statFavorites:favorites.length,
-        statAddresses:addresses.length,
-        statCart:cartCount,
-        sideOrdersCount:orders.length,
-        sideFavoritesCount:favorites.length,
-        sideRecentCount:recent.length,
-        sideAddressesCount:addresses.length
-      };
+      },
+      0
+    );
 
-      Object.entries(values)
-        .forEach(([id,value]) => {
+}
 
-          const el = $(id);
 
-          if(el){
-            el.textContent =
-              value;
-          }
+function updateCartStats(){
 
-        });
+  const count =
+    getCartQuantity();
+
+  $("topCartCount")
+    .textContent =
+    count;
+
+  $("navCartCount")
+    .textContent =
+    count;
+
+  $("statCart")
+    .textContent =
+    count;
+
+}
+
+
+function openMainCart(){
+
+  /*
+   * مهم:
+   * لا توجد سلة ثانية هنا.
+   * hz_cart هي السلة الأصلية.
+   *
+   * نرسل المستخدم إلى index.html مع
+   * إشارة فتح السلة.
+   */
+
+  window.location.href =
+    "/?openCart=1#shop";
+
+}
+
+
+function goStore(){
+
+  window.location.href =
+    "/#shop";
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  $("statOrders")
+    .textContent =
+    orders.length;
+
+  $("statFavorites")
+    .textContent =
+    getFavorites().length;
+
+  $("statAddresses")
+    .textContent =
+    getAddresses().length;
+
+  updateCartStats();
+
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+function normalizePhone(phone){
+
+  return String(
+    phone || ""
+  )
+    .trim()
+    .replace(
+      /[^\d+]/g,
+      ""
+    );
+
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+window.addEventListener(
+  "storage",
+  function(event){
+
+    if(
+      event.key ===
+      "hz_cart"
+    ){
 
       updateCartStats();
 
     }
 
-    /* =========================================================
-       RENDER ALL
-    ========================================================= */
+  }
+);
 
-    function renderAll(){
 
-      updateCustomerUI();
+window.addEventListener(
+  "pageshow",
+  function(){
 
-      renderRecentOrders();
+    updateCartStats();
 
-      renderFavorites();
+  }
+);
 
-      renderRecent();
 
-      renderAddresses();
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
-      renderNotifications();
+(async function init(){
 
-      renderRecommendations();
+  await checkCustomerSession();
 
-      updateSettingsUI();
-
-      updateStats();
-
-    }
-
-    /* =========================================================
-       LOCAL DATA CLEANUP
-    ========================================================= */
-
-    function clearLocalCustomerData(){
-
-      const confirmed =
-        window.confirm(
-          "سيتم حذف المفضلة والمشاهدة والعناوين والإعدادات المحلية لهذا الحساب. هل تريد المتابعة؟"
-        );
-
-      if(!confirmed){
-        return;
-      }
-
-      const keys = [
-        "hz_customer_addresses",
-        "hz_customer_favorites",
-        "hz_customer_recent",
-        "hz_customer_notifications",
-        "hz_customer_settings"
-      ];
-
-      const id =
-        currentCustomer?.id ??
-        currentCustomer?.phone ??
-        "guest";
-
-      keys.forEach(prefix => {
-
-        try{
-          localStorage.removeItem(
-            prefix + "_" + String(id)
-          );
-        }catch(error){}
-
-      });
-
-      renderAll();
-
-      showToast(
-        "تم مسح البيانات المحلية."
-      );
-
-    }
-
-    /* =========================================================
-       KEYBOARD
-    ========================================================= */
-
-    document.addEventListener(
-      "keydown",
-      event => {
-
-        if(event.key !== "Escape"){
-          return;
-        }
-
-        closeAddressModal();
-        closeOrderModal();
-
-      }
-    );
-
-    /* =========================================================
-       INITIALIZATION
-    ========================================================= */
-
-    async function init(){
-
-      showAuthScreen();
-
-      await checkCustomerSession();
-
-    }
-
-    init();
-
-  </script>
+})();
+</script>
 
 </body>
 </html>
