@@ -3743,12 +3743,22 @@ function updateFavoriteButton(){
 /* =========================================================
    NAVIGATION — HOME
 ========================================================= */
-
 function goHome(){
-
+  /*
+    العودة إلى صفحة المتجر السابقة
+    بدل فتح الصفحة الرئيسية من جديد
+  */
+  if(
+    document.referrer &&
+    document.referrer.includes(
+      window.location.origin
+    )
+  ){
+    window.history.back();
+    return;
+  }
   window.location.href =
     "/";
-
 }
 
 
