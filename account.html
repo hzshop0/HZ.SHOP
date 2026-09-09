@@ -5521,28 +5521,32 @@ function saveAddress(event){
 
   const address = {
 
-    id,
+  id,
 
-    city:
-      $("addressCity")
-        .value
-        .trim(),
+  governorate:
+    $("addressGovernorate")
+      .value,
 
-    address:
-      $("addressLine")
-        .value
-        .trim(),
+  area:
+    $("addressArea")
+      .value
+      .trim(),
 
-    notes:
-      $("addressNotes")
-        .value
-        .trim(),
+  address:
+    $("addressLine")
+      .value
+      .trim(),
 
-    isDefault:
-      $("addressDefault")
-        .checked
+  notes:
+    $("addressNotes")
+      .value
+      .trim(),
 
-  };
+  isDefault:
+    $("addressDefault")
+      .checked
+
+};
 
 
   if(address.isDefault){
