@@ -5290,9 +5290,14 @@ function renderAddresses(){
                 <strong>
 
                   ${escapeHtml(
-                    address.city ||
-                    "العنوان"
-                  )}
+  [
+    address.governorate,
+    address.area
+  ]
+    .filter(Boolean)
+    .join(" - ") ||
+  "العنوان"
+)}
 
                 </strong>
 
