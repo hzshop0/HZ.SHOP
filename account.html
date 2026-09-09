@@ -6662,18 +6662,21 @@ function showSection(section, button){
 
   if(section === "cart"){
 
-    hideFeaturePanel();
+  hideFeaturePanel();
 
-    renderCustomerCart();
+  renderCustomerCart();
 
-    $("customerCartPanel").scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
+  const cartModal =
+    $("customerCartPanel");
 
-    return;
-
+  if(cartModal){
+    cartModal.style.display = "flex";
+    document.body.style.overflow = "hidden";
   }
+
+  return;
+
+}
 
 
   if(section === "favorites"){
