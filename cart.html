@@ -3950,7 +3950,98 @@ async function loadCartCustomerData(){
         cartCustomer.phone;
 
     }
+    const customerId =
+      cartCustomer?.id ??
+      cartCustomer?.phone ??
+      "guest";
 
+    const addressesKey =
+      "hz_customer_addresses_" +
+      String(customerId);
+
+    let addresses = [];
+
+    try{
+
+      const storedAddresses =
+        JSON.parse(
+          localStorage.getItem(
+            addressesKey
+          ) || "[]"
+        );
+
+      if(
+        Array.isArray(storedAddresses)
+      ){
+
+        addresses =
+          storedAddresses;
+
+      }
+
+    }catch(error){
+
+      addresses = [];
+
+    }
+
+    const defaultAddress =
+      addresses.find(
+        address =>
+          address &&
+          address.isDefault === true
+      ) ||
+      addresses[0] ||
+      null;
+
+    if(defaultAddress){
+
+      const governorateInput =
+        document.getElementById(
+          "governorate"
+        );
+
+      const areaInput =
+        document.getElementById(
+          "area"
+        );
+
+      const addressInput =
+        document.getElementById(
+          "address"
+        );
+
+      if(
+        governorateInput &&
+        defaultAddress.governorate
+      ){
+
+        governorateInput.value =
+          defaultAddress.governorate;
+
+      }
+
+      if(
+        areaInput &&
+        defaultAddress.area
+      ){
+
+        areaInput.value =
+          defaultAddress.area;
+
+      }
+
+      if(
+        addressInput &&
+        defaultAddress.address
+      ){
+
+        addressInput.value =
+          defaultAddress.address;
+
+      }
+
+    }
     return true;
 
   }catch(error){
