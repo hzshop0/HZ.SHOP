@@ -1541,7 +1541,7 @@ function normalizeProduct(
 
 
 /* =========================================================
-   READ PRODUCTS
+   READ PRODUCTS - OPTIMIZED
 ========================================================= */
 
 async function getProducts(
@@ -1550,9 +1550,52 @@ async function getProducts(
 
   const query =
     await env.DB
-      .prepare(
-        "SELECT * FROM products ORDER BY id DESC"
-      )
+      .prepare(`
+        WITH sales AS (
+          SELECT
+            CAST(
+              json_extract(
+                item.value,
+                '$.id'
+              ) AS INTEGER
+            ) AS product_id,
+
+            SUM(
+              CAST(
+                json_extract(
+                  item.value,
+                  '$.quantity'
+                ) AS INTEGER
+              )
+            ) AS salesCount
+
+          FROM orders AS o,
+               json_each(o.items) AS item
+
+          WHERE LOWER(
+            COALESCE(
+              o.status,
+              ''
+            )
+          ) <> 'cancelled'
+
+          GROUP BY product_id
+        )
+
+        SELECT
+          p.*,
+          COALESCE(
+            s.salesCount,
+            0
+          ) AS salesCount
+
+        FROM products AS p
+
+        LEFT JOIN sales AS s
+          ON s.product_id = p.id
+
+        ORDER BY p.id DESC
+      `)
       .all();
 
   const results =
@@ -1562,142 +1605,29 @@ async function getProducts(
       ? query.results
       : [];
 
+  return results.map(
+    product => {
 
-  /* =====================================================
-     CALCULATE REAL SALES COUNT
-  ===================================================== */
-
-  const salesCount =
-    new Map();
-
-
-  try {
-
-    const ordersQuery =
-      await env.DB
-        .prepare(`
-          SELECT
-            status,
-            items
-          FROM orders
-        `)
-        .all();
-
-    const orders =
-      Array.isArray(
-        ordersQuery?.results
-      )
-        ? ordersQuery.results
-        : [];
-
-
-    for (
-      const order of orders
-    ) {
-
-      /* الطلبات الملغاة لا تُحسب كمبيعات */
-
-      if (
-        String(
-          order?.status || ""
-        ).toLowerCase() ===
-        "cancelled"
-      ) {
-
-        continue;
-
-      }
-
-
-      let items =
-        order?.items;
-
-
-      if (
-        typeof items ===
-        "string"
-      ) {
-
-        try {
-
-          items =
-            JSON.parse(
-              items
-            );
-
-        } catch {
-
-          items = [];
-
-        }
-
-      }
-
-
-      if (
-        !Array.isArray(
-          items
-        )
-      ) {
-
-        continue;
-
-      }
-
-
-      for (
-        const item of items
-      ) {
-
-        const productId =
-          toInteger(
-            item?.id
-          );
-
-        const quantity =
-          toInteger(
-            item?.quantity
-          );
-
-
-        if (
-          !productId ||
-          quantity <= 0
-        ) {
-
-          continue;
-
-        }
-
-
-        const previous =
-          salesCount.get(
-            productId
-          ) || 0;
-
-
-        salesCount.set(
-          productId,
-          previous +
-          quantity
+      const normalized =
+        normalizeProduct(
+          product
         );
 
-      }
+      return {
+
+        ...normalized,
+
+        salesCount:
+          Number(
+            product.salesCount
+          ) || 0
+
+      };
 
     }
+  );
 
-  } catch (
-    error
-  ) {
-
-    console.error(
-      "PRODUCT_SALES_COUNT_ERROR",
-      error?.stack ||
-      error?.message ||
-      error
-    );
-
-  }
+}
 
 
   /* =====================================================
