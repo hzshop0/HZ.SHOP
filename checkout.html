@@ -2,9 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 <title>تأكيد الطلب | HZ.SHOP</title>
-<meta name="description" content="تأكيد طلبك من HZ.SHOP">
+<meta
+  name="description"
+  content="تأكيد طلبك من HZ.SHOP"
+>
 <style>
 *{
   box-sizing:border-box;
@@ -71,34 +77,40 @@ textarea:focus,
 select:focus{
   outline:none;
   border-color:#d4af37;
-  box-shadow:0 0 0 3px rgba(212,175,55,.10);
+  box-shadow:0 0 0 2px rgba(212,175,55,.08);
 }
 textarea{
   min-height:90px;
   resize:vertical;
 }
 .customer-status{
-  display:none;
-  margin-bottom:14px;
+  margin-bottom:15px;
   padding:11px 13px;
   border-radius:9px;
-  background:#f8f8f8;
-  border:1px solid #eee;
+  background:#f7f7f7;
   color:#555;
   font-size:13px;
+  line-height:1.6;
 }
-.customer-status strong{
-  color:#111;
+.customer-status.logged-in{
+  background:#f4fbf4;
+  border:1px solid #d8ecd8;
+  color:#187018;
+}
+.customer-status.guest{
+  background:#fafafa;
+  border:1px solid #eee;
+  color:#666;
 }
 .saved-address-note{
-  display:none;
   margin-top:10px;
   padding:10px 12px;
   border-radius:9px;
-  background:#fffdf3;
-  border:1px solid #eadb9b;
-  color:#6d5900;
-  font-size:13px;
+  background:#fffaf0;
+  border:1px solid #ead9a0;
+  color:#6d5700;
+  font-size:12px;
+  line-height:1.6;
 }
 .payment{
   margin-top:18px;
@@ -279,68 +291,115 @@ button{
 <header>
   HZ.SHOP
   <br>
-  <a href="/#shop">العودة إلى المتجر</a>
+  <a href="/#shop">
+    العودة إلى المتجر
+  </a>
 </header>
 <div class="container">
-  <div id="checkoutArea" class="checkout-grid">
+  <div
+    id="checkoutArea"
+    class="checkout-grid"
+  >
+    <!-- =========================
+         CUSTOMER INFORMATION
+    ========================= -->
     <div class="box">
-      <h2>معلومات التوصيل</h2>
-      <div id="customerStatus" class="customer-status"></div>
-      <label for="customer_name">الاسم الكامل</label>
+      <h2>
+        معلومات التوصيل
+      </h2>
+      <div
+        id="customerStatus"
+        class="customer-status guest"
+      >
+        جاري التحقق من حسابك...
+      </div>
+      <label for="customer_name">
+        الاسم الكامل
+      </label>
       <input
         id="customer_name"
         type="text"
         placeholder="اكتب اسمك الكامل"
         autocomplete="name"
       >
-      <label for="phone">رقم الهاتف</label>
+      <label for="phone">
+        رقم الهاتف
+      </label>
       <input
         id="phone"
         type="tel"
+        inputmode="tel"
         placeholder="مثال: 03xxxxxx"
         autocomplete="tel"
       >
-      <label for="governorate">المحافظة</label>
+      <label for="governorate">
+        المحافظة
+      </label>
       <input
         id="governorate"
         type="text"
         placeholder="المحافظة"
         autocomplete="address-level1"
       >
-      <label for="area">المنطقة</label>
+      <label for="area">
+        المنطقة
+      </label>
       <input
         id="area"
         type="text"
         placeholder="المنطقة"
         autocomplete="address-level2"
       >
-      <label for="address">العنوان</label>
+      <label for="address">
+        العنوان
+      </label>
       <textarea
         id="address"
         placeholder="اكتب العنوان بالتفصيل"
         autocomplete="street-address"
       ></textarea>
-      <div id="savedAddressNote" class="saved-address-note">
-        تم تعبئة عنوانك المحفوظ تلقائيًا. يمكنك تعديله قبل تأكيد الطلب.
-      </div>
-      <label for="notes">ملاحظات إضافية</label>
+      <label for="notes">
+        ملاحظات إضافية
+      </label>
       <textarea
         id="notes"
         placeholder="أي ملاحظات خاصة بالطلب (اختياري)"
       ></textarea>
+      <div
+        id="savedAddressNote"
+        class="saved-address-note"
+        style="display:none;"
+      ></div>
       <div class="payment">
         <label>
-          <input type="radio" name="payment" value="cash" checked>
+          <input
+            type="radio"
+            name="payment"
+            value="cash"
+            checked
+          >
           الدفع عند الاستلام
         </label>
       </div>
-      <div id="message" class="message"></div>
-      <button id="orderBtn" class="order-btn" onclick="submitOrder()">
+      <div
+        id="message"
+        class="message"
+      ></div>
+      <button
+        id="orderBtn"
+        class="order-btn"
+        onclick="submitOrder()"
+      >
         تأكيد الطلب
       </button>
     </div>
+    <!-- =========================
+         ORDER SUMMARY
+    ========================= -->
     <div class="box">
-      <h2>ملخص الطلب</h2>
+      <h2>
+        ملخص الطلب
+      </h2>
       <div id="cartItems"></div>
       <div class="coupon-box">
         <input
@@ -349,61 +408,104 @@ button{
           placeholder="رمز الخصم"
           autocomplete="off"
         >
-        <button class="coupon-btn" onclick="applyCoupon()">
+        <button
+          class="coupon-btn"
+          onclick="applyCoupon()"
+        >
           تطبيق
         </button>
       </div>
-      <div id="couponMessage" class="message"></div>
+      <div
+        id="couponMessage"
+        class="message"
+      ></div>
       <div class="summary">
         <div class="summary-row">
-          <span>المجموع الفرعي</span>
-          <strong id="subtotal">$0.00</strong>
+          <span>
+            المجموع الفرعي
+          </span>
+          <strong id="subtotal">
+            $0.00
+          </strong>
         </div>
         <div class="summary-row">
-          <span>الخصم</span>
-          <strong id="discount">$0.00</strong>
+          <span>
+            الخصم
+          </span>
+          <strong id="discount">
+            $0.00
+          </strong>
         </div>
         <div class="delivery-highlight">
-          <span>🚚 التوصيل</span>
-          <strong id="delivery">$4.00</strong>
+          <span>
+            🚚 التوصيل
+          </span>
+          <strong id="delivery">
+            $4.00
+          </strong>
         </div>
         <div class="delivery-note">
-          رسوم التوصيل ثابتة: <strong>$4.00</strong>
+          رسوم التوصيل ثابتة:
+          <strong>$4.00</strong>
         </div>
         <div class="total">
-          <span>الإجمالي</span>
-          <strong id="total">$4.00</strong>
+          <span>
+            الإجمالي
+          </span>
+          <strong id="total">
+            $4.00
+          </strong>
         </div>
       </div>
     </div>
   </div>
-  <div id="successArea" class="box success-box" style="display:none;">
-    <h2>تم إرسال طلبك بنجاح ✅</h2>
+  <!-- =========================
+       SUCCESS
+  ========================= -->
+  <div
+    id="successArea"
+    class="box success-box"
+    style="display:none;"
+  >
+    <h2>
+      تم إرسال طلبك بنجاح ✅
+    </h2>
     <div class="order-number">
-      رقم الطلب: <span id="successOrderNumber"></span>
+      رقم الطلب:
+      <span id="successOrderNumber"></span>
     </div>
     <p>
       شكرًا لطلبك من HZ.SHOP.
       سيتم التواصل معك لتأكيد الطلب والتوصيل.
     </p>
-    <button class="order-btn" onclick="window.location.href='/'">
+    <button
+      class="order-btn"
+      onclick="window.location.href='/'"
+    >
       العودة إلى المتجر
     </button>
   </div>
 </div>
 <script>
+/* =========================
+   CONFIG
+========================= */
 const API = "/api";
 const CART_KEY = "hz_cart";
 const DELIVERY_FEE = 4;
 const COUPON_CODE = "HZ10";
 const COUPON_DISCOUNT = 0.10;
+/* =========================
+   STATE
+========================= */
 let cart = [];
 let products = [];
 let appliedCoupon = false;
 let currentCustomer = null;
 let customerIsLoggedIn = false;
+let defaultCustomerAddress = null;
 /* =========================
-   أدوات السلة
+   CART
 ========================= */
 function loadCart(){
   try{
@@ -438,24 +540,19 @@ function saveCart(){
     );
   }
 }
-/* =========================
-   الأدوات المالية
-========================= */
 function money(value){
   const number =
     Number(value) || 0;
-  return "$" +
-    number.toFixed(2);
+  return "$" + number.toFixed(2);
 }
 function calculateSubtotal(){
   return cart.reduce(
-    (sum,item)=>{
+    (sum,item) => {
       const price =
         Number(item.price) || 0;
       const quantity =
         Number(item.quantity) || 0;
-      return sum +
-        (price * quantity);
+      return sum + (price * quantity);
     },
     0
   );
@@ -464,8 +561,7 @@ function calculateDiscount(subtotal){
   if(!appliedCoupon){
     return 0;
   }
-  return subtotal *
-    COUPON_DISCOUNT;
+  return subtotal * COUPON_DISCOUNT;
 }
 function calculateDelivery(subtotal){
   return subtotal > 0
@@ -482,9 +578,7 @@ function calculateTotals(){
   const total =
     Math.max(
       0,
-      subtotal -
-      discount +
-      delivery
+      subtotal - discount + delivery
     );
   return {
     subtotal,
@@ -494,14 +588,14 @@ function calculateTotals(){
   };
 }
 /* =========================
-   المنتجات والمخزون
+   PRODUCTS
 ========================= */
 async function loadProducts(){
   const response =
     await fetch(
       API + "/products",
       {
-        credentials:"include",
+        method:"GET",
         cache:"no-store"
       }
     );
@@ -517,17 +611,16 @@ async function loadProducts(){
   }else if(
     Array.isArray(data.products)
   ){
-    products =
-      data.products;
+    products = data.products;
   }else{
     products = [];
   }
 }
 function getProductId(item){
   return Number(
-    item?.id ??
-    item?.product_id ??
-    item?.productId
+    item.id ??
+    item.product_id ??
+    item.productId
   );
 }
 function getProductById(id){
@@ -553,7 +646,7 @@ function getStock(product){
 function syncCartStock(){
   cart =
     cart
-      .map(item=>{
+      .map(item => {
         const product =
           getProductById(
             getProductId(item)
@@ -563,15 +656,11 @@ function syncCartStock(){
         }
         const stock =
           getStock(product);
-        const originalQuantity =
-          Number(
-            item.quantity
-          ) || 1;
         const quantity =
           Math.min(
             Math.max(
               1,
-              originalQuantity
+              Number(item.quantity) || 1
             ),
             stock
           );
@@ -580,7 +669,7 @@ function syncCartStock(){
           quantity
         };
       })
-      .filter(item=>{
+      .filter(item => {
         const product =
           getProductById(
             getProductId(item)
@@ -593,55 +682,7 @@ function syncCartStock(){
   saveCart();
 }
 /* =========================
-   صور المنتجات
-========================= */
-function normalizeProductImages(value){
-  if(Array.isArray(value)){
-    return value
-      .filter(Boolean)
-      .map(
-        item =>
-          String(item).trim()
-      )
-      .filter(Boolean);
-  }
-  if(typeof value === "string"){
-    const trimmed =
-      value.trim();
-    if(!trimmed){
-      return [];
-    }
-    try{
-      const parsed =
-        JSON.parse(trimmed);
-      if(Array.isArray(parsed)){
-        return parsed
-          .filter(Boolean)
-          .map(
-            item =>
-              String(item).trim()
-          )
-          .filter(Boolean);
-      }
-      if(
-        typeof parsed === "string" &&
-        parsed.trim()
-      ){
-        return [
-          parsed.trim()
-        ];
-      }
-    }catch(error){
-      /* رابط صورة مباشر */
-    }
-    return [
-      trimmed
-    ];
-  }
-  return [];
-}
-/* =========================
-   عرض السلة
+   CART RENDER
 ========================= */
 function renderCart(){
   const container =
@@ -658,81 +699,66 @@ function renderCart(){
     return;
   }
   container.innerHTML =
-    cart.map(item=>{
-      const product =
-        getProductById(
-          getProductId(item)
-        );
-      const name =
-        item.name ||
-        item.title ||
-        product?.name ||
-        "منتج";
-      const price =
-        Number(
-          item.price ??
-          item.unit_price ??
-          product?.price
-        ) || 0;
-      const quantity =
-        Number(
-          item.quantity ??
-          item.qty
-        ) || 1;
-      let image =
-        item.image ||
-        item.image_url ||
-        "";
-      if(!image){
-        const images =
-          normalizeProductImages(
-            product?.image
+    cart
+      .map(item => {
+        const product =
+          getProductById(
+            getProductId(item)
           );
-        if(images.length){
-          image = images[0];
-        }
-      }
-      return `
-        <div class="cart-item">
-          ${
-            image
-              ? `
-                <img
-                  src="${escapeHtml(image)}"
-                  alt="${escapeHtml(name)}"
-                  onerror="this.style.display='none'"
-                >
-              `
-              : `
-                <div style="
-                  width:65px;
-                  height:65px;
-                  border-radius:10px;
-                  background:#f2f2f2;
-                  flex-shrink:0;
-                "></div>
-              `
-          }
-          <div class="cart-info">
+        const name =
+          item.name ||
+          product?.name ||
+          "منتج";
+        const price =
+          Number(
+            item.price ??
+            product?.price
+          ) || 0;
+        const quantity =
+          Number(item.quantity) || 1;
+        const image =
+          item.image ||
+          product?.image ||
+          product?.image_url ||
+          "";
+        return `
+          <div class="cart-item">
+            ${
+              image
+                ? `
+                  <img
+                    src="${escapeHtml(image)}"
+                    alt="${escapeHtml(name)}"
+                  >
+                `
+                : `
+                  <div
+                    style="
+                      width:65px;
+                      height:65px;
+                      border-radius:10px;
+                      background:#f2f2f2;
+                    "
+                  ></div>
+                `
+            }
+            <div class="cart-info">
+              <strong>
+                ${escapeHtml(name)}
+              </strong>
+              <small>
+                ${quantity} × ${money(price)}
+              </small>
+            </div>
             <strong>
-              ${escapeHtml(name)}
+              ${money(price * quantity)}
             </strong>
-            <small>
-              ${quantity} × ${money(price)}
-            </small>
           </div>
-          <strong>
-            ${money(price * quantity)}
-          </strong>
-        </div>
-      `;
-    })
-    .join("");
+        `;
+      })
+      .join("");
   updateTotals();
 }
-/* =========================
-   Escape
-========================= */
 function escapeHtml(value){
   return String(value ?? "")
     .replace(/&/g,"&amp;")
@@ -741,9 +767,6 @@ function escapeHtml(value){
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
 }
-/* =========================
-   تحديث الإجمالي
-========================= */
 function updateTotals(){
   const totals =
     calculateTotals();
@@ -765,7 +788,7 @@ function updateTotals(){
     money(totals.total);
 }
 /* =========================
-   الكوبون
+   COUPON
 ========================= */
 function applyCoupon(){
   const input =
@@ -807,13 +830,75 @@ function applyCoupon(){
   updateTotals();
 }
 /* =========================
-   CUSTOMER SESSION
+   CUSTOMER STORAGE
 ========================= */
 /*
-  نتحقق من جلسة العميل الموجودة أصلًا
-  في HZ.SHOP.
-  لا نحتاج إلى تسجيل دخول جديد.
+  account.html يستخدم:
+  getCustomerStorageKey("hz_customer_addresses")
+  وبحسب نظام الحساب، المفتاح النهائي
+  مرتبط بمعرّف العميل.
+  لذلك نستخدم نفس النمط هنا.
 */
+function getCustomerAddressesStorageKey(){
+  if(!currentCustomer){
+    return "";
+  }
+  const customerId =
+    currentCustomer.id;
+  if(
+    customerId === undefined ||
+    customerId === null ||
+    customerId === ""
+  ){
+    return "";
+  }
+  return "hz_customer_addresses_" +
+    String(customerId);
+}
+function loadCustomerAddresses(){
+  const key =
+    getCustomerAddressesStorageKey();
+  if(!key){
+    return [];
+  }
+  try{
+    const raw =
+      localStorage.getItem(key);
+    if(!raw){
+      return [];
+    }
+    const parsed =
+      JSON.parse(raw);
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
+  }catch(error){
+    console.error(
+      "CUSTOMER_ADDRESS_LOAD_ERROR",
+      error
+    );
+    return [];
+  }
+}
+function getDefaultCustomerAddress(){
+  const addresses =
+    loadCustomerAddresses();
+  if(!addresses.length){
+    return null;
+  }
+  return (
+    addresses.find(
+      address =>
+        address &&
+        address.isDefault === true
+    ) ||
+    addresses[0] ||
+    null
+  );
+}
+/* =========================
+   CUSTOMER SESSION
+========================= */
 async function loadCustomerSession(){
   try{
     const response =
@@ -827,7 +912,7 @@ async function loadCustomerSession(){
       );
     const data =
       await response.json()
-        .catch(()=>({}));
+        .catch(() => ({}));
     if(
       response.ok &&
       data.logged_in === true &&
@@ -835,140 +920,32 @@ async function loadCustomerSession(){
     ){
       currentCustomer =
         data.customer;
-      customerIsLoggedIn =
-        true;
+      customerIsLoggedIn = true;
+      defaultCustomerAddress =
+        getDefaultCustomerAddress();
       fillCustomerData();
+      updateCustomerStatus();
       return true;
     }
-    customerIsLoggedIn =
-      false;
-    currentCustomer =
-      null;
+    currentCustomer = null;
+    customerIsLoggedIn = false;
+    defaultCustomerAddress = null;
+    updateCustomerStatus();
     return false;
   }catch(error){
     console.error(
-      "CUSTOMER_SESSION_ERROR:",
+      "CUSTOMER_SESSION_ERROR",
       error
     );
-    customerIsLoggedIn =
-      false;
-    currentCustomer =
-      null;
+    currentCustomer = null;
+    customerIsLoggedIn = false;
+    defaultCustomerAddress = null;
+    updateCustomerStatus();
     return false;
   }
 }
 /* =========================
-   مفاتيح العنوان المحلي
-========================= */
-function getCustomerStorageKey(){
-  const id =
-    currentCustomer?.id ??
-    currentCustomer?.customer_id;
-  if(
-    id !== null &&
-    id !== undefined &&
-    String(id).trim()
-  ){
-    return (
-      "hz_customer_addresses_" +
-      String(id)
-    );
-  }
-  return null;
-}
-/* =========================
-   قراءة العناوين المحفوظة
-========================= */
-function loadSavedAddresses(){
-  const key =
-    getCustomerStorageKey();
-  if(!key){
-    return [];
-  }
-  try{
-    const raw =
-      localStorage.getItem(key);
-    if(!raw){
-      return [];
-    }
-    const parsed =
-      JSON.parse(raw);
-    if(Array.isArray(parsed)){
-      return parsed;
-    }
-    /*
-      دعم العنوان القديم إذا كان مخزنًا
-      ككائن واحد بدل Array.
-    */
-    if(
-      parsed &&
-      typeof parsed === "object"
-    ){
-      return [parsed];
-    }
-  }catch(error){
-    console.error(
-      "Saved address load error:",
-      error
-    );
-  }
-  return [];
-}
-/* =========================
-   اختيار العنوان الافتراضي
-========================= */
-function getDefaultSavedAddress(){
-  const addresses =
-    loadSavedAddresses();
-  if(!addresses.length){
-    return null;
-  }
-  const defaultAddress =
-    addresses.find(
-      address =>
-        address?.isDefault === true ||
-        address?.default === true
-    );
-  if(defaultAddress){
-    return defaultAddress;
-  }
-  return addresses[0];
-}
-/* =========================
-   تطبيع بيانات العنوان
-========================= */
-function normalizeAddress(address){
-  if(!address){
-    return null;
-  }
-  return {
-    governorate:
-      String(
-        address.governorate ??
-        address.governorate_name ??
-        address.province ??
-        address.state ??
-        ""
-      ).trim(),
-    area:
-      String(
-        address.area ??
-        address.region ??
-        address.district ??
-        ""
-      ).trim(),
-    address:
-      String(
-        address.address ??
-        address.full_address ??
-        address.street ??
-        address.details ??
-        ""
-      ).trim()
-  };
-}
-/* =========================
-   تعبئة بيانات العميل
+   FILL CUSTOMER DATA
 ========================= */
 function fillCustomerData(){
   if(!currentCustomer){
@@ -982,91 +959,100 @@ function fillCustomerData(){
     document.getElementById(
       "phone"
     );
+  const governorateInput =
+    document.getElementById(
+      "governorate"
+    );
+  const areaInput =
+    document.getElementById(
+      "area"
+    );
+  const addressInput =
+    document.getElementById(
+      "address"
+    );
+  const notesInput =
+    document.getElementById(
+      "notes"
+    );
   /*
-    الاسم ورقم الهاتف من Customer Hub.
-    المستخدم يستطيع تعديلهما.
+    بيانات الحساب الأساسية
   */
   if(
     nameInput &&
     !nameInput.value.trim()
   ){
     nameInput.value =
-      currentCustomer.name ||
-      "";
+      currentCustomer.name || "";
   }
   if(
     phoneInput &&
     !phoneInput.value.trim()
   ){
     phoneInput.value =
-      currentCustomer.phone ||
-      "";
+      currentCustomer.phone || "";
   }
   /*
-    محاولة تحميل العنوان المحفوظ
-    من Customer Hub.
+    العنوان الافتراضي
   */
-  const savedAddress =
-    getDefaultSavedAddress();
-  if(savedAddress){
-    const address =
-      normalizeAddress(
-        savedAddress
-      );
-    if(address){
-      const governorate =
-        document.getElementById(
-          "governorate"
-        );
-      const area =
-        document.getElementById(
-          "area"
-        );
-      const addressInput =
-        document.getElementById(
-          "address"
-        );
-      if(
-        governorate &&
-        !governorate.value.trim()
-      ){
-        governorate.value =
-          address.governorate;
-      }
-      if(
-        area &&
-        !area.value.trim()
-      ){
-        area.value =
-          address.area;
-      }
-      if(
-        addressInput &&
-        !addressInput.value.trim()
-      ){
-        addressInput.value =
-          address.address;
-      }
-      if(
-        address.governorate ||
-        address.area ||
-        address.address
-      ){
-        const note =
-          document.getElementById(
-            "savedAddressNote"
-          );
-        if(note){
-          note.style.display =
-            "block";
-        }
-      }
-    }
+  const address =
+    defaultCustomerAddress;
+  if(!address){
+    return;
   }
-  updateCustomerStatus();
+  /*
+    account.html:
+    city = المدينة / المنطقة
+  */
+  if(
+    areaInput &&
+    !areaInput.value.trim()
+  ){
+    areaInput.value =
+      address.city || "";
+  }
+  if(
+    addressInput &&
+    !addressInput.value.trim()
+  ){
+    addressInput.value =
+      address.address || "";
+  }
+  if(
+    notesInput &&
+    !notesInput.value.trim()
+  ){
+    notesInput.value =
+      address.notes || "";
+  }
+  showSavedAddressNote(address);
+}
+function showSavedAddressNote(address){
+  const note =
+    document.getElementById(
+      "savedAddressNote"
+    );
+  if(
+    !note ||
+    !address
+  ){
+    return;
+  }
+  const label =
+    address.label ||
+    "العنوان الافتراضي";
+  note.innerHTML =
+    `
+      📍 تم تحميل
+      <strong>${escapeHtml(label)}</strong>
+      تلقائيًا من عناوين حسابك.
+      يمكنك تعديل البيانات قبل تأكيد الطلب.
+    `;
+  note.style.display =
+    "block";
 }
 /* =========================
-   حالة العميل
+   CUSTOMER STATUS
 ========================= */
 function updateCustomerStatus(){
   const status =
@@ -1076,154 +1062,33 @@ function updateCustomerStatus(){
   if(!status){
     return;
   }
-  if(
-    customerIsLoggedIn &&
-    currentCustomer
-  ){
+  if(customerIsLoggedIn){
     const name =
-      currentCustomer.name ||
-      "عميل HZ.SHOP";
+      currentCustomer?.name ||
+      "العميل";
+    status.className =
+      "customer-status logged-in";
     status.innerHTML =
       `
-        أنت مسجّل الدخول كـ
-        <strong>${escapeHtml(name)}</strong>.
-        تم تعبئة بياناتك تلقائيًا ويمكنك تعديلها قبل تأكيد الطلب.
+        مرحبًا
+        <strong>${escapeHtml(name)}</strong>
+        👋
+        <br>
+        تم تحميل بيانات حسابك تلقائيًا،
+        ويمكنك تعديلها قبل تأكيد الطلب.
       `;
-    status.style.display =
-      "block";
-    return;
-  }
-  status.style.display =
-    "none";
-}
-/* =========================
-   حفظ عنوان الطلب
-========================= */
-/*
-  نحفظ آخر عنوان استخدمه العميل محليًا.
-  هذا لا يغيّر بيانات الحساب في قاعدة البيانات.
-*/
-function saveCurrentAddressForCustomer(){
-  if(
-    !customerIsLoggedIn ||
-    !currentCustomer
-  ){
-    return;
-  }
-  const key =
-    getCustomerStorageKey();
-  if(!key){
-    return;
-  }
-  const governorate =
-    document.getElementById(
-      "governorate"
-    ).value.trim();
-  const area =
-    document.getElementById(
-      "area"
-    ).value.trim();
-  const address =
-    document.getElementById(
-      "address"
-    ).value.trim();
-  if(
-    !governorate &&
-    !area &&
-    !address
-  ){
-    return;
-  }
-  try{
-    let addresses = [];
-    const raw =
-      localStorage.getItem(key);
-    if(raw){
-      const parsed =
-        JSON.parse(raw);
-      if(Array.isArray(parsed)){
-        addresses =
-          parsed;
-      }else if(
-        parsed &&
-        typeof parsed === "object"
-      ){
-        addresses =
-          [parsed];
-      }
-    }
-    /*
-      هذا العنوان يصبح العنوان الأخير
-      المستخدم في Checkout.
-    */
-    const newAddress = {
-      governorate:
-        governorate,
-      area:
-        area,
-      address:
-        address,
-      isDefault:
-        true,
-      updated_at:
-        new Date().toISOString()
-    };
-    /*
-      إزالة default السابق
-      حتى يكون هناك عنوان افتراضي واحد.
-    */
-    addresses =
-      addresses.map(
-        item => ({
-          ...item,
-          isDefault:false
-        })
-      );
-    /*
-      إذا كان هناك عنوان مطابق،
-      نستبدله بدل إنشاء نسخة جديدة.
-    */
-    const existingIndex =
-      addresses.findIndex(
-        item =>
-          String(
-            item?.governorate || ""
-          ).trim() === governorate &&
-          String(
-            item?.area || ""
-          ).trim() === area &&
-          String(
-            item?.address || ""
-          ).trim() === address
-      );
-    if(existingIndex >= 0){
-      addresses[
-        existingIndex
-      ] = newAddress;
-    }else{
-      addresses.unshift(
-        newAddress
-      );
-    }
-    /*
-      نحتفظ بعدد محدود من العناوين
-      حتى لا تتضخم localStorage.
-    */
-    addresses =
-      addresses.slice(0,10);
-    localStorage.setItem(
-      key,
-      JSON.stringify(addresses)
-    );
-  }catch(error){
-    console.error(
-      "Save customer address error:",
-      error
-    );
+  }else{
+    status.className =
+      "customer-status guest";
+    status.innerHTML =
+      `
+        أنت تتابع كزائر.
+        يمكنك إدخال بيانات التوصيل يدويًا.
+      `;
   }
 }
 /* =========================
-   التحقق من المخزون
+   STOCK VALIDATION
 ========================= */
 async function validateCartStock(){
   await loadProducts();
@@ -1235,16 +1100,13 @@ async function validateCartStock(){
     if(!product){
       return {
         ok:false,
-        message:
-          "أحد المنتجات لم يعد متوفرًا."
+        message:"أحد المنتجات لم يعد متوفرًا."
       };
     }
     const stock =
       getStock(product);
     const quantity =
-      Number(
-        item.quantity
-      ) || 0;
+      Number(item.quantity) || 0;
     if(stock <= 0){
       return {
         ok:false,
@@ -1265,7 +1127,7 @@ async function validateCartStock(){
   };
 }
 /* =========================
-   رسالة عامة
+   MESSAGE
 ========================= */
 function showMessage(
   text,
@@ -1281,29 +1143,33 @@ function showMessage(
     "message " + type;
 }
 /* =========================
-   إرسال الطلب
+   SUBMIT ORDER
 ========================= */
 async function submitOrder(){
   const button =
     document.getElementById(
       "orderBtn"
     );
-  button.disabled =
-    true;
+  button.disabled = true;
   showMessage(
     "",
     "success"
   );
   try{
+    /* =========================
+       CART
+    ========================= */
     if(!cart.length){
       showMessage(
         "السلة فارغة.",
         "error"
       );
-      button.disabled =
-        false;
+      button.disabled = false;
       return;
     }
+    /* =========================
+       CUSTOMER DATA
+    ========================= */
     const name =
       document.getElementById(
         "customer_name"
@@ -1328,13 +1194,15 @@ async function submitOrder(){
       document.getElementById(
         "notes"
       ).value.trim();
+    /* =========================
+       VALIDATION
+    ========================= */
     if(!name){
       showMessage(
         "يرجى إدخال الاسم الكامل.",
         "error"
       );
-      button.disabled =
-        false;
+      button.disabled = false;
       return;
     }
     if(!phone){
@@ -1342,8 +1210,7 @@ async function submitOrder(){
         "يرجى إدخال رقم الهاتف.",
         "error"
       );
-      button.disabled =
-        false;
+      button.disabled = false;
       return;
     }
     if(!governorate){
@@ -1351,8 +1218,7 @@ async function submitOrder(){
         "يرجى إدخال المحافظة.",
         "error"
       );
-      button.disabled =
-        false;
+      button.disabled = false;
       return;
     }
     if(!area){
@@ -1360,8 +1226,7 @@ async function submitOrder(){
         "يرجى إدخال المنطقة.",
         "error"
       );
-      button.disabled =
-        false;
+      button.disabled = false;
       return;
     }
     if(!address){
@@ -1369,10 +1234,12 @@ async function submitOrder(){
         "يرجى إدخال العنوان.",
         "error"
       );
-      button.disabled =
-        false;
+      button.disabled = false;
       return;
     }
+    /* =========================
+       STOCK
+    ========================= */
     const stockCheck =
       await validateCartStock();
     if(!stockCheck.ok){
@@ -1381,29 +1248,18 @@ async function submitOrder(){
         "error"
       );
       renderCart();
-      button.disabled =
-        false;
+      button.disabled = false;
       return;
     }
+    /* =========================
+       VERIFIED ITEMS
+    ========================= */
     const verifiedItems =
-      cart.map(item=>{
+      cart.map(item => {
         const product =
           getProductById(
             getProductId(item)
           );
-        let image =
-          product?.image ||
-          product?.image_url ||
-          item.image ||
-          "";
-        const productImages =
-          normalizeProductImages(
-            image
-          );
-        if(productImages.length){
-          image =
-            productImages[0];
-        }
         return {
           id:
             Number(
@@ -1419,20 +1275,22 @@ async function submitOrder(){
               item.price
             ) || 0,
           quantity:
-            Number(
-              item.quantity
-            ) || 1,
+            Number(item.quantity) || 1,
           image:
-            image
+            product?.image ||
+            product?.image_url ||
+            item.image ||
+            ""
         };
       });
+    /* =========================
+       TOTALS
+    ========================= */
     const totals =
       calculateTotals();
-    /*
-      نحفظ العنوان المعدل للعميل
-      بعد نجاح التحقق من البيانات.
-    */
-    saveCurrentAddressForCustomer();
+    /* =========================
+       PAYLOAD
+    ========================= */
     const payload = {
       customer_name:
         name,
@@ -1463,31 +1321,32 @@ async function submitOrder(){
           ? COUPON_CODE
           : null,
       /*
-        العميل المسجّل لا نرسله
-        كـ Guest.
-        العميل غير المسجل يبقى Guest.
+        إذا كان العميل مسجل الدخول:
+        لا نرسله كزائر.
       */
       guest:
         !customerIsLoggedIn
     };
+    /* =========================
+       SEND ORDER
+    ========================= */
     const response =
       await fetch(
         API + "/orders",
         {
           method:"POST",
-          credentials:"include",
           headers:{
             "Content-Type":
               "application/json"
           },
+          credentials:"include",
           body:
             JSON.stringify(payload)
         }
       );
     const data =
-      await response
-        .json()
-        .catch(()=>({}));
+      await response.json()
+        .catch(() => ({}));
     if(!response.ok){
       throw new Error(
         data.message ||
@@ -1495,13 +1354,27 @@ async function submitOrder(){
         "تعذر إرسال الطلب."
       );
     }
+    /* =========================
+       SAVE CURRENT ADDRESS
+       LOCALLY FOR CUSTOMER
+    ========================= */
+    if(customerIsLoggedIn){
+      saveCurrentAddressForCustomer({
+        recipient:name,
+        phone:phone,
+        address:address,
+        city:area,
+        notes:notes
+      });
+    }
+    /* =========================
+       CLEAR CART
+    ========================= */
     localStorage.removeItem(
       CART_KEY
     );
     cart = [];
-    renderSuccess(
-      data
-    );
+    renderSuccess(data);
   }catch(error){
     console.error(
       "Submit order error:",
@@ -1513,12 +1386,98 @@ async function submitOrder(){
       "error"
     );
   }finally{
-    button.disabled =
-      false;
+    button.disabled = false;
   }
 }
 /* =========================
-   نجاح الطلب
+   SAVE CURRENT ADDRESS
+========================= */
+function saveCurrentAddressForCustomer(data){
+  if(!currentCustomer){
+    return false;
+  }
+  const key =
+    getCustomerAddressesStorageKey();
+  if(!key){
+    return false;
+  }
+  try{
+    const addresses =
+      loadCustomerAddresses();
+    /*
+      إذا كان هناك عنوان بنفس البيانات الأساسية،
+      لا ننشئ نسخة جديدة.
+    */
+    const existingIndex =
+      addresses.findIndex(
+        item =>
+          String(item.address || "").trim() ===
+            String(data.address || "").trim() &&
+          String(item.phone || "").trim() ===
+            String(data.phone || "").trim()
+      );
+    if(existingIndex !== -1){
+      addresses[existingIndex] = {
+        ...addresses[existingIndex],
+        recipient:
+          data.recipient ||
+          addresses[existingIndex].recipient ||
+          "",
+        phone:
+          data.phone ||
+          addresses[existingIndex].phone ||
+          "",
+        address:
+          data.address ||
+          addresses[existingIndex].address ||
+          "",
+        city:
+          data.city ||
+          addresses[existingIndex].city ||
+          "",
+        notes:
+          data.notes ||
+          addresses[existingIndex].notes ||
+          ""
+      };
+    }else{
+      addresses.push({
+        id:
+          Date.now().toString(36) +
+          Math.random()
+            .toString(36)
+            .slice(2,7),
+        label:
+          "آخر عنوان مستخدم",
+        recipient:
+          data.recipient || "",
+        phone:
+          data.phone || "",
+        address:
+          data.address || "",
+        city:
+          data.city || "",
+        notes:
+          data.notes || "",
+        isDefault:
+          addresses.length === 0
+      });
+    }
+    localStorage.setItem(
+      key,
+      JSON.stringify(addresses)
+    );
+    return true;
+  }catch(error){
+    console.error(
+      "SAVE_CURRENT_ADDRESS_ERROR",
+      error
+    );
+    return false;
+  }
+}
+/* =========================
+   SUCCESS
 ========================= */
 function renderSuccess(data){
   document.getElementById(
@@ -1544,54 +1503,32 @@ function renderSuccess(data){
     "تم تسجيل الطلب";
 }
 /* =========================
-   البداية
+   INIT
 ========================= */
 async function init(){
   cart =
     loadCart();
-  /*
-    نبدأ بتحميل المنتجات والعميل
-    بالتوازي حتى تكون الصفحة أسرع.
-  */
-  const productsPromise =
-    loadProducts()
-      .catch(error=>{
-        console.error(
-          "Products initialization error:",
-          error
-        );
-        products = [];
-      });
-  const customerPromise =
-    loadCustomerSession()
-      .catch(error=>{
-        console.error(
-          "Customer initialization error:",
-          error
-        );
-        customerIsLoggedIn =
-          false;
-        currentCustomer =
-          null;
-      });
-  await Promise.all([
-    productsPromise,
-    customerPromise
-  ]);
-  /*
-    بعد تحميل المنتجات نضبط
-    الكميات حسب المخزون.
-  */
-  if(products.length){
+  try{
+    /*
+      نحمل المنتجات والعميل معًا
+      حتى لا نؤخر صفحة الطلب.
+    */
+    await Promise.all([
+      loadProducts(),
+      loadCustomerSession()
+    ]);
     syncCartStock();
-  }
-  renderCart();
-  /*
-    التأكد مرة أخرى من تعبئة بيانات
-    العميل بعد انتهاء التحميل.
-  */
-  if(customerIsLoggedIn){
-    fillCustomerData();
+    renderCart();
+  }catch(error){
+    console.error(
+      "Initialization error:",
+      error
+    );
+    renderCart();
+    showMessage(
+      "تعذر تحميل معلومات المنتجات. حاول مرة أخرى.",
+      "error"
+    );
   }
 }
 init();
