@@ -6573,7 +6573,27 @@ function hideFeaturePanel(){
   editingAddressId = null;
 
 }
+function closeCustomerCart(event){
 
+  if(
+    event &&
+    event.target !== event.currentTarget
+  ){
+    return;
+  }
+
+  const cartModal =
+    $("customerCartPanel");
+
+  if(!cartModal){
+    return;
+  }
+
+  cartModal.style.display = "none";
+
+  document.body.style.overflow = "";
+
+}
 
 function showSection(section, button){
 
