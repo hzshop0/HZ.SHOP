@@ -3890,15 +3890,92 @@ function toast(message){
 }
 
 
-/* =========================================================
-   INIT
-========================================================= */
+async function loadCartCustomerData(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-me",
+        {
+          method:"GET",
+          credentials:"include",
+          cache:"no-store"
+        }
+      );
+
+    const data =
+      await response.json()
+        .catch(() => ({}));
+
+    if(
+      !response.ok ||
+      !data.customer
+    ){
+
+      cartCustomer = null;
+      return false;
+
+    }
+
+    cartCustomer =
+      data.customer;
+
+    const nameInput =
+      document.getElementById(
+        "customerName"
+      );
+
+    const phoneInput =
+      document.getElementById(
+        "phone"
+      );
+
+    if(
+      nameInput &&
+      cartCustomer.name
+    ){
+
+      nameInput.value =
+        cartCustomer.name;
+
+    }
+
+    if(
+      phoneInput &&
+      cartCustomer.phone
+    ){
+
+      phoneInput.value =
+        cartCustomer.phone;
+
+    }
+
+    return true;
+
+  }catch(error){
+
+    console.error(
+      "CART_CUSTOMER_SESSION_ERROR",
+      error
+    );
+
+    cartCustomer = null;
+
+    return false;
+
+  }
+
+}
+
 
 document.addEventListener(
   "DOMContentLoaded",
-  function(){
+  async function(){
 
     render();
+
+    await loadCartCustomerData();
 
   }
 );
