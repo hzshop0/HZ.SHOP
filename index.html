@@ -3906,22 +3906,65 @@ async function customerLogout(){
 
 }
 /* =========================
+   RESTORE SHOP POSITION
+========================= */
+function restoreShopPosition(){
+try{
+const savedScroll =
+sessionStorage.getItem(
+"hz_shop_return_scroll"
+);
+if(
+savedScroll === null
+){
+return;
+}
+sessionStorage.removeItem(
+"hz_shop_return_scroll"
+);
+sessionStorage.removeItem(
+"hz_shop_return_url"
+);
+const scrollY =
+Number(savedScroll);
+if(
+!Number.isFinite(scrollY) ||
+scrollY < 0
+){
+return;
+}
+/*
+   ننتظر حتى يتم تحميل المنتجات
+   حتى نستطيع العودة إلى نفس المكان
+*/
+setTimeout(
+()=>{
+window.scrollTo({
+top:scrollY,
+behavior:"instant"
+});
+},
+150
+);
+}catch(error){
+console.warn(
+"HZ_SHOP_STATE_RESTORE_ERROR",
+error
+);
+}
+}
+/* =========================
    INIT
 ========================= */
-
 window.addEventListener(
 "DOMContentLoaded",
 ()=>{
-
 updateFavoriteCount();
-
 renderCart();
-
 loadProducts();
-
+restoreShopPosition();
 }
 );
-
 </script>
 <!-- =========================
      CUSTOMER AUTH
