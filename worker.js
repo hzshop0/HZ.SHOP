@@ -1630,34 +1630,7 @@ async function getProducts(
 }
 
 
-  /* =====================================================
-     RETURN PRODUCTS WITH REAL SALES COUNT
-  ===================================================== */
-
-  return results.map(
-    product => {
-
-      const normalized =
-        normalizeProduct(
-          product
-        );
-
-
-      return {
-
-        ...normalized,
-
-        salesCount:
-          salesCount.get(
-            normalized.id
-          ) || 0
-
-      };
-
-    }
-  );
-
-}
+ 
 
 /* =========================================================
    VALIDATE PRODUCT INPUT
