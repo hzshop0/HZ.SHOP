@@ -6,9 +6,7 @@
 <title>HZ.SHOP | لوحة الإدارة</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 :root{
   --black:#070707;
@@ -29,42 +27,21 @@
   --shadow:0 18px 50px rgba(0,0,0,.35);
 }
 
-html{
-  scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
   margin:0;
   font-family:Arial,Tahoma,sans-serif;
   background:
-    radial-gradient(
-      circle at top right,
-      rgba(255,122,0,.07),
-      transparent 32%
-    ),
+    radial-gradient(circle at top right,rgba(255,122,0,.07),transparent 32%),
     var(--black);
   color:var(--white);
   min-height:100vh;
 }
 
-button,
-input,
-select,
-textarea{
-  font:inherit;
-}
-
-button{
-  border:0;
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* =========================================================
-   LOGIN
-========================================================= */
+button,input,select,textarea{font:inherit}
+button{border:0}
+.hidden{display:none!important}
 
 .login-page{
   min-height:100vh;
@@ -81,21 +58,15 @@ button{
   border-radius:28px;
   padding:36px;
   box-shadow:var(--shadow);
-  text-align:right;
 }
 
-.login-brand{
-  text-align:center;
-  margin-bottom:30px;
-}
-
+.login-brand{text-align:center;margin-bottom:30px}
 .login-brand .logo{
   font-size:34px;
   font-weight:900;
   letter-spacing:4px;
   color:var(--orange);
 }
-
 .login-brand p{
   margin:9px 0 0;
   color:var(--muted);
@@ -123,9 +94,7 @@ button{
   font-weight:bold;
 }
 
-input,
-select,
-textarea{
+input,select,textarea{
   width:100%;
   padding:14px 15px;
   background:#080808;
@@ -136,31 +105,15 @@ textarea{
   transition:.2s;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
+input:focus,select:focus,textarea:focus{
   border-color:var(--orange);
   box-shadow:0 0 0 3px rgba(255,122,0,.09);
 }
 
-input,
-select{
-  min-height:48px;
-}
+input,select{min-height:48px}
+textarea{min-height:120px;resize:vertical}
 
-textarea{
-  min-height:120px;
-  resize:vertical;
-}
-
-.login-button{
-  width:100%;
-  margin-top:7px;
-}
-
-/* =========================================================
-   BUTTONS
-========================================================= */
+.login-button{width:100%;margin-top:7px}
 
 .btn{
   min-height:43px;
@@ -168,62 +121,21 @@ textarea{
   border-radius:11px;
   cursor:pointer;
   font-weight:800;
-  transition:
-    transform .18s ease,
-    opacity .18s ease,
-    background .18s ease;
+  transition:.18s;
 }
 
-.btn:hover{
-  transform:translateY(-1px);
-}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
 
-.btn:active{
-  transform:translateY(0);
-}
+.btn-orange{background:var(--orange);color:#090909}
+.btn-orange:hover{background:var(--orange-2)}
+.btn-dark{background:#252525;color:#fff;border:1px solid #333}
+.btn-danger{background:#742323;color:#fff}
+.btn-danger:hover{background:#922c2c}
+.btn-green{background:var(--green);color:#fff}
+.btn-small{min-height:37px;padding:8px 12px;font-size:12px}
 
-.btn-orange{
-  background:var(--orange);
-  color:#090909;
-}
-
-.btn-orange:hover{
-  background:var(--orange-2);
-}
-
-.btn-dark{
-  background:#252525;
-  color:#fff;
-  border:1px solid #333;
-}
-
-.btn-danger{
-  background:#742323;
-  color:#fff;
-}
-
-.btn-danger:hover{
-  background:#922c2c;
-}
-
-.btn-green{
-  background:var(--green);
-  color:#fff;
-}
-
-.btn-small{
-  min-height:37px;
-  padding:8px 12px;
-  font-size:12px;
-}
-
-/* =========================================================
-   ADMIN LAYOUT
-========================================================= */
-
-.admin-shell{
-  min-height:100vh;
-}
+.admin-shell{min-height:100vh}
 
 .topbar{
   position:sticky;
@@ -240,12 +152,7 @@ textarea{
   backdrop-filter:blur(16px);
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-
+.brand{display:flex;align-items:center;gap:13px}
 .brand-mark{
   width:43px;
   height:43px;
@@ -265,7 +172,6 @@ textarea{
   letter-spacing:2px;
   color:var(--orange);
 }
-
 .brand-text span{
   display:block;
   margin-top:3px;
@@ -273,11 +179,7 @@ textarea{
   font-size:11px;
 }
 
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
+.top-actions{display:flex;align-items:center;gap:9px}
 
 .admin-layout{
   display:grid;
@@ -318,10 +220,7 @@ textarea{
   font-weight:bold;
 }
 
-.nav-item:hover{
-  background:#151515;
-  color:#fff;
-}
+.nav-item:hover{background:#151515;color:#fff}
 
 .nav-item.active{
   background:var(--orange-soft);
@@ -329,15 +228,9 @@ textarea{
   border:1px solid rgba(255,122,0,.14);
 }
 
-.nav-icon{
-  width:22px;
-  text-align:center;
-}
+.nav-icon{width:22px;text-align:center}
 
-.main{
-  min-width:0;
-  padding:30px;
-}
+.main{min-width:0;padding:30px}
 
 .page-head{
   display:flex;
@@ -347,25 +240,14 @@ textarea{
   margin-bottom:25px;
 }
 
-.page-head h1{
-  margin:0;
-  font-size:28px;
-}
-
+.page-head h1{margin:0;font-size:28px}
 .page-head p{
   margin:8px 0 0;
   color:var(--muted);
   font-size:13px;
 }
 
-.page-actions{
-  display:flex;
-  gap:9px;
-}
-
-/* =========================================================
-   DASHBOARD STATS
-========================================================= */
+.page-actions{display:flex;gap:9px}
 
 .stats{
   display:grid;
@@ -394,25 +276,9 @@ textarea{
   bottom:-40px;
 }
 
-.stat-icon{
-  font-size:22px;
-  margin-bottom:12px;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.stat-value{
-  margin-top:7px;
-  font-size:25px;
-  font-weight:900;
-}
-
-/* =========================================================
-   CARDS
-========================================================= */
+.stat-icon{font-size:22px;margin-bottom:12px}
+.stat-label{color:var(--muted);font-size:12px}
+.stat-value{margin-top:7px;font-size:25px;font-weight:900}
 
 .card{
   background:linear-gradient(145deg,#131313,#0d0d0d);
@@ -431,16 +297,8 @@ textarea{
   margin-bottom:20px;
 }
 
-.card-title{
-  margin:0;
-  font-size:19px;
-}
-
-.card-subtitle{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:5px;
-}
+.card-title{margin:0;font-size:19px}
+.card-subtitle{color:var(--muted);font-size:11px;margin-top:5px}
 
 .section-marker{
   width:4px;
@@ -449,15 +307,7 @@ textarea{
   border-radius:5px;
 }
 
-.title-with-marker{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-/* =========================================================
-   PRODUCT FORM
-========================================================= */
+.title-with-marker{display:flex;align-items:center;gap:11px}
 
 .grid{
   display:grid;
@@ -465,9 +315,7 @@ textarea{
   gap:15px;
 }
 
-.full{
-  grid-column:1/-1;
-}
+.full{grid-column:1/-1}
 
 .field label{
   display:block;
@@ -477,11 +325,7 @@ textarea{
   font-weight:bold;
 }
 
-.form-actions{
-  display:flex;
-  gap:9px;
-  margin-top:5px;
-}
+.form-actions{display:flex;gap:9px;margin-top:5px}
 
 .status{
   margin-top:13px;
@@ -491,28 +335,16 @@ textarea{
   min-height:18px;
 }
 
-/* =========================================================
-   PRODUCTS TOOLBAR
-========================================================= */
-
 .products-toolbar{
-  display:flex;
+  display:grid;
+  grid-template-columns:minmax(220px,1fr) 190px 180px auto;
   align-items:center;
-  justify-content:space-between;
-  gap:15px;
+  gap:10px;
   margin-bottom:18px;
 }
 
-.search-box{
-  position:relative;
-  flex:1;
-  max-width:430px;
-}
-
-.search-box input{
-  padding-right:44px;
-}
-
+.search-box{position:relative}
+.search-box input{padding-right:44px}
 .search-icon{
   position:absolute;
   right:15px;
@@ -525,41 +357,42 @@ textarea{
   color:var(--muted);
   font-size:12px;
   white-space:nowrap;
+  text-align:center;
 }
 
-/* =========================================================
-   PRODUCT GRID
-========================================================= */
+.category-strip{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:5px;
+  margin-bottom:18px;
+  scrollbar-width:thin;
+}
+
+.category-chip{
+  flex:0 0 auto;
+  border:1px solid #292929;
+  background:#111;
+  color:#aaa;
+  padding:9px 13px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.category-chip:hover{color:#fff;border-color:#444}
+
+.category-chip.active{
+  background:var(--orange-soft);
+  color:var(--orange);
+  border-color:rgba(255,122,0,.3);
+}
 
 .products{
   display:grid;
   grid-template-columns:repeat(5,minmax(0,1fr));
   gap:16px;
-}
-
-@media (max-width:1400px){
-  .products{
-    grid-template-columns:repeat(4,minmax(0,1fr));
-  }
-}
-
-@media (max-width:1050px){
-  .products{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-  }
-}
-
-@media (max-width:760px){
-  .products{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:12px;
-  }
-}
-
-@media (max-width:480px){
-  .products{
-    grid-template-columns:1fr;
-  }
 }
 
 .product{
@@ -568,10 +401,7 @@ textarea{
   background:#0a0a0a;
   border:1px solid var(--border);
   border-radius:18px;
-  transition:
-    transform .2s ease,
-    border-color .2s ease,
-    box-shadow .2s ease;
+  transition:.2s;
 }
 
 .product:hover{
@@ -587,17 +417,16 @@ textarea{
   overflow:hidden;
 }
 
-.product-image img{
+.product-image img,
+.product-image video{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
-  transition:transform .3s ease;
 }
 
-.product:hover .product-image img{
-  transform:scale(1.035);
-}
+.product-image img{transition:transform .3s}
+.product:hover .product-image img{transform:scale(1.035)}
 
 .no-image{
   height:100%;
@@ -632,9 +461,19 @@ textarea{
   font-size:9px;
 }
 
-.product-info{
-  padding:16px;
+.media-count{
+  position:absolute;
+  bottom:10px;
+  left:10px;
+  background:rgba(0,0,0,.8);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  padding:6px 9px;
+  border-radius:8px;
+  font-size:9px;
 }
+
+.product-info{padding:16px}
 
 .product-category{
   color:var(--orange);
@@ -657,16 +496,8 @@ textarea{
   margin-top:12px;
 }
 
-.price{
-  font-size:20px;
-  font-weight:900;
-}
-
-.old-price{
-  text-decoration:line-through;
-  color:#666;
-  font-size:12px;
-}
+.price{font-size:20px;font-weight:900}
+.old-price{text-decoration:line-through;color:#666;font-size:12px}
 
 .stock-row{
   display:flex;
@@ -677,27 +508,11 @@ textarea{
   border-top:1px solid #202020;
 }
 
-.stock-label{
-  color:#888;
-  font-size:11px;
-}
-
-.stock-value{
-  font-size:12px;
-  font-weight:bold;
-}
-
-.stock-ok{
-  color:#48c486;
-}
-
-.stock-low{
-  color:#ffae45;
-}
-
-.stock-empty{
-  color:#ff5c5c;
-}
+.stock-label{color:#888;font-size:11px}
+.stock-value{font-size:12px;font-weight:bold}
+.stock-ok{color:#48c486}
+.stock-low{color:#ffae45}
+.stock-empty{color:#ff5c5c}
 
 .product-actions{
   display:grid;
@@ -706,10 +521,6 @@ textarea{
   margin-top:14px;
 }
 
-/* =========================================================
-   IMAGES
-========================================================= */
-
 .image-help{
   color:#777;
   font-size:11px;
@@ -717,18 +528,63 @@ textarea{
   margin-bottom:10px;
 }
 
-.image-previews{
+.media-picker{
+  border:1px dashed #363636;
+  background:#0b0b0b;
+  border-radius:15px;
+  padding:16px;
+}
+
+.media-picker-row{
   display:grid;
-  grid-template-columns:
-    repeat(
-      auto-fill,
-      minmax(105px,1fr)
-    );
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.media-input{
+  position:relative;
+  border:1px solid #292929;
+  background:#111;
+  border-radius:12px;
+  padding:15px;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.media-input:hover{
+  border-color:var(--orange);
+  background:#151515;
+}
+
+.media-input strong{
+  display:block;
+  color:#ddd;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.media-input span{
+  color:#777;
+  font-size:10px;
+}
+
+.media-input input{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  cursor:pointer;
+  min-height:0;
+}
+
+.media-previews{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(105px,1fr));
   gap:10px;
   margin-top:12px;
 }
 
-.image-preview-item{
+.media-preview-item{
   position:relative;
   background:#080808;
   border:1px solid var(--border);
@@ -736,7 +592,8 @@ textarea{
   padding:7px;
 }
 
-.image-preview-item img{
+.media-preview-item img,
+.media-preview-item video{
   width:100%;
   height:110px;
   object-fit:cover;
@@ -744,7 +601,7 @@ textarea{
   display:block;
 }
 
-.image-preview-label{
+.media-preview-type{
   color:var(--orange);
   text-align:center;
   font-size:9px;
@@ -752,7 +609,7 @@ textarea{
   margin-top:6px;
 }
 
-.image-preview-remove{
+.media-preview-remove{
   position:absolute;
   top:5px;
   left:5px;
@@ -766,6 +623,11 @@ textarea{
   font-size:16px;
 }
 
+.media-preview-main{
+  border-color:var(--orange);
+  box-shadow:0 0 0 1px rgba(255,122,0,.25);
+}
+
 .current-images-title{
   color:#999;
   font-size:11px;
@@ -773,9 +635,16 @@ textarea{
   margin-bottom:7px;
 }
 
-/* =========================================================
-   EMPTY
-========================================================= */
+.media-note{
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:10px;
+  background:rgba(255,122,0,.06);
+  border:1px solid rgba(255,122,0,.12);
+  color:#999;
+  font-size:10px;
+  line-height:1.7;
+}
 
 .empty-state{
   grid-column:1/-1;
@@ -794,13 +663,28 @@ textarea{
   margin-bottom:7px;
 }
 
-.empty-state span{
-  font-size:11px;
+.empty-state span{font-size:11px}
+
+.dashboard-categories{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
 }
 
-/* =========================================================
-   TOAST
-========================================================= */
+.dashboard-category{
+  padding:8px 11px;
+  background:#181818;
+  border:1px solid #292929;
+  border-radius:9px;
+  color:#ccc;
+  font-size:11px;
+  cursor:pointer;
+}
+
+.dashboard-category:hover{
+  border-color:var(--orange);
+  color:var(--orange);
+}
 
 .toast{
   position:fixed;
@@ -826,226 +710,165 @@ textarea{
   opacity:1;
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
+.mobile-nav{display:none}
 
-.mobile-nav{
-  display:none;
+@media(max-width:1400px){
+  .products{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 
-@media(max-width:1050px){
+@media(max-width:1150px){
+  .products-toolbar{
+    grid-template-columns:1fr 180px;
+  }
 
-.stats{
-  grid-template-columns:repeat(2,1fr);
+  .products-count{text-align:right}
+
+  .stats{grid-template-columns:repeat(2,1fr)}
+
+  .admin-layout{
+    grid-template-columns:200px minmax(0,1fr);
+  }
+
+  .main{padding:22px}
 }
 
-.admin-layout{
-  grid-template-columns:200px minmax(0,1fr);
-}
-
-.main{
-  padding:22px;
-}
-
+@media(max-width:900px){
+  .products{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
 @media(max-width:760px){
 
-.topbar{
-  height:68px;
-  padding:0 15px;
-}
+  .topbar{
+    height:68px;
+    padding:0 15px;
+  }
 
-.brand-text span{
-  display:none;
-}
+  .brand-text span{display:none}
 
-.admin-layout{
-  display:block;
-  min-height:calc(100vh - 68px);
-}
+  .admin-layout{
+    display:block;
+    min-height:calc(100vh - 68px);
+  }
 
-.sidebar{
-  display:none;
-}
+  .sidebar{display:none}
 
-.main{
-  padding:18px 13px 85px;
-}
+  .main{padding:18px 13px 85px}
 
-.mobile-nav{
-  position:fixed;
-  display:flex;
-  right:10px;
-  left:10px;
-  bottom:10px;
-  z-index:60;
-  background:rgba(16,16,16,.96);
-  border:1px solid #303030;
-  border-radius:17px;
-  padding:7px;
-  backdrop-filter:blur(14px);
-}
+  .mobile-nav{
+    position:fixed;
+    display:flex;
+    right:10px;
+    left:10px;
+    bottom:10px;
+    z-index:60;
+    background:rgba(16,16,16,.96);
+    border:1px solid #303030;
+    border-radius:17px;
+    padding:7px;
+    backdrop-filter:blur(14px);
+  }
 
-.mobile-nav .nav-item{
-  flex:1;
-  justify-content:center;
-  padding:10px 5px;
-  margin:0;
-  font-size:10px;
-}
+  .mobile-nav .nav-item{
+    flex:1;
+    justify-content:center;
+    padding:10px 5px;
+    margin:0;
+    font-size:10px;
+  }
 
-.mobile-nav .nav-item span:last-child{
-  display:none;
-}
+  .mobile-nav .nav-item span:last-child{display:none}
 
-.top-actions .btn-dark{
-  display:none;
-}
+  .top-actions .btn-dark{display:none}
 
-.page-head{
-  align-items:flex-start;
-  flex-direction:column;
-}
+  .page-head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 
-.page-actions{
-  width:100%;
-}
+  .page-actions{width:100%}
+  .page-actions .btn{flex:1}
 
-.page-actions .btn{
-  flex:1;
-}
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
 
-.stats{
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-}
+  .stat{padding:15px}
+  .stat-value{font-size:21px}
 
-.stat{
-  padding:15px;
-}
+  .grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
 
-.stat-value{
-  font-size:21px;
-}
+  .products-toolbar{
+    grid-template-columns:1fr;
+  }
 
-.grid{
-  grid-template-columns:1fr;
-}
+  .products-count{text-align:right}
 
-.full{
-  grid-column:auto;
-}
+  .products{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
 
-.products-toolbar{
-  align-items:stretch;
-  flex-direction:column;
-}
+  .product-image{height:175px}
+  .product-info{padding:11px}
 
-.search-box{
-  max-width:none;
-}
+  .product-name{
+    font-size:14px;
+    min-height:41px;
+  }
 
-.products{
-  grid-template-columns:
-    repeat(
-      2,
-      minmax(0,1fr)
-    );
-  gap:10px;
-}
+  .price{font-size:17px}
 
-.product-image{
-  height:175px;
-}
+  .product-actions{grid-template-columns:1fr}
 
-.product-info{
-  padding:11px;
-}
+  .product-actions .btn{
+    min-height:38px;
+    font-size:11px;
+  }
 
-.product-name{
-  font-size:14px;
-  min-height:41px;
-}
+  .media-picker-row{grid-template-columns:1fr}
 
-.price{
-  font-size:17px;
-}
-
-.product-actions{
-  grid-template-columns:1fr;
-}
-
-.product-actions .btn{
-  min-height:38px;
-  font-size:11px;
-}
-
-.login-box{
-  padding:25px 20px;
-}
-
+  .login-box{padding:25px 20px}
 }
 
 @media(max-width:430px){
 
-.products{
-  grid-template-columns:1fr 1fr;
+  .products{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .product-image{height:155px}
+
+  .stats{grid-template-columns:1fr 1fr}
+
+  .stat-label{font-size:10px}
+  .stat-value{font-size:18px}
 }
 
-.product-image{
-  height:155px;
-}
+@media(max-width:360px){
 
-.stats{
-  grid-template-columns:1fr 1fr;
-}
-
-.stat-label{
-  font-size:10px;
-}
-
-.stat-value{
-  font-size:18px;
-}
-
+  .products{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================================================
-     LOGIN
-========================================================= -->
-
-<div
-  id="loginPage"
-  class="login-page">
-
+<div id="loginPage" class="login-page">
   <div class="login-box">
 
     <div class="login-brand">
+      <div class="login-icon">🔐</div>
 
-      <div class="login-icon">
-        🔐
-      </div>
+      <div class="logo">HZ.SHOP</div>
 
-      <div class="logo">
-        HZ.SHOP
-      </div>
-
-      <p>
-        لوحة الإدارة والتحكم بالمتجر
-      </p>
-
+      <p>لوحة الإدارة والتحكم بالمتجر</p>
     </div>
 
-
-    <label class="form-label">
-      كلمة مرور الإدارة
-    </label>
+    <label class="form-label">كلمة مرور الإدارة</label>
 
     <input
       id="password"
@@ -1058,54 +881,29 @@ textarea{
       class="btn btn-orange login-button"
       type="button"
       onclick="login()">
-
       دخول إلى لوحة الإدارة
-
     </button>
 
-    <div
-      id="loginStatus"
-      class="status">
-    </div>
+    <div id="loginStatus" class="status"></div>
 
   </div>
-
 </div>
 
 
-<!-- =========================================================
-     ADMIN
-========================================================= -->
-
-<div
-  id="adminShell"
-  class="admin-shell hidden">
-
-
-  <!-- TOPBAR -->
+<div id="adminShell" class="admin-shell hidden">
 
   <header class="topbar">
 
     <div class="brand">
 
-      <div class="brand-mark">
-        HZ
-      </div>
+      <div class="brand-mark">HZ</div>
 
       <div class="brand-text">
-
-        <strong>
-          HZ.SHOP
-        </strong>
-
-        <span>
-          ADMIN CONTROL PANEL
-        </span>
-
+        <strong>HZ.SHOP</strong>
+        <span>ADMIN CONTROL PANEL</span>
       </div>
 
     </div>
-
 
     <div class="top-actions">
 
@@ -1113,18 +911,14 @@ textarea{
         class="btn btn-dark btn-small"
         type="button"
         onclick="openStore()">
-
         ↗ فتح المتجر
-
       </button>
 
       <button
         class="btn btn-danger btn-small"
         type="button"
         onclick="logoutAdmin()">
-
         خروج
-
       </button>
 
     </div>
@@ -1134,87 +928,61 @@ textarea{
 
   <div class="admin-layout">
 
-
-    <!-- SIDEBAR -->
-
     <aside class="sidebar">
 
-      <div class="sidebar-title">
-        الإدارة
-      </div>
+      <div class="sidebar-title">الإدارة</div>
 
       <button
         class="nav-item active"
         type="button"
         onclick="showSection('dashboard',this)">
-
         <span class="nav-icon">⌂</span>
         <span>الرئيسية</span>
-
       </button>
-
 
       <button
         class="nav-item"
         type="button"
         onclick="showSection('productsSection',this)">
-
         <span class="nav-icon">▦</span>
         <span>المنتجات</span>
-
       </button>
-
 
       <button
         class="nav-item"
         type="button"
         onclick="showSection('addSection',this)">
-
         <span class="nav-icon">＋</span>
         <span>إضافة منتج</span>
-
       </button>
 
+      <div class="sidebar-title">الأقسام</div>
 
-      <div class="sidebar-title">
-        المتجر
-      </div>
+      <div id="sidebarCategories"></div>
 
+      <div class="sidebar-title">المتجر</div>
 
       <button
         class="nav-item"
         type="button"
         onclick="openStore()">
-
         <span class="nav-icon">◉</span>
         <span>عرض المتجر</span>
-
       </button>
 
     </aside>
 
 
-    <!-- MAIN -->
-
     <main class="main">
 
-
-      <!-- DASHBOARD -->
 
       <section id="dashboard">
 
         <div class="page-head">
 
           <div>
-
-            <h1>
-              لوحة التحكم
-            </h1>
-
-            <p>
-              إدارة HZ.SHOP من مكان واحد
-            </p>
-
+            <h1>لوحة التحكم</h1>
+            <p>إدارة HZ.SHOP من مكان واحد</p>
           </div>
 
           <div class="page-actions">
@@ -1222,10 +990,8 @@ textarea{
             <button
               class="btn btn-orange"
               type="button"
-              onclick="showSection('addSection')">
-
+              onclick="startNewProduct()">
               ＋ إضافة منتج
-
             </button>
 
           </div>
@@ -1236,86 +1002,414 @@ textarea{
         <div class="stats">
 
           <div class="stat">
+            <div class="stat-icon">🛍️</div>
+            <div class="stat-label">إجمالي المنتجات</div>
+            <div id="statProducts" class="stat-value">0</div>
+          </div>
 
-            <div class="stat-icon">
-              🛍️
+          <div class="stat">
+            <div class="stat-icon">📦</div>
+            <div class="stat-label">إجمالي المخزون</div>
+            <div id="statStock" class="stat-value">0</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-icon">💰</div>
+            <div class="stat-label">متوسط سعر المنتجات</div>
+            <div id="statAverage" class="stat-value">$0.00</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-label">منتجات مخزونها منخفض</div>
+            <div id="statLow" class="stat-value">0</div>
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-head">
+
+            <div>
+              <div class="title-with-marker">
+                <span class="section-marker"></span>
+                <h2 class="card-title">الأقسام</h2>
+              </div>
+
+              <div class="card-subtitle">
+                اضغط على أي قسم للوصول إلى منتجاته مباشرة
+              </div>
             </div>
 
-            <div class="stat-label">
-              إجمالي المنتجات
+          </div>
+
+          <div id="dashboardCategories" class="dashboard-categories">
+            جاري تحميل الأقسام...
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-head">
+
+            <div>
+              <div class="title-with-marker">
+                <span class="section-marker"></span>
+                <h2 class="card-title">نظرة سريعة</h2>
+              </div>
+
+              <div class="card-subtitle">
+                آخر حالة للمنتجات الموجودة في المتجر
+              </div>
             </div>
+
+            <button
+              class="btn btn-dark btn-small"
+              type="button"
+              onclick="showSection('productsSection')">
+              إدارة المنتجات
+            </button>
+
+          </div>
+
+          <div id="dashboardSummary">
+            جاري تحميل البيانات...
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section id="addSection" class="hidden">
+
+        <div class="page-head">
+
+          <div>
+            <h1 id="formTitle">إضافة منتج جديد</h1>
+
+            <p>
+              أضف أو عدّل بيانات المنتج والوسائط والسعر والمخزون
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <form id="productForm">
+
+            <input id="productId" type="hidden">
+
+            <div class="grid">
+
+              <div class="field">
+
+                <label>اسم المنتج</label>
+
+                <input
+                  id="name"
+                  required
+                  placeholder="اسم المنتج"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>القسم</label>
+
+                <select id="category" required>
+
+                  <option value="">اختر القسم</option>
+
+                  <option value="perfumes">العطور</option>
+                  <option value="makeup">مكياج</option>
+                  <option value="skin">العناية بالبشرة</option>
+                  <option value="personal">العناية الشخصية</option>
+                  <option value="accessories">إكسسوارات</option>
+                  <option value="clothing">ملابس</option>
+                  <option value="lingerie">لانجري</option>
+                  <option value="home">منزل</option>
+                  <option value="electronics">إلكترونيات</option>
+                  <option value="kids">ألعاب أطفال</option>
+                  <option value="cleaning">النظافة</option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label>السعر</label>
+
+                <input
+                  id="price"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  required
+                  placeholder="0.00"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>السعر القديم</label>
+
+                <input
+                  id="old_price"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="اختياري"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>المخزون</label>
+
+                <input
+                  id="stock"
+                  type="number"
+                  min="0"
+                  value="0"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>الشارة</label>
+
+                <input
+                  id="badge"
+                  placeholder="جديد / عرض / الأكثر مبيعاً"
+                >
+
+              </div>
+
+
+              <div class="field full">
+
+                <label>وسائط المنتج</label>
+
+                <div class="image-help">
+                  الصور والفيديو أصبحوا ضمن مدير وسائط واحد. يمكنك اختيار عدة صور وفيديو واحد من الجهاز.
+                </div>
+
+
+                <div class="media-picker">
+
+                  <div class="media-picker-row">
+
+                    <label class="media-input">
+
+                      <strong>🖼️ إضافة صور</strong>
+
+                      <span>
+                        اختر صور المنتج من الجهاز
+                      </span>
+
+                      <input
+                        id="imageFile"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                      >
+
+                    </label>
+
+
+                    <label class="media-input">
+
+                      <strong>🎥 إضافة فيديو</strong>
+
+                      <span>
+                        اختر فيديو المنتج من الجهاز
+                      </span>
+
+                      <input
+                        id="videoFile"
+                        type="file"
+                        accept="video/*"
+                      >
+
+                    </label>
+
+                  </div>
+
+
+                  <input id="image" type="hidden">
+                  <input id="images" type="hidden">
+
+                  <input id="video" type="hidden">
+
+                  <div
+                    id="currentImagesTitle"
+                    class="current-images-title">
+                  </div>
+
+                  <div
+                    id="mediaPreview"
+                    class="media-previews">
+                  </div>
+
+                  <div
+                    id="imageStatus"
+                    class="status">
+                  </div>
+
+                  <div class="media-note">
+                    الفيديو يتم اختياره من الجهاز مباشرة. سيتم ربط الرفع الفعلي للفيديو مع الـ Worker في الخطوة التقنية الخاصة برفع الفيديو.
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="field full">
+
+                <label>وصف المنتج</label>
+
+                <textarea
+                  id="description"
+                  placeholder="اكتب وصف المنتج...">
+                </textarea>
+
+              </div>
+
+
+              <div class="full">
+
+                <div class="form-actions">
+
+                  <button
+                    class="btn btn-orange"
+                    type="submit">
+                    حفظ المنتج
+                  </button>
+
+                  <button
+                    class="btn btn-dark"
+                    type="button"
+                    onclick="resetForm()">
+                    إلغاء
+                  </button>
+
+                </div>
+
+                <div id="status" class="status"></div>
+
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </section>
+
+
+      <section id="productsSection" class="hidden">
+
+        <div class="page-head">
+
+          <div>
+            <h1>المنتجات</h1>
+
+            <p>
+              إدارة جميع المنتجات المنشورة في HZ.SHOP
+            </p>
+          </div>
+
+          <div class="page-actions">
+
+            <button
+              class="btn btn-orange"
+              type="button"
+              onclick="startNewProduct()">
+              ＋ إضافة منتج
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="products-toolbar">
+
+            <div class="search-box">
+
+              <span class="search-icon">⌕</span>
+
+              <input
+                id="productSearch"
+                type="search"
+                placeholder="ابحث باسم المنتج أو القسم..."
+                oninput="filterProducts()"
+              >
+
+            </div>
+
+
+            <select
+              id="categoryFilter"
+              onchange="filterProducts()">
+
+              <option value="">كل الأقسام</option>
+
+            </select>
+
+
+            <select
+              id="stockFilter"
+              onchange="filterProducts()">
+
+              <option value="">كل المخزون</option>
+              <option value="available">متوفر</option>
+              <option value="low">مخزون منخفض</option>
+              <option value="empty">نفد المخزون</option>
+
+            </select>
+
 
             <div
-              id="statProducts"
-              class="stat-value">
-
-              0
-
+              id="productsCount"
+              class="products-count">
+              0 منتج
             </div>
 
           </div>
 
 
-          <div class="stat">
-
-            <div class="stat-icon">
-              📦
-            </div>
-
-            <div class="stat-label">
-              إجمالي المخزون
-            </div>
-
-            <div
-              id="statStock"
-              class="stat-value">
-
-              0
-
-            </div>
-
+          <div
+            id="categoryStrip"
+            class="category-strip">
           </div>
 
 
-          <div class="stat">
-
-            <div class="stat-icon">
-              💰
-            </div>
-
-            <div class="stat-label">
-              متوسط سعر المنتجات
-            </div>
-
-            <div
-              id="statAverage"
-              class="stat-value">
-
-              $0.00
-
-            </div>
-
-          </div>
-
-
-          <div class="stat">
-
-            <div class="stat-icon">
-              ⚠️
-            </div>
-
-            <div class="stat-label">
-              منتجات مخزونها منخفض
-            </div>
-
-            <div
-              id="statLow"
-              class="stat-value">
-
-              0
-
-            </div>
-
+          <div
+            id="products"
+            class="products">
+            جاري تحميل المنتجات...
           </div>
 
         </div>
@@ -1332,386 +1426,60 @@ textarea{
                 <span class="section-marker"></span>
 
                 <h2 class="card-title">
-                  نظرة سريعة
+                  إعداد عرض المنتجات
                 </h2>
 
               </div>
 
               <div class="card-subtitle">
-                آخر حالة للمنتجات الموجودة في المتجر
+                اختر عدد المنتجات التي تريد رؤيتها في السطر
               </div>
 
             </div>
 
-            <button
-              class="btn btn-dark btn-small"
-              type="button"
-              onclick="showSection('productsSection')">
-
-              إدارة المنتجات
-
-            </button>
-
           </div>
 
 
-          <div id="dashboardSummary">
-            جاري تحميل البيانات...
-          </div>
+          <div class="grid">
 
-        </div>
+            <div class="field">
 
-      </section>
+              <label>
+                📱 الهاتف — المنتجات في السطر
+              </label>
 
+              <select
+                id="mobileColumns"
+                onchange="saveGridSettings()">
 
-      <!-- ADD / EDIT -->
+                <option value="2">2 منتجات</option>
+                <option value="3">3 منتجات</option>
+                <option value="4">4 منتجات</option>
+                <option value="5">5 منتجات</option>
 
-      <section
-        id="addSection"
-        class="hidden">
-
-        <div class="page-head">
-
-          <div>
-
-            <h1 id="formTitle">
-              إضافة منتج جديد
-            </h1>
-
-            <p>
-              أضف أو عدّل بيانات المنتج والصور والسعر والمخزون
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <form id="productForm">
-
-            <input
-              id="productId"
-              type="hidden"
-            >
-
-
-            <div class="grid">
-
-
-              <div class="field">
-
-                <label>
-                  اسم المنتج
-                </label>
-
-                <input
-                  id="name"
-                  required
-                  placeholder="اسم المنتج"
-                >
-
-              </div>
-
-
-              <div class="field">
-
-                <label>
-                  القسم
-                </label>
-
-                <select
-                  id="category"
-                  required>
-
-                  <option value="">
-                    اختر القسم
-                  </option>
-
-                  <option value="perfumes">
-                    العطور
-                  </option>
-
-                  <option value="makeup">
-                    مكياج
-                  </option>
-
-                  <option value="skin">
-                    العناية بالبشرة
-                  </option>
-
-                  <option value="personal">
-                    العناية الشخصية
-                  </option>
-
-                  <option value="accessories">
-                    إكسسوارات
-                  </option>
-
-                  <option value="clothing">
-                    ملابس
-                  </option>
-
-                  <option value="lingerie">
-                    لانجري
-                  </option>
-
-                  <option value="home">
-                    منزل
-                  </option>
-
-                  <option value="electronics">
-                    إلكترونيات
-                  </option>
-
-                  <option value="kids">
-                    ألعاب أطفال
-                  </option>
-
-                  <option value="cleaning">
-                    النظافة
-                  </option>
-
-                </select>
-
-              </div>
-
-
-              <div class="field">
-
-                <label>
-                  السعر
-                </label>
-
-                <input
-                  id="price"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  required
-                  placeholder="0.00"
-                >
-
-              </div>
-
-
-              <div class="field">
-
-                <label>
-                  السعر القديم
-                </label>
-
-                <input
-                  id="old_price"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  placeholder="اختياري"
-                >
-
-              </div>
-
-
-              <div class="field">
-
-                <label>
-                  المخزون
-                </label>
-
-                <input
-                  id="stock"
-                  type="number"
-                  min="0"
-                  value="0"
-                >
-
-              </div>
-
-
-              <div class="field">
-
-                <label>
-                  الشارة
-                </label>
-
-                <input
-                  id="badge"
-                  placeholder="جديد / عرض / الأكثر مبيعاً"
-                >
-
-              </div>
-
-
-              <div class="field full">
-
-                <label>
-                  صور المنتج
-                </label>
-
-                <div class="image-help">
-                  يمكنك اختيار عدة صور. الصورة الأولى تصبح الصورة الرئيسية.
-                </div>
-
-                <input
-                  id="imageFile"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                >
-
-                <input
-                  id="image"
-                  type="hidden"
-                >
-
-                <input
-                  id="images"
-                  type="hidden"
-                >
-
-                <div
-                  class="current-images-title"
-                  id="currentImagesTitle">
-                </div>
-
-                <div
-                  id="imagePreview"
-                  class="image-previews">
-                </div>
-
-                <div
-                  id="imageStatus"
-                  class="status">
-                </div>
-
-              </div>
-
-
-              <div class="field full">
-
-                <label>
-                  وصف المنتج
-                </label>
-
-                <textarea
-                  id="description"
-                  placeholder="اكتب وصف المنتج..."
-                ></textarea>
-
-              </div>
-
-
-              <div class="full">
-
-                <div class="form-actions">
-
-                  <button
-                    class="btn btn-orange"
-                    type="submit">
-
-                    حفظ المنتج
-
-                  </button>
-
-                  <button
-                    class="btn btn-dark"
-                    type="button"
-                    onclick="resetForm()">
-
-                    إلغاء
-
-                  </button>
-
-                </div>
-
-                <div
-                  id="status"
-                  class="status">
-                </div>
-
-              </div>
+              </select>
 
             </div>
 
-          </form>
 
-        </div>
+            <div class="field">
 
-      </section>
+              <label>
+                💻 الكمبيوتر — المنتجات في السطر
+              </label>
 
+              <select
+                id="desktopColumns"
+                onchange="saveGridSettings()">
 
-      <!-- PRODUCTS -->
+                <option value="3">3 منتجات</option>
+                <option value="4">4 منتجات</option>
+                <option value="5">5 منتجات</option>
+                <option value="6">6 منتجات</option>
 
-      <section
-        id="productsSection"
-        class="hidden">
-
-        <div class="page-head">
-
-          <div>
-
-            <h1>
-              المنتجات
-            </h1>
-
-            <p>
-              إدارة جميع المنتجات المنشورة في HZ.SHOP
-            </p>
-
-          </div>
-
-          <div class="page-actions">
-
-            <button
-              class="btn btn-orange"
-              type="button"
-              onclick="showSection('addSection')">
-
-              ＋ إضافة منتج
-
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="products-toolbar">
-
-            <div class="search-box">
-
-              <span class="search-icon">
-                ⌕
-              </span>
-
-              <input
-                id="productSearch"
-                type="search"
-                placeholder="ابحث باسم المنتج أو القسم..."
-                oninput="filterProducts()"
-              >
+              </select>
 
             </div>
-
-            <div
-              id="productsCount"
-              class="products-count">
-
-              0 منتج
-
-            </div>
-
-          </div>
-
-
-          <div
-            id="products"
-            class="products">
-
-            جاري تحميل المنتجات...
 
           </div>
 
@@ -1724,38 +1492,30 @@ textarea{
   </div>
 
 
-  <!-- MOBILE NAV -->
-
   <nav class="mobile-nav">
 
     <button
       class="nav-item active"
       type="button"
       onclick="showSection('dashboard',this)">
-
       <span class="nav-icon">⌂</span>
       <span>الرئيسية</span>
-
     </button>
 
     <button
       class="nav-item"
       type="button"
       onclick="showSection('productsSection',this)">
-
       <span class="nav-icon">▦</span>
       <span>المنتجات</span>
-
     </button>
 
     <button
       class="nav-item"
       type="button"
-      onclick="showSection('addSection',this)">
-
+      onclick="startNewProduct()">
       <span class="nav-icon">＋</span>
       <span>إضافة</span>
-
     </button>
 
   </nav>
@@ -1763,17 +1523,46 @@ textarea{
 </div>
 
 
-<div
-  id="toast"
-  class="toast">
-</div>
+<div id="toast" class="toast"></div>
 
 
 <script>
 
 let products = [];
-
 let selectedImages = [];
+let selectedVideo = null;
+let currentCategory = "";
+
+
+/* =========================================================
+   CATEGORY DATA
+========================================================= */
+
+const categoryMap = {
+
+  perfumes:"العطور",
+  makeup:"مكياج",
+  skin:"العناية بالبشرة",
+  personal:"العناية الشخصية",
+  accessories:"إكسسوارات",
+  clothing:"ملابس",
+  lingerie:"لانجري",
+  home:"منزل",
+  electronics:"إلكترونيات",
+  kids:"ألعاب أطفال",
+  cleaning:"النظافة"
+
+};
+
+function categoryName(category){
+
+  return (
+    categoryMap[category] ||
+    category ||
+    "غير محدد"
+  );
+
+}
 
 
 /* =========================================================
@@ -1846,9 +1635,9 @@ async function login(){
       .classList
       .remove("hidden");
 
-    await loadProducts();
+    loadGridSettings();
 
-    updateDashboard();
+    await loadProducts();
 
     showToast(
       "تم تسجيل الدخول بنجاح"
@@ -1945,12 +1734,42 @@ function showSection(
       "active"
     );
 
+  }else{
+
+    const matching =
+      document.querySelector(
+        `[onclick*="'${sectionId}'"]`
+      );
+
+    if(matching){
+
+      matching.classList.add(
+        "active"
+      );
+
+    }
+
   }
 
   window.scrollTo({
     top:0,
     behavior:"smooth"
   });
+
+}
+
+
+/* =========================================================
+   NEW PRODUCT
+========================================================= */
+
+function startNewProduct(){
+
+  resetForm();
+
+  showSection(
+    "addSection"
+  );
 
 }
 
@@ -1990,8 +1809,7 @@ async function loadProducts(){
       await fetch(
         "/api/products",
         {
-          credentials:
-            "same-origin",
+          credentials:"same-origin",
           cache:"no-store"
         }
       );
@@ -2007,8 +1825,8 @@ async function loadProducts(){
     products =
       await response.json();
 
+    buildCategoryFilters();
     renderProducts();
-
     updateDashboard();
 
   }catch(error){
@@ -2018,12 +1836,17 @@ async function loadProducts(){
       box.innerHTML =
         `
           <div class="empty-state">
+
             <strong>
               تعذر تحميل المنتجات
             </strong>
+
             <span>
-              ${escapeHtml(error.message)}
+              ${escapeHtml(
+                error.message
+              )}
             </span>
+
           </div>
         `;
 
@@ -2035,44 +1858,163 @@ async function loadProducts(){
 
 
 /* =========================================================
-   CATEGORY NAME
+   CATEGORY FILTERS
 ========================================================= */
 
-function categoryName(
-  category
-){
+function buildCategoryFilters(){
 
-  const names = {
+  const used =
+    [...new Set(
+      products
+        .map(
+          product =>
+            product.category
+        )
+        .filter(Boolean)
+    )];
 
-    perfumes:"العطور",
 
-    makeup:"مكياج",
+  const categoryFilter =
+    document.getElementById(
+      "categoryFilter"
+    );
 
-    skin:"العناية بالبشرة",
+  if(categoryFilter){
 
-    personal:"العناية الشخصية",
+    const old =
+      categoryFilter.value;
 
-    accessories:"إكسسوارات",
+    categoryFilter.innerHTML =
+      `<option value="">كل الأقسام</option>` +
+      used
+        .map(
+          category =>
+            `
+              <option value="${escapeHtml(category)}">
+                ${escapeHtml(
+                  categoryName(category)
+                )}
+              </option>
+            `
+        )
+        .join("");
 
-    clothing:"ملابس",
+    if(
+      used.includes(old)
+    ){
 
-    lingerie:"لانجري",
+      categoryFilter.value =
+        old;
 
-    home:"منزل",
+    }
 
-    electronics:"إلكترونيات",
+  }
 
-    kids:"ألعاب أطفال",
 
-    cleaning:"النظافة"
+  const strip =
+    document.getElementById(
+      "categoryStrip"
+    );
 
-  };
+  if(strip){
 
-  return (
-    names[category] ||
-    category ||
-    "غير محدد"
+    strip.innerHTML =
+      `
+        <button
+          class="category-chip ${currentCategory === "" ? "active" : ""}"
+          type="button"
+          onclick="selectCategory('')">
+          الكل
+        </button>
+      ` +
+      used
+        .map(
+          category =>
+            `
+              <button
+                class="category-chip ${
+                  currentCategory === category
+                    ? "active"
+                    : ""
+                }"
+                type="button"
+                onclick="selectCategory('${escapeJs(category)}')">
+
+                ${escapeHtml(
+                  categoryName(category)
+                )}
+
+              </button>
+            `
+        )
+        .join("");
+
+  }
+
+
+  const sidebar =
+    document.getElementById(
+      "sidebarCategories"
+    );
+
+  if(sidebar){
+
+    sidebar.innerHTML =
+      used
+        .map(
+          category =>
+            `
+              <button
+                class="nav-item"
+                type="button"
+                onclick="selectCategory('${escapeJs(category)}')">
+
+                <span class="nav-icon">•</span>
+
+                <span>
+                  ${escapeHtml(
+                    categoryName(category)
+                  )}
+                </span>
+
+              </button>
+            `
+        )
+        .join("");
+
+  }
+
+}
+
+
+/* =========================================================
+   SELECT CATEGORY
+========================================================= */
+
+function selectCategory(category){
+
+  currentCategory =
+    category || "";
+
+  const filter =
+    document.getElementById(
+      "categoryFilter"
+    );
+
+  if(filter){
+
+    filter.value =
+      currentCategory;
+
+  }
+
+  buildCategoryFilters();
+
+  showSection(
+    "productsSection"
   );
+
+  renderProducts();
 
 }
 
@@ -2104,6 +2046,80 @@ function stockClass(stock){
 
 
 /* =========================================================
+   PRODUCT MEDIA
+========================================================= */
+
+function getProductImages(product){
+
+  let images = [];
+
+  if(
+    Array.isArray(
+      product.images
+    )
+  ){
+
+    images =
+      product.images
+        .map(
+          x => String(x)
+        )
+        .filter(Boolean);
+
+  }else if(
+    typeof product.images ===
+      "string" &&
+    product.images.trim()
+  ){
+
+    try{
+
+      const parsed =
+        JSON.parse(
+          product.images
+        );
+
+      if(
+        Array.isArray(parsed)
+      ){
+
+        images =
+          parsed
+            .map(
+              x => String(x)
+            )
+            .filter(Boolean);
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        "تعذر قراءة الصور",
+        error
+      );
+
+    }
+
+  }
+
+  if(
+    !images.length &&
+    product.image
+  ){
+
+    images = [
+      String(product.image)
+    ];
+
+  }
+
+  return images;
+
+}
+
+
+/* =========================================================
    RENDER PRODUCTS
 ========================================================= */
 
@@ -2120,6 +2136,7 @@ function renderProducts(){
 
   }
 
+
   const search =
     (
       document
@@ -2133,15 +2150,30 @@ function renderProducts(){
       .toLowerCase();
 
 
+  const category =
+    (
+      document
+        .getElementById(
+          "categoryFilter"
+        )
+        ?.value ||
+      currentCategory ||
+      ""
+    );
+
+
+  const stockFilter =
+    document
+      .getElementById(
+        "stockFilter"
+      )
+      ?.value ||
+    "";
+
+
   const filtered =
     products.filter(
       function(product){
-
-        if(!search){
-
-          return true;
-
-        }
 
         const name =
           String(
@@ -2149,7 +2181,7 @@ function renderProducts(){
           )
             .toLowerCase();
 
-        const category =
+        const cat =
           String(
             categoryName(
               product.category
@@ -2157,9 +2189,71 @@ function renderProducts(){
           )
             .toLowerCase();
 
-        return (
+        const rawCat =
+          String(
+            product.category || ""
+          )
+            .toLowerCase();
+
+        const stock =
+          Number(
+            product.stock || 0
+          );
+
+
+        const matchesSearch =
+          !search ||
           name.includes(search) ||
-          category.includes(search)
+          cat.includes(search) ||
+          rawCat.includes(search);
+
+
+        const matchesCategory =
+          !category ||
+          product.category ===
+            category;
+
+
+        let matchesStock =
+          true;
+
+
+        if(
+          stockFilter ===
+          "available"
+        ){
+
+          matchesStock =
+            stock > 0;
+
+        }
+
+        if(
+          stockFilter ===
+          "low"
+        ){
+
+          matchesStock =
+            stock > 0 &&
+            stock <= 5;
+
+        }
+
+        if(
+          stockFilter ===
+          "empty"
+        ){
+
+          matchesStock =
+            stock <= 0;
+
+        }
+
+
+        return (
+          matchesSearch &&
+          matchesCategory &&
+          matchesStock
         );
 
       }
@@ -2197,7 +2291,7 @@ function renderProducts(){
           <span>
             ${
               products.length
-                ? "لا توجد نتائج مطابقة للبحث."
+                ? "لا توجد نتائج مطابقة للفلاتر الحالية."
                 : "ابدأ بإضافة أول منتج إلى المتجر."
             }
           </span>
@@ -2215,21 +2309,20 @@ function renderProducts(){
       .map(
         function(product){
 
+          const images =
+            getProductImages(
+              product
+            );
+
           const image =
-            product.image ||
-            (
-              Array.isArray(
-                product.images
-              )
-                ? product.images[0]
-                : ""
-            ) ||
+            images[0] ||
             "";
 
           const stock =
             Number(
               product.stock || 0
             );
+
 
           const oldPrice =
             product.old_price
@@ -2264,9 +2357,7 @@ function renderProducts(){
                         <div
                           class="no-image"
                           style="display:none">
-
                           🖼️
-
                         </div>
                       `
                     :
@@ -2296,6 +2387,19 @@ function renderProducts(){
                 <div class="product-id">
                   #${Number(product.id)}
                 </div>
+
+
+                ${
+                  images.length
+                    ?
+                      `
+                        <div class="media-count">
+                          🖼️ ${images.length}
+                        </div>
+                      `
+                    :
+                      ""
+                }
 
               </div>
 
@@ -2342,9 +2446,7 @@ function renderProducts(){
                       stock-value
                       ${stockClass(stock)}
                     ">
-
                     ${stock}
-
                   </span>
 
                 </div>
@@ -2356,18 +2458,14 @@ function renderProducts(){
                     class="btn btn-orange"
                     type="button"
                     onclick="editProduct(${Number(product.id)})">
-
                     تعديل
-
                   </button>
 
                   <button
                     class="btn btn-danger"
                     type="button"
                     onclick="deleteProduct(${Number(product.id)})">
-
                     حذف
-
                   </button>
 
                 </div>
@@ -2386,10 +2484,21 @@ function renderProducts(){
 
 
 /* =========================================================
-   SEARCH
+   SEARCH / FILTER
 ========================================================= */
 
 function filterProducts(){
+
+  currentCategory =
+    document
+      .getElementById(
+        "categoryFilter"
+      )
+      ?.value ||
+    currentCategory ||
+    "";
+
+  buildCategoryFilters();
 
   renderProducts();
 
@@ -2404,6 +2513,7 @@ function updateDashboard(){
 
   const totalProducts =
     products.length;
+
 
   const totalStock =
     products.reduce(
@@ -2453,53 +2563,92 @@ function updateDashboard(){
     ).length;
 
 
-  const statProducts =
+  document.getElementById(
+    "statProducts"
+  ).textContent =
+    totalProducts;
+
+
+  document.getElementById(
+    "statStock"
+  ).textContent =
+    totalStock;
+
+
+  document.getElementById(
+    "statAverage"
+  ).textContent =
+    "$" +
+    average.toFixed(2);
+
+
+  document.getElementById(
+    "statLow"
+  ).textContent =
+    lowStock;
+
+
+  const categories = {};
+
+  products.forEach(
+    function(product){
+
+      const key =
+        product.category ||
+        "other";
+
+      categories[key] =
+        (
+          categories[key] ||
+          0
+        ) + 1;
+
+    }
+  );
+
+
+  const dashboardCategories =
     document.getElementById(
-      "statProducts"
+      "dashboardCategories"
     );
 
-  const statStock =
-    document.getElementById(
-      "statStock"
-    );
 
-  const statAverage =
-    document.getElementById(
-      "statAverage"
-    );
+  if(
+    dashboardCategories
+  ){
 
-  const statLow =
-    document.getElementById(
-      "statLow"
-    );
+    dashboardCategories.innerHTML =
+      Object.entries(categories)
+        .map(
+          function([
+            key,
+            value
+          ]){
 
+            return `
+              <button
+                class="dashboard-category"
+                type="button"
+                onclick="selectCategory('${escapeJs(key)}')">
 
-  if(statProducts){
+                ${escapeHtml(
+                  categoryName(key)
+                )}
 
-    statProducts.textContent =
-      totalProducts;
+                :
+                ${value}
 
-  }
+              </button>
+            `;
 
-  if(statStock){
-
-    statStock.textContent =
-      totalStock;
-
-  }
-
-  if(statAverage){
-
-    statAverage.textContent =
-      "$" +
-      average.toFixed(2);
-
-  }
-
-  if(statLow){
-
-    statLow.textContent =
-      lowStock;
+          }
+        )
+        .join("") ||
+      `
+        <div class="empty-state">
+          لا توجد أقسام حتى الآن.
+        </div>
+      `;
 
   }
 
@@ -2508,6 +2657,7 @@ function updateDashboard(){
     document.getElementById(
       "dashboardSummary"
     );
+
 
   if(!summary){
 
@@ -2538,69 +2688,119 @@ function updateDashboard(){
   }
 
 
-  const categories =
-    {};
-
-  products.forEach(
-    function(product){
-
-      const key =
-        product.category ||
-        "other";
-
-      categories[key] =
-        (
-          categories[key] ||
-          0
-        ) + 1;
-
-    }
-  );
+  const available =
+    products.filter(
+      product =>
+        Number(
+          product.stock || 0
+        ) > 0
+    ).length;
 
 
-  const categoryText =
-    Object.entries(categories)
-      .map(
-        function([
-          key,
-          value
-        ]){
-
-          return `
-            <span
-              style="
-                display:inline-block;
-                padding:7px 10px;
-                margin:4px;
-                background:#181818;
-                border:1px solid #292929;
-                border-radius:9px;
-                color:#ccc;
-                font-size:11px;
-              ">
-
-              ${escapeHtml(
-                categoryName(key)
-              )}
-              :
-              ${value}
-
-            </span>
-          `;
-
-        }
-      )
-      .join("");
+  const empty =
+    products.filter(
+      product =>
+        Number(
+          product.stock || 0
+        ) <= 0
+    ).length;
 
 
   summary.innerHTML =
     `
-      <div style="margin-bottom:10px;color:#aaa;font-size:12px">
-        توزيع المنتجات حسب الأقسام
-      </div>
+      <div
+        style="
+          display:grid;
+          grid-template-columns:repeat(3,1fr);
+          gap:10px;
+        ">
 
-      <div>
-        ${categoryText}
+        <div
+          style="
+            padding:15px;
+            background:#111;
+            border:1px solid #292929;
+            border-radius:12px;
+          ">
+
+          <div
+            style="
+              color:#777;
+              font-size:10px;
+            ">
+            متوفر
+          </div>
+
+          <strong
+            style="
+              display:block;
+              margin-top:6px;
+              font-size:20px;
+              color:#48c486;
+            ">
+            ${available}
+          </strong>
+
+        </div>
+
+
+        <div
+          style="
+            padding:15px;
+            background:#111;
+            border:1px solid #292929;
+            border-radius:12px;
+          ">
+
+          <div
+            style="
+              color:#777;
+              font-size:10px;
+            ">
+            مخزون منخفض
+          </div>
+
+          <strong
+            style="
+              display:block;
+              margin-top:6px;
+              font-size:20px;
+              color:#ffae45;
+            ">
+            ${lowStock}
+          </strong>
+
+        </div>
+
+
+        <div
+          style="
+            padding:15px;
+            background:#111;
+            border:1px solid #292929;
+            border-radius:12px;
+          ">
+
+          <div
+            style="
+              color:#777;
+              font-size:10px;
+            ">
+            نفد المخزون
+          </div>
+
+          <strong
+            style="
+              display:block;
+              margin-top:6px;
+              font-size:20px;
+              color:#ff5c5c;
+            ">
+            ${empty}
+          </strong>
+
+        </div>
+
       </div>
     `;
 
@@ -2608,7 +2808,7 @@ function updateDashboard(){
 
 
 /* =========================================================
-   SELECT IMAGES
+   IMAGE SELECT
 ========================================================= */
 
 document
@@ -2622,30 +2822,6 @@ document
           this.files || []
         );
 
-      const preview =
-        document.getElementById(
-          "imagePreview"
-        );
-
-      const status =
-        document.getElementById(
-          "imageStatus"
-        );
-
-      const currentTitle =
-        document.getElementById(
-          "currentImagesTitle"
-        );
-
-
-      preview.innerHTML =
-        "";
-
-      status.textContent =
-        "";
-
-      currentTitle.textContent =
-        "";
 
       selectedImages =
         [];
@@ -2653,12 +2829,14 @@ document
 
       if(!files.length){
 
+        renderMediaPreviews();
+
         return;
 
       }
 
 
-      const invalidFile =
+      const invalid =
         files.find(
           file =>
             !file.type.startsWith(
@@ -2667,10 +2845,14 @@ document
         );
 
 
-      if(invalidFile){
+      if(invalid){
 
-        status.textContent =
-          "جميع الملفات يجب أن تكون صورًا";
+        document
+          .getElementById(
+            "imageStatus"
+          )
+          .textContent =
+            "جميع الملفات يجب أن تكون صورًا";
 
         this.value =
           "";
@@ -2683,14 +2865,15 @@ document
       files.forEach(
         function(file){
 
-          const imageObject = {
+          const item = {
+            type:"image",
             file,
             preview:null
           };
 
 
           selectedImages.push(
-            imageObject
+            item
           );
 
 
@@ -2699,12 +2882,12 @@ document
 
 
           reader.onload =
-            function(e){
+            function(event){
 
-              imageObject.preview =
-                e.target.result;
+              item.preview =
+                event.target.result;
 
-              renderSelectedImages();
+              renderMediaPreviews();
 
             };
 
@@ -2717,27 +2900,107 @@ document
       );
 
 
-      status.textContent =
-        files.length +
-        (
-          files.length === 1
-            ? " صورة جاهزة للرفع"
-            : " صور جاهزة للرفع"
-        );
+      document
+        .getElementById(
+          "imageStatus"
+        )
+        .textContent =
+          files.length +
+          (
+            files.length === 1
+              ? " صورة جاهزة"
+              : " صور جاهزة"
+          );
 
     }
   );
 
 
 /* =========================================================
-   RENDER SELECTED IMAGES
+   VIDEO SELECT
 ========================================================= */
 
-function renderSelectedImages(){
+document
+  .getElementById("videoFile")
+  .addEventListener(
+    "change",
+    function(){
+
+      const file =
+        this.files?.[0];
+
+
+      selectedVideo =
+        null;
+
+
+      if(!file){
+
+        renderMediaPreviews();
+
+        return;
+
+      }
+
+
+      if(
+        !file.type.startsWith(
+          "video/"
+        )
+      ){
+
+        document
+          .getElementById(
+            "imageStatus"
+          )
+          .textContent =
+            "الملف المختار ليس فيديو";
+
+        this.value =
+          "";
+
+        return;
+
+      }
+
+
+      selectedVideo = {
+
+        type:"video",
+
+        file,
+
+        preview:
+          URL.createObjectURL(
+            file
+          )
+
+      };
+
+
+      document
+        .getElementById(
+          "imageStatus"
+        )
+        .textContent =
+          "تم اختيار فيديو من الجهاز";
+
+
+      renderMediaPreviews();
+
+    }
+  );
+
+
+/* =========================================================
+   MEDIA PREVIEW
+========================================================= */
+
+function renderMediaPreviews(){
 
   const preview =
     document.getElementById(
-      "imagePreview"
+      "mediaPreview"
     );
 
   preview.innerHTML =
@@ -2749,17 +3012,20 @@ function renderSelectedImages(){
 
       preview.innerHTML +=
         `
-
-          <div class="image-preview-item">
+          <div class="media-preview-item ${
+            index === 0
+              ? "media-preview-main"
+              : ""
+          }">
 
             <img
               src="${escapeHtml(
                 item.preview || ""
               )}"
-              alt="صورة ${index+1}"
+              alt="صورة ${index + 1}"
             >
 
-            <div class="image-preview-label">
+            <div class="media-preview-type">
 
               ${
                 index === 0
@@ -2770,28 +3036,55 @@ function renderSelectedImages(){
 
             </div>
 
-
             <button
               type="button"
-              class="image-preview-remove"
+              class="media-preview-remove"
               onclick="removeSelectedImage(${index})">
-
               ×
-
             </button>
 
           </div>
-
         `;
 
     }
   );
 
+
+  if(selectedVideo){
+
+    preview.innerHTML +=
+      `
+        <div class="media-preview-item">
+
+          <video
+            src="${escapeHtml(
+              selectedVideo.preview
+            )}"
+            controls
+            muted>
+          </video>
+
+          <div class="media-preview-type">
+            🎥 فيديو المنتج
+          </div>
+
+          <button
+            type="button"
+            class="media-preview-remove"
+            onclick="removeSelectedVideo()">
+            ×
+          </button>
+
+        </div>
+      `;
+
+  }
+
 }
 
 
 /* =========================================================
-   REMOVE SELECTED IMAGE
+   REMOVE IMAGE
 ========================================================= */
 
 function removeSelectedImage(index){
@@ -2801,38 +3094,44 @@ function removeSelectedImage(index){
     1
   );
 
-  renderSelectedImages();
-
-
-  const status =
-    document.getElementById(
-      "imageStatus"
-    );
-
-
-  if(!selectedImages.length){
-
-    status.textContent =
-      "لم يتم اختيار صور جديدة";
-
-    return;
-
-  }
-
-
-  status.textContent =
-    selectedImages.length +
-    (
-      selectedImages.length === 1
-        ? " صورة جاهزة للرفع"
-        : " صور جاهزة للرفع"
-    );
+  renderMediaPreviews();
 
 }
 
 
 /* =========================================================
-   UPLOAD ONE IMAGE
+   REMOVE VIDEO
+========================================================= */
+
+function removeSelectedVideo(){
+
+  if(
+    selectedVideo?.preview
+  ){
+
+    URL.revokeObjectURL(
+      selectedVideo.preview
+    );
+
+  }
+
+  selectedVideo =
+    null;
+
+  document
+    .getElementById(
+      "videoFile"
+    )
+    .value =
+      "";
+
+  renderMediaPreviews();
+
+}
+
+
+/* =========================================================
+   UPLOAD IMAGE
 ========================================================= */
 
 async function uploadImage(file){
@@ -2852,8 +3151,7 @@ async function uploadImage(file){
       "/api/upload-image",
       {
         method:"POST",
-        credentials:
-          "same-origin",
+        credentials:"same-origin",
         body:formData
       }
     );
@@ -2890,12 +3188,10 @@ async function uploadImage(file){
 
 
 /* =========================================================
-   UPLOAD MULTIPLE
+   UPLOAD MULTIPLE IMAGES
 ========================================================= */
 
-async function uploadImages(
-  files
-){
+async function uploadImages(files){
 
   const status =
     document.getElementById(
@@ -2933,16 +3229,6 @@ async function uploadImages(
   }
 
 
-  status.textContent =
-    "تم رفع " +
-    uploaded.length +
-    (
-      uploaded.length === 1
-        ? " صورة بنجاح ✅"
-        : " صور بنجاح ✅"
-    );
-
-
   return uploaded;
 
 }
@@ -2956,9 +3242,9 @@ document
   .getElementById("productForm")
   .addEventListener(
     "submit",
-    async function(e){
+    async function(event){
 
-      e.preventDefault();
+      event.preventDefault();
 
 
       const id =
@@ -2972,6 +3258,12 @@ document
       const status =
         document.getElementById(
           "status"
+        );
+
+
+      const imageStatus =
+        document.getElementById(
+          "imageStatus"
         );
 
 
@@ -3014,13 +3306,16 @@ document
 
 
             if(
-              Array.isArray(parsed)
+              Array.isArray(
+                parsed
+              )
             ){
 
               images =
                 parsed
                   .map(
-                    x => String(x)
+                    x =>
+                      String(x)
                   )
                   .filter(Boolean);
 
@@ -3047,6 +3342,10 @@ document
               item =>
                 item.file
             );
+
+
+          imageStatus.textContent =
+            "جاري رفع الصور...";
 
 
           const uploadedImages =
@@ -3097,6 +3396,20 @@ document
           images = [
             image
           ];
+
+        }
+
+
+        /*
+          الفيديو لا يتم إرساله للـ API الحالي
+          حتى لا نخترع endpoint غير موجود.
+          سيتم ربطه فعليًا مع Worker في الخطوة التالية.
+        */
+
+        if(selectedVideo){
+
+          imageStatus.textContent =
+            "الفيديو تم اختياره، لكن رفعه يحتاج ربط Worker أولًا.";
 
         }
 
@@ -3191,6 +3504,7 @@ document
                 JSON.stringify(
                   data
                 )
+
             }
           );
 
@@ -3326,74 +3640,10 @@ function editProduct(id){
       product.badge || "";
 
 
-  let productImages =
-    [];
-
-
-  if(
-    Array.isArray(
-      product.images
-    )
-  ){
-
-    productImages =
-      product.images
-        .map(
-          x => String(x)
-        )
-        .filter(Boolean);
-
-  }else if(
-    typeof product.images ===
-      "string" &&
-    product.images.trim()
-  ){
-
-    try{
-
-      const parsed =
-        JSON.parse(
-          product.images
-        );
-
-
-      if(
-        Array.isArray(parsed)
-      ){
-
-        productImages =
-          parsed
-            .map(
-              x => String(x)
-            )
-            .filter(Boolean);
-
-      }
-
-    }catch(error){
-
-      console.warn(
-        "تعذر قراءة product.images",
-        error
-      );
-
-    }
-
-  }
-
-
-  if(
-    !productImages.length &&
-    product.image
-  ){
-
-    productImages = [
-      String(
-        product.image
-      )
-    ];
-
-  }
+  const productImages =
+    getProductImages(
+      product
+    );
 
 
   document
@@ -3430,19 +3680,36 @@ function editProduct(id){
       "";
 
 
+  document
+    .getElementById(
+      "videoFile"
+    )
+    .value =
+      "";
+
+
   selectedImages =
     [];
 
-
-  const preview =
-    document
-      .getElementById(
-        "imagePreview"
-      );
+  selectedVideo =
+    null;
 
 
-  preview.innerHTML =
-    "";
+  productImages.forEach(
+    function(image){
+
+      selectedImages.push({
+
+        type:"image",
+
+        file:null,
+
+        preview:image
+
+      });
+
+    }
+  );
 
 
   const currentTitle =
@@ -3454,50 +3721,11 @@ function editProduct(id){
 
   currentTitle.textContent =
     productImages.length
-      ? "الصور الحالية للمنتج:"
+      ? "الوسائط الحالية للمنتج:"
       : "";
 
 
-  if(
-    productImages.length
-  ){
-
-    productImages.forEach(
-      function(
-        image,
-        index
-      ){
-
-        preview.innerHTML +=
-          `
-
-            <div class="image-preview-item">
-
-              <img
-                src="${escapeHtml(image)}"
-                alt="صورة ${index+1}"
-                onerror="this.style.display='none'"
-              >
-
-              <div class="image-preview-label">
-
-                ${
-                  index === 0
-                    ? "الصورة الرئيسية"
-                    : "الصورة " +
-                      (index + 1)
-                }
-
-              </div>
-
-            </div>
-
-          `;
-
-      }
-    );
-
-  }
+  renderMediaPreviews();
 
 
   document
@@ -3520,22 +3748,14 @@ function editProduct(id){
     "addSection"
   );
 
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
 }
 
 
 /* =========================================================
-   DELETE PRODUCT
+   DELETE
 ========================================================= */
 
-async function deleteProduct(
-  id
-){
+async function deleteProduct(id){
 
   const product =
     products.find(
@@ -3651,6 +3871,14 @@ function resetForm(){
 
   document
     .getElementById(
+      "video"
+    )
+    .value =
+      "";
+
+
+  document
+    .getElementById(
       "formTitle"
     )
     .textContent =
@@ -3659,7 +3887,7 @@ function resetForm(){
 
   document
     .getElementById(
-      "imagePreview"
+      "mediaPreview"
     )
     .innerHTML =
       "";
@@ -3692,6 +3920,174 @@ function resetForm(){
   selectedImages =
     [];
 
+  if(
+    selectedVideo?.preview
+  ){
+
+    URL.revokeObjectURL(
+      selectedVideo.preview
+    );
+
+  }
+
+  selectedVideo =
+    null;
+
+}
+
+
+/* =========================================================
+   GRID SETTINGS
+========================================================= */
+
+function loadGridSettings(){
+
+  const mobile =
+    localStorage.getItem(
+      "hz_admin_mobile_columns"
+    ) ||
+    "2";
+
+
+  const desktop =
+    localStorage.getItem(
+      "hz_admin_desktop_columns"
+    ) ||
+    "5";
+
+
+  const mobileSelect =
+    document.getElementById(
+      "mobileColumns"
+    );
+
+
+  const desktopSelect =
+    document.getElementById(
+      "desktopColumns"
+    );
+
+
+  if(mobileSelect){
+
+    mobileSelect.value =
+      mobile;
+
+  }
+
+
+  if(desktopSelect){
+
+    desktopSelect.value =
+      desktop;
+
+  }
+
+
+  applyGridSettings(
+    mobile,
+    desktop
+  );
+
+}
+
+
+function saveGridSettings(){
+
+  const mobile =
+    document.getElementById(
+      "mobileColumns"
+    ).value;
+
+
+  const desktop =
+    document.getElementById(
+      "desktopColumns"
+    ).value;
+
+
+  localStorage.setItem(
+    "hz_admin_mobile_columns",
+    mobile
+  );
+
+
+  localStorage.setItem(
+    "hz_admin_desktop_columns",
+    desktop
+  );
+
+
+  applyGridSettings(
+    mobile,
+    desktop
+  );
+
+
+  showToast(
+    "تم حفظ إعداد عرض المنتجات"
+  );
+
+}
+
+
+function applyGridSettings(
+  mobile,
+  desktop
+){
+
+  const styleId =
+    "hz-admin-grid-settings";
+
+
+  let style =
+    document.getElementById(
+      styleId
+    );
+
+
+  if(!style){
+
+    style =
+      document.createElement(
+        "style"
+      );
+
+    style.id =
+      styleId;
+
+    document.head.appendChild(
+      style
+    );
+
+  }
+
+
+  style.textContent =
+    `
+
+      .products{
+        grid-template-columns:
+          repeat(
+            ${desktop},
+            minmax(0,1fr)
+          ) !important;
+      }
+
+      @media(max-width:760px){
+
+        .products{
+          grid-template-columns:
+            repeat(
+              ${mobile},
+              minmax(0,1fr)
+            ) !important;
+        }
+
+      }
+
+    `;
+
 }
 
 
@@ -3699,9 +4095,7 @@ function resetForm(){
    TOAST
 ========================================================= */
 
-function showToast(
-  message
-){
+function showToast(message){
 
   const toast =
     document.getElementById(
@@ -3746,12 +4140,10 @@ function showToast(
 
 
 /* =========================================================
-   SECURITY / HTML
+   ESCAPE
 ========================================================= */
 
-function escapeHtml(
-  value
-){
+function escapeHtml(value){
 
   return String(
     value ?? ""
@@ -3785,6 +4177,31 @@ function escapeHtml(
 }
 
 
+function escapeJs(value){
+
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    )
+    .replace(
+      /\n/g,
+      "\\n"
+    )
+    .replace(
+      /\r/g,
+      "\\r"
+    );
+
+}
+
+
 /* =========================================================
    ENTER LOGIN
 ========================================================= */
@@ -3808,6 +4225,13 @@ document
 
     }
   );
+
+
+/* =========================================================
+   INITIAL GRID SETTINGS
+========================================================= */
+
+loadGridSettings();
 
 </script>
 
