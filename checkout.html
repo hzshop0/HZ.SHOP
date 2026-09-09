@@ -880,20 +880,39 @@ function loadCustomerAddresses(){
   }
 }
 function getDefaultCustomerAddress(){
+
   const addresses =
     loadCustomerAddresses();
+
+  console.log(
+    "CUSTOMER ADDRESSES:",
+    addresses
+  );
+
   if(!addresses.length){
+    console.log(
+      "NO CUSTOMER ADDRESS FOUND"
+    );
+
     return null;
   }
-  return (
+
+  const defaultAddress =
     addresses.find(
       address =>
         address &&
         address.isDefault === true
     ) ||
     addresses[0] ||
-    null
+    null;
+
+  console.log(
+    "DEFAULT CUSTOMER ADDRESS:",
+    defaultAddress
   );
+
+  return defaultAddress;
+
 }
 /* =========================
    CUSTOMER SESSION
