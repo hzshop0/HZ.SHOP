@@ -4,21 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>تأكيد الطلب | HZ.SHOP</title>
-
 <meta name="description" content="تأكيد طلبك من HZ.SHOP">
-
 <style>
 *{
   box-sizing:border-box;
 }
-
 body{
   margin:0;
   font-family:Arial,Tahoma,sans-serif;
   background:#f7f7f7;
   color:#111;
 }
-
 header{
   background:#111;
   color:#d4af37;
@@ -27,7 +23,6 @@ header{
   font-size:24px;
   font-weight:bold;
 }
-
 header a{
   display:inline-block;
   margin-top:8px;
@@ -35,38 +30,32 @@ header a{
   text-decoration:none;
   font-size:14px;
 }
-
 .container{
   max-width:1100px;
   margin:25px auto;
   padding:0 15px;
 }
-
 .checkout-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:20px;
 }
-
 .box{
   background:#fff;
   border-radius:14px;
   padding:20px;
   box-shadow:0 3px 15px rgba(0,0,0,.06);
 }
-
 .box h2{
   margin-top:0;
   font-size:20px;
 }
-
 label{
   display:block;
   margin-top:14px;
   margin-bottom:6px;
   font-weight:bold;
 }
-
 input,
 textarea,
 select{
@@ -77,12 +66,40 @@ select{
   font-size:15px;
   background:#fff;
 }
-
+input:focus,
+textarea:focus,
+select:focus{
+  outline:none;
+  border-color:#d4af37;
+  box-shadow:0 0 0 3px rgba(212,175,55,.10);
+}
 textarea{
   min-height:90px;
   resize:vertical;
 }
-
+.customer-status{
+  display:none;
+  margin-bottom:14px;
+  padding:11px 13px;
+  border-radius:9px;
+  background:#f8f8f8;
+  border:1px solid #eee;
+  color:#555;
+  font-size:13px;
+}
+.customer-status strong{
+  color:#111;
+}
+.saved-address-note{
+  display:none;
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:9px;
+  background:#fffdf3;
+  border:1px solid #eadb9b;
+  color:#6d5900;
+  font-size:13px;
+}
 .payment{
   margin-top:18px;
   padding:14px;
@@ -90,18 +107,15 @@ textarea{
   border-radius:10px;
   background:#fafafa;
 }
-
 .payment label{
   margin:0;
   display:flex;
   align-items:center;
   gap:8px;
 }
-
 .payment input{
   width:auto;
 }
-
 .cart-item{
   display:flex;
   align-items:center;
@@ -109,11 +123,9 @@ textarea{
   padding:12px 0;
   border-bottom:1px solid #eee;
 }
-
 .cart-item:last-child{
   border-bottom:0;
 }
-
 .cart-item img{
   width:65px;
   height:65px;
@@ -121,26 +133,21 @@ textarea{
   border-radius:10px;
   background:#f2f2f2;
 }
-
 .cart-info{
   flex:1;
 }
-
 .cart-info strong{
   display:block;
   margin-bottom:5px;
 }
-
 .cart-info small{
   color:#666;
 }
-
 .summary{
   margin-top:18px;
   border-top:1px solid #eee;
   padding-top:15px;
 }
-
 .summary-row{
   display:flex;
   justify-content:space-between;
@@ -148,15 +155,12 @@ textarea{
   gap:10px;
   margin:10px 0;
 }
-
 .summary-row span{
   color:#555;
 }
-
 .summary-row strong{
   font-size:16px;
 }
-
 .delivery-highlight{
   margin-top:14px;
   padding:14px 16px;
@@ -169,17 +173,14 @@ textarea{
   gap:10px;
   font-weight:bold;
 }
-
 .delivery-highlight span{
   color:#111;
   font-size:16px;
 }
-
 .delivery-highlight strong{
   color:#b18a00;
   font-size:20px;
 }
-
 .delivery-note{
   margin-top:8px;
   padding:9px 12px;
@@ -189,7 +190,6 @@ textarea{
   font-size:13px;
   text-align:center;
 }
-
 .total{
   margin-top:15px;
   padding-top:15px;
@@ -200,21 +200,17 @@ textarea{
   font-size:21px;
   font-weight:bold;
 }
-
 .total strong{
   color:#b18a00;
 }
-
 .coupon-box{
   display:flex;
   gap:8px;
   margin-top:15px;
 }
-
 .coupon-box input{
   flex:1;
 }
-
 button{
   border:0;
   border-radius:9px;
@@ -223,12 +219,10 @@ button{
   font-weight:bold;
   cursor:pointer;
 }
-
 .coupon-btn{
   background:#111;
   color:#d4af37;
 }
-
 .order-btn{
   width:100%;
   margin-top:18px;
@@ -237,52 +231,43 @@ button{
   font-size:18px;
   padding:15px;
 }
-
 .order-btn:disabled{
   opacity:.6;
   cursor:not-allowed;
 }
-
 .message{
   margin-top:12px;
   padding:12px;
   border-radius:9px;
   display:none;
 }
-
 .message.error{
   display:block;
   background:#ffeaea;
   color:#a00000;
 }
-
 .message.success{
   display:block;
   background:#eaffea;
   color:#087508;
 }
-
 .empty{
   text-align:center;
   padding:30px 10px;
   color:#777;
 }
-
 .success-box{
   text-align:center;
   padding:35px 20px;
 }
-
 .success-box h2{
   color:#168316;
 }
-
 .success-box .order-number{
   font-size:20px;
   font-weight:bold;
   margin:15px 0;
 }
-
 @media(max-width:800px){
   .checkout-grid{
     grid-template-columns:1fr;
@@ -290,62 +275,73 @@ button{
 }
 </style>
 </head>
-
 <body>
-
 <header>
   HZ.SHOP
   <br>
   <a href="/#shop">العودة إلى المتجر</a>
 </header>
-
 <div class="container">
-
   <div id="checkoutArea" class="checkout-grid">
-
     <div class="box">
-
       <h2>معلومات التوصيل</h2>
-
+      <div id="customerStatus" class="customer-status"></div>
       <label for="customer_name">الاسم الكامل</label>
-      <input id="customer_name" type="text" placeholder="اكتب اسمك الكامل">
-
+      <input
+        id="customer_name"
+        type="text"
+        placeholder="اكتب اسمك الكامل"
+        autocomplete="name"
+      >
       <label for="phone">رقم الهاتف</label>
-      <input id="phone" type="tel" placeholder="مثال: 03xxxxxx">
-
+      <input
+        id="phone"
+        type="tel"
+        placeholder="مثال: 03xxxxxx"
+        autocomplete="tel"
+      >
       <label for="governorate">المحافظة</label>
-      <input id="governorate" type="text" placeholder="المحافظة">
-
+      <input
+        id="governorate"
+        type="text"
+        placeholder="المحافظة"
+        autocomplete="address-level1"
+      >
       <label for="area">المنطقة</label>
-      <input id="area" type="text" placeholder="المنطقة">
-
+      <input
+        id="area"
+        type="text"
+        placeholder="المنطقة"
+        autocomplete="address-level2"
+      >
       <label for="address">العنوان</label>
-      <textarea id="address" placeholder="اكتب العنوان بالتفصيل"></textarea>
-
+      <textarea
+        id="address"
+        placeholder="اكتب العنوان بالتفصيل"
+        autocomplete="street-address"
+      ></textarea>
+      <div id="savedAddressNote" class="saved-address-note">
+        تم تعبئة عنوانك المحفوظ تلقائيًا. يمكنك تعديله قبل تأكيد الطلب.
+      </div>
       <label for="notes">ملاحظات إضافية</label>
-      <textarea id="notes" placeholder="أي ملاحظات خاصة بالطلب (اختياري)"></textarea>
-
+      <textarea
+        id="notes"
+        placeholder="أي ملاحظات خاصة بالطلب (اختياري)"
+      ></textarea>
       <div class="payment">
         <label>
           <input type="radio" name="payment" value="cash" checked>
           الدفع عند الاستلام
         </label>
       </div>
-
       <div id="message" class="message"></div>
-
       <button id="orderBtn" class="order-btn" onclick="submitOrder()">
         تأكيد الطلب
       </button>
-
     </div>
-
     <div class="box">
-
       <h2>ملخص الطلب</h2>
-
       <div id="cartItems"></div>
-
       <div class="coupon-box">
         <input
           id="coupon"
@@ -357,152 +353,139 @@ button{
           تطبيق
         </button>
       </div>
-
       <div id="couponMessage" class="message"></div>
-
       <div class="summary">
-
         <div class="summary-row">
           <span>المجموع الفرعي</span>
           <strong id="subtotal">$0.00</strong>
         </div>
-
         <div class="summary-row">
           <span>الخصم</span>
           <strong id="discount">$0.00</strong>
         </div>
-
-        <!-- رسوم التوصيل -->
         <div class="delivery-highlight">
           <span>🚚 التوصيل</span>
           <strong id="delivery">$4.00</strong>
         </div>
-
         <div class="delivery-note">
           رسوم التوصيل ثابتة: <strong>$4.00</strong>
         </div>
-
         <div class="total">
           <span>الإجمالي</span>
           <strong id="total">$4.00</strong>
         </div>
-
       </div>
-
     </div>
-
   </div>
-
   <div id="successArea" class="box success-box" style="display:none;">
     <h2>تم إرسال طلبك بنجاح ✅</h2>
-
     <div class="order-number">
       رقم الطلب: <span id="successOrderNumber"></span>
     </div>
-
     <p>
       شكرًا لطلبك من HZ.SHOP.
       سيتم التواصل معك لتأكيد الطلب والتوصيل.
     </p>
-
     <button class="order-btn" onclick="window.location.href='/'">
       العودة إلى المتجر
     </button>
   </div>
-
 </div>
-
 <script>
 const API = "/api";
 const CART_KEY = "hz_cart";
-
 const DELIVERY_FEE = 4;
-
 const COUPON_CODE = "HZ10";
 const COUPON_DISCOUNT = 0.10;
-
 let cart = [];
 let products = [];
 let appliedCoupon = false;
-
-
+let currentCustomer = null;
+let customerIsLoggedIn = false;
 /* =========================
    أدوات السلة
 ========================= */
-
 function loadCart(){
   try{
-    const raw = localStorage.getItem(CART_KEY);
-
+    const raw =
+      localStorage.getItem(CART_KEY);
     if(!raw){
       return [];
     }
-
-    const parsed = JSON.parse(raw);
-
-    return Array.isArray(parsed) ? parsed : [];
+    const parsed =
+      JSON.parse(raw);
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
   }catch(error){
-    console.error("Cart load error:", error);
+    console.error(
+      "Cart load error:",
+      error
+    );
     return [];
   }
 }
-
-
 function saveCart(){
   try{
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    localStorage.setItem(
+      CART_KEY,
+      JSON.stringify(cart)
+    );
   }catch(error){
-    console.error("Cart save error:", error);
+    console.error(
+      "Cart save error:",
+      error
+    );
   }
 }
-
-
 /* =========================
    الأدوات المالية
 ========================= */
-
 function money(value){
-  const number = Number(value) || 0;
-  return "$" + number.toFixed(2);
+  const number =
+    Number(value) || 0;
+  return "$" +
+    number.toFixed(2);
 }
-
-
 function calculateSubtotal(){
-  return cart.reduce((sum,item)=>{
-    const price = Number(item.price) || 0;
-    const quantity = Number(item.quantity) || 0;
-
-    return sum + (price * quantity);
-  },0);
+  return cart.reduce(
+    (sum,item)=>{
+      const price =
+        Number(item.price) || 0;
+      const quantity =
+        Number(item.quantity) || 0;
+      return sum +
+        (price * quantity);
+    },
+    0
+  );
 }
-
-
 function calculateDiscount(subtotal){
   if(!appliedCoupon){
     return 0;
   }
-
-  return subtotal * COUPON_DISCOUNT;
+  return subtotal *
+    COUPON_DISCOUNT;
 }
-
-
 function calculateDelivery(subtotal){
-  return subtotal > 0 ? DELIVERY_FEE : 0;
+  return subtotal > 0
+    ? DELIVERY_FEE
+    : 0;
 }
-
-
 function calculateTotals(){
-  const subtotal = calculateSubtotal();
-
-  const discount = calculateDiscount(subtotal);
-
-  const delivery = calculateDelivery(subtotal);
-
-  const total = Math.max(
-    0,
-    subtotal - discount + delivery
-  );
-
+  const subtotal =
+    calculateSubtotal();
+  const discount =
+    calculateDiscount(subtotal);
+  const delivery =
+    calculateDelivery(subtotal);
+  const total =
+    Math.max(
+      0,
+      subtotal -
+      discount +
+      delivery
+    );
   return {
     subtotal,
     discount,
@@ -510,179 +493,247 @@ function calculateTotals(){
     total
   };
 }
-
-
 /* =========================
    المنتجات والمخزون
 ========================= */
-
 async function loadProducts(){
-
-  const response = await fetch(API + "/products");
-
+  const response =
+    await fetch(
+      API + "/products",
+      {
+        credentials:"include",
+        cache:"no-store"
+      }
+    );
   if(!response.ok){
-    throw new Error("تعذر تحميل المنتجات");
+    throw new Error(
+      "تعذر تحميل المنتجات"
+    );
   }
-
-  const data = await response.json();
-
+  const data =
+    await response.json();
   if(Array.isArray(data)){
     products = data;
-  }else if(Array.isArray(data.products)){
-    products = data.products;
+  }else if(
+    Array.isArray(data.products)
+  ){
+    products =
+      data.products;
   }else{
     products = [];
   }
 }
-
-
 function getProductId(item){
   return Number(
-    item.id ??
-    item.product_id ??
-    item.productId
+    item?.id ??
+    item?.product_id ??
+    item?.productId
   );
 }
-
-
 function getProductById(id){
-  return products.find(product=>{
-    return Number(product.id ?? product.Id) === Number(id);
-  });
-}
-
-
-function getStock(product){
-
-  const stock = Number(
-    product?.stock ??
-    product?.Stock ??
-    0
+  return products.find(
+    product =>
+      Number(
+        product.id ??
+        product.Id
+      ) === Number(id)
   );
-
-  return Number.isFinite(stock) ? Math.max(0, stock) : 0;
 }
-
-
+function getStock(product){
+  const stock =
+    Number(
+      product?.stock ??
+      product?.Stock ??
+      0
+    );
+  return Number.isFinite(stock)
+    ? Math.max(0,stock)
+    : 0;
+}
 function syncCartStock(){
-
-  cart = cart
-    .map(item=>{
-
-      const product = getProductById(getProductId(item));
-
-      if(!product){
-        return item;
-      }
-
-      const stock = getStock(product);
-
-      const quantity = Math.min(
-        Math.max(1, Number(item.quantity) || 1),
-        stock
-      );
-
-      return {
-        ...item,
-        quantity
-      };
-
-    })
-    .filter(item=>{
-
-      const product = getProductById(getProductId(item));
-
-      if(!product){
-        return true;
-      }
-
-      return getStock(product) > 0;
-    });
-
+  cart =
+    cart
+      .map(item=>{
+        const product =
+          getProductById(
+            getProductId(item)
+          );
+        if(!product){
+          return item;
+        }
+        const stock =
+          getStock(product);
+        const originalQuantity =
+          Number(
+            item.quantity
+          ) || 1;
+        const quantity =
+          Math.min(
+            Math.max(
+              1,
+              originalQuantity
+            ),
+            stock
+          );
+        return {
+          ...item,
+          quantity
+        };
+      })
+      .filter(item=>{
+        const product =
+          getProductById(
+            getProductId(item)
+          );
+        if(!product){
+          return true;
+        }
+        return getStock(product) > 0;
+      });
   saveCart();
 }
-
-
+/* =========================
+   صور المنتجات
+========================= */
+function normalizeProductImages(value){
+  if(Array.isArray(value)){
+    return value
+      .filter(Boolean)
+      .map(
+        item =>
+          String(item).trim()
+      )
+      .filter(Boolean);
+  }
+  if(typeof value === "string"){
+    const trimmed =
+      value.trim();
+    if(!trimmed){
+      return [];
+    }
+    try{
+      const parsed =
+        JSON.parse(trimmed);
+      if(Array.isArray(parsed)){
+        return parsed
+          .filter(Boolean)
+          .map(
+            item =>
+              String(item).trim()
+          )
+          .filter(Boolean);
+      }
+      if(
+        typeof parsed === "string" &&
+        parsed.trim()
+      ){
+        return [
+          parsed.trim()
+        ];
+      }
+    }catch(error){
+      /* رابط صورة مباشر */
+    }
+    return [
+      trimmed
+    ];
+  }
+  return [];
+}
 /* =========================
    عرض السلة
 ========================= */
-
 function renderCart(){
-
-  const container = document.getElementById("cartItems");
-
+  const container =
+    document.getElementById(
+      "cartItems"
+    );
   if(!cart.length){
-
     container.innerHTML = `
       <div class="empty">
         السلة فارغة
       </div>
     `;
-
     updateTotals();
-
     return;
   }
-
-
-  container.innerHTML = cart.map(item=>{
-
-    const product = getProductById(getProductId(item));
-
-    const name =
-      item.name ||
-      product?.name ||
-      "منتج";
-
-    const price =
-      Number(item.price ?? product?.price) || 0;
-
-    const quantity =
-      Number(item.quantity) || 1;
-
-    const image =
-      item.image ||
-      product?.image ||
-      product?.image_url ||
-      "";
-
-    return `
-      <div class="cart-item">
-
-        ${
-          image
-          ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(name)}">`
-          : `<div style="
-              width:65px;
-              height:65px;
-              border-radius:10px;
-              background:#f2f2f2;
-            "></div>`
+  container.innerHTML =
+    cart.map(item=>{
+      const product =
+        getProductById(
+          getProductId(item)
+        );
+      const name =
+        item.name ||
+        item.title ||
+        product?.name ||
+        "منتج";
+      const price =
+        Number(
+          item.price ??
+          item.unit_price ??
+          product?.price
+        ) || 0;
+      const quantity =
+        Number(
+          item.quantity ??
+          item.qty
+        ) || 1;
+      let image =
+        item.image ||
+        item.image_url ||
+        "";
+      if(!image){
+        const images =
+          normalizeProductImages(
+            product?.image
+          );
+        if(images.length){
+          image = images[0];
         }
-
-        <div class="cart-info">
-          <strong>${escapeHtml(name)}</strong>
-
-          <small>
-            ${quantity} × ${money(price)}
-          </small>
+      }
+      return `
+        <div class="cart-item">
+          ${
+            image
+              ? `
+                <img
+                  src="${escapeHtml(image)}"
+                  alt="${escapeHtml(name)}"
+                  onerror="this.style.display='none'"
+                >
+              `
+              : `
+                <div style="
+                  width:65px;
+                  height:65px;
+                  border-radius:10px;
+                  background:#f2f2f2;
+                  flex-shrink:0;
+                "></div>
+              `
+          }
+          <div class="cart-info">
+            <strong>
+              ${escapeHtml(name)}
+            </strong>
+            <small>
+              ${quantity} × ${money(price)}
+            </small>
+          </div>
+          <strong>
+            ${money(price * quantity)}
+          </strong>
         </div>
-
-        <strong>
-          ${money(price * quantity)}
-        </strong>
-
-      </div>
-    `;
-
-  }).join("");
-
+      `;
+    })
+    .join("");
   updateTotals();
 }
-
-
+/* =========================
+   Escape
+========================= */
 function escapeHtml(value){
-
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
@@ -690,124 +741,518 @@ function escapeHtml(value){
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
 }
-
-
 /* =========================
    تحديث الإجمالي
 ========================= */
-
 function updateTotals(){
-
-  const totals = calculateTotals();
-
-  document.getElementById("subtotal").textContent =
+  const totals =
+    calculateTotals();
+  document.getElementById(
+    "subtotal"
+  ).textContent =
     money(totals.subtotal);
-
-  document.getElementById("discount").textContent =
+  document.getElementById(
+    "discount"
+  ).textContent =
     money(totals.discount);
-
-  document.getElementById("delivery").textContent =
+  document.getElementById(
+    "delivery"
+  ).textContent =
     money(totals.delivery);
-
-  document.getElementById("total").textContent =
+  document.getElementById(
+    "total"
+  ).textContent =
     money(totals.total);
 }
-
-
 /* =========================
    الكوبون
 ========================= */
-
 function applyCoupon(){
-
   const input =
-    document.getElementById("coupon");
-
+    document.getElementById(
+      "coupon"
+    );
   const message =
-    document.getElementById("couponMessage");
-
+    document.getElementById(
+      "couponMessage"
+    );
   const code =
-    input.value.trim().toUpperCase();
-
-  message.className = "message";
-
+    input.value
+      .trim()
+      .toUpperCase();
+  message.className =
+    "message";
   if(!code){
-
     appliedCoupon = false;
-
     message.textContent =
       "أدخل رمز الخصم أولًا.";
-
     message.className =
       "message error";
-
     updateTotals();
-
     return;
   }
-
-
   if(code === COUPON_CODE){
-
     appliedCoupon = true;
-
     message.textContent =
       "تم تطبيق خصم 10% بنجاح ✅";
-
     message.className =
       "message success";
-
   }else{
-
     appliedCoupon = false;
-
     message.textContent =
       "رمز الخصم غير صحيح.";
-
     message.className =
       "message error";
   }
-
   updateTotals();
 }
-
-
+/* =========================
+   CUSTOMER SESSION
+========================= */
+/*
+  نتحقق من جلسة العميل الموجودة أصلًا
+  في HZ.SHOP.
+  لا نحتاج إلى تسجيل دخول جديد.
+*/
+async function loadCustomerSession(){
+  try{
+    const response =
+      await fetch(
+        API + "/customer-me",
+        {
+          method:"GET",
+          credentials:"include",
+          cache:"no-store"
+        }
+      );
+    const data =
+      await response.json()
+        .catch(()=>({}));
+    if(
+      response.ok &&
+      data.logged_in === true &&
+      data.customer
+    ){
+      currentCustomer =
+        data.customer;
+      customerIsLoggedIn =
+        true;
+      fillCustomerData();
+      return true;
+    }
+    customerIsLoggedIn =
+      false;
+    currentCustomer =
+      null;
+    return false;
+  }catch(error){
+    console.error(
+      "CUSTOMER_SESSION_ERROR:",
+      error
+    );
+    customerIsLoggedIn =
+      false;
+    currentCustomer =
+      null;
+    return false;
+  }
+}
+/* =========================
+   مفاتيح العنوان المحلي
+========================= */
+function getCustomerStorageKey(){
+  const id =
+    currentCustomer?.id ??
+    currentCustomer?.customer_id;
+  if(
+    id !== null &&
+    id !== undefined &&
+    String(id).trim()
+  ){
+    return (
+      "hz_customer_addresses_" +
+      String(id)
+    );
+  }
+  return null;
+}
+/* =========================
+   قراءة العناوين المحفوظة
+========================= */
+function loadSavedAddresses(){
+  const key =
+    getCustomerStorageKey();
+  if(!key){
+    return [];
+  }
+  try{
+    const raw =
+      localStorage.getItem(key);
+    if(!raw){
+      return [];
+    }
+    const parsed =
+      JSON.parse(raw);
+    if(Array.isArray(parsed)){
+      return parsed;
+    }
+    /*
+      دعم العنوان القديم إذا كان مخزنًا
+      ككائن واحد بدل Array.
+    */
+    if(
+      parsed &&
+      typeof parsed === "object"
+    ){
+      return [parsed];
+    }
+  }catch(error){
+    console.error(
+      "Saved address load error:",
+      error
+    );
+  }
+  return [];
+}
+/* =========================
+   اختيار العنوان الافتراضي
+========================= */
+function getDefaultSavedAddress(){
+  const addresses =
+    loadSavedAddresses();
+  if(!addresses.length){
+    return null;
+  }
+  const defaultAddress =
+    addresses.find(
+      address =>
+        address?.isDefault === true ||
+        address?.default === true
+    );
+  if(defaultAddress){
+    return defaultAddress;
+  }
+  return addresses[0];
+}
+/* =========================
+   تطبيع بيانات العنوان
+========================= */
+function normalizeAddress(address){
+  if(!address){
+    return null;
+  }
+  return {
+    governorate:
+      String(
+        address.governorate ??
+        address.governorate_name ??
+        address.province ??
+        address.state ??
+        ""
+      ).trim(),
+    area:
+      String(
+        address.area ??
+        address.region ??
+        address.district ??
+        ""
+      ).trim(),
+    address:
+      String(
+        address.address ??
+        address.full_address ??
+        address.street ??
+        address.details ??
+        ""
+      ).trim()
+  };
+}
+/* =========================
+   تعبئة بيانات العميل
+========================= */
+function fillCustomerData(){
+  if(!currentCustomer){
+    return;
+  }
+  const nameInput =
+    document.getElementById(
+      "customer_name"
+    );
+  const phoneInput =
+    document.getElementById(
+      "phone"
+    );
+  /*
+    الاسم ورقم الهاتف من Customer Hub.
+    المستخدم يستطيع تعديلهما.
+  */
+  if(
+    nameInput &&
+    !nameInput.value.trim()
+  ){
+    nameInput.value =
+      currentCustomer.name ||
+      "";
+  }
+  if(
+    phoneInput &&
+    !phoneInput.value.trim()
+  ){
+    phoneInput.value =
+      currentCustomer.phone ||
+      "";
+  }
+  /*
+    محاولة تحميل العنوان المحفوظ
+    من Customer Hub.
+  */
+  const savedAddress =
+    getDefaultSavedAddress();
+  if(savedAddress){
+    const address =
+      normalizeAddress(
+        savedAddress
+      );
+    if(address){
+      const governorate =
+        document.getElementById(
+          "governorate"
+        );
+      const area =
+        document.getElementById(
+          "area"
+        );
+      const addressInput =
+        document.getElementById(
+          "address"
+        );
+      if(
+        governorate &&
+        !governorate.value.trim()
+      ){
+        governorate.value =
+          address.governorate;
+      }
+      if(
+        area &&
+        !area.value.trim()
+      ){
+        area.value =
+          address.area;
+      }
+      if(
+        addressInput &&
+        !addressInput.value.trim()
+      ){
+        addressInput.value =
+          address.address;
+      }
+      if(
+        address.governorate ||
+        address.area ||
+        address.address
+      ){
+        const note =
+          document.getElementById(
+            "savedAddressNote"
+          );
+        if(note){
+          note.style.display =
+            "block";
+        }
+      }
+    }
+  }
+  updateCustomerStatus();
+}
+/* =========================
+   حالة العميل
+========================= */
+function updateCustomerStatus(){
+  const status =
+    document.getElementById(
+      "customerStatus"
+    );
+  if(!status){
+    return;
+  }
+  if(
+    customerIsLoggedIn &&
+    currentCustomer
+  ){
+    const name =
+      currentCustomer.name ||
+      "عميل HZ.SHOP";
+    status.innerHTML =
+      `
+        أنت مسجّل الدخول كـ
+        <strong>${escapeHtml(name)}</strong>.
+        تم تعبئة بياناتك تلقائيًا ويمكنك تعديلها قبل تأكيد الطلب.
+      `;
+    status.style.display =
+      "block";
+    return;
+  }
+  status.style.display =
+    "none";
+}
+/* =========================
+   حفظ عنوان الطلب
+========================= */
+/*
+  نحفظ آخر عنوان استخدمه العميل محليًا.
+  هذا لا يغيّر بيانات الحساب في قاعدة البيانات.
+*/
+function saveCurrentAddressForCustomer(){
+  if(
+    !customerIsLoggedIn ||
+    !currentCustomer
+  ){
+    return;
+  }
+  const key =
+    getCustomerStorageKey();
+  if(!key){
+    return;
+  }
+  const governorate =
+    document.getElementById(
+      "governorate"
+    ).value.trim();
+  const area =
+    document.getElementById(
+      "area"
+    ).value.trim();
+  const address =
+    document.getElementById(
+      "address"
+    ).value.trim();
+  if(
+    !governorate &&
+    !area &&
+    !address
+  ){
+    return;
+  }
+  try{
+    let addresses = [];
+    const raw =
+      localStorage.getItem(key);
+    if(raw){
+      const parsed =
+        JSON.parse(raw);
+      if(Array.isArray(parsed)){
+        addresses =
+          parsed;
+      }else if(
+        parsed &&
+        typeof parsed === "object"
+      ){
+        addresses =
+          [parsed];
+      }
+    }
+    /*
+      هذا العنوان يصبح العنوان الأخير
+      المستخدم في Checkout.
+    */
+    const newAddress = {
+      governorate:
+        governorate,
+      area:
+        area,
+      address:
+        address,
+      isDefault:
+        true,
+      updated_at:
+        new Date().toISOString()
+    };
+    /*
+      إزالة default السابق
+      حتى يكون هناك عنوان افتراضي واحد.
+    */
+    addresses =
+      addresses.map(
+        item => ({
+          ...item,
+          isDefault:false
+        })
+      );
+    /*
+      إذا كان هناك عنوان مطابق،
+      نستبدله بدل إنشاء نسخة جديدة.
+    */
+    const existingIndex =
+      addresses.findIndex(
+        item =>
+          String(
+            item?.governorate || ""
+          ).trim() === governorate &&
+          String(
+            item?.area || ""
+          ).trim() === area &&
+          String(
+            item?.address || ""
+          ).trim() === address
+      );
+    if(existingIndex >= 0){
+      addresses[
+        existingIndex
+      ] = newAddress;
+    }else{
+      addresses.unshift(
+        newAddress
+      );
+    }
+    /*
+      نحتفظ بعدد محدود من العناوين
+      حتى لا تتضخم localStorage.
+    */
+    addresses =
+      addresses.slice(0,10);
+    localStorage.setItem(
+      key,
+      JSON.stringify(addresses)
+    );
+  }catch(error){
+    console.error(
+      "Save customer address error:",
+      error
+    );
+  }
+}
 /* =========================
    التحقق من المخزون
 ========================= */
-
 async function validateCartStock(){
-
   await loadProducts();
-
   for(const item of cart){
-
-    const id = getProductId(item);
-
-    const product = getProductById(id);
-
+    const id =
+      getProductId(item);
+    const product =
+      getProductById(id);
     if(!product){
       return {
         ok:false,
-        message:"أحد المنتجات لم يعد متوفرًا."
+        message:
+          "أحد المنتجات لم يعد متوفرًا."
       };
     }
-
-    const stock = getStock(product);
-
+    const stock =
+      getStock(product);
     const quantity =
-      Number(item.quantity) || 0;
-
+      Number(
+        item.quantity
+      ) || 0;
     if(stock <= 0){
-
       return {
         ok:false,
-        message:`المنتج "${product.name}" غير متوفر حاليًا.`
+        message:
+          `المنتج "${product.name}" غير متوفر حاليًا.`
       };
     }
-
     if(quantity > stock){
-
       return {
         ok:false,
         message:
@@ -815,363 +1260,341 @@ async function validateCartStock(){
       };
     }
   }
-
   return {
     ok:true
   };
 }
-
-
 /* =========================
    رسالة عامة
 ========================= */
-
-function showMessage(text,type="error"){
-
+function showMessage(
+  text,
+  type="error"
+){
   const message =
-    document.getElementById("message");
-
-  message.textContent = text;
-
+    document.getElementById(
+      "message"
+    );
+  message.textContent =
+    text;
   message.className =
     "message " + type;
 }
-
-
 /* =========================
    إرسال الطلب
 ========================= */
-
 async function submitOrder(){
-
   const button =
-    document.getElementById("orderBtn");
-
-  button.disabled = true;
-
-  showMessage("", "success");
-
+    document.getElementById(
+      "orderBtn"
+    );
+  button.disabled =
+    true;
+  showMessage(
+    "",
+    "success"
+  );
   try{
-
     if(!cart.length){
-
       showMessage(
         "السلة فارغة.",
         "error"
       );
-
-      button.disabled = false;
-
+      button.disabled =
+        false;
       return;
     }
-
-
     const name =
-      document.getElementById("customer_name")
-        .value.trim();
-
+      document.getElementById(
+        "customer_name"
+      ).value.trim();
     const phone =
-      document.getElementById("phone")
-        .value.trim();
-
+      document.getElementById(
+        "phone"
+      ).value.trim();
     const governorate =
-      document.getElementById("governorate")
-        .value.trim();
-
+      document.getElementById(
+        "governorate"
+      ).value.trim();
     const area =
-      document.getElementById("area")
-        .value.trim();
-
+      document.getElementById(
+        "area"
+      ).value.trim();
     const address =
-      document.getElementById("address")
-        .value.trim();
-
+      document.getElementById(
+        "address"
+      ).value.trim();
     const notes =
-      document.getElementById("notes")
-        .value.trim();
-
-
+      document.getElementById(
+        "notes"
+      ).value.trim();
     if(!name){
-
       showMessage(
         "يرجى إدخال الاسم الكامل.",
         "error"
       );
-
-      button.disabled = false;
-
+      button.disabled =
+        false;
       return;
     }
-
-
     if(!phone){
-
       showMessage(
         "يرجى إدخال رقم الهاتف.",
         "error"
       );
-
-      button.disabled = false;
-
+      button.disabled =
+        false;
       return;
     }
-
-
     if(!governorate){
-
       showMessage(
         "يرجى إدخال المحافظة.",
         "error"
       );
-
-      button.disabled = false;
-
+      button.disabled =
+        false;
       return;
     }
-
-
     if(!area){
-
       showMessage(
         "يرجى إدخال المنطقة.",
         "error"
       );
-
-      button.disabled = false;
-
+      button.disabled =
+        false;
       return;
     }
-
-
     if(!address){
-
       showMessage(
         "يرجى إدخال العنوان.",
         "error"
       );
-
-      button.disabled = false;
-
+      button.disabled =
+        false;
       return;
     }
-
-
     const stockCheck =
       await validateCartStock();
-
     if(!stockCheck.ok){
-
       showMessage(
         stockCheck.message,
         "error"
       );
-
       renderCart();
-
-      button.disabled = false;
-
+      button.disabled =
+        false;
       return;
     }
-
-
     const verifiedItems =
       cart.map(item=>{
-
         const product =
           getProductById(
             getProductId(item)
           );
-
+        let image =
+          product?.image ||
+          product?.image_url ||
+          item.image ||
+          "";
+        const productImages =
+          normalizeProductImages(
+            image
+          );
+        if(productImages.length){
+          image =
+            productImages[0];
+        }
         return {
-          id: Number(getProductId(item)),
+          id:
+            Number(
+              getProductId(item)
+            ),
           name:
             product?.name ||
             item.name ||
             "",
           price:
-            Number(product?.price ?? item.price) || 0,
+            Number(
+              product?.price ??
+              item.price
+            ) || 0,
           quantity:
-            Number(item.quantity) || 1,
+            Number(
+              item.quantity
+            ) || 1,
           image:
-            product?.image ||
-            product?.image_url ||
-            item.image ||
-            ""
+            image
         };
       });
-
-
     const totals =
       calculateTotals();
-
-
     /*
-      التوصيل هنا $4 عند وجود منتجات.
-      Worker هو الجهة النهائية التي تتحقق
-      من قيمة التوصيل عند إنشاء الطلب.
+      نحفظ العنوان المعدل للعميل
+      بعد نجاح التحقق من البيانات.
     */
-
+    saveCurrentAddressForCustomer();
     const payload = {
-
-      customer_name: name,
-
-      phone: phone,
-
-      governorate: governorate,
-
-      area: area,
-
-      address: address,
-
-      notes: notes,
-
-      payment_method: "cash",
-
-      items: verifiedItems,
-
-      subtotal: totals.subtotal,
-
-      discount: totals.discount,
-
-      delivery_fee: totals.delivery,
-
-      total: totals.total,
-
+      customer_name:
+        name,
+      phone:
+        phone,
+      governorate:
+        governorate,
+      area:
+        area,
+      address:
+        address,
+      notes:
+        notes,
+      payment_method:
+        "cash",
+      items:
+        verifiedItems,
+      subtotal:
+        totals.subtotal,
+      discount:
+        totals.discount,
+      delivery_fee:
+        totals.delivery,
+      total:
+        totals.total,
       coupon:
         appliedCoupon
-        ? COUPON_CODE
-        : null,
-
-      guest: true
+          ? COUPON_CODE
+          : null,
+      /*
+        العميل المسجّل لا نرسله
+        كـ Guest.
+        العميل غير المسجل يبقى Guest.
+      */
+      guest:
+        !customerIsLoggedIn
     };
-
-
     const response =
       await fetch(
         API + "/orders",
         {
           method:"POST",
-
+          credentials:"include",
           headers:{
             "Content-Type":
               "application/json"
           },
-
-          body:JSON.stringify(payload)
+          body:
+            JSON.stringify(payload)
         }
       );
-
-
     const data =
-      await response.json()
+      await response
+        .json()
         .catch(()=>({}));
-
-
     if(!response.ok){
-
       throw new Error(
         data.message ||
         data.error ||
         "تعذر إرسال الطلب."
       );
     }
-
-
-    localStorage.removeItem(CART_KEY);
-
+    localStorage.removeItem(
+      CART_KEY
+    );
     cart = [];
-
-    renderSuccess(data);
-
+    renderSuccess(
+      data
+    );
   }catch(error){
-
     console.error(
       "Submit order error:",
       error
     );
-
     showMessage(
       error.message ||
       "حدث خطأ أثناء إرسال الطلب.",
       "error"
     );
-
   }finally{
-
-    button.disabled = false;
+    button.disabled =
+      false;
   }
 }
-
-
 /* =========================
    نجاح الطلب
 ========================= */
-
 function renderSuccess(data){
-
   document.getElementById(
     "checkoutArea"
-  ).style.display = "none";
-
+  ).style.display =
+    "none";
   const successArea =
     document.getElementById(
       "successArea"
     );
-
   successArea.style.display =
     "block";
-
-
   const orderNumber =
     data?.order_id ??
     data?.orderId ??
     data?.id ??
     data?.order?.id ??
     "";
-
-
   document.getElementById(
     "successOrderNumber"
   ).textContent =
-    orderNumber || "تم تسجيل الطلب";
+    orderNumber ||
+    "تم تسجيل الطلب";
 }
-
-
 /* =========================
    البداية
 ========================= */
-
 async function init(){
-
-  cart = loadCart();
-
-  try{
-
-    await loadProducts();
-
+  cart =
+    loadCart();
+  /*
+    نبدأ بتحميل المنتجات والعميل
+    بالتوازي حتى تكون الصفحة أسرع.
+  */
+  const productsPromise =
+    loadProducts()
+      .catch(error=>{
+        console.error(
+          "Products initialization error:",
+          error
+        );
+        products = [];
+      });
+  const customerPromise =
+    loadCustomerSession()
+      .catch(error=>{
+        console.error(
+          "Customer initialization error:",
+          error
+        );
+        customerIsLoggedIn =
+          false;
+        currentCustomer =
+          null;
+      });
+  await Promise.all([
+    productsPromise,
+    customerPromise
+  ]);
+  /*
+    بعد تحميل المنتجات نضبط
+    الكميات حسب المخزون.
+  */
+  if(products.length){
     syncCartStock();
-
-    renderCart();
-
-  }catch(error){
-
-    console.error(
-      "Initialization error:",
-      error
-    );
-
-    renderCart();
-
-    showMessage(
-      "تعذر تحميل معلومات المنتجات. حاول مرة أخرى.",
-      "error"
-    );
+  }
+  renderCart();
+  /*
+    التأكد مرة أخرى من تعبئة بيانات
+    العميل بعد انتهاء التحميل.
+  */
+  if(customerIsLoggedIn){
+    fillCustomerData();
   }
 }
-
-
 init();
 </script>
-
 </body>
 </html>
