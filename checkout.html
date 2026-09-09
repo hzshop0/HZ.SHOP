@@ -840,20 +840,19 @@ function applyCoupon(){
   لذلك نستخدم نفس النمط هنا.
 */
 function getCustomerAddressesStorageKey(){
+
   if(!currentCustomer){
     return "";
   }
-  const customerId =
-    currentCustomer.id;
-  if(
-    customerId === undefined ||
-    customerId === null ||
-    customerId === ""
-  ){
-    return "";
-  }
+
+  const id =
+    currentCustomer?.id ??
+    currentCustomer?.phone ??
+    "guest";
+
   return "hz_customer_addresses_" +
-    String(customerId);
+    String(id);
+
 }
 function loadCustomerAddresses(){
   const key =
