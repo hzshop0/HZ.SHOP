@@ -6130,28 +6130,7 @@ function updateCartStats(){
 
 function openMainCart(){
 
-  /*
-   * مهم:
-   *
-   * account.html لا يملك نسخة ثانية من السلة.
-   * hz_cart هي السلة الأصلية في index.html.
-   *
-   * نضع طلب فتح السلة في localStorage
-   * ثم نرجع للمتجر.
-   *
-   * في مرحلة ربط index.html سنجعل
-   * index.html يقرأ هذا المفتاح ويفتح
-   * نافذة السلة الأصلية تلقائيًا.
-   */
-
-  localStorage.setItem(
-    "hz_pending_open_cart",
-    "1"
-  );
-
-
-  window.location.href =
-    "/#shop";
+  window.location.href = "/cart.html";
 
 }
 
