@@ -931,7 +931,13 @@ async function loadCustomerSession(){
     const data =
   await response.json()
     .catch(() => ({}));
-
+alert(
+  JSON.stringify({
+    status: response.status,
+    logged_in: data.logged_in,
+    customer: data.customer || null
+  })
+);
 console.log(
   "CHECKOUT CUSTOMER SESSION:",
   response.status,
