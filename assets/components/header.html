@@ -1,1 +1,164 @@
+<!-- =================================
+     HZ.SHOP — Header Component
+     ================================= -->
 
+<div class="topbar">
+  <span>توصيل سريع داخل لبنان • الدفع عند الاستلام</span>
+</div>
+
+<header id="siteHeader">
+
+  <div class="header">
+
+    <!-- Logo -->
+    <a
+      class="logo"
+      href="/Index.html"
+      aria-label="HZ.SHOP"
+    >
+      <strong>HZ.SHOP</strong>
+      <small>LUXURY STORE</small>
+    </a>
+
+    <!-- Desktop Search -->
+    <div class="search">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+
+      <input
+        id="headerSearch"
+        type="search"
+        placeholder="ابحث عن منتج..."
+        autocomplete="off"
+        aria-label="البحث عن المنتجات"
+      >
+
+      <button
+        type="button"
+        class="search-clear"
+        id="headerSearchClear"
+        aria-label="مسح البحث"
+        hidden
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+
+      <button
+        type="button"
+        class="icon-btn"
+        id="headerFavorites"
+        aria-label="المفضلة"
+        title="المفضلة"
+      >
+        ♡
+        <span
+          class="badge"
+          data-favorites-count
+          hidden
+        >0</span>
+      </button>
+
+      <button
+        type="button"
+        class="icon-btn"
+        id="headerAccount"
+        aria-label="الحساب"
+        title="الحساب"
+      >
+        ♙
+      </button>
+
+      <button
+        type="button"
+        class="icon-btn"
+        id="headerCart"
+        aria-label="السلة"
+        title="السلة"
+      >
+        🛒
+        <span
+          class="badge"
+          data-cart-count
+          hidden
+        >0</span>
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Navigation -->
+  <nav aria-label="التنقل الرئيسي">
+    <div class="nav">
+
+      <button
+        type="button"
+        data-nav="home"
+        class="active"
+      >
+        الرئيسية
+      </button>
+
+      <button
+        type="button"
+        data-nav="categories"
+      >
+        التصنيفات
+      </button>
+
+      <button
+        type="button"
+        data-nav="new"
+      >
+        جديدنا
+      </button>
+
+      <button
+        type="button"
+        data-nav="best"
+      >
+        الأكثر مبيعًا
+      </button>
+
+      <button
+        type="button"
+        data-nav="offers"
+      >
+        العروض
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile Search -->
+  <div class="mobile-search">
+
+    <div class="mobile-search-box">
+
+      <span aria-hidden="true">⌕</span>
+
+      <input
+        id="mobileHeaderSearch"
+        type="search"
+        placeholder="ابحث عن منتج..."
+        autocomplete="off"
+        aria-label="البحث عن المنتجات"
+      >
+
+      <button
+        type="button"
+        id="mobileHeaderSearchClear"
+        aria-label="مسح البحث"
+        hidden
+      >
+        ×
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
