@@ -1,1 +1,38 @@
+/* ================================
+   HZ.SHOP — Navigation
+   ================================ */
 
+nav{
+  background:#111;
+  border-top:1px solid #222;
+}
+
+.nav{
+  max-width:1400px;
+  margin:auto;
+  display:flex;
+  justify-content:center;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+
+.nav::-webkit-scrollbar{
+  display:none;
+}
+
+.nav button{
+  background:none;
+  border:0;
+  color:#bbb;
+  padding:11px 22px;
+  font-size:12px;
+  white-space:nowrap;
+  flex:0 0 auto;
+  border-bottom:2px solid transparent;
+}
+
+.nav button:hover,
+.nav button.active{
+  color:#fff;
+  border-bottom-color:var(--orange);
+}
