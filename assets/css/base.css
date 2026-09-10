@@ -3,30 +3,41 @@
    Global foundation
 ========================================= */
 
+:root{
+  --black:#0b0b0b;
+  --black2:#151515;
+  --white:#ffffff;
+  --soft:#f7f7f7;
+  --line:#e7e7e7;
+  --muted:#707070;
+  --orange:#ff6a00;
+  --orange2:#ff7a1a;
+  --danger:#d93025;
+}
+
 *,
 *::before,
 *::after{
   box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 html{
-  margin:0;
-  padding:0;
   scroll-behavior:smooth;
+  overflow-x:hidden;
 }
 
 body{
   margin:0;
   padding:0;
   min-width:320px;
-  background:var(--bg,#f7f7f7);
-  color:var(--text,#111);
-  font-family:
-    Arial,
-    "Segoe UI",
-    Tahoma,
-    sans-serif;
+  background:var(--white);
+  color:#151515;
+  font-family:Arial,Tahoma,sans-serif;
   line-height:1.5;
+  overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
@@ -55,7 +66,8 @@ button:disabled{
   cursor:not-allowed;
 }
 
-img{
+img,
+video{
   display:block;
   max-width:100%;
 }
@@ -99,7 +111,7 @@ select{
 
 input::placeholder,
 textarea::placeholder{
-  color:var(--muted,#707070);
+  color:var(--muted);
   opacity:1;
 }
 
@@ -121,7 +133,7 @@ table{
 ========================================= */
 
 :focus-visible{
-  outline:2px solid var(--orange,#ff6a00);
+  outline:2px solid var(--orange);
   outline-offset:2px;
 }
 
@@ -138,7 +150,7 @@ textarea:focus:not(:focus-visible){
 ========================================= */
 
 ::selection{
-  background:var(--orange,#ff6a00);
+  background:var(--orange);
   color:#fff;
 }
 
@@ -152,7 +164,7 @@ textarea:focus:not(:focus-visible){
 }
 
 ::-webkit-scrollbar-track{
-  background:var(--soft,#f7f7f7);
+  background:var(--soft);
 }
 
 ::-webkit-scrollbar-thumb{
@@ -201,7 +213,7 @@ textarea:focus:not(:focus-visible){
    Responsive foundation
 ========================================= */
 
-@media (max-width:768px){
+@media(max-width:768px){
 
   html{
     scroll-behavior:auto;
@@ -213,7 +225,7 @@ textarea:focus:not(:focus-visible){
 
 }
 
-@media (max-width:480px){
+@media(max-width:480px){
 
   .container{
     width:calc(100% - 20px);
@@ -225,7 +237,7 @@ textarea:focus:not(:focus-visible){
    Reduced motion
 ========================================= */
 
-@media (prefers-reduced-motion:reduce){
+@media(prefers-reduced-motion:reduce){
 
   html{
     scroll-behavior:auto;
