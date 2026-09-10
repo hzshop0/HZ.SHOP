@@ -1,1 +1,1082 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
+  <title>الإشعارات | HZ.SHOP</title>
+  <meta name="description" content="إشعارات حسابك في HZ.SHOP.">
+
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/header.css">
+  <link rel="stylesheet" href="/assets/css/navigation.css">
+  <link rel="stylesheet" href="/assets/css/account.css">
+  <link rel="stylesheet" href="/assets/css/responsive.css">
+  <link rel="stylesheet" href="/assets/css/luxury-theme.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+
+  <style>
+    .notifications-page{
+      min-height:calc(100vh - 120px);
+      padding:35px 16px 70px;
+    }
+
+    .notifications-container{
+      width:min(900px,100%);
+      margin:0 auto;
+    }
+
+    .notifications-title{
+      text-align:center;
+      margin-bottom:28px;
+    }
+
+    .notifications-title h1{
+      margin:0 0 8px;
+      font-size:30px;
+    }
+
+    .notifications-title p{
+      margin:0;
+      opacity:.65;
+      line-height:1.8;
+    }
+
+    .notifications-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      margin-bottom:16px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:16px;
+    }
+
+    .notifications-count{
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .mark-all-read{
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+      color:inherit;
+      border-radius:10px;
+      min-height:40px;
+      padding:7px 14px;
+      font:inherit;
+      font-size:13px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .mark-all-read:hover{
+      border-color:#b08d35;
+      color:#b08d35;
+    }
+
+    .notifications-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .notification-card{
+      position:relative;
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      padding:18px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:17px;
+      box-shadow:0 8px 25px rgba(0,0,0,.04);
+    }
+
+    .notification-card.unread{
+      border-right:3px solid #b08d35;
+      background:#fffdf8;
+    }
+
+    .notification-icon{
+      flex:0 0 44px;
+      width:44px;
+      height:44px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      background:#f5f1e7;
+      font-size:20px;
+    }
+
+    .notification-content{
+      flex:1;
+      min-width:0;
+    }
+
+    .notification-title{
+      margin:0 0 6px;
+      font-size:16px;
+      font-weight:800;
+      line-height:1.6;
+    }
+
+    .notification-message{
+      margin:0 0 8px;
+      font-size:14px;
+      line-height:1.8;
+      opacity:.75;
+    }
+
+    .notification-date{
+      font-size:11px;
+      opacity:.5;
+    }
+
+    .notification-read{
+      border:0;
+      background:transparent;
+      color:#b08d35;
+      font:inherit;
+      font-size:12px;
+      font-weight:700;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    .notifications-empty{
+      text-align:center;
+      padding:70px 20px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:22px;
+    }
+
+    .notifications-empty-icon{
+      font-size:50px;
+      margin-bottom:12px;
+    }
+
+    .notifications-empty h2{
+      margin:0 0 8px;
+      font-size:21px;
+    }
+
+    .notifications-empty p{
+      margin:0 auto 22px;
+      max-width:500px;
+      opacity:.65;
+      line-height:1.9;
+    }
+
+    .notifications-store-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:45px;
+      padding:8px 22px;
+      border-radius:12px;
+      background:#111;
+      color:#fff;
+      text-decoration:none;
+      font-weight:800;
+    }
+
+    @media(max-width:600px){
+      .notifications-page{
+        padding:25px 12px 55px;
+      }
+
+      .notifications-title h1{
+        font-size:27px;
+      }
+
+      .notifications-toolbar{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .mark-all-read{
+        width:100%;
+      }
+
+      .notification-card{
+        padding:15px;
+      }
+
+      .notification-icon{
+        flex-basis:40px;
+        width:40px;
+        height:40px;
+      }
+
+      .notification-read{
+        position:absolute;
+        left:12px;
+        bottom:12px;
+      }
+
+      .notification-content{
+        padding-bottom:20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <span>توصيل سريع داخل لبنان • الدفع عند الاستلام</span>
+  </div>
+
+  <header id="siteHeader">
+
+    <div class="header">
+
+      <a class="logo" href="/Index.html" aria-label="HZ.SHOP">
+        <strong>HZ.SHOP</strong>
+        <small>LUXURY STORE</small>
+      </a>
+
+      <div class="search">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+
+        <input
+          id="headerSearch"
+          type="search"
+          placeholder="ابحث عن منتج..."
+          autocomplete="off"
+          aria-label="البحث عن المنتجات"
+        >
+
+        <button
+          type="button"
+          class="search-clear"
+          id="headerSearchClear"
+          aria-label="مسح البحث"
+          hidden
+        >×</button>
+      </div>
+
+      <div class="actions">
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="headerFavorites"
+          aria-label="المفضلة"
+          title="المفضلة"
+          onclick="window.location.href='/Favorites.html'"
+        >
+          ♡
+          <span class="badge" data-favorites-count hidden>0</span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="headerAccount"
+          aria-label="الحساب"
+          title="الحساب"
+          onclick="window.location.href='/Account.html'"
+        >♙</button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="headerCart"
+          aria-label="السلة"
+          title="السلة"
+          onclick="window.location.href='/Cart.html'"
+        >
+          🛒
+          <span class="badge" data-cart-count hidden>0</span>
+        </button>
+
+      </div>
+    </div>
+
+    <nav aria-label="التنقل الرئيسي">
+      <div class="nav">
+        <button type="button" onclick="window.location.href='/Index.html'">
+          الرئيسية
+        </button>
+
+        <button type="button" onclick="window.location.href='/Categories.html'">
+          التصنيفات
+        </button>
+
+        <button type="button" onclick="window.location.href='/Index.html#newSection'">
+          جديدنا
+        </button>
+
+        <button type="button" onclick="window.location.href='/Index.html#bestSection'">
+          الأكثر مبيعًا
+        </button>
+
+        <button type="button" onclick="window.location.href='/Index.html#offersSection'">
+          العروض
+        </button>
+      </div>
+    </nav>
+
+    <div class="mobile-search">
+      <div class="mobile-search-box">
+
+        <span aria-hidden="true">⌕</span>
+
+        <input
+          id="mobileHeaderSearch"
+          type="search"
+          placeholder="ابحث عن منتج..."
+          autocomplete="off"
+          aria-label="البحث عن المنتجات"
+        >
+
+        <button
+          type="button"
+          id="mobileHeaderSearchClear"
+          aria-label="مسح البحث"
+          hidden
+        >×</button>
+
+      </div>
+    </div>
+
+  </header>
+
+
+  <main class="notifications-page">
+
+    <div class="notifications-container">
+
+      <div class="notifications-title">
+        <h1>الإشعارات</h1>
+        <p>تابع آخر تحديثات حسابك وطلباتك في HZ.SHOP.</p>
+      </div>
+
+
+      <div
+        class="notifications-toolbar"
+        id="notificationsToolbar"
+        hidden
+      >
+
+        <span
+          class="notifications-count"
+          id="notificationsCount"
+        >
+          0 إشعارات
+        </span>
+
+        <button
+          type="button"
+          class="mark-all-read"
+          id="markAllRead"
+        >
+          تحديد الكل كمقروء
+        </button>
+
+      </div>
+
+
+      <section
+        id="notificationsList"
+        class="notifications-list"
+        aria-live="polite"
+      ></section>
+
+
+      <section
+        id="notificationsEmpty"
+        class="notifications-empty"
+        hidden
+      >
+
+        <div class="notifications-empty-icon">
+          ♧
+        </div>
+
+        <h2>
+          لا توجد إشعارات
+        </h2>
+
+        <p>
+          لا توجد إشعارات جديدة حاليًا. ستظهر هنا تحديثات
+          الطلبات والتنبيهات المهمة عند توفرها.
+        </p>
+
+        <a
+          class="notifications-store-btn"
+          href="/Index.html"
+        >
+          العودة إلى المتجر
+        </a>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer class="site-footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-grid">
+
+        <div class="footer-column">
+          <div class="footer-logo">HZ.SHOP</div>
+          <p>
+            متجر HZ.SHOP للعطور ومنتجات العناية والجمال.
+          </p>
+        </div>
+
+        <div class="footer-column">
+          <h3>المتجر</h3>
+          <a href="/Index.html">الرئيسية</a>
+          <a href="/Categories.html">التصنيفات</a>
+          <a href="/Search.html">البحث</a>
+          <a href="/Favorites.html">المفضلة</a>
+          <a href="/Cart.html">السلة</a>
+        </div>
+
+        <div class="footer-column">
+          <h3>حسابك</h3>
+          <a href="/Account.html">حسابي</a>
+          <a href="/Order.html">طلباتي</a>
+          <a href="/Profile.html">الملف الشخصي</a>
+          <a href="/Addresses.html">العناوين</a>
+        </div>
+
+        <div class="footer-column">
+          <h3>المساعدة</h3>
+          <a href="/FAQ.html">الأسئلة الشائعة</a>
+          <a href="/Contact.html">اتصل بنا</a>
+          <a href="/Privacy.html">الخصوصية</a>
+          <a href="/Terms.html">الشروط والأحكام</a>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+
+        <span>
+          © 2026 HZ.SHOP — جميع الحقوق محفوظة
+        </span>
+
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram" rel="noopener">Instagram</a>
+          <a href="#" aria-label="Facebook" rel="noopener">Facebook</a>
+          <a href="#" aria-label="TikTok" rel="noopener">TikTok</a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <nav
+    class="mobile-bottom-nav"
+    id="mobileBottomNav"
+    aria-label="التنقل السفلي"
+  >
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Index.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">⌂</span>
+      <span>الرئيسية</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Categories.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">☷</span>
+      <span>التصنيفات</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Favorites.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">♡</span>
+      <span>المفضلة</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Cart.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">🛒</span>
+      <span class="badge" data-cart-count hidden>0</span>
+      <span>السلة</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Account.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">♙</span>
+      <span>الحساب</span>
+    </button>
+
+  </nav>
+
+
+  <script src="/assets/js/core.js"></script>
+  <script src="/assets/js/storage.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/auth.js"></script>
+  <script src="/assets/js/notifications.js"></script>
+  <script src="/assets/js/cart.js"></script>
+  <script src="/assets/js/favorites.js"></script>
+  <script src="/assets/js/ui.js"></script>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const list =
+        document.getElementById("notificationsList");
+
+      const empty =
+        document.getElementById("notificationsEmpty");
+
+      const toolbar =
+        document.getElementById("notificationsToolbar");
+
+      const count =
+        document.getElementById("notificationsCount");
+
+      const markAll =
+        document.getElementById("markAllRead");
+
+
+      let notifications = [];
+
+
+      function escapeHtml(value) {
+
+        if (
+          typeof HZ !== "undefined" &&
+          typeof HZ.escapeHtml === "function"
+        ) {
+          return HZ.escapeHtml(
+            String(value ?? "")
+          );
+        }
+
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+
+      }
+
+
+      function notificationId(item, index) {
+
+        return String(
+          item?.id ??
+          item?.notification_id ??
+          `notification-${index}`
+        );
+
+      }
+
+
+      function notificationTitle(item) {
+
+        return (
+          item?.title ||
+          item?.name ||
+          "إشعار HZ.SHOP"
+        );
+
+      }
+
+
+      function notificationMessage(item) {
+
+        return (
+          item?.message ||
+          item?.body ||
+          item?.description ||
+          ""
+        );
+
+      }
+
+
+      function notificationDate(item) {
+
+        const value =
+          item?.created_at ||
+          item?.date ||
+          item?.createdAt ||
+          "";
+
+        if (!value) return "";
+
+        const date =
+          new Date(value);
+
+        if (
+          Number.isNaN(
+            date.getTime()
+          )
+        ) {
+          return String(value);
+        }
+
+        return date.toLocaleString(
+          "ar-LB",
+          {
+            year:"numeric",
+            month:"short",
+            day:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+          }
+        );
+
+      }
+
+
+      function isUnread(item) {
+
+        return !(
+          item?.read === true ||
+          item?.is_read === true ||
+          item?.read_at
+        );
+
+      }
+
+
+      function notificationIcon(item) {
+
+        const type =
+          String(
+            item?.type ||
+            item?.notification_type ||
+            ""
+          ).toLowerCase();
+
+        if (type.includes("order")) {
+          return "📦";
+        }
+
+        if (type.includes("offer")) {
+          return "🏷️";
+        }
+
+        if (type.includes("message")) {
+          return "✉️";
+        }
+
+        if (type.includes("success")) {
+          return "✓";
+        }
+
+        return "♧";
+
+      }
+
+
+      function localReadKey() {
+
+        const customer =
+          HZ.customer || {};
+
+        const identifier =
+          customer.id ??
+          customer.phone ??
+          customer.mobile ??
+          "guest";
+
+        return `hz_notifications_read_${identifier}`;
+
+      }
+
+
+      function getLocalReadIds() {
+
+        try {
+
+          const raw =
+            localStorage.getItem(
+              localReadKey()
+            );
+
+          const parsed =
+            JSON.parse(raw || "[]");
+
+          return Array.isArray(parsed)
+            ? parsed.map(String)
+            : [];
+
+        } catch {
+
+          return [];
+
+        }
+
+      }
+
+
+      function saveLocalReadIds(ids) {
+
+        try {
+
+          localStorage.setItem(
+            localReadKey(),
+            JSON.stringify(
+              [...new Set(ids.map(String))]
+            )
+          );
+
+        } catch {}
+
+      }
+
+
+      function effectiveUnread(item, index) {
+
+        if (!isUnread(item)) {
+          return false;
+        }
+
+        const readIds =
+          getLocalReadIds();
+
+        return !readIds.includes(
+          notificationId(
+            item,
+            index
+          )
+        );
+
+      }
+
+
+      function markRead(id) {
+
+        const readIds =
+          getLocalReadIds();
+
+        readIds.push(
+          String(id)
+        );
+
+        saveLocalReadIds(
+          readIds
+        );
+
+        render();
+
+      }
+
+
+      function render() {
+
+        if (
+          !Array.isArray(
+            notifications
+          ) ||
+          !notifications.length
+        ) {
+
+          toolbar.hidden = true;
+          list.hidden = true;
+          empty.hidden = false;
+
+          return;
+
+        }
+
+
+        toolbar.hidden = false;
+        list.hidden = false;
+        empty.hidden = true;
+
+
+        let unreadCount = 0;
+
+
+        list.innerHTML =
+          notifications
+            .map(
+              (item, index) => {
+
+                const id =
+                  notificationId(
+                    item,
+                    index
+                  );
+
+                const unread =
+                  effectiveUnread(
+                    item,
+                    index
+                  );
+
+                if (unread) {
+                  unreadCount++;
+                }
+
+
+                const title =
+                  escapeHtml(
+                    notificationTitle(item)
+                  );
+
+                const message =
+                  escapeHtml(
+                    notificationMessage(item)
+                  );
+
+                const date =
+                  escapeHtml(
+                    notificationDate(item)
+                  );
+
+
+                return `
+                  <article
+                    class="notification-card ${unread ? "unread" : ""}"
+                    data-notification-id="${escapeHtml(id)}"
+                  >
+
+                    <div class="notification-icon">
+                      ${notificationIcon(item)}
+                    </div>
+
+                    <div class="notification-content">
+
+                      <h2 class="notification-title">
+                        ${title}
+                      </h2>
+
+                      ${
+                        message
+                          ? `
+                            <p class="notification-message">
+                              ${message}
+                            </p>
+                          `
+                          : ""
+                      }
+
+                      ${
+                        date
+                          ? `
+                            <time class="notification-date">
+                              ${date}
+                            </time>
+                          `
+                          : ""
+                      }
+
+                    </div>
+
+                    ${
+                      unread
+                        ? `
+                          <button
+                            type="button"
+                            class="notification-read"
+                            data-mark-read="${escapeHtml(id)}"
+                          >
+                            تحديد كمقروء
+                          </button>
+                        `
+                        : ""
+                    }
+
+                  </article>
+                `;
+
+              }
+            )
+            .join("");
+
+
+        count.textContent =
+          unreadCount > 0
+            ? `${unreadCount} إشعارات غير مقروءة`
+            : `${notifications.length} إشعارات`;
+
+
+        markAll.disabled =
+          unreadCount === 0;
+
+      }
+
+
+      list.addEventListener(
+        "click",
+        event => {
+
+          const button =
+            event.target.closest(
+              "[data-mark-read]"
+            );
+
+          if (!button) return;
+
+          markRead(
+            button.dataset.markRead
+          );
+
+        }
+      );
+
+
+      markAll.addEventListener(
+        "click",
+        () => {
+
+          const readIds =
+            getLocalReadIds();
+
+          notifications.forEach(
+            (item, index) => {
+
+              readIds.push(
+                notificationId(
+                  item,
+                  index
+                )
+              );
+
+            }
+          );
+
+          saveLocalReadIds(
+            readIds
+          );
+
+          render();
+
+        }
+      );
+
+
+      async function init() {
+
+        try {
+
+          if (
+            typeof HZ.loadCustomer ===
+            "function"
+          ) {
+            await HZ.loadCustomer();
+          }
+
+
+          if (
+            !HZ.customer
+          ) {
+
+            sessionStorage.setItem(
+              "hz_login_redirect",
+              "/Notifications.html"
+            );
+
+            window.location.href =
+              "/Login.html";
+
+            return;
+
+          }
+
+
+          if (
+            typeof HZ.loadNotifications ===
+            "function"
+          ) {
+
+            const result =
+              await HZ.loadNotifications();
+
+            notifications =
+              Array.isArray(result)
+                ? result
+                : [];
+
+          } else {
+
+            notifications = [];
+
+          }
+
+
+          render();
+
+
+          if (
+            typeof HZ.loadCart ===
+            "function"
+          ) {
+            HZ.loadCart();
+          }
+
+
+          if (
+            typeof HZ.loadFavorites ===
+            "function"
+          ) {
+            HZ.loadFavorites();
+          }
+
+        } catch (error) {
+
+          console.error(
+            "HZ.SHOP Notifications error:",
+            error
+          );
+
+          notifications = [];
+
+          toolbar.hidden = true;
+          list.hidden = true;
+          empty.hidden = false;
+
+          empty.querySelector("h2").textContent =
+            "تعذر تحميل الإشعارات";
+
+          empty.querySelector("p").textContent =
+            "حدث خطأ أثناء تحميل الإشعارات. حاول مرة أخرى.";
+
+        }
+
+      }
+
+
+      document.addEventListener(
+        "DOMContentLoaded",
+        init
+      );
+
+    })();
+  </script>
+
+</body>
+</html>
