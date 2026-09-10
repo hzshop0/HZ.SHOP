@@ -2298,8 +2298,10 @@ function changeQty(index,delta){
 
   if(!cart[index]) return;
 
+  const item = cart[index];
+
   const newQuantity =
-    Number(cart[index].quantity || 1) + Number(delta);
+    Number(item.quantity || 1) + Number(delta);
 
   if(newQuantity <= 0){
 
@@ -2317,55 +2319,85 @@ function changeQty(index,delta){
 
   }
 
-  cart[index].quantity =
+  /*
+    التحقق من المخزون الحقيقي من API
+    قبل السماح بزيادة الكمية
+  */
+  if(delta > 0){
+
+    fetch("/api/products?t=" + Date.now())
+      .then(response => {
+
+        if(!response.ok){
+          throw new Error("products fetch failed");
+        }
+
+        return response.json();
+
+      })
+      .then(data => {
+
+        const products =
+          Array.isArray(data)
+          ? data
+          : Array.isArray(data.products)
+          ? data.products
+          : [];
+
+        const product =
+          products.find(
+            p => Number(p.id) === Number(item.id)
+          );
+
+        if(!product){
+
+          toast(
+            "تعذر التحقق من مخزون المنتج"
+          );
+
+          return;
+
+        }
+
+        const stock =
+          Number(product.stock || 0);
+
+        if(newQuantity > stock){
+
+          toast(
+            "لا يمكن طلب كمية أكبر من المتوفر"
+          );
+
+          return;
+
+        }
+
+        item.quantity =
+          newQuantity;
+
+        saveCart();
+
+        render();
+
+      })
+      .catch(() => {
+
+        toast(
+          "تعذر التحقق من المخزون"
+        );
+
+      });
+
+    return;
+
+  }
+
+  item.quantity =
     newQuantity;
 
   saveCart();
 
   render();
-
-}
-
-
-function removeItem(index){
-
-  if(!cart[index]) return;
-
-  cart.splice(index,1);
-
-  saveCart();
-
-  render();
-
-  toast(
-    "تم حذف المنتج من السلة"
-  );
-
-}
-
-
-function clearCart(){
-
-  if(!cart.length) return;
-
-  const confirmed =
-    confirm(
-      "هل تريد مسح جميع المنتجات من السلة؟"
-    );
-
-  if(!confirmed) return;
-
-
-  cart=[];
-  discountRate=0;
-
-  saveCart();
-
-  render();
-
-  toast(
-    "تم مسح السلة"
-  );
 
 }
 
