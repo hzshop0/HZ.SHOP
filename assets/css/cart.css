@@ -518,3 +518,420 @@
     display:none;
   }
 }
+/* =========================
+   CART
+========================= */
+
+function add(id){
+
+if(window.__hzAddLock) return;
+window.__hzAddLock = true;
+setTimeout(()=>{window.__hzAddLock=false;},450);
+
+const product =
+products.find(
+x=>x.id === Number(id)
+);
+
+if(!product){
+
+toast("المنتج غير موجود");
+
+return;
+
+}
+
+if(product.stock <= 0){
+
+toast("المنتج غير متوفر");
+
+return;
+
+}
+
+const item =
+cart.find(
+x=>x.id === product.id
+);
+
+if(item){
+
+if(item.quantity >= product.stock){
+
+toast(
+"لا يمكن إضافة كمية أكبر من المخزون"
+);
+
+return;
+
+}
+
+item.quantity++;
+
+}else{
+
+cart.push({
+
+id:product.id,
+
+name:product.name,
+
+price:product.price,
+
+image:product.image || "",
+
+quantity:1
+
+});
+
+}
+
+save();
+
+renderCart();
+
+/* Meta Pixel — AddToCart */
+if(typeof fbq === "function"){
+
+fbq("track","AddToCart",{
+
+content_ids:[
+String(product.id)
+],
+
+content_type:"product",
+
+content_name:product.name,
+
+value:
+Number(product.price) *
+Number(item ? item.quantity : 1),
+
+currency:"USD"
+
+});
+
+}
+
+toast(
+product.name +
+" تمت إضافته إلى السلة"
+);
+
+}
+
+function change(id,num){
+
+const item =
+cart.find(
+x=>x.id === Number(id)
+);
+
+if(!item) return;
+
+const product =
+products.find(
+x=>x.id === Number(id)
+);
+
+if(!product) return;
+
+const next =
+item.quantity + Number(num);
+
+if(next > product.stock){
+
+toast(
+"الكمية المطلوبة أكبر من المتوفر"
+);
+
+return;
+
+}
+
+item.quantity = next;
+
+if(item.quantity <= 0){
+
+cart =
+cart.filter(
+x=>x.id !== Number(id)
+);
+
+}
+
+save();
+
+renderCart();
+
+}
+
+function removeItem(id){
+
+cart =
+cart.filter(
+x=>x.id !== Number(id)
+);
+
+save();
+
+renderCart();
+
+toast("تم حذف المنتج من السلة");
+
+}
+
+function renderCart(){
+
+const box =
+document.getElementById(
+"cartItems"
+);
+
+const count =
+cart.reduce(
+(total,item)=>
+total + Number(item.quantity),
+0
+);
+
+document.getElementById(
+"cartCount"
+).textContent = count;
+
+document.getElementById(
+"floatingCartCount"
+).textContent = count;
+
+const bottomCartCount = document.getElementById("bottomCartCount");
+if(bottomCartCount) bottomCartCount.textContent = count;
+
+if(!cart.length){
+
+box.innerHTML = `
+
+<div class="empty">
+
+السلة فارغة 🛒
+
+<br><br>
+
+أضف المنتجات التي تريد شراءها.
+
+</div>
+
+`;
+
+updateTotals();
+
+return;
+
+}
+
+box.innerHTML = "";
+
+cart.forEach(item=>{
+
+const product =
+products.find(
+p=>p.id === Number(item.id)
+);
+
+const stock =
+product
+?
+product.stock
+:
+item.quantity;
+
+box.innerHTML += `
+
+<div class="cart-item">
+
+<div class="cart-top">
+
+<div class="cart-product">
+
+${
+item.image
+?
+`
+<img
+src="${escapeHtml(item.image)}"
+alt="${escapeHtml(item.name)}"
+onerror="this.style.display='none'">
+`
+:
+""
+}
+
+<div>
+
+<div class="cart-name">
+${escapeHtml(item.name)}
+</div>
+
+<div class="cart-price">
+$${Number(item.price).toFixed(2)} للقطعة
+</div>
+
+</div>
+
+</div>
+
+<button
+class="remove"
+onclick="removeItem(${item.id})">
+حذف
+</button>
+
+</div>
+
+<div class="qty">
+
+<button
+onclick="change(${item.id},1)"
+${item.quantity >= stock ? "disabled" : ""}>
++
+</button>
+
+<strong>
+${item.quantity}
+</strong>
+
+<button
+onclick="change(${item.id},-1)">
+−
+</button>
+
+<span class="item-total">
+$${(
+Number(item.price) *
+Number(item.quantity)
+).toFixed(2)}
+</span>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+updateTotals();
+
+}
+
+function updateTotals(){
+
+const subtotal =
+cart.reduce(
+(a,b)=>
+a +
+Number(b.price) *
+Number(b.quantity),
+0
+);
+
+const discount =
+subtotal * discountRate;
+
+const delivery =
+subtotal > 0
+?
+DELIVERY_FEE
+:
+0;
+
+const total =
+Math.max(
+0,
+subtotal -
+discount +
+delivery
+);
+
+document.getElementById(
+"subtotal"
+).textContent =
+"$" + subtotal.toFixed(2);
+
+document.getElementById(
+"discount"
+).textContent =
+"-$" + discount.toFixed(2);
+
+document.getElementById(
+"delivery"
+).textContent =
+"$" + delivery.toFixed(2);
+
+document.getElementById(
+"total"
+).textContent =
+"$" + total.toFixed(2);
+
+}
+
+function openCart(){
+  window.location.href = "//Cart.html";
+}
+
+function closeCart(){
+
+document.getElementById(
+"cart"
+).classList.remove("open");
+
+document.getElementById(
+"overlay"
+).classList.remove("show");
+
+document.body.style.overflow = "";
+
+}
+
+/* =========================
+   COUPON
+========================= */
+
+function applyCoupon(){
+
+const input =
+document.getElementById(
+"coupon"
+);
+
+const code =
+input.value
+.trim()
+.toUpperCase();
+
+if(code === "HZ10"){
+
+discountRate = 0.10;
+
+localStorage.setItem(
+"hz_discount_rate",
+"0.10"
+);
+
+toast("تم تطبيق خصم 10%");
+
+}else{
+
+discountRate = 0;
+
+localStorage.setItem(
+"hz_discount_rate",
+"0"
+);
+
+toast("كود الخصم غير صحيح");
+
+}
+
+updateTotals();
+
+}
