@@ -2299,8 +2299,7 @@ function changeQty(index,delta){
   if(!cart[index]) return;
 
   const newQuantity =
-    Number(cart[index].quantity || 1) + delta;
-
+    Number(cart[index].quantity || 1) + Number(delta);
 
   if(newQuantity <= 0){
 
@@ -2317,7 +2316,6 @@ function changeQty(index,delta){
     return;
 
   }
-
 
   cart[index].quantity =
     newQuantity;
