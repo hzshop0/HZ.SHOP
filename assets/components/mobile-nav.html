@@ -1,1 +1,68 @@
+<!-- =================================
+     HZ.SHOP — Mobile Navigation
+     ================================= -->
 
+<nav
+  class="mobile-bottom-nav"
+  id="mobileBottomNav"
+  aria-label="التنقل السفلي"
+>
+
+  <button
+    type="button"
+    class="bottom-nav-item active"
+    data-bottom-nav="home"
+    onclick="window.location.href='/Index.html'"
+  >
+    <span class="bn-icon" aria-hidden="true">⌂</span>
+    <span>الرئيسية</span>
+  </button>
+
+  <button
+    type="button"
+    class="bottom-nav-item"
+    data-bottom-nav="categories"
+    onclick="window.location.href='/Categories.html'"
+  >
+    <span class="bn-icon" aria-hidden="true">☷</span>
+    <span>التصنيفات</span>
+  </button>
+
+  <button
+    type="button"
+    class="bottom-nav-item"
+    data-bottom-nav="favorites"
+    onclick="window.location.href='/Favorites.html'"
+  >
+    <span class="bn-icon" aria-hidden="true">♡</span>
+    <span>المفضلة</span>
+  </button>
+
+  <button
+    type="button"
+    class="bottom-nav-item"
+    data-bottom-nav="cart"
+    onclick="window.location.href='/Cart.html'"
+  >
+    <span class="bn-icon" aria-hidden="true">🛒</span>
+
+    <span
+      class="badge"
+      data-cart-count
+      hidden
+    >0</span>
+
+    <span>السلة</span>
+  </button>
+
+  <button
+    type="button"
+    class="bottom-nav-item"
+    data-bottom-nav="account"
+    onclick="window.location.href='/Account.html'"
+  >
+    <span class="bn-icon" aria-hidden="true">♙</span>
+    <span>الحساب</span>
+  </button>
+
+</nav>
