@@ -1,1 +1,587 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
+  <title>الشروط والأحكام | HZ.SHOP</title>
+  <meta name="description" content="الشروط والأحكام الخاصة باستخدام متجر HZ.SHOP.">
+
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/header.css">
+  <link rel="stylesheet" href="/assets/css/navigation.css">
+  <link rel="stylesheet" href="/assets/css/account.css">
+  <link rel="stylesheet" href="/assets/css/responsive.css">
+  <link rel="stylesheet" href="/assets/css/luxury-theme.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+
+  <style>
+    .terms-page{
+      min-height:calc(100vh - 120px);
+      padding:35px 16px 70px;
+    }
+
+    .terms-container{
+      width:min(950px,100%);
+      margin:0 auto;
+    }
+
+    .terms-title{
+      text-align:center;
+      margin-bottom:30px;
+    }
+
+    .terms-title h1{
+      margin:0 0 8px;
+      font-size:30px;
+    }
+
+    .terms-title p{
+      margin:0;
+      opacity:.65;
+      line-height:1.8;
+    }
+
+    .terms-card{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:22px;
+      padding:28px;
+      box-shadow:0 10px 35px rgba(0,0,0,.05);
+    }
+
+    .terms-section{
+      padding:0 0 25px;
+      margin:0 0 25px;
+      border-bottom:1px solid rgba(0,0,0,.08);
+    }
+
+    .terms-section:last-child{
+      padding-bottom:0;
+      margin-bottom:0;
+      border-bottom:0;
+    }
+
+    .terms-section h2{
+      margin:0 0 10px;
+      font-size:19px;
+    }
+
+    .terms-section p{
+      margin:0 0 10px;
+      line-height:2;
+      opacity:.78;
+    }
+
+    .terms-section p:last-child{
+      margin-bottom:0;
+    }
+
+    .terms-section ul{
+      margin:8px 0 0;
+      padding-right:22px;
+    }
+
+    .terms-section li{
+      margin-bottom:8px;
+      line-height:1.9;
+      opacity:.78;
+    }
+
+    .terms-updated{
+      margin-top:22px;
+      text-align:center;
+      font-size:12px;
+      opacity:.5;
+    }
+
+    @media(max-width:600px){
+      .terms-page{
+        padding:25px 12px 55px;
+      }
+
+      .terms-title h1{
+        font-size:27px;
+      }
+
+      .terms-card{
+        padding:20px 17px;
+        border-radius:18px;
+      }
+
+      .terms-section h2{
+        font-size:17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <span>توصيل سريع داخل لبنان • الدفع عند الاستلام</span>
+  </div>
+
+  <header id="siteHeader">
+
+    <div class="header">
+
+      <a class="logo" href="/Index.html" aria-label="HZ.SHOP">
+        <strong>HZ.SHOP</strong>
+        <small>LUXURY STORE</small>
+      </a>
+
+      <div class="search">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+
+        <input
+          id="headerSearch"
+          type="search"
+          placeholder="ابحث عن منتج..."
+          autocomplete="off"
+          aria-label="البحث عن المنتجات"
+        >
+
+        <button
+          type="button"
+          class="search-clear"
+          id="headerSearchClear"
+          aria-label="مسح البحث"
+          hidden
+        >×</button>
+      </div>
+
+      <div class="actions">
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="headerFavorites"
+          aria-label="المفضلة"
+          title="المفضلة"
+          onclick="window.location.href='/Favorites.html'"
+        >
+          ♡
+          <span class="badge" data-favorites-count hidden>0</span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="headerAccount"
+          aria-label="الحساب"
+          title="الحساب"
+          onclick="window.location.href='/Account.html'"
+        >♙</button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="headerCart"
+          aria-label="السلة"
+          title="السلة"
+          onclick="window.location.href='/Cart.html'"
+        >
+          🛒
+          <span class="badge" data-cart-count hidden>0</span>
+        </button>
+
+      </div>
+    </div>
+
+    <nav aria-label="التنقل الرئيسي">
+      <div class="nav">
+        <button type="button" onclick="window.location.href='/Index.html'">
+          الرئيسية
+        </button>
+
+        <button type="button" onclick="window.location.href='/Categories.html'">
+          التصنيفات
+        </button>
+
+        <button type="button" onclick="window.location.href='/Index.html#newSection'">
+          جديدنا
+        </button>
+
+        <button type="button" onclick="window.location.href='/Index.html#bestSection'">
+          الأكثر مبيعًا
+        </button>
+
+        <button type="button" onclick="window.location.href='/Index.html#offersSection'">
+          العروض
+        </button>
+      </div>
+    </nav>
+
+    <div class="mobile-search">
+      <div class="mobile-search-box">
+
+        <span aria-hidden="true">⌕</span>
+
+        <input
+          id="mobileHeaderSearch"
+          type="search"
+          placeholder="ابحث عن منتج..."
+          autocomplete="off"
+          aria-label="البحث عن المنتجات"
+        >
+
+        <button
+          type="button"
+          id="mobileHeaderSearchClear"
+          aria-label="مسح البحث"
+          hidden
+        >×</button>
+
+      </div>
+    </div>
+
+  </header>
+
+
+  <main class="terms-page">
+
+    <div class="terms-container">
+
+      <div class="terms-title">
+        <h1>الشروط والأحكام</h1>
+        <p>
+          يرجى قراءة الشروط التالية قبل استخدام متجر HZ.SHOP أو إتمام أي طلب.
+        </p>
+      </div>
+
+
+      <article class="terms-card">
+
+        <section class="terms-section">
+          <h2>1. مقدمة</h2>
+
+          <p>
+            مرحبًا بك في HZ.SHOP. باستخدامك للموقع أو تصفحك للمنتجات
+            أو إنشاء حساب أو إرسال طلب، فإنك توافق على الالتزام
+            بهذه الشروط والأحكام.
+          </p>
+
+          <p>
+            إذا كنت لا توافق على أي من هذه الشروط، يرجى عدم استخدام
+            خدمات المتجر.
+          </p>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>2. الحساب والبيانات</h2>
+
+          <ul>
+            <li>
+              يجب تقديم معلومات صحيحة ودقيقة عند إنشاء الحساب أو تنفيذ الطلب.
+            </li>
+
+            <li>
+              يتحمل العميل مسؤولية المحافظة على سرية بيانات تسجيل الدخول الخاصة به.
+            </li>
+
+            <li>
+              يجب إبلاغ المتجر عند الاشتباه باستخدام الحساب من قبل شخص آخر.
+            </li>
+          </ul>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>3. المنتجات والأسعار</h2>
+
+          <p>
+            يسعى HZ.SHOP إلى عرض معلومات المنتجات والأسعار والمخزون
+            بصورة دقيقة قدر الإمكان.
+          </p>
+
+          <p>
+            قد تتغير الأسعار أو العروض أو حالة توفر المنتجات دون إشعار مسبق.
+          </p>
+
+          <p>
+            الصور المعروضة للمنتجات هي لأغراض توضيحية، وقد توجد اختلافات
+            بسيطة في الألوان أو التفاصيل بحسب المنتج والشاشة.
+          </p>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>4. الطلبات</h2>
+
+          <p>
+            عند إرسال طلب، فإنك تؤكد رغبتك في شراء المنتجات المحددة
+            وفق المعلومات الظاهرة أثناء إتمام الطلب.
+          </p>
+
+          <p>
+            يحتفظ HZ.SHOP بالحق في تأكيد الطلب أو رفضه أو إلغائه
+            عند وجود مشكلة في توفر المنتج أو البيانات أو لأي سبب تشغيلي مشروع.
+          </p>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>5. الدفع</h2>
+
+          <p>
+            قد يوفر المتجر وسائل دفع مختلفة بحسب الخيارات المتاحة
+            أثناء إتمام الطلب.
+          </p>
+
+          <p>
+            في حال اختيار الدفع عند الاستلام، يلتزم العميل بدفع قيمة
+            الطلب عند استلامه وفق تفاصيل الطلب النهائية.
+          </p>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>6. التوصيل</h2>
+
+          <p>
+            يتم توصيل الطلبات إلى العنوان الذي يقدمه العميل أثناء إتمام الطلب.
+          </p>
+
+          <p>
+            قد تختلف مدة التوصيل بحسب المنطقة والظروف التشغيلية
+            وحالة شركات أو خدمات التوصيل.
+          </p>
+
+          <p>
+            يجب على العميل التأكد من صحة رقم الهاتف والعنوان لتسهيل عملية التسليم.
+          </p>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>7. الإلغاء والاسترجاع</h2>
+
+          <p>
+            تخضع عمليات إلغاء الطلب أو الاسترجاع والاستبدال لسياسة
+            المتجر المعتمدة ونوع المنتج وحالته.
+          </p>
+
+          <p>
+            قد تكون بعض المنتجات غير قابلة للاسترجاع أو الاستبدال
+            بسبب طبيعتها أو لأسباب تتعلق بالنظافة والسلامة.
+          </p>
+
+          <p>
+            يرجى التواصل مع المتجر قبل إعادة أي منتج للحصول على التعليمات المناسبة.
+          </p>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>8. استخدام الموقع</h2>
+
+          <ul>
+            <li>
+              يمنع استخدام الموقع بطريقة غير قانونية أو ضارة.
+            </li>
+
+            <li>
+              يمنع محاولة الوصول غير المصرح به إلى أنظمة المتجر أو حسابات المستخدمين الآخرين.
+            </li>
+
+            <li>
+              يمنع استخدام الموقع بطريقة قد تؤثر سلبًا على تشغيله أو توفر خدماته.
+            </li>
+          </ul>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>9. الملكية الفكرية</h2>
+
+          <p>
+            جميع عناصر العلامة التجارية والمحتوى والتصميمات والصور
+            والنصوص الخاصة بـ HZ.SHOP، ما لم يذكر خلاف ذلك،
+            محمية ولا يجوز نسخها أو إعادة استخدامها تجاريًا دون إذن.
+          </p>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>10. الخصوصية</h2>
+
+          <p>
+            يتم التعامل مع بيانات العملاء وفق سياسة الخصوصية الخاصة بالمتجر.
+          </p>
+
+          <p>
+            يمكنك الاطلاع على سياسة الخصوصية من خلال صفحة
+            <a href="/Privacy.html">الخصوصية</a>.
+          </p>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>11. التعديلات على الشروط</h2>
+
+          <p>
+            قد يتم تحديث هذه الشروط والأحكام من وقت لآخر لتحسين
+            خدمات المتجر أو لمواكبة التغييرات التشغيلية والقانونية.
+          </p>
+
+          <p>
+            استمرارك في استخدام الموقع بعد نشر التعديلات يعني
+            قبولك للشروط المحدثة.
+          </p>
+        </section>
+
+
+        <section class="terms-section">
+          <h2>12. التواصل</h2>
+
+          <p>
+            إذا كان لديك أي سؤال يتعلق بهذه الشروط أو بطلباتك،
+            يمكنك التواصل مع HZ.SHOP من خلال صفحة
+            <a href="/Contact.html">اتصل بنا</a>.
+          </p>
+        </section>
+
+
+        <div class="terms-updated">
+          آخر تحديث: سبتمبر 2026
+        </div>
+
+      </article>
+
+    </div>
+
+  </main>
+
+
+  <footer class="site-footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-grid">
+
+        <div class="footer-column">
+          <div class="footer-logo">HZ.SHOP</div>
+
+          <p>
+            متجر HZ.SHOP للعطور ومنتجات العناية والجمال.
+          </p>
+        </div>
+
+
+        <div class="footer-column">
+          <h3>المتجر</h3>
+
+          <a href="/Index.html">الرئيسية</a>
+          <a href="/Categories.html">التصنيفات</a>
+          <a href="/Search.html">البحث</a>
+          <a href="/Favorites.html">المفضلة</a>
+          <a href="/Cart.html">السلة</a>
+        </div>
+
+
+        <div class="footer-column">
+          <h3>حسابك</h3>
+
+          <a href="/Account.html">حسابي</a>
+          <a href="/Order.html">طلباتي</a>
+          <a href="/Profile.html">الملف الشخصي</a>
+          <a href="/Addresses.html">العناوين</a>
+        </div>
+
+
+        <div class="footer-column">
+          <h3>المساعدة</h3>
+
+          <a href="/FAQ.html">الأسئلة الشائعة</a>
+          <a href="/Contact.html">اتصل بنا</a>
+          <a href="/Privacy.html">الخصوصية</a>
+          <a href="/Terms.html">الشروط والأحكام</a>
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <span>
+          © 2026 HZ.SHOP — جميع الحقوق محفوظة
+        </span>
+
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram" rel="noopener">Instagram</a>
+          <a href="#" aria-label="Facebook" rel="noopener">Facebook</a>
+          <a href="#" aria-label="TikTok" rel="noopener">TikTok</a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <nav
+    class="mobile-bottom-nav"
+    id="mobileBottomNav"
+    aria-label="التنقل السفلي"
+  >
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Index.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">⌂</span>
+      <span>الرئيسية</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Categories.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">☷</span>
+      <span>التصنيفات</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Favorites.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">♡</span>
+      <span>المفضلة</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Cart.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">🛒</span>
+      <span class="badge" data-cart-count hidden>0</span>
+      <span>السلة</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Account.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">♙</span>
+      <span>الحساب</span>
+    </button>
+
+  </nav>
+
+
+  <script src="/assets/js/core.js"></script>
+  <script src="/assets/js/storage.js"></script>
+  <script src="/assets/js/cart.js"></script>
+  <script src="/assets/js/favorites.js"></script>
+  <script src="/assets/js/ui.js"></script>
+
+</body>
+</html>
