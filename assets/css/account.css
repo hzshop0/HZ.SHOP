@@ -260,7 +260,108 @@
   color:var(--danger,#d93025);
 }
 
+
+/* =================================
+   CUSTOMER AUTH
+   ================================= */
+
+.customer-auth-box{
+  max-width:520px;
+}
+
+.customer-auth-tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.customer-auth-tab{
+  flex:1;
+  padding:11px;
+  border:1px solid #ddd;
+  background:#fff;
+  color:#555;
+  font-size:12px;
+  border-radius:4px;
+}
+
+.customer-auth-tab.active{
+  border-color:var(--orange);
+  color:var(--orange);
+}
+
+.auth-intro{
+  margin-bottom:15px;
+  color:#666;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.customer-auth-submit{
+  width:100%;
+  margin-top:10px;
+  padding:12px;
+  border:1px solid var(--black);
+  border-radius:4px;
+  background:var(--black);
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+}
+
+.customer-auth-submit:hover{
+  border-color:var(--orange);
+  background:var(--orange);
+}
+
+.auth-switch-text{
+  margin-top:15px;
+  text-align:center;
+  color:#666;
+  font-size:12px;
+}
+
+.customer-account-welcome{
+  text-align:center;
+  padding:10px 0 15px;
+}
+
+.customer-account-icon{
+  width:60px;
+  height:60px;
+  margin:0 auto 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--orange);
+  border-radius:50%;
+  color:var(--orange);
+  font-size:25px;
+}
+
+.customer-logout-button{
+  width:100%;
+  margin-top:10px;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:4px;
+  background:#fff;
+  color:#555;
+  font-size:12px;
+}
+
+.customer-logout-button:hover{
+  border-color:var(--orange);
+  color:var(--orange);
+}
+
+
+/* =================================
+   RESPONSIVE — ACCOUNT
+   ================================= */
+
 @media(max-width:900px){
+
   .account-page{
     padding:20px 12px 40px;
   }
@@ -291,6 +392,7 @@
 }
 
 @media(max-width:600px){
+
   .account-page{
     padding:14px 10px 30px;
   }
