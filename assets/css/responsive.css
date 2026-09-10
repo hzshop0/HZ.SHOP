@@ -1,1 +1,144 @@
+/* =================================
+   HZ.SHOP — Responsive
+   ================================= */
 
+@media(max-width:900px){
+
+  .header{
+    height:62px;
+    padding:0 10px;
+    gap:8px;
+  }
+
+  .logo{
+    min-width:92px;
+  }
+
+  .logo strong{
+    font-size:20px;
+    letter-spacing:3px;
+  }
+
+  .logo small{
+    display:none;
+  }
+
+  .header>.search{
+    display:none;
+  }
+
+  .actions{
+    gap:5px;
+  }
+
+  .icon-btn{
+    width:38px;
+    height:38px;
+    font-size:15px;
+  }
+
+  .mobile-search{
+    display:block;
+  }
+
+  .nav{
+    justify-content:flex-start;
+  }
+
+  .nav button{
+    padding:10px 15px;
+    font-size:11px;
+  }
+
+  .topbar{
+    height:27px;
+    font-size:10px;
+  }
+
+  /* Bottom navigation */
+
+  .bottom-nav{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:2000;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    background:#0b0b0b;
+    border-top:1px solid #252525;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+
+  .bottom-nav button{
+    flex:1;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    background:none;
+    color:#aaa;
+    font-size:9px;
+  }
+
+  .bottom-nav button:hover,
+  .bottom-nav button.active{
+    color:var(--orange,#ff6a00);
+  }
+
+  .bn-icon{
+    font-size:17px;
+    line-height:1;
+  }
+
+  body{
+    padding-bottom:70px;
+  }
+}
+
+@media(max-width:520px){
+
+  .actions .icon-btn:nth-child(1){
+    display:none;
+  }
+
+  .header{
+    gap:5px;
+  }
+
+  .logo{
+    min-width:88px;
+  }
+
+  .mobile-search{
+    padding:8px 10px;
+  }
+
+  .mobile-search input{
+    height:41px;
+  }
+
+  .bottom-nav{
+    height:56px;
+  }
+
+  body{
+    padding-bottom:66px;
+  }
+}
+
+/* Accessibility / reduced motion */
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    transition:none!important;
+    animation:none!important;
+  }
+}
