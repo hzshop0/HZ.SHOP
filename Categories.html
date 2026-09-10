@@ -1,1 +1,998 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+  >
+
+  <title>التصنيفات | HZ.SHOP</title>
+
+  <meta
+    name="description"
+    content="تصفح تصنيفات HZ.SHOP للعطور ومنتجات العناية والجمال."
+  >
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="التصنيفات | HZ.SHOP">
+  <meta
+    property="og:description"
+    content="تصفح تصنيفات HZ.SHOP للعطور ومنتجات العناية والجمال."
+  >
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/header.css">
+  <link rel="stylesheet" href="/assets/css/navigation.css">
+  <link rel="stylesheet" href="/assets/css/products.css">
+  <link rel="stylesheet" href="/assets/css/responsive.css">
+  <link rel="stylesheet" href="/assets/css/luxury-theme.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+
+  <style>
+    .categories-page{
+      min-height:100vh;
+      background:var(--white,#fff);
+    }
+
+    .categories-hero{
+      padding:55px 20px 35px;
+      text-align:center;
+    }
+
+    .categories-hero h1{
+      margin:0 0 12px;
+      font-size:clamp(30px,5vw,46px);
+      font-weight:800;
+    }
+
+    .categories-hero p{
+      margin:0 auto;
+      max-width:650px;
+      opacity:.72;
+      line-height:1.9;
+      font-size:16px;
+    }
+
+    .categories-container{
+      width:min(1200px,calc(100% - 32px));
+      margin:0 auto 70px;
+    }
+
+    .categories-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:20px;
+    }
+
+    .category-card{
+      position:relative;
+      min-height:250px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:22px;
+      background:#111;
+      color:#fff;
+      cursor:pointer;
+      text-decoration:none;
+      display:flex;
+      align-items:flex-end;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .category-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 18px 40px rgba(0,0,0,.14);
+    }
+
+    .category-card-bg{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(
+          to top,
+          rgba(0,0,0,.78),
+          rgba(0,0,0,.18) 60%,
+          rgba(0,0,0,.05)
+        );
+    }
+
+    .category-card-image{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.82;
+      transition:transform .35s ease;
+    }
+
+    .category-card:hover .category-card-image{
+      transform:scale(1.05);
+    }
+
+    .category-card-content{
+      position:relative;
+      z-index:2;
+      width:100%;
+      padding:24px;
+    }
+
+    .category-card-content h2{
+      margin:0 0 7px;
+      font-size:22px;
+    }
+
+    .category-card-content p{
+      margin:0;
+      font-size:14px;
+      opacity:.85;
+    }
+
+    .category-products{
+      margin-top:55px;
+    }
+
+    .category-products-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      margin-bottom:20px;
+    }
+
+    .category-products-header h2{
+      margin:0;
+      font-size:24px;
+    }
+
+    .category-products-header button{
+      border:0;
+      background:none;
+      cursor:pointer;
+      font:inherit;
+      text-decoration:underline;
+    }
+
+    .category-product-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:18px;
+    }
+
+    .category-empty{
+      text-align:center;
+      padding:45px 20px;
+      border:1px dashed rgba(0,0,0,.16);
+      border-radius:18px;
+      opacity:.7;
+    }
+
+    .page-loading{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:220px;
+      font-size:16px;
+      opacity:.7;
+    }
+
+    @media(max-width:900px){
+      .categories-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+
+      .category-product-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media(max-width:560px){
+      .categories-hero{
+        padding:38px 15px 25px;
+      }
+
+      .categories-container{
+        width:min(100% - 22px,1200px);
+      }
+
+      .categories-grid{
+        grid-template-columns:1fr;
+        gap:14px;
+      }
+
+      .category-card{
+        min-height:210px;
+      }
+
+      .category-product-grid{
+        grid-template-columns:1fr 1fr;
+        gap:12px;
+      }
+
+      .category-products-header{
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <span>توصيل سريع داخل لبنان • الدفع عند الاستلام</span>
+  </div>
+
+  <header id="siteHeader">
+
+    <div class="header">
+
+      <a class="logo" href="/Index.html" aria-label="HZ.SHOP">
+        <strong>HZ.SHOP</strong>
+        <small>LUXURY STORE</small>
+      </a>
+
+      <div class="search">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+
+        <input
+          id="headerSearch"
+          type="search"
+          placeholder="ابحث عن منتج..."
+          autocomplete="off"
+          aria-label="البحث عن المنتجات"
+        >
+
+        <button
+          type="button"
+          class="search-clear"
+          id="headerSearchClear"
+          aria-label="مسح البحث"
+          hidden
+        >×</button>
+      </div>
+
+      <div class="actions">
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="headerFavorites"
+          aria-label="المفضلة"
+          title="المفضلة"
+          onclick="window.location.href='/Favorites.html'"
+        >
+          ♡
+          <span class="badge" data-favorites-count hidden>0</span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="headerAccount"
+          aria-label="الحساب"
+          title="الحساب"
+          onclick="window.location.href='/Account.html'"
+        >♙</button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="headerCart"
+          aria-label="السلة"
+          title="السلة"
+          onclick="window.location.href='/Cart.html'"
+        >
+          🛒
+          <span class="badge" data-cart-count hidden>0</span>
+        </button>
+
+      </div>
+    </div>
+
+    <nav aria-label="التنقل الرئيسي">
+      <div class="nav">
+
+        <button
+          type="button"
+          onclick="window.location.href='/Index.html'"
+        >الرئيسية</button>
+
+        <button
+          type="button"
+          class="active"
+          onclick="window.location.href='/Categories.html'"
+        >التصنيفات</button>
+
+        <button
+          type="button"
+          onclick="window.location.href='/Index.html#newSection'"
+        >جديدنا</button>
+
+        <button
+          type="button"
+          onclick="window.location.href='/Index.html#bestSection'"
+        >الأكثر مبيعًا</button>
+
+        <button
+          type="button"
+          onclick="window.location.href='/Index.html#offersSection'"
+        >العروض</button>
+
+      </div>
+    </nav>
+
+    <div class="mobile-search">
+      <div class="mobile-search-box">
+
+        <span aria-hidden="true">⌕</span>
+
+        <input
+          id="mobileHeaderSearch"
+          type="search"
+          placeholder="ابحث عن منتج..."
+          autocomplete="off"
+          aria-label="البحث عن المنتجات"
+        >
+
+        <button
+          type="button"
+          id="mobileHeaderSearchClear"
+          aria-label="مسح البحث"
+          hidden
+        >×</button>
+
+      </div>
+    </div>
+
+  </header>
+
+
+  <main class="categories-page">
+
+    <section class="categories-hero">
+      <h1>التصنيفات</h1>
+
+      <p>
+        اكتشف مجموعتنا المختارة من العطور ومنتجات الجمال والعناية
+        في HZ.SHOP.
+      </p>
+    </section>
+
+
+    <section class="categories-container">
+
+      <div
+        id="categoriesGrid"
+        class="categories-grid"
+        aria-live="polite"
+      >
+        <div class="page-loading">
+          جاري تحميل التصنيفات...
+        </div>
+      </div>
+
+
+      <section
+        id="categoryProductsSection"
+        class="category-products"
+        hidden
+      >
+
+        <div class="category-products-header">
+
+          <h2 id="categoryProductsTitle"></h2>
+
+          <button
+            type="button"
+            id="clearCategoryButton"
+          >
+            عرض جميع التصنيفات
+          </button>
+
+        </div>
+
+        <div
+          id="categoryProductGrid"
+          class="category-product-grid"
+        ></div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+
+  <footer class="site-footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-grid">
+
+        <div class="footer-column">
+          <div class="footer-logo">HZ.SHOP</div>
+          <p>
+            متجر HZ.SHOP للعطور ومنتجات العناية والجمال.
+          </p>
+        </div>
+
+        <div class="footer-column">
+          <h3>المتجر</h3>
+          <a href="/Index.html">الرئيسية</a>
+          <a href="/Categories.html">التصنيفات</a>
+          <a href="/Search.html">البحث</a>
+          <a href="/Favorites.html">المفضلة</a>
+          <a href="/Cart.html">السلة</a>
+        </div>
+
+        <div class="footer-column">
+          <h3>حسابك</h3>
+          <a href="/Account.html">حسابي</a>
+          <a href="/Order.html">طلباتي</a>
+          <a href="/Profile.html">الملف الشخصي</a>
+          <a href="/Addresses.html">العناوين</a>
+        </div>
+
+        <div class="footer-column">
+          <h3>المساعدة</h3>
+          <a href="/FAQ.html">الأسئلة الشائعة</a>
+          <a href="/Contact.html">اتصل بنا</a>
+          <a href="/Privacy.html">الخصوصية</a>
+          <a href="/Terms.html">الشروط والأحكام</a>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+
+        <span>
+          © 2026 HZ.SHOP — جميع الحقوق محفوظة
+        </span>
+
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram" rel="noopener">
+            Instagram
+          </a>
+
+          <a href="#" aria-label="Facebook" rel="noopener">
+            Facebook
+          </a>
+
+          <a href="#" aria-label="TikTok" rel="noopener">
+            TikTok
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <nav
+    class="mobile-bottom-nav"
+    id="mobileBottomNav"
+    aria-label="التنقل السفلي"
+  >
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Index.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">⌂</span>
+      <span>الرئيسية</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item active"
+      onclick="window.location.href='/Categories.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">☷</span>
+      <span>التصنيفات</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Favorites.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">♡</span>
+      <span>المفضلة</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Cart.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">🛒</span>
+      <span class="badge" data-cart-count hidden>0</span>
+      <span>السلة</span>
+    </button>
+
+    <button
+      type="button"
+      class="bottom-nav-item"
+      onclick="window.location.href='/Account.html'"
+    >
+      <span class="bn-icon" aria-hidden="true">♙</span>
+      <span>الحساب</span>
+    </button>
+
+  </nav>
+
+
+  <script src="/assets/js/core.js"></script>
+  <script src="/assets/js/storage.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/products.js"></script>
+  <script src="/assets/js/categories.js"></script>
+  <script src="/assets/js/favorites.js"></script>
+  <script src="/assets/js/cart.js"></script>
+  <script src="/assets/js/ui.js"></script>
+
+
+  <script>
+    (() => {
+      "use strict";
+
+      const categoriesGrid =
+        document.getElementById("categoriesGrid");
+
+      const categoryProductsSection =
+        document.getElementById("categoryProductsSection");
+
+      const categoryProductsTitle =
+        document.getElementById("categoryProductsTitle");
+
+      const categoryProductGrid =
+        document.getElementById("categoryProductGrid");
+
+      const clearCategoryButton =
+        document.getElementById("clearCategoryButton");
+
+
+      const categoryImages = {
+        perfume:
+          "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1000&q=85",
+
+        skincare:
+          "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?auto=format&fit=crop&w=1000&q=85",
+
+        makeup:
+          "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1000&q=85",
+
+        body:
+          "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=1000&q=85"
+      };
+
+
+      function getCategoryImage(category) {
+
+        const value =
+          String(
+            category?.name ||
+            category?.title ||
+            category?.slug ||
+            ""
+          ).toLowerCase();
+
+        if (
+          value.includes("عطر") ||
+          value.includes("perfume") ||
+          value.includes("fragrance")
+        ) {
+          return categoryImages.perfume;
+        }
+
+        if (
+          value.includes("بشرة") ||
+          value.includes("عناية") ||
+          value.includes("skincare") ||
+          value.includes("skin")
+        ) {
+          return categoryImages.skincare;
+        }
+
+        if (
+          value.includes("مكياج") ||
+          value.includes("makeup") ||
+          value.includes("cosmetic")
+        ) {
+          return categoryImages.makeup;
+        }
+
+        if (
+          value.includes("جسم") ||
+          value.includes("body") ||
+          value.includes("hygiene") ||
+          value.includes("نظافة")
+        ) {
+          return categoryImages.body;
+        }
+
+        return categoryImages.perfume;
+      }
+
+
+      function categoryName(category) {
+        return String(
+          category?.name ||
+          category?.title ||
+          category?.category ||
+          "تصنيف"
+        );
+      }
+
+
+      function categoryId(category) {
+        return String(
+          category?.id ??
+          category?.slug ??
+          category?.name ??
+          ""
+        );
+      }
+
+
+      function renderCategories() {
+
+        const categories =
+          Array.isArray(HZ.categories)
+            ? HZ.categories
+            : [];
+
+        if (!categories.length) {
+          categoriesGrid.innerHTML = `
+            <div class="category-empty">
+              لا توجد تصنيفات متاحة حاليًا.
+            </div>
+          `;
+          return;
+        }
+
+        categoriesGrid.innerHTML =
+          categories.map(category => {
+
+            const name =
+              HZ.escapeHtml(categoryName(category));
+
+            const image =
+              HZ.escapeHtml(getCategoryImage(category));
+
+            const id =
+              HZ.escapeHtml(categoryId(category));
+
+            const count =
+              Number(category.product_count ?? category.count ?? 0);
+
+            return `
+              <button
+                type="button"
+                class="category-card"
+                data-category-id="${id}"
+              >
+
+                <img
+                  class="category-card-image"
+                  src="${image}"
+                  alt="${name}"
+                  loading="lazy"
+                >
+
+                <span
+                  class="category-card-bg"
+                  aria-hidden="true"
+                ></span>
+
+                <span class="category-card-content">
+                  <h2>${name}</h2>
+                  <p>
+                    ${
+                      count > 0
+                        ? `${count} منتج`
+                        : "اكتشف المنتجات"
+                    }
+                  </p>
+                </span>
+
+              </button>
+            `;
+          }).join("");
+
+
+        categoriesGrid
+          .querySelectorAll("[data-category-id]")
+          .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+              const id =
+                button.dataset.categoryId;
+
+              showCategory(id);
+            });
+
+          });
+      }
+
+
+      function renderProduct(product) {
+
+        const id =
+          HZ.escapeHtml(product.id);
+
+        const name =
+          HZ.escapeHtml(product.name);
+
+        const category =
+          HZ.escapeHtml(product.category || "");
+
+        const price =
+          HZ.formatPrice(product.price);
+
+        const image =
+          HZ.escapeHtml(
+            Array.isArray(product.images) &&
+            product.images.length
+              ? product.images[0]
+              : product.image || ""
+          );
+
+        const stock =
+          Number(product.stock ?? 0);
+
+        return `
+          <article
+            class="product-card"
+            data-product-id="${id}"
+          >
+
+            <button
+              type="button"
+              class="favorite-btn"
+              data-category-favorite="${id}"
+              aria-label="إضافة إلى المفضلة"
+            >♡</button>
+
+            <div class="product-card-image">
+
+              <img
+                src="${image}"
+                alt="${name}"
+                loading="lazy"
+              >
+
+            </div>
+
+            <div class="product-card-content">
+
+              <h3 class="product-name">
+                ${name}
+              </h3>
+
+              <p class="product-category">
+                ${category}
+              </p>
+
+              <div class="product-card-bottom">
+
+                <div class="product-price">
+                  <span>${price}</span>
+                  <span class="currency">$</span>
+                </div>
+
+                <button
+                  type="button"
+                  class="add-to-cart-btn"
+                  data-category-add="${id}"
+                  ${stock <= 0 ? "disabled" : ""}
+                >
+                  ${stock > 0 ? "أضف للسلة" : "غير متوفر"}
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+        `;
+      }
+
+
+      function bindProductActions() {
+
+        categoryProductGrid
+          .querySelectorAll("[data-category-add]")
+          .forEach(button => {
+
+            button.addEventListener("click", event => {
+
+              event.stopPropagation();
+
+              const id =
+                button.dataset.categoryAdd;
+
+              const product =
+                HZ.getProductById(id);
+
+              if (!product) return;
+
+              HZ.addToCart(product, 1);
+
+              if (typeof HZ.toast === "function") {
+                HZ.toast("تمت إضافة المنتج إلى السلة");
+              }
+
+              if (typeof HZ.updateCartBadges === "function") {
+                HZ.updateCartBadges();
+              }
+            });
+
+          });
+
+
+        categoryProductGrid
+          .querySelectorAll("[data-category-favorite]")
+          .forEach(button => {
+
+            button.addEventListener("click", event => {
+
+              event.stopPropagation();
+
+              const id =
+                button.dataset.categoryFavorite;
+
+              if (typeof HZ.toggleFavorite === "function") {
+                HZ.toggleFavorite(id);
+              }
+
+            });
+
+          });
+
+
+        categoryProductGrid
+          .querySelectorAll(".product-card")
+          .forEach(card => {
+
+            card.addEventListener("click", event => {
+
+              if (
+                event.target.closest("button")
+              ) {
+                return;
+              }
+
+              const id =
+                card.dataset.productId;
+
+              window.location.href =
+                `/Product.html?id=${encodeURIComponent(id)}`;
+
+            });
+
+          });
+
+      }
+
+
+      function showCategory(id) {
+
+        const category =
+          HZ.getCategoryById(id);
+
+        if (!category) return;
+
+        const products =
+          HZ.getProductsByCategory(id);
+
+        categoryProductsSection.hidden = false;
+
+        categoryProductsTitle.textContent =
+          categoryName(category);
+
+        if (!products.length) {
+
+          categoryProductGrid.innerHTML = `
+            <div class="category-empty">
+              لا توجد منتجات في هذا التصنيف حاليًا.
+            </div>
+          `;
+
+          return;
+        }
+
+        categoryProductGrid.innerHTML =
+          products.map(renderProduct).join("");
+
+        bindProductActions();
+
+        categoryProductsSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+      }
+
+
+      clearCategoryButton.addEventListener(
+        "click",
+        () => {
+
+          categoryProductsSection.hidden = true;
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+
+        }
+      );
+
+
+      async function init() {
+
+        try {
+
+          await HZ.loadProducts();
+
+          await HZ.loadCategories();
+
+          renderCategories();
+
+          if (typeof HZ.loadFavorites === "function") {
+            HZ.loadFavorites();
+          }
+
+          if (typeof HZ.loadCart === "function") {
+            HZ.loadCart();
+          }
+
+          if (typeof HZ.updateCartBadges === "function") {
+            HZ.updateCartBadges();
+          }
+
+          if (typeof HZ.updateFavoriteButtons === "function") {
+            HZ.updateFavoriteButtons();
+          }
+
+        } catch (error) {
+
+          console.error(
+            "HZ.SHOP Categories error:",
+            error
+          );
+
+          categoriesGrid.innerHTML = `
+            <div class="category-empty">
+              تعذر تحميل التصنيفات حاليًا.
+              يرجى المحاولة مرة أخرى.
+            </div>
+          `;
+
+        }
+
+      }
+
+
+      document.addEventListener(
+        "DOMContentLoaded",
+        init
+      );
+
+    })();
+  </script>
+
+</body>
+</html>
