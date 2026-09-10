@@ -2,6 +2,11 @@
    HZ.SHOP — Checkout
    ================================= */
 
+
+/* =================================
+   CHECKOUT PAGE
+   ================================= */
+
 .checkout-page{
   width:100%;
   max-width:1200px;
@@ -264,7 +269,114 @@
   color:#16803c;
 }
 
+
+/* =================================
+   CHECKOUT — LEGACY / MODAL
+   ================================= */
+
+.payment,
+.summary{
+  padding:15px;
+  border:1px solid #eee;
+  background:#fff;
+}
+
+.payment>p{
+  font-size:12px;
+  color:#666;
+  margin-bottom:10px;
+}
+
+.pay-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.pay{
+  padding:12px;
+  border:1px solid #ddd;
+  background:#fff;
+  color:#222;
+  text-align:center;
+  font-size:12px;
+  border-radius:4px;
+}
+
+.pay.selected,
+.pay:hover{
+  border-color:var(--orange);
+  color:var(--orange);
+}
+
+.summary h3{
+  font-size:15px;
+  color:#111;
+  margin-bottom:12px;
+}
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:7px 0;
+  font-size:12px;
+  color:#555;
+}
+
+.summary-total{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid #ddd;
+  font-size:16px;
+  color:#111;
+}
+
+.summary-total strong{
+  color:var(--orange);
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.cancel,
+.computer-order{
+  flex:1;
+  padding:12px;
+  border-radius:4px;
+  font-size:12px;
+}
+
+.cancel{
+  background:#fff;
+  border:1px solid #ddd;
+  color:#555;
+}
+
+.computer-order{
+  background:var(--black);
+  border:1px solid var(--black);
+  color:#fff;
+}
+
+.computer-order:hover{
+  background:var(--orange);
+  border-color:var(--orange);
+}
+
+
+/* =================================
+   RESPONSIVE — CHECKOUT
+   ================================= */
+
 @media(max-width:900px){
+
   .checkout-page{
     padding:20px 12px 40px;
   }
@@ -279,6 +391,7 @@
 }
 
 @media(max-width:520px){
+
   .checkout-page{
     padding:14px 10px 30px;
   }
