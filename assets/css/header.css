@@ -1,5 +1,5 @@
 /* =========================================
-   HZ.SHOP — HEADER
+   HZ.SHOP — HEADER CSS
 ========================================= */
 
 .topbar{
@@ -151,41 +151,6 @@ header{
   border:2px solid var(--black);
 }
 
-nav{
-  background:#111;
-  border-top:1px solid #222;
-}
-
-.nav{
-  max-width:1400px;
-  margin:auto;
-  display:flex;
-  justify-content:center;
-  overflow-x:auto;
-  scrollbar-width:none;
-}
-
-.nav::-webkit-scrollbar{
-  display:none;
-}
-
-.nav button{
-  background:none;
-  border:0;
-  color:#bbb;
-  padding:11px 22px;
-  font-size:12px;
-  white-space:nowrap;
-  flex:0 0 auto;
-  border-bottom:2px solid transparent;
-}
-
-.nav button:hover,
-.nav button.active{
-  color:#fff;
-  border-bottom-color:var(--orange);
-}
-
 .mobile-search{
   display:none;
   padding:8px 10px;
@@ -231,7 +196,7 @@ nav{
 }
 
 /* =========================================
-   Responsive Header
+   Header — Responsive
 ========================================= */
 
 @media(max-width:900px){
@@ -273,34 +238,11 @@ nav{
     display:block;
   }
 
-  .nav{
-    justify-content:flex-start;
-  }
-
-  .nav button{
-    padding:10px 15px;
-    font-size:11px;
-  }
-
   .topbar{
     height:27px;
     font-size:10px;
   }
-}
 
-@media(min-width:901px){
-
-  .header .logo{
-    order:0;
-  }
-
-  .header .search{
-    order:1;
-  }
-
-  .header .actions{
-    order:2;
-  }
 }
 
 @media(max-width:520px){
@@ -316,4 +258,5 @@ nav{
   .logo{
     min-width:88px;
   }
+
 }
