@@ -1,1 +1,132 @@
+/* =================================
+   HZ.SHOP — Luxury Theme
+   ================================= */
 
+:root{
+  --black:#0b0b0b;
+  --black2:#151515;
+  --white:#ffffff;
+  --soft:#f7f7f7;
+  --line:#e7e7e7;
+  --muted:#707070;
+  --orange:#ff6a00;
+  --orange2:#ff7a1a;
+  --danger:#d93025;
+}
+
+/* Luxury accents */
+
+.luxury-accent{
+  color:var(--orange);
+}
+
+.luxury-border{
+  border-color:var(--orange)!important;
+}
+
+.luxury-button{
+  border:1px solid var(--black);
+  background:var(--black);
+  color:#fff;
+  border-radius:4px;
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    color .2s ease;
+}
+
+.luxury-button:hover{
+  background:var(--orange);
+  border-color:var(--orange);
+}
+
+/* Premium surfaces */
+
+.luxury-card{
+  background:#fff;
+  border:1px solid var(--line);
+  box-shadow:0 6px 20px rgba(0,0,0,.04);
+}
+
+.luxury-card:hover{
+  border-color:#d8d8d8;
+  box-shadow:0 10px 28px rgba(0,0,0,.07);
+}
+
+/* Section headings */
+
+.luxury-heading{
+  position:relative;
+  margin-bottom:20px;
+  padding-bottom:10px;
+  color:#111;
+  font-size:20px;
+  font-weight:700;
+}
+
+.luxury-heading::after{
+  content:"";
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:42px;
+  height:2px;
+  background:var(--orange);
+}
+
+/* Price emphasis */
+
+.luxury-price{
+  color:var(--orange);
+  font-weight:700;
+}
+
+/* Badges */
+
+.luxury-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:22px;
+  padding:3px 8px;
+  border-radius:3px;
+  background:var(--orange);
+  color:#fff;
+  font-size:10px;
+  font-weight:700;
+}
+
+/* Dark premium area */
+
+.luxury-dark{
+  background:var(--black);
+  color:#fff;
+}
+
+.luxury-dark .luxury-heading{
+  color:#fff;
+}
+
+.luxury-dark .luxury-heading::after{
+  background:var(--orange);
+}
+
+/* Subtle hover transition */
+
+.luxury-hover{
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+}
+
+.luxury-hover:hover{
+  transform:translateY(-2px);
+}
+
+@media(max-width:600px){
+  .luxury-heading{
+    font-size:17px;
+    margin-bottom:15px;
+  }
+}
