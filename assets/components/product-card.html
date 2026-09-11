@@ -2,69 +2,89 @@
      HZ.SHOP — Product Card Component
      ================================= -->
 
-<article class="product-card" data-product-id="">
+<article
+  class="product"
+  data-product-id=""
+  onclick="openProduct()"
+>
 
-  <button
-    type="button"
-    class="favorite-btn"
-    data-favorite-btn
-    aria-label="إضافة إلى المفضلة"
-  >
-    ♡
-  </button>
+  <div class="product-image">
 
-  <div
-    class="product-card-image"
-    data-product-image
-  >
-    <img
-      src=""
-      alt=""
-      loading="lazy"
-      data-product-image-element
-    >
-
-    <span
+    <div
       class="product-badge"
       data-product-badge
       hidden
-    ></span>
+    ></div>
+
+    <button
+      type="button"
+      class="heart"
+      data-favorite-btn
+      onclick="event.stopPropagation();toggleFav()"
+      aria-label="المفضلة"
+    >
+      ♡
+    </button>
+
+    <div
+      class="product-gallery"
+      data-product-gallery
+    ></div>
+
   </div>
 
-  <div class="product-card-content">
+  <div class="product-info">
 
-    <h3
-      class="product-name"
-      data-product-name
-    ></h3>
-
-    <p
+    <div
       class="product-category"
       data-product-category
-    ></p>
+    ></div>
 
-    <div class="product-card-bottom">
+    <div
+      class="product-name"
+      data-product-name
+    ></div>
 
-      <div class="product-price">
-        <span data-product-price></span>
-        <span class="currency">$</span>
-      </div>
+    <div
+      class="product-desc"
+      data-product-description
+    ></div>
 
-      <button
-        type="button"
-        class="add-to-cart-btn"
-        data-add-to-cart
-      >
-        أضف للسلة
-      </button>
+    <div class="price">
+
+      <strong data-product-price></strong>
+
+      <del
+        data-product-old-price
+        hidden
+      ></del>
 
     </div>
 
     <div
-      class="product-stock"
+      class="stock"
       data-product-stock
-      hidden
     ></div>
+
+    <button
+      type="button"
+      class="add"
+      data-add-to-cart
+      onclick="event.stopPropagation();add()"
+    >
+      🛒 أضف إلى السلة
+    </button>
+
+    <button
+      type="button"
+      class="out-of-stock"
+      data-out-of-stock
+      disabled
+      onclick="event.stopPropagation()"
+      hidden
+    >
+      غير متوفر
+    </button>
 
   </div>
 
