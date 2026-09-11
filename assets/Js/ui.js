@@ -10,6 +10,7 @@
 
   /* ---------------------------------
      Toast
+     Matches current Index.html
      --------------------------------- */
 
   HZ.toast = (
@@ -17,79 +18,27 @@
     type = "info",
     duration = 3000
   ) => {
-    let toast =
-      document.getElementById(
-        "hzToast"
-      );
+    const toast =
+      document.getElementById("toast");
 
     if (!toast) {
-      toast = document.createElement("div");
-
-      toast.id = "hzToast";
-      toast.setAttribute(
-        "role",
-        "status"
-      );
-      toast.setAttribute(
-        "aria-live",
-        "polite"
-      );
-
-      Object.assign(
-        toast.style,
-        {
-          position: "fixed",
-          left: "50%",
-          bottom: "24px",
-          transform:
-            "translate(-50%,20px)",
-          zIndex: "99999",
-          maxWidth: "calc(100% - 32px)",
-          padding: "12px 18px",
-          borderRadius: "8px",
-          background: "#111",
-          color: "#fff",
-          fontSize: "13px",
-          textAlign: "center",
-          opacity: "0",
-          pointerEvents: "none",
-          transition:
-            "opacity .2s ease, transform .2s ease"
-        }
-      );
-
-      document.body.appendChild(toast);
+      return;
     }
 
     toast.textContent =
       String(message ?? "");
 
-    if (type === "success") {
-      toast.style.border =
-        "1px solid #2e8b57";
-    } else if (type === "error") {
-      toast.style.border =
-        "1px solid #d93025";
-    } else {
-      toast.style.border =
-        "1px solid #444";
-    }
+    toast.dataset.type = type;
+
+    toast.classList.add("show");
 
     clearTimeout(
-      toast._hzTimer
+      window.__toastTimer
     );
 
-    requestAnimationFrame(() => {
-      toast.style.opacity = "1";
-      toast.style.transform =
-        "translate(-50%,0)";
-    });
-
-    toast._hzTimer =
+    window.__toastTimer =
       setTimeout(() => {
-        toast.style.opacity = "0";
-        toast.style.transform =
-          "translate(-50%,20px)";
+        toast.classList.remove("show");
       }, duration);
   };
 
@@ -110,7 +59,15 @@
     element.classList.add("show");
     element.removeAttribute("hidden");
 
-    HZ.lockScroll();
+    if (
+      typeof HZ.lockScroll ===
+      "function"
+    ) {
+      HZ.lockScroll();
+    } else {
+      document.body.style.overflow =
+        "hidden";
+    }
 
     return true;
   };
@@ -126,12 +83,21 @@
     }
 
     element.classList.remove("show");
+
     element.setAttribute(
       "hidden",
       ""
     );
 
-    HZ.unlockScroll();
+    if (
+      typeof HZ.unlockScroll ===
+      "function"
+    ) {
+      HZ.unlockScroll();
+    } else {
+      document.body.style.overflow =
+        "";
+    }
 
     return true;
   };
@@ -153,6 +119,7 @@
         "aria-busy",
         "true"
       );
+
       element.classList.add(
         "is-loading"
       );
@@ -160,6 +127,7 @@
       element.removeAttribute(
         "aria-busy"
       );
+
       element.classList.remove(
         "is-loading"
       );
@@ -167,7 +135,7 @@
   };
 
   /* ---------------------------------
-     Cart badge
+     Cart badges
      --------------------------------- */
 
   HZ.updateCartBadges = () => {
@@ -183,7 +151,8 @@
       element.textContent =
         String(count);
 
-      element.hidden = count <= 0;
+      element.hidden =
+        count <= 0;
     });
   };
 
@@ -265,7 +234,8 @@
         element.textContent =
           String(count);
 
-        element.hidden = count <= 0;
+        element.hidden =
+          count <= 0;
       });
     }
   );
@@ -300,7 +270,9 @@
     document.addEventListener(
       "DOMContentLoaded",
       HZ.refreshUI,
-      { once: true }
+      {
+        once: true
+      }
     );
   } else {
     HZ.refreshUI();
