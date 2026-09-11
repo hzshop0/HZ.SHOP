@@ -2,48 +2,99 @@
      HZ.SHOP — Navigation Component
      ================================= -->
 
-<nav class="site-navigation" aria-label="التنقل الرئيسي">
+<nav aria-label="التنقل الرئيسي">
   <div class="nav">
 
     <button
       type="button"
       class="active"
-      data-nav="home"
-      onclick="window.location.href='/Index.html'"
+      onclick="category('all',this)"
     >
       الرئيسية
     </button>
 
     <button
       type="button"
-      data-nav="categories"
-      onclick="window.location.href='/Categories.html'"
+      onclick="category('perfumes',this)"
     >
-      التصنيفات
+      العطور
     </button>
 
     <button
       type="button"
-      data-nav="new"
-      onclick="window.location.href='/Index.html#newSection'"
+      onclick="category('makeup',this)"
     >
-      جديدنا
+      مكياج
     </button>
 
     <button
       type="button"
-      data-nav="best"
-      onclick="window.location.href='/Index.html#bestSection'"
+      onclick="category('skin',this)"
     >
-      الأكثر مبيعًا
+      العناية بالبشرة
     </button>
 
     <button
       type="button"
-      data-nav="offers"
-      onclick="window.location.href='/Index.html#offersSection'"
+      onclick="category('personal',this)"
     >
-      العروض
+      العناية الشخصية
+    </button>
+
+    <button
+      type="button"
+      onclick="category('accessories',this)"
+    >
+      إكسسوارات
+    </button>
+
+    <button
+      type="button"
+      onclick="category('clothing',this)"
+    >
+      ملابس
+    </button>
+
+    <button
+      type="button"
+      onclick="category('lingerie',this)"
+    >
+      لانجري
+    </button>
+
+    <button
+      type="button"
+      onclick="category('home',this)"
+    >
+      منزل
+    </button>
+
+    <button
+      type="button"
+      onclick="category('electronics',this)"
+    >
+      إلكترونيات
+    </button>
+
+    <button
+      type="button"
+      onclick="category('kids',this)"
+    >
+      ألعاب أطفال
+    </button>
+
+    <button
+      type="button"
+      onclick="category('cleaning',this)"
+    >
+      النظافة
+    </button>
+
+    <button
+      type="button"
+      onclick="goShop()"
+    >
+      جميع المنتجات
     </button>
 
   </div>
