@@ -1636,65 +1636,27 @@ index - 1
 ========================= */
 
 function render(){
-
 let list = [...products];
-if (category === 'all' && !searchTerm) {
-  list = [...list].sort(() => Math.random() - 0.5);
-}
-const desktopSearch =
-document.getElementById("search")
-.value
-.trim()
-.toLowerCase();
-
-const mobileSearch =
-document.getElementById("mobileSearch")
-.value
-.trim()
-.toLowerCase();
-
-const search =
-mobileSearch || desktopSearch;
-
+const desktopSearch = document.getElementById("search") .value .trim() .toLowerCase();
+const mobileSearch = document.getElementById("mobileSearch") .value .trim() .toLowerCase();
+const search = mobileSearch || desktopSearch;
 if(current !== "all"){
-
-list =
-list.filter(
-p =>
-normalizeCategory(p.category)
-===
-current
-);
-
+list = list.filter( p => normalizeCategory(p.category)
+current );
 }
-
 if(search){
-
-list =
-list.filter(p=>{
-
+list = list.filter(p=>{
 return (
-
-p.name
-.toLowerCase()
-.includes(search)
-
+p.name .toLowerCase() .includes(search)
 ||
-
-p.description
-.toLowerCase()
-.includes(search)
-
+p.description .toLowerCase() .includes(search)
 ||
-
-p.categoryName
-.toLowerCase()
-.includes(search)
-
+p.categoryName .toLowerCase() .includes(search)
 );
-
 });
-
+}
+if(current === "all" && !search){
+list.sort( () => Math.random() - 0.5 );
 }
 
 const sort =
