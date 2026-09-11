@@ -2726,41 +2726,64 @@ document.body.style.overflow = "";
 
 function applyCoupon(){
 
-const input =
-document.getElementById(
-"coupon"
-);
+  const input =
+    document.getElementById(
+      "coupon"
+    );
 
-const code =
-input.value
-.trim()
-.toUpperCase();
+  const code =
+    input.value
+    .trim()
+    .toUpperCase();
 
-if(code === "HZ10"){
+  // حساب مجموع المنتجات فقط
+  const productsTotal = cart.reduce(
+    (sum, item) =>
+      sum + (Number(item.price) * Number(item.quantity || 1)),
+    0
+  );
 
-discountRate = 0.10;
+  if(code === "HZ10"){
 
-localStorage.setItem(
-"hz_discount_rate",
-"0.10"
-);
+    // الخصم متاح من 50$ وما فوق
+    if(productsTotal >= 50){
 
-toast("تم تطبيق خصم 10%");
+      discountRate = 0.10;
 
-}else{
+      localStorage.setItem(
+        "hz_discount_rate",
+        "0.10"
+      );
 
-discountRate = 0;
+      toast("تم تطبيق خصم 10%");
 
-localStorage.setItem(
-"hz_discount_rate",
-"0"
-);
+    }else{
 
-toast("كود الخصم غير صحيح");
+      discountRate = 0;
 
-}
+      localStorage.setItem(
+        "hz_discount_rate",
+        "0"
+      );
 
-updateTotals();
+      toast("كود الخصم متاح للطلبات من 50$ وما فوق");
+
+    }
+
+  }else{
+
+    discountRate = 0;
+
+    localStorage.setItem(
+      "hz_discount_rate",
+      "0"
+    );
+
+    toast("كود الخصم غير صحيح");
+
+  }
+
+  updateTotals();
 
 }
 
