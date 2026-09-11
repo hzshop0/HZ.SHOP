@@ -266,93 +266,165 @@
    ================================= */
 
 .customer-auth-box{
-  max-width:520px;
+  width:min(430px,100%);
+  max-height:92vh;
 }
 
 .customer-auth-tabs{
-  display:flex;
-  gap:8px;
-  margin-bottom:15px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  padding:12px 16px 0;
 }
 
 .customer-auth-tab{
-  flex:1;
-  padding:11px;
   border:1px solid #ddd;
   background:#fff;
-  color:#555;
-  font-size:12px;
+  color:#666;
+  padding:10px;
   border-radius:4px;
+  font-size:12px;
+  font-weight:bold;
 }
 
+.customer-auth-tab:hover,
 .customer-auth-tab.active{
-  border-color:var(--orange);
-  color:var(--orange);
+  background:#111;
+  border-color:#111;
+  color:#fff;
+}
+
+#customerLoginPanel,
+#customerRegisterPanel,
+#customerAccountPanel{
+  padding:16px;
 }
 
 .auth-intro{
-  margin-bottom:15px;
-  color:#666;
-  font-size:12px;
-  line-height:1.7;
+  text-align:center;
+  margin-bottom:18px;
+}
+
+.auth-intro strong{
+  display:block;
+  color:#111;
+  font-size:17px;
+  margin-bottom:6px;
+}
+
+.auth-intro span{
+  display:block;
+  color:#777;
+  font-size:11px;
+}
+
+.customer-auth-box .field{
+  margin-bottom:12px;
+}
+
+.customer-auth-box .field label{
+  font-weight:bold;
+}
+
+.customer-auth-box .field input{
+  height:43px;
+  font-size:13px;
 }
 
 .customer-auth-submit{
   width:100%;
-  margin-top:10px;
-  padding:12px;
-  border:1px solid var(--black);
-  border-radius:4px;
-  background:var(--black);
+  height:44px;
+  margin-top:5px;
+  border:1px solid #111;
+  background:#111;
   color:#fff;
+  border-radius:4px;
   font-size:13px;
-  font-weight:600;
+  font-weight:bold;
 }
 
 .customer-auth-submit:hover{
-  border-color:var(--orange);
   background:var(--orange);
+  border-color:var(--orange);
+}
+
+.customer-auth-submit:disabled{
+  opacity:.6;
+  cursor:not-allowed;
 }
 
 .auth-switch-text{
-  margin-top:15px;
   text-align:center;
-  color:#666;
-  font-size:12px;
+  margin-top:15px;
+  color:#777;
+  font-size:11px;
+}
+
+.auth-switch-text button{
+  border:0;
+  background:none;
+  color:var(--orange);
+  font-weight:bold;
+  font-size:11px;
+}
+
+.auth-switch-text button:hover{
+  text-decoration:underline;
 }
 
 .customer-account-welcome{
-  text-align:center;
-  padding:10px 0 15px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:16px;
+  margin-bottom:15px;
+  background:#f7f7f7;
+  border:1px solid #eee;
+  border-radius:6px;
 }
 
 .customer-account-icon{
-  width:60px;
-  height:60px;
-  margin:0 auto 10px;
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  border-radius:50%;
+  background:#111;
+  color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
-  border:1px solid var(--orange);
-  border-radius:50%;
-  color:var(--orange);
-  font-size:25px;
+  font-size:21px;
+}
+
+.customer-account-welcome strong{
+  display:block;
+  color:#111;
+  font-size:14px;
+  margin-bottom:5px;
+}
+
+.customer-account-welcome span{
+  display:block;
+  color:#777;
+  font-size:11px;
+  direction:ltr;
+  text-align:right;
 }
 
 .customer-logout-button{
   width:100%;
-  margin-top:10px;
-  padding:12px;
+  height:43px;
   border:1px solid #ddd;
-  border-radius:4px;
   background:#fff;
   color:#555;
+  border-radius:4px;
   font-size:12px;
+  font-weight:bold;
 }
 
 .customer-logout-button:hover{
-  border-color:var(--orange);
-  color:var(--orange);
+  border-color:var(--danger);
+  color:var(--danger);
 }
 
 
@@ -388,6 +460,22 @@
     width:auto;
     flex:0 0 auto;
     white-space:nowrap;
+  }
+
+  .customer-auth-box{
+    width:100%;
+    max-width:430px;
+  }
+
+  .customer-auth-tabs{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  #customerLoginPanel,
+  #customerRegisterPanel,
+  #customerAccountPanel{
+    padding:12px;
   }
 }
 
@@ -429,4 +517,13 @@
   .account-title{
     font-size:20px;
   }
+}
+
+
+/* =================================
+   CUSTOMER AUTH MODAL STATE
+   ================================= */
+
+#customerAuthModal.show{
+  display:flex !important;
 }
