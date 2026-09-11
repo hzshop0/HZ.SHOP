@@ -288,6 +288,18 @@
   color:#111;
 }
 
+/* Added from Index.html */
+.close{
+  background:none;
+  border:0;
+  color:#777;
+  font-size:28px;
+}
+
+.close:hover{
+  color:var(--orange);
+}
+
 .cart-body{
   flex:1;
   overflow:auto;
