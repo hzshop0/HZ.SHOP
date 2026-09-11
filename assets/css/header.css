@@ -1,7 +1,6 @@
 /* =========================================
    HZ.SHOP — HEADER CSS
 ========================================= */
-
 .topbar{
   height:30px;
   display:flex;
@@ -15,7 +14,6 @@
   overflow:hidden;
   border-bottom:1px solid #252525;
 }
-
 header{
   position:sticky;
   top:0;
@@ -25,7 +23,6 @@ header{
   border-bottom:1px solid #252525;
   box-shadow:0 2px 14px rgba(0,0,0,.12);
 }
-
 .header{
   height:68px;
   max-width:1400px;
@@ -36,14 +33,12 @@ header{
   justify-content:space-between;
   gap:20px;
 }
-
 .logo{
   display:block;
   text-align:center;
   min-width:140px;
   cursor:pointer;
 }
-
 .logo strong{
   display:block;
   font-size:25px;
@@ -51,11 +46,9 @@ header{
   color:#fff;
   line-height:1;
 }
-
 .logo strong::first-letter{
   color:var(--orange);
 }
-
 .logo small{
   font-size:7px;
   letter-spacing:3px;
@@ -63,13 +56,11 @@ header{
   display:block;
   margin-top:5px;
 }
-
 .search{
   flex:1;
   max-width:620px;
   position:relative;
 }
-
 .search input{
   width:100%;
   height:42px;
@@ -81,12 +72,10 @@ header{
   border-radius:5px;
   font-size:13px;
 }
-
 .search input:focus{
   border-color:var(--orange);
   box-shadow:0 0 0 2px rgba(255,106,0,.12);
 }
-
 .search-icon{
   position:absolute;
   right:14px;
@@ -95,7 +84,6 @@ header{
   font-size:18px;
   z-index:2;
 }
-
 .search-clear{
   position:absolute;
   left:7px;
@@ -107,12 +95,10 @@ header{
   color:#777;
   display:none;
 }
-
 .actions{
   display:flex;
   gap:8px;
 }
-
 .icon-btn{
   position:relative;
   width:42px;
@@ -126,12 +112,10 @@ header{
   align-items:center;
   justify-content:center;
 }
-
 .icon-btn:hover{
   border-color:var(--orange);
   color:var(--orange);
 }
-
 .badge,
 .floating-cart-badge{
   position:absolute;
@@ -150,18 +134,51 @@ header{
   justify-content:center;
   border:2px solid var(--black);
 }
-
+/* =========================================
+   Header Navigation
+========================================= */
+nav{
+  background:#111;
+  border-top:1px solid #222;
+}
+.nav{
+  max-width:1400px;
+  margin:auto;
+  display:flex;
+  justify-content:center;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{
+  display:none;
+}
+.nav button{
+  background:none;
+  border:0;
+  color:#bbb;
+  padding:11px 22px;
+  font-size:12px;
+  white-space:nowrap;
+  flex:0 0 auto;
+  border-bottom:2px solid transparent;
+}
+.nav button:hover,
+.nav button.active{
+  color:#fff;
+  border-bottom-color:var(--orange);
+}
+/* =========================================
+   Mobile Search
+========================================= */
 .mobile-search{
   display:none;
   padding:8px 10px;
   background:#111;
   border-top:1px solid #222;
 }
-
 .mobile-search-box{
   position:relative;
 }
-
 .mobile-search input{
   width:100%;
   height:41px;
@@ -172,18 +189,15 @@ header{
   border-radius:5px;
   outline:none;
 }
-
 .mobile-search input:focus{
   border-color:var(--orange);
 }
-
 .mobile-search span{
   position:absolute;
   right:12px;
   top:10px;
   color:#555;
 }
-
 .mobile-search button{
   position:absolute;
   left:5px;
@@ -194,69 +208,63 @@ header{
   background:none;
   color:#777;
 }
-
 /* =========================================
    Header — Responsive
 ========================================= */
-
 @media(max-width:900px){
-
   .header{
     height:62px;
     padding:0 10px;
     gap:8px;
   }
-
   .logo{
     min-width:92px;
   }
-
   .logo strong{
     font-size:20px;
     letter-spacing:3px;
   }
-
   .logo small{
     display:none;
   }
-
   .header>.search{
     display:none;
   }
-
   .actions{
     gap:5px;
   }
-
   .icon-btn{
     width:38px;
     height:38px;
     font-size:15px;
   }
-
   .mobile-search{
     display:block;
   }
-
   .topbar{
     height:27px;
     font-size:10px;
   }
-
 }
-
+@media(min-width:901px){
+  .header .logo{
+    order:0;
+  }
+  .header .search{
+    order:1;
+  }
+  .header .actions{
+    order:2;
+  }
+}
 @media(max-width:520px){
-
   .actions .icon-btn:nth-child(1){
     display:none;
   }
-
   .header{
     gap:5px;
   }
-
   .logo{
     min-width:88px;
   }
-
 }
