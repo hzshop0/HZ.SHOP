@@ -1638,7 +1638,9 @@ index - 1
 function render(){
 
 let list = [...products];
-
+if (category === 'all' && !searchTerm) {
+  list = [...list].sort(() => Math.random() - 0.5);
+}
 const desktopSearch =
 document.getElementById("search")
 .value
