@@ -3246,77 +3246,53 @@ document
 
       event.preventDefault();
 
-
       const id =
         document
-          .getElementById(
-            "productId"
-          )
+          .getElementById("productId")
           .value;
 
-
       const status =
-        document.getElementById(
-          "status"
-        );
-
+        document.getElementById("status");
 
       const imageStatus =
-        document.getElementById(
-          "imageStatus"
-        );
-
+        document.getElementById("imageStatus");
 
       status.textContent =
         "جاري الحفظ...";
-
 
       try{
 
         let image =
           document
-            .getElementById(
-              "image"
-            )
+            .getElementById("image")
             .value
             .trim();
 
-
-        let images =
-          [];
-
+        let images = [];
 
         const imagesHidden =
           document
-            .getElementById(
-              "images"
-            )
+            .getElementById("images")
             .value
             .trim();
 
+
+        /* =========================================
+           KEEP EXISTING IMAGES
+        ========================================= */
 
         if(imagesHidden){
 
           try{
 
             const parsed =
-              JSON.parse(
-                imagesHidden
-              );
+              JSON.parse(imagesHidden);
 
-
-            if(
-              Array.isArray(
-                parsed
-              )
-            ){
+            if(Array.isArray(parsed)){
 
               images =
                 parsed
-                  .map(
-                    x =>
-                      String(x)
-                  )
+                  .map(x => String(x))
                   .filter(Boolean);
 
             }
@@ -3333,16 +3309,20 @@ document
         }
 
 
-        if(
-          selectedImages.length
-        ){
+        /* =========================================
+           UPLOAD ONLY NEWLY SELECTED IMAGES
+        ========================================= */
 
-          const files =
-            selectedImages.map(
-              item =>
-                item.file
+        const newImageFiles =
+          selectedImages
+            .map(item => item.file)
+            .filter(
+              file =>
+                file instanceof File
             );
 
+
+        if(newImageFiles.length){
 
           imageStatus.textContent =
             "جاري رفع الصور...";
@@ -3350,43 +3330,40 @@ document
 
           const uploadedImages =
             await uploadImages(
-              files
+              newImageFiles
             );
 
 
-          images =
-            uploadedImages;
+          if(uploadedImages.length){
 
-
-          if(
-            uploadedImages.length
-          ){
+            images =
+              uploadedImages;
 
             image =
               uploadedImages[0];
 
+
+            document
+              .getElementById("image")
+              .value =
+                image;
+
+
+            document
+              .getElementById("images")
+              .value =
+                JSON.stringify(
+                  images
+                );
+
           }
-
-
-          document
-            .getElementById(
-              "image"
-            )
-            .value =
-              image;
-
-
-          document
-            .getElementById(
-              "images"
-            )
-            .value =
-              JSON.stringify(
-                images
-              );
 
         }
 
+
+        /* =========================================
+           KEEP SINGLE IMAGE FIELD IN SYNC
+        ========================================= */
 
         if(
           !images.length &&
@@ -3400,63 +3377,57 @@ document
         }
 
 
-        /*
-          الفيديو لا يتم إرساله للـ API الحالي
-          حتى لا نخترع endpoint غير موجود.
-          سيتم ربطه فعليًا مع Worker في الخطوة التالية.
-        */
+        /* =========================================
+           VIDEO
+           
+           لا يتم إرسال الفيديو هنا حاليًا لأن
+           Worker/API الحالي لا يحتوي على endpoint
+           مؤكد لرفع الفيديو.
+        ========================================= */
 
         if(selectedVideo){
 
           imageStatus.textContent =
-            "الفيديو تم اختياره، لكن رفعه يحتاج ربط Worker أولًا.";
+            "تم اختيار الفيديو، لكن رفع الفيديو يحتاج دعم Worker.";
 
         }
 
+
+        /* =========================================
+           PRODUCT DATA
+        ========================================= */
 
         const data = {
 
           name:
             document
-              .getElementById(
-                "name"
-              )
+              .getElementById("name")
               .value
               .trim(),
 
           category:
             document
-              .getElementById(
-                "category"
-              )
+              .getElementById("category")
               .value,
 
           price:
             document
-              .getElementById(
-                "price"
-              )
+              .getElementById("price")
               .value,
 
           old_price:
             document
-              .getElementById(
-                "old_price"
-              )
+              .getElementById("old_price")
               .value,
 
           stock:
             document
-              .getElementById(
-                "stock"
-              )
+              .getElementById("stock")
               .value,
 
           badge:
             document
-              .getElementById(
-                "badge"
-              )
+              .getElementById("badge")
               .value
               .trim(),
 
@@ -3466,9 +3437,7 @@ document
 
           description:
             document
-              .getElementById(
-                "description"
-              )
+              .getElementById("description")
               .value
               .trim()
 
@@ -3477,11 +3446,14 @@ document
 
         if(id){
 
-          data.id =
-            id;
+          data.id = id;
 
         }
 
+
+        /* =========================================
+           SAVE PRODUCT
+        ========================================= */
 
         const response =
           await fetch(
@@ -3501,9 +3473,7 @@ document
               },
 
               body:
-                JSON.stringify(
-                  data
-                )
+                JSON.stringify(data)
 
             }
           );
