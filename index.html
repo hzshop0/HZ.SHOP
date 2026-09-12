@@ -4138,15 +4138,15 @@ index - 1
 }
 
 /* =========================
-RENDER PRODUCTS
+   RENDER PRODUCTS
 ========================= */
 
 function render(){
 
 let list =
-[…products];
+[...products];
 
-if(current === “all”){
+if(current === "all"){
 
 list.sort(
 ()=>Math.random() - 0.5
@@ -4156,7 +4156,7 @@ list.sort(
 
 const desktopSearch =
 document.getElementById(
-“search”
+"search"
 ).value
 .trim()
 .toLowerCase();
@@ -4164,7 +4164,7 @@ document.getElementById(
 const search =
 desktopSearch;
 
-if(current !== “all”){
+if(current !== "all"){
 
 list =
 list.filter(
@@ -4175,7 +4175,6 @@ p.category
 );
 
 }
-
 if(search){
 
 list =
