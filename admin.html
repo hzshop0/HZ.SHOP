@@ -2401,6 +2401,21 @@ function renderProducts(){
                       ""
                 }
 
+
+                ${
+                  product.video
+                    ?
+                      `
+                        <div
+                          class="media-count"
+                          style="right:10px;left:auto">
+                          🎥 فيديو
+                        </div>
+                      `
+                    :
+                      ""
+                }
+
               </div>
 
 
@@ -2823,9 +2838,10 @@ document
         );
 
 
-      selectedImages =
-        [];
-
+      /*
+         إذا لم يختر المستخدم صورًا جديدة،
+         لا نلمس الصور الحالية.
+      */
 
       if(!files.length){
 
@@ -2860,6 +2876,15 @@ document
         return;
 
       }
+
+
+      /*
+         عند اختيار صور جديدة نستبدل قائمة الصور
+         المختارة سابقًا بالصور الجديدة.
+      */
+
+      selectedImages =
+        [];
 
 
       files.forEach(
@@ -2930,10 +2955,6 @@ document
         this.files?.[0];
 
 
-      selectedVideo =
-        null;
-
-
       if(!file){
 
         renderMediaPreviews();
@@ -2964,6 +2985,23 @@ document
       }
 
 
+      /*
+         إذا كان هناك فيديو قديم محليًا،
+         نحرر Object URL قبل استبداله.
+      */
+
+      if(
+        selectedVideo?.file instanceof File &&
+        selectedVideo?.preview
+      ){
+
+        URL.revokeObjectURL(
+          selectedVideo.preview
+        );
+
+      }
+
+
       selectedVideo = {
 
         type:"video",
@@ -2980,10 +3018,18 @@ document
 
       document
         .getElementById(
+          "video"
+        )
+        .value =
+          "";
+
+
+      document
+        .getElementById(
           "imageStatus"
         )
         .textContent =
-          "تم اختيار فيديو من الجهاز";
+          "تم اختيار فيديو جديد وسيتم رفعه عند الحفظ";
 
 
       renderMediaPreviews();
@@ -3002,6 +3048,13 @@ function renderMediaPreviews(){
     document.getElementById(
       "mediaPreview"
     );
+
+  if(!preview){
+
+    return;
+
+  }
+
 
   preview.innerHTML =
     "";
@@ -3058,14 +3111,19 @@ function renderMediaPreviews(){
 
           <video
             src="${escapeHtml(
-              selectedVideo.preview
+              selectedVideo.preview || ""
             )}"
             controls
-            muted>
+            muted
+            playsinline>
           </video>
 
           <div class="media-preview-type">
-            🎥 فيديو المنتج
+            ${
+              selectedVideo.file instanceof File
+                ? "🎥 فيديو جديد"
+                : "🎥 فيديو المنتج الحالي"
+            }
           </div>
 
           <button
@@ -3106,6 +3164,7 @@ function removeSelectedImage(index){
 function removeSelectedVideo(){
 
   if(
+    selectedVideo?.file instanceof File &&
     selectedVideo?.preview
   ){
 
@@ -3115,8 +3174,24 @@ function removeSelectedVideo(){
 
   }
 
+
   selectedVideo =
     null;
+
+
+  /*
+     مسح الحقل المخفي يعني:
+     إذا كان هناك فيديو محفوظ مسبقًا،
+     فسيتم حذفه عند حفظ التعديل.
+  */
+
+  document
+    .getElementById(
+      "video"
+    )
+    .value =
+      "";
+
 
   document
     .getElementById(
@@ -3124,6 +3199,7 @@ function removeSelectedVideo(){
     )
     .value =
       "";
+
 
   renderMediaPreviews();
 
@@ -3235,6 +3311,103 @@ async function uploadImages(files){
 
 
 /* =========================================================
+   UPLOAD VIDEO
+========================================================= */
+
+async function uploadVideo(file){
+
+  if(
+    !(file instanceof File)
+  ){
+
+    throw new Error(
+      "لم يتم اختيار فيديو صالح"
+    );
+
+  }
+
+
+  if(
+    !file.type.startsWith(
+      "video/"
+    )
+  ){
+
+    throw new Error(
+      "الملف المختار ليس فيديو"
+    );
+
+  }
+
+
+  const status =
+    document.getElementById(
+      "imageStatus"
+    );
+
+
+  status.textContent =
+    "جاري رفع الفيديو...";
+
+
+  const formData =
+    new FormData();
+
+
+  formData.append(
+    "video",
+    file
+  );
+
+
+  const response =
+    await fetch(
+      "/api/upload-video",
+      {
+        method:"POST",
+        credentials:"same-origin",
+        body:formData
+      }
+    );
+
+
+  const result =
+    await response
+      .json()
+      .catch(() => ({}));
+
+
+  if(!response.ok){
+
+    throw new Error(
+      result.error ||
+      "فشل رفع الفيديو"
+    );
+
+  }
+
+
+  const videoUrl =
+    result.video ||
+    result.url ||
+    "";
+
+
+  if(!videoUrl){
+
+    throw new Error(
+      "لم يتم الحصول على رابط الفيديو"
+    );
+
+  }
+
+
+  return videoUrl;
+
+}
+
+
+/* =========================================================
    SAVE PRODUCT
 ========================================================= */
 
@@ -3246,21 +3419,32 @@ document
 
       event.preventDefault();
 
+
       const id =
         document
           .getElementById("productId")
           .value;
 
+
       const status =
         document.getElementById("status");
+
 
       const imageStatus =
         document.getElementById("imageStatus");
 
+
       status.textContent =
         "جاري الحفظ...";
 
+
       try{
+
+        /*
+         =====================================================
+         IMAGES
+         =====================================================
+        */
 
         let image =
           document
@@ -3268,7 +3452,9 @@ document
             .value
             .trim();
 
+
         let images = [];
+
 
         const imagesHidden =
           document
@@ -3277,16 +3463,13 @@ document
             .trim();
 
 
-        /* =========================================
-           KEEP EXISTING IMAGES
-        ========================================= */
-
         if(imagesHidden){
 
           try{
 
             const parsed =
               JSON.parse(imagesHidden);
+
 
             if(Array.isArray(parsed)){
 
@@ -3309,13 +3492,22 @@ document
         }
 
 
-        /* =========================================
-           UPLOAD ONLY NEWLY SELECTED IMAGES
-        ========================================= */
+        /*
+         =====================================================
+         IMPORTANT:
+         رفع الملفات الجديدة فقط.
+         
+         الصور القديمة تكون file:null،
+         لذلك لا يتم إرسالها إلى uploadImages().
+         =====================================================
+        */
 
         const newImageFiles =
           selectedImages
-            .map(item => item.file)
+            .map(
+              item =>
+                item.file
+            )
             .filter(
               file =>
                 file instanceof File
@@ -3339,6 +3531,7 @@ document
             images =
               uploadedImages;
 
+
             image =
               uploadedImages[0];
 
@@ -3361,9 +3554,11 @@ document
         }
 
 
-        /* =========================================
-           KEEP SINGLE IMAGE FIELD IN SYNC
-        ========================================= */
+        /*
+         =====================================================
+         KEEP SINGLE IMAGE FIELD IN SYNC
+         =====================================================
+        */
 
         if(
           !images.length &&
@@ -3377,25 +3572,58 @@ document
         }
 
 
-        /* =========================================
-           VIDEO
-           
-           لا يتم إرسال الفيديو هنا حاليًا لأن
-           Worker/API الحالي لا يحتوي على endpoint
-           مؤكد لرفع الفيديو.
-        ========================================= */
+        /*
+         =====================================================
+         VIDEO
+         =====================================================
+        */
 
-        if(selectedVideo){
+        let video =
+          document
+            .getElementById("video")
+            .value
+            .trim();
+
+
+        /*
+         إذا اختار المستخدم فيديو جديدًا:
+         نرفعه أولًا ثم نستخدم الرابط الجديد.
+        */
+
+        if(
+          selectedVideo &&
+          selectedVideo.file instanceof File
+        ){
 
           imageStatus.textContent =
-            "تم اختيار الفيديو، لكن رفع الفيديو يحتاج دعم Worker.";
+            "جاري رفع الفيديو...";
+
+
+          video =
+            await uploadVideo(
+              selectedVideo.file
+            );
+
+
+          document
+            .getElementById("video")
+            .value =
+              video;
 
         }
 
 
-        /* =========================================
-           PRODUCT DATA
-        ========================================= */
+        /*
+         إذا كان selectedVideo يحتوي على فيديو
+         موجود مسبقًا، لا نغيّر الرابط.
+        */
+
+
+        /*
+         =====================================================
+         PRODUCT DATA
+         =====================================================
+        */
 
         const data = {
 
@@ -3435,6 +3663,8 @@ document
 
           images,
 
+          video,
+
           description:
             document
               .getElementById("description")
@@ -3446,14 +3676,17 @@ document
 
         if(id){
 
-          data.id = id;
+          data.id =
+            id;
 
         }
 
 
-        /* =========================================
-           SAVE PRODUCT
-        ========================================= */
+        /*
+         =====================================================
+         SAVE PRODUCT
+         =====================================================
+        */
 
         const response =
           await fetch(
@@ -3473,7 +3706,9 @@ document
               },
 
               body:
-                JSON.stringify(data)
+                JSON.stringify(
+                  data
+                )
 
             }
           );
@@ -3501,6 +3736,10 @@ document
             : "تمت إضافة المنتج بنجاح ✅";
 
 
+        imageStatus.textContent =
+          "";
+
+
         showToast(
           id
             ? "تم تعديل المنتج"
@@ -3510,7 +3749,9 @@ document
 
         await loadProducts();
 
+
         resetForm();
+
 
         showSection(
           "productsSection"
@@ -3522,6 +3763,7 @@ document
         console.error(
           error
         );
+
 
         status.textContent =
           "خطأ: " +
@@ -3610,6 +3852,12 @@ function editProduct(id){
       product.badge || "";
 
 
+  /*
+   ==========================================================
+   IMAGES
+   ==========================================================
+  */
+
   const productImages =
     getProductImages(
       product
@@ -3632,6 +3880,20 @@ function editProduct(id){
       JSON.stringify(
         productImages
       );
+
+
+  /*
+   ==========================================================
+   VIDEO
+   ==========================================================
+  */
+
+  document
+    .getElementById(
+      "video"
+    )
+    .value =
+      product.video || "";
 
 
   document
@@ -3661,9 +3923,12 @@ function editProduct(id){
   selectedImages =
     [];
 
-  selectedVideo =
-    null;
 
+  /*
+   ==========================================================
+   CURRENT IMAGES
+   ==========================================================
+  */
 
   productImages.forEach(
     function(image){
@@ -3682,6 +3947,35 @@ function editProduct(id){
   );
 
 
+  /*
+   ==========================================================
+   CURRENT VIDEO
+   ==========================================================
+  */
+
+  if(product.video){
+
+    selectedVideo = {
+
+      type:"video",
+
+      file:null,
+
+      preview:
+        String(
+          product.video
+        )
+
+    };
+
+  }else{
+
+    selectedVideo =
+      null;
+
+  }
+
+
   const currentTitle =
     document
       .getElementById(
@@ -3690,7 +3984,10 @@ function editProduct(id){
 
 
   currentTitle.textContent =
-    productImages.length
+    (
+      productImages.length ||
+      product.video
+    )
       ? "الوسائط الحالية للمنتج:"
       : "";
 
@@ -3701,6 +3998,14 @@ function editProduct(id){
   document
     .getElementById(
       "imageStatus"
+    )
+    .textContent =
+      "";
+
+
+  document
+    .getElementById(
+      "status"
     )
     .textContent =
       "";
@@ -3785,6 +4090,7 @@ async function deleteProduct(id){
 
     await loadProducts();
 
+
     showToast(
       "تم حذف المنتج"
     );
@@ -3807,6 +4113,23 @@ async function deleteProduct(id){
 ========================================================= */
 
 function resetForm(){
+
+  /*
+   إذا كان الفيديو الحالي عبارة عن
+   Object URL محلي، حرره.
+  */
+
+  if(
+    selectedVideo?.file instanceof File &&
+    selectedVideo?.preview
+  ){
+
+    URL.revokeObjectURL(
+      selectedVideo.preview
+    );
+
+  }
+
 
   document
     .getElementById(
@@ -3890,15 +4213,6 @@ function resetForm(){
   selectedImages =
     [];
 
-  if(
-    selectedVideo?.preview
-  ){
-
-    URL.revokeObjectURL(
-      selectedVideo.preview
-    );
-
-  }
 
   selectedVideo =
     null;
@@ -4204,6 +4518,5 @@ document
 loadGridSettings();
 
 </script>
-
 </body>
 </html>
