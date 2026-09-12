@@ -602,6 +602,17 @@ a{
 
 
 /* =========================================================
+   MOBILE BOTTOM NAVIGATION
+========================================================= */
+
+.mobile-bottom-nav{
+
+  display:none;
+
+}
+
+
+/* =========================================================
    SECTIONS
 ========================================================= */
 
@@ -1633,6 +1644,8 @@ body.dark-mode .btn-danger{
 
     padding:12px;
 
+    padding-bottom:92px;
+
   }
 
 
@@ -1681,6 +1694,98 @@ body.dark-mode .btn-danger{
 
   .top-actions .store-btn{
     display:none;
+  }
+
+
+  .mobile-bottom-nav{
+
+    position:fixed;
+
+    right:10px;
+
+    left:10px;
+
+    bottom:10px;
+
+    z-index:400;
+
+    display:grid;
+
+    grid-template-columns:
+      repeat(5,1fr);
+
+    gap:4px;
+
+    padding:7px;
+
+    background:
+      rgba(9,9,9,.97);
+
+    border:
+      1px solid
+      rgba(255,255,255,.12);
+
+    border-radius:18px;
+
+    box-shadow:
+      0 12px 40px
+      rgba(0,0,0,.35);
+
+    backdrop-filter:blur(12px);
+
+  }
+
+
+  .mobile-nav-btn{
+
+    min-width:0;
+
+    border:0;
+
+    background:transparent;
+
+    color:#aaa;
+
+    border-radius:12px;
+
+    padding:7px 3px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:3px;
+
+    font-size:11px;
+
+    line-height:1.2;
+
+  }
+
+
+  .mobile-nav-btn .nav-icon{
+
+    font-size:19px;
+
+    line-height:1;
+
+  }
+
+
+  .mobile-nav-btn.active{
+
+    background:
+      rgba(242,138,24,.16);
+
+    color:
+      var(--orange2);
+
+    font-weight:900;
+
   }
 
 }
@@ -1745,6 +1850,23 @@ body.dark-mode .btn-danger{
 
   }
 
+
+  .mobile-bottom-nav{
+
+    right:7px;
+
+    left:7px;
+
+    bottom:7px;
+
+  }
+
+
+  .mobile-nav-btn{
+
+    font-size:10px;
+
+  }
 
 }
 
@@ -1900,8 +2022,9 @@ body.dark-mode .btn-danger{
   <header class="topbar">
 
     <a
-      href="/#shop"
-      class="logo">
+      href="/"
+      class="logo"
+      aria-label="HZ.SHOP">
 
       HZ<span>.</span>SHOP
 
@@ -1912,6 +2035,7 @@ body.dark-mode .btn-danger{
 
       <button
         class="top-btn store-btn"
+        type="button"
         onclick="goStore()">
 
         🛍️ المتجر
@@ -1921,6 +2045,7 @@ body.dark-mode .btn-danger{
 
       <button
         class="top-btn"
+        type="button"
         onclick="openMainCart()">
 
         🛒 السلة
@@ -1934,6 +2059,7 @@ body.dark-mode .btn-danger{
 
       <button
         class="top-btn logout-top"
+        type="button"
         onclick="logoutCustomer()">
 
         🚪 تسجيل الخروج
@@ -1996,6 +2122,7 @@ body.dark-mode .btn-danger{
 
         <button
           class="nav-btn active"
+          type="button"
           data-section="overview"
           onclick="showSection('overview')">
 
@@ -2006,6 +2133,7 @@ body.dark-mode .btn-danger{
 
         <button
           class="nav-btn"
+          type="button"
           data-section="orders"
           onclick="showSection('orders')">
 
@@ -2018,6 +2146,7 @@ body.dark-mode .btn-danger{
 
         <button
           class="nav-btn"
+          type="button"
           data-section="favorites"
           onclick="showSection('favorites')">
 
@@ -2030,6 +2159,7 @@ body.dark-mode .btn-danger{
 
         <button
           class="nav-btn"
+          type="button"
           data-section="recent"
           onclick="showSection('recent')">
 
@@ -2040,6 +2170,7 @@ body.dark-mode .btn-danger{
 
         <button
           class="nav-btn"
+          type="button"
           onclick="openMainCart()">
 
           🛒 السلة
@@ -2053,6 +2184,7 @@ body.dark-mode .btn-danger{
 
         <button
           class="nav-btn"
+          type="button"
           data-section="profile"
           onclick="showSection('profile')">
 
@@ -2063,6 +2195,7 @@ body.dark-mode .btn-danger{
 
         <button
           class="nav-btn"
+          type="button"
           data-section="notifications"
           onclick="showSection('notifications')">
 
@@ -2075,6 +2208,7 @@ body.dark-mode .btn-danger{
 
         <button
           class="nav-btn"
+          type="button"
           data-section="settings"
           onclick="showSection('settings')">
 
@@ -2084,7 +2218,18 @@ body.dark-mode .btn-danger{
 
 
         <button
+          class="nav-btn"
+          type="button"
+          onclick="goStore()">
+
+          🛍️ العودة إلى المتجر
+
+        </button>
+
+
+        <button
           class="nav-btn danger"
+          type="button"
           onclick="logoutCustomer()">
 
           🚪 تسجيل الخروج
@@ -2223,6 +2368,7 @@ body.dark-mode .btn-danger{
 
               <button
                 class="btn btn-light"
+                type="button"
                 onclick="showSection('orders')">
 
                 عرض الكل
@@ -2247,6 +2393,7 @@ body.dark-mode .btn-danger{
 
               <button
                 class="btn btn-orange"
+                type="button"
                 onclick="refreshRecommendations()">
 
                 🔄 تحديث
@@ -2295,6 +2442,7 @@ body.dark-mode .btn-danger{
 
             <button
               class="btn btn-light"
+              type="button"
               onclick="loadOrders()">
 
               ↻ تحديث
@@ -2365,6 +2513,7 @@ body.dark-mode .btn-danger{
 
             <button
               class="btn btn-danger"
+              type="button"
               onclick="clearRecent()">
 
               مسح السجل
@@ -2404,6 +2553,7 @@ body.dark-mode .btn-danger{
 
             <button
               class="btn btn-light"
+              type="button"
               onclick="reloadCustomerData()">
 
               ↻ تحديث البيانات
@@ -2507,6 +2657,7 @@ body.dark-mode .btn-danger{
 
             <button
               class="btn btn-orange"
+              type="button"
               onclick="openAddressModal()">
 
               + إضافة عنوان
@@ -2556,6 +2707,7 @@ body.dark-mode .btn-danger{
 
             <button
               class="btn btn-light"
+              type="button"
               onclick="markNotificationsRead()">
 
               تحديد كمقروءة
@@ -2766,6 +2918,7 @@ body.dark-mode .btn-danger{
 
             <button
               class="btn btn-danger"
+              type="button"
               onclick="resetCustomerPreferences()">
 
               إعادة ضبط التفضيلات
@@ -2775,6 +2928,7 @@ body.dark-mode .btn-danger{
 
             <button
               class="btn btn-light"
+              type="button"
               onclick="clearCustomerActivity()">
 
               مسح نشاطي المحلي
@@ -2792,6 +2946,103 @@ body.dark-mode .btn-danger{
     </section>
 
   </main>
+
+
+  <!-- =========================================================
+       MOBILE GLOBAL NAVIGATION
+  ========================================================== -->
+
+  <nav
+    class="mobile-bottom-nav"
+    aria-label="التنقل الرئيسي">
+
+
+    <button
+      id="mobileHomeBtn"
+      class="mobile-nav-btn"
+      type="button"
+      onclick="goStore()">
+
+      <span class="nav-icon">
+        🏠
+      </span>
+
+      <span>
+        الرئيسية
+      </span>
+
+    </button>
+
+
+    <button
+      id="mobileCategoriesBtn"
+      class="mobile-nav-btn"
+      type="button"
+      onclick="goStoreSection('categories')">
+
+      <span class="nav-icon">
+        ☰
+      </span>
+
+      <span>
+        التصنيفات
+      </span>
+
+    </button>
+
+
+    <button
+      id="mobileFavoritesBtn"
+      class="mobile-nav-btn"
+      type="button"
+      onclick="showSection('favorites')">
+
+      <span class="nav-icon">
+        ♥
+      </span>
+
+      <span>
+        المفضلة
+      </span>
+
+    </button>
+
+
+    <button
+      id="mobileCartBtn"
+      class="mobile-nav-btn"
+      type="button"
+      onclick="openMainCart()">
+
+      <span class="nav-icon">
+        🛒
+      </span>
+
+      <span>
+        السلة
+      </span>
+
+    </button>
+
+
+    <button
+      id="mobileAccountBtn"
+      class="mobile-nav-btn active"
+      type="button"
+      onclick="showSection('overview')">
+
+      <span class="nav-icon">
+        👤
+      </span>
+
+      <span>
+        حسابي
+      </span>
+
+    </button>
+
+
+  </nav>
 
 </div>
 
@@ -2818,6 +3069,7 @@ body.dark-mode .btn-danger{
 
       <button
         class="close-btn"
+        type="button"
         onclick="closeAddressModal()">
 
         ×
@@ -2839,62 +3091,62 @@ body.dark-mode .btn-danger{
 
       <div class="field">
 
-  <label>
-    المحافظة
-  </label>
+        <label>
+          المحافظة
+        </label>
 
-  <select
-    id="addressGovernorate"
-    required>
+        <select
+          id="addressGovernorate"
+          required>
 
-    <option value="">
-      اختر المحافظة
-    </option>
+          <option value="">
+            اختر المحافظة
+          </option>
 
-    <option value="بيروت">
-      بيروت
-    </option>
+          <option value="بيروت">
+            بيروت
+          </option>
 
-    <option value="جبل لبنان">
-      جبل لبنان
-    </option>
+          <option value="جبل لبنان">
+            جبل لبنان
+          </option>
 
-    <option value="الشمال">
-      الشمال
-    </option>
+          <option value="الشمال">
+            الشمال
+          </option>
 
-    <option value="البقاع">
-      البقاع
-    </option>
+          <option value="البقاع">
+            البقاع
+          </option>
 
-    <option value="الجنوب">
-      الجنوب
-    </option>
+          <option value="الجنوب">
+            الجنوب
+          </option>
 
-    <option value="النبطية">
-      النبطية
-    </option>
+          <option value="النبطية">
+            النبطية
+          </option>
 
-    <option value="عكار">
-      عكار
-    </option>
+          <option value="عكار">
+            عكار
+          </option>
 
-  </select>
+        </select>
 
-</div>
+      </div>
 
 
-<div class="field">
+      <div class="field">
 
-  <label>
-    المنطقة
-  </label>
+        <label>
+          المنطقة
+        </label>
 
-  <input
-    id="addressArea"
-    required>
+        <input
+          id="addressArea"
+          required>
 
-</div>
+      </div>
 
 
       <div class="field">
@@ -3847,6 +4099,50 @@ async function reloadCustomerData(){
    NAVIGATION
 ========================================================= */
 
+function updateMobileNavigation(section){
+
+  const buttons = {
+
+    overview:
+      $("mobileAccountBtn"),
+
+    favorites:
+      $("mobileFavoritesBtn")
+
+  };
+
+
+  document
+    .querySelectorAll(".mobile-nav-btn")
+    .forEach(
+      function(button){
+
+        button.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  if(buttons[section]){
+
+    buttons[section]
+      .classList
+      .add("active");
+
+    return;
+
+  }
+
+
+  $("mobileAccountBtn")
+    .classList
+    .add("active");
+
+}
+
+
 function showSection(name){
 
   document
@@ -3891,6 +4187,11 @@ function showSection(name){
     );
 
 
+  updateMobileNavigation(
+    name
+  );
+
+
   if(name === "orders"){
     renderOrders();
   }
@@ -3929,6 +4230,32 @@ function showSection(name){
     top:0,
     behavior:"smooth"
   });
+
+}
+
+
+function goStore(){
+
+  window.location.href =
+    "/";
+
+}
+
+
+function goStoreSection(section){
+
+  if(!section){
+
+    goStore();
+
+    return;
+
+  }
+
+
+  window.location.href =
+    "/?section=" +
+    encodeURIComponent(section);
 
 }
 
@@ -4879,7 +5206,6 @@ function productCard(product){
 
           </button>
 
-
         </div>
 
       </div>
@@ -5290,14 +5616,14 @@ function renderAddresses(){
                 <strong>
 
                   ${escapeHtml(
-  [
-    address.governorate,
-    address.area
-  ]
-    .filter(Boolean)
-    .join(" - ") ||
-  "العنوان"
-)}
+                    [
+                      address.governorate,
+                      address.area
+                    ]
+                      .filter(Boolean)
+                      .join(" - ") ||
+                    "العنوان"
+                  )}
 
                 </strong>
 
@@ -5349,6 +5675,7 @@ function renderAddresses(){
 
                 <button
                   class="btn btn-light"
+                  type="button"
                   onclick="editAddress('${escapeHtml(address.id)}')">
 
                   تعديل
@@ -5361,6 +5688,7 @@ function renderAddresses(){
                     ? `
                       <button
                         class="btn btn-light"
+                        type="button"
                         onclick="setDefaultAddress('${escapeHtml(address.id)}')">
 
                         جعله افتراضيًا
@@ -5373,6 +5701,7 @@ function renderAddresses(){
 
                 <button
                   class="btn btn-danger"
+                  type="button"
                   onclick="deleteAddress('${escapeHtml(address.id)}')">
 
                   حذف
@@ -5399,10 +5728,10 @@ function openAddressModal(){
 
 
   $("addressGovernorate").value =
-  "";
+    "";
 
-$("addressArea").value =
-  "";
+  $("addressArea").value =
+    "";
 
 
   $("addressLine").value =
@@ -5474,10 +5803,10 @@ function editAddress(id){
 
 
   $("addressGovernorate").value =
-  address.governorate || "";
+    address.governorate || "";
 
-$("addressArea").value =
-  address.area || "";
+  $("addressArea").value =
+    address.area || "";
 
 
   $("addressLine").value =
@@ -5526,32 +5855,32 @@ function saveAddress(event){
 
   const address = {
 
-  id,
+    id,
 
-  governorate:
-    $("addressGovernorate")
-      .value,
+    governorate:
+      $("addressGovernorate")
+        .value,
 
-  area:
-    $("addressArea")
-      .value
-      .trim(),
+    area:
+      $("addressArea")
+        .value
+        .trim(),
 
-  address:
-    $("addressLine")
-      .value
-      .trim(),
+    address:
+      $("addressLine")
+        .value
+        .trim(),
 
-  notes:
-    $("addressNotes")
-      .value
-      .trim(),
+    notes:
+      $("addressNotes")
+        .value
+        .trim(),
 
-  isDefault:
-    $("addressDefault")
-      .checked
+    isDefault:
+      $("addressDefault")
+        .checked
 
-};
+  };
 
 
   if(address.isDefault){
@@ -6192,15 +6521,8 @@ function updateCartStats(){
 
 function openMainCart(){
 
-  window.location.href = "/cart.html";
-
-}
-
-
-function goStore(){
-
   window.location.href =
-    "/#shop";
+    "/cart.html";
 
 }
 
