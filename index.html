@@ -3,23 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1812680583414508');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1812680583414508&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+
 <title>HZ.SHOP | Luxury Store</title>
 
 <meta name="description" content="HZ.SHOP متجر العطور ومنتجات العناية والجمال">
@@ -416,7 +400,7 @@ aria-label="السلة">
 
 <button
 class="icon-btn"
-onclick="window.location.href='/account.html'"
+onclick="window.location.href='/Account.html'"
 aria-label="حساب العميل">
 👤
 </button>
@@ -447,7 +431,7 @@ oninput="mobileSearchProducts()">
 
 <div class="nav">
 
-<button class="active" onclick="category('all',this)">الرئيسية</button>
+<button class="active" onclick="goHome()">الرئيسية</button>
 <button onclick="category('perfumes',this)">العطور</button>
 <button onclick="category('makeup',this)">مكياج</button>
 <button onclick="category('skin',this)">العناية بالبشرة</button>
@@ -459,7 +443,7 @@ oninput="mobileSearchProducts()">
 <button onclick="category('electronics',this)">إلكترونيات</button>
 <button onclick="category('kids',this)">ألعاب أطفال</button>
 <button onclick="category('cleaning',this)">النظافة</button>
-<button onclick="goShop()">جميع المنتجات</button>
+<button onclick="resetFilters()">جميع المنتجات</button>
 
 </div>
 
@@ -472,7 +456,7 @@ oninput="mobileSearchProducts()">
 <section class="section compact" id="newSection">
 <div class="section-head">
 <h2>وصل حديثًا</h2>
-<button class="more" type="button" onclick="goShop()">عرض الكل</button>
+<button class="more" type="button" onclick="resetFilters()">عرض الكل</button>
 </div>
 <div class="smart-rail" id="newRail"></div>
 </section>
@@ -480,7 +464,7 @@ oninput="mobileSearchProducts()">
 <section class="section compact" id="bestSection">
 <div class="section-head">
 <h2>الأكثر طلبًا</h2>
-<button class="more" type="button" onclick="goShop()">عرض الكل</button>
+<button class="more" type="button" onclick="resetFilters()">عرض الكل</button>
 </div>
 <div class="smart-rail" id="bestRail"></div>
 </section>
@@ -537,8 +521,9 @@ oninput="mobileSearchProducts()">
 <button type="button" id="bottomCart" onclick="openCart()">
 <span class="bn-icon">🛒</span><span>السلة</span><span class="bn-badge" id="bottomCartCount">0</span>
 </button>
-<button type="button" id="bottomAccount" onclick="window.location.href='/account.html'"
-<span class="bn-icon">♙</span><span>الحساب</span>
+<button type="button" id="bottomAccount" onclick="window.location.href='/Account.html'">
+  <span class="bn-icon">♙</span>
+  <span>الحساب</span>
 </button>
 </nav>
 
@@ -1711,32 +1696,20 @@ p.categoryName
 
 }
 
-if(current === "all" && !search){
-
-list.sort(
-() => Math.random() - 0.5
-);
-
-}
-
 const sort =
 document.getElementById("sort")
 .value;
 
 if(sort === "low"){
-
 list.sort(
 (a,b)=>a.price-b.price
 );
-
 }
 
 if(sort === "high"){
-
 list.sort(
 (a,b)=>b.price-a.price
 );
-
 }
 
 if(sort === "name"){
@@ -1829,7 +1802,7 @@ class="heart ${fav ? "active" : ""}"
 onclick="event.stopPropagation();toggleFav(${p.id})"
 aria-label="المفضلة">
 
-${fav ? "♥️" : "♡"}
+${fav ? "♥" : "♡"}
 
 </button>
 
@@ -2049,6 +2022,15 @@ sessionStorage.setItem(
 "hz_shop_return_url",
 window.location.href
 );
+sessionStorage.setItem(
+"hz_shop_return_state",
+JSON.stringify({
+current: current,
+search: document.getElementById("search")?.value || "",
+mobileSearch: document.getElementById("mobileSearch")?.value || "",
+sort: document.getElementById("sort")?.value || "default"
+})
+);
 }catch(error){
 console.warn(
 "HZ_SHOP_STATE_SAVE_ERROR",
@@ -2068,43 +2050,64 @@ currency:"USD"
 });
 }
 window.location.href =
-"/product.html?id=" +
+"/Product.html?id=" +
 encodeURIComponent(product.id);
 }
 /* =========================
    CATEGORY
 ========================= */
 
+function setBottomNav(activeId){
+
+document
+.querySelectorAll(".bottom-nav button")
+.forEach(x=>x.classList.remove("active"));
+
+if(activeId){
+const active = document.getElementById(activeId);
+if(active) active.classList.add("active");
+}
+
+}
+
+function setCategoryNav(cat,btn){
+
+document
+.querySelectorAll(".nav button")
+.forEach(x=>x.classList.remove("active"));
+
+document
+.querySelectorAll(".filter")
+.forEach(x=>x.classList.remove("active"));
+
+if(btn && btn.closest(".nav")){
+btn.classList.add("active");
+}
+
+const filterMatch = document.querySelector(
+`.filter[onclick*="'${cat}'"]`
+);
+
+if(filterMatch){
+filterMatch.classList.add("active");
+}
+
+if(!btn || !btn.closest(".nav")){
+const navMatch = document.querySelector(
+`.nav button[onclick*="'${cat}'"]`
+);
+if(navMatch){
+navMatch.classList.add("active");
+}
+}
+
+}
+
 function category(cat,btn){
 
 current = cat;
 
-document
-.querySelectorAll(".nav button")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-document
-.querySelectorAll(".filter")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-if(btn){
-btn.classList.add("active");
-}else{
-
-const matching =
-document.querySelector(
-`.filter[onclick*="'${cat}'"]`
-);
-
-if(matching){
-matching.classList.add("active");
-}
-
-}
+setCategoryNav(cat,btn);
 
 const names = {
 all:"جميع المنتجات",
@@ -2149,7 +2152,9 @@ subtitles[cat] ||
 
 render();
 
-goShop();
+setBottomNav("bottomCategories");
+
+goShop(false);
 
 }
 
@@ -2157,57 +2162,27 @@ function resetFilters(){
 
 current = "all";
 
-document.getElementById(
-"search"
-).value = "";
+const search = document.getElementById("search");
+const mobileSearch = document.getElementById("mobileSearch");
+const sort = document.getElementById("sort");
+const clear = document.getElementById("searchClear");
 
-document.getElementById(
-"mobileSearch"
-).value = "";
+if(search) search.value = "";
+if(mobileSearch) mobileSearch.value = "";
+if(sort) sort.value = "default";
+if(clear) clear.style.display = "none";
 
-document.getElementById(
-"sort"
-).value = "default";
+setCategoryNav("all");
 
-document
-.querySelectorAll(".nav button")
-.forEach(x=>
-x.classList.remove("active")
-);
+const title = document.getElementById("shopTitle");
+const subtitle = document.getElementById("shopSubtitle");
 
-document
-.querySelectorAll(".filter")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-const navHome =
-document.querySelector(".nav button");
-
-const filterAll =
-document.querySelector(".filter");
-
-if(navHome){
-navHome.classList.add("active");
-}
-
-if(filterAll){
-filterAll.classList.add("active");
-}
-
-document.getElementById(
-"shopTitle"
-).textContent =
-"منتجاتنا";
-
-document.getElementById(
-"shopSubtitle"
-).textContent =
-"اكتشف مجموعة HZ.SHOP";
+if(title) title.textContent = "جميع المنتجات";
+if(subtitle) subtitle.textContent = "جميع المنتجات";
 
 render();
-
-goShop();
+setBottomNav(null);
+goShop(false);
 
 }
 
@@ -2218,52 +2193,35 @@ goShop();
 function searchProducts(){
 
 const value =
-document.getElementById(
-"search"
-).value;
+document.getElementById("search").value;
 
-document.getElementById(
-"mobileSearch"
-).value = value;
+document.getElementById("mobileSearch").value = value;
 
-const clear =
-document.getElementById(
-"searchClear"
-);
-
-if(clear){
-clear.style.display =
-value ? "block" : "none";
-}
+const clear = document.getElementById("searchClear");
+if(clear) clear.style.display = value ? "block" : "none";
 
 current = "all";
-
-document
-.querySelectorAll(".nav button")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-document
-.querySelectorAll(".filter")
-.forEach(x=>
-x.classList.remove("active")
-);
+setCategoryNav("all");
 
 render();
+setBottomNav(null);
+
+const shop = document.getElementById("shop");
+if(shop){
+const shopTop = shop.getBoundingClientRect().top + window.scrollY;
+if(Math.abs(window.scrollY - shopTop) > 80){
+goShop(false);
+}
+}
 
 }
 
 function mobileSearchProducts(){
 
 const value =
-document.getElementById(
-"mobileSearch"
-).value;
+document.getElementById("mobileSearch").value;
 
-document.getElementById(
-"search"
-).value = value;
+document.getElementById("search").value = value;
 
 searchProducts();
 
@@ -2271,20 +2229,19 @@ searchProducts();
 
 function clearSearch(){
 
-document.getElementById(
-"search"
-).value = "";
+const search = document.getElementById("search");
+const mobileSearch = document.getElementById("mobileSearch");
+const clear = document.getElementById("searchClear");
 
-document.getElementById(
-"mobileSearch"
-).value = "";
+if(search) search.value = "";
+if(mobileSearch) mobileSearch.value = "";
+if(clear) clear.style.display = "none";
 
-document.getElementById(
-"searchClear"
-).style.display =
-"none";
-
+current = "all";
+setCategoryNav("all");
 render();
+setBottomNav(null);
+goShop(false);
 
 }
 
@@ -2300,9 +2257,7 @@ clearSearch();
 
 function setHomeNav(btn){
 
-document.querySelectorAll(".bottom-nav button").forEach(x=>x.classList.remove("active"));
-const home = btn || document.getElementById("bottomHome");
-if(home) home.classList.add("active");
+setBottomNav("bottomHome");
 
 }
 
@@ -2311,26 +2266,27 @@ function goHome(event){
 if(event){ event.preventDefault(); }
 
 current = "all";
+
 const search = document.getElementById("search");
 const mobileSearch = document.getElementById("mobileSearch");
 const sort = document.getElementById("sort");
+const clear = document.getElementById("searchClear");
+
 if(search) search.value = "";
 if(mobileSearch) mobileSearch.value = "";
 if(sort) sort.value = "default";
-const clear = document.getElementById("searchClear");
 if(clear) clear.style.display = "none";
 
-document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));
-const navHome = document.querySelector(".nav button");
-if(navHome) navHome.classList.add("active");
-document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
-const filterAll = document.querySelector(".filter");
-if(filterAll) filterAll.classList.add("active");
+setCategoryNav("all");
+
 const title = document.getElementById("shopTitle");
+const subtitle = document.getElementById("shopSubtitle");
 if(title) title.textContent = "جميع المنتجات";
+if(subtitle) subtitle.textContent = "جميع المنتجات";
 
 render();
-setHomeNav();
+setBottomNav("bottomHome");
+
 window.scrollTo({top:0,behavior:"smooth"});
 
 }
@@ -2339,9 +2295,8 @@ function openCategoriesNav(){
 
 const nav = document.querySelector("header nav");
 if(nav) nav.scrollIntoView({behavior:"smooth",block:"start"});
-document.querySelectorAll(".bottom-nav button").forEach(x=>x.classList.remove("active"));
-const categoriesBtn = document.getElementById("bottomCategories");
-if(categoriesBtn) categoriesBtn.classList.add("active");
+
+setBottomNav("bottomCategories");
 
 }
 
@@ -2349,18 +2304,19 @@ if(categoriesBtn) categoriesBtn.classList.add("active");
    SHOP SCROLL
 ========================= */
 
-function goShop(){
+function goShop(setNav=true){
 
-const shop =
-document.getElementById("shop");
-
+const shop = document.getElementById("shop");
 if(!shop) return;
 
 shop.scrollIntoView({
 behavior:"smooth",
 block:"start"
 });
-setHomeNav();
+
+if(setNav){
+setBottomNav(null);
+}
 
 }
 
@@ -2719,7 +2675,7 @@ document.getElementById(
 }
 
 function openCart(){
-  window.location.href = "/cart.html";
+  window.location.href = "//Cart.html";
 }
 
 function closeCart(){
@@ -2742,64 +2698,41 @@ document.body.style.overflow = "";
 
 function applyCoupon(){
 
-  const input =
-    document.getElementById(
-      "coupon"
-    );
+const input =
+document.getElementById(
+"coupon"
+);
 
-  const code =
-    input.value
-    .trim()
-    .toUpperCase();
+const code =
+input.value
+.trim()
+.toUpperCase();
 
-  // حساب مجموع المنتجات فقط
-  const productsTotal = cart.reduce(
-    (sum, item) =>
-      sum + (Number(item.price) * Number(item.quantity || 1)),
-    0
-  );
+if(code === "HZ10"){
 
-  if(code === "HZ10"){
+discountRate = 0.10;
 
-    // الخصم متاح من 50$ وما فوق
-    if(productsTotal >= 50){
+localStorage.setItem(
+"hz_discount_rate",
+"0.10"
+);
 
-      discountRate = 0.10;
+toast("تم تطبيق خصم 10%");
 
-      localStorage.setItem(
-        "hz_discount_rate",
-        "0.10"
-      );
+}else{
 
-      toast("تم تطبيق خصم 10%");
+discountRate = 0;
 
-    }else{
+localStorage.setItem(
+"hz_discount_rate",
+"0"
+);
 
-      discountRate = 0;
+toast("كود الخصم غير صحيح");
 
-      localStorage.setItem(
-        "hz_discount_rate",
-        "0"
-      );
+}
 
-      toast("كود الخصم متاح للطلبات من 50$ وما فوق");
-
-    }
-
-  }else{
-
-    discountRate = 0;
-
-    localStorage.setItem(
-      "hz_discount_rate",
-      "0"
-    );
-
-    toast("كود الخصم غير صحيح");
-
-  }
-
-  updateTotals();
+updateTotals();
 
 }
 
@@ -3961,42 +3894,85 @@ async function customerLogout(){
 ========================= */
 function restoreShopPosition(){
 try{
-const savedScroll =
-sessionStorage.getItem(
-"hz_shop_return_scroll"
-);
-if(
-savedScroll === null
-){
+const savedScroll = sessionStorage.getItem("hz_shop_return_scroll");
+const savedState = sessionStorage.getItem("hz_shop_return_state");
+
+if(savedScroll === null && savedState === null){
 return;
 }
-sessionStorage.removeItem(
-"hz_shop_return_scroll"
-);
-sessionStorage.removeItem(
-"hz_shop_return_url"
-);
-const scrollY =
-Number(savedScroll);
-if(
-!Number.isFinite(scrollY) ||
-scrollY < 0
-){
-return;
+
+sessionStorage.removeItem("hz_shop_return_scroll");
+sessionStorage.removeItem("hz_shop_return_url");
+sessionStorage.removeItem("hz_shop_return_state");
+
+if(savedState){
+try{
+const state = JSON.parse(savedState);
+current = state.current || "all";
+
+const search = document.getElementById("search");
+const mobileSearch = document.getElementById("mobileSearch");
+const sort = document.getElementById("sort");
+const clear = document.getElementById("searchClear");
+
+if(search) search.value = state.search || "";
+if(mobileSearch) mobileSearch.value = state.mobileSearch || state.search || "";
+if(sort) sort.value = state.sort || "default";
+if(clear) clear.style.display = (state.search || state.mobileSearch) ? "block" : "none";
+
+setCategoryNav(current);
+
+const names = {
+all:"جميع المنتجات",
+perfumes:"العطور",
+makeup:"مكياج",
+skin:"العناية بالبشرة",
+personal:"العناية الشخصية",
+accessories:"إكسسوارات",
+clothing:"ملابس",
+lingerie:"لانجري",
+home:"منزل",
+electronics:"إلكترونيات",
+kids:"ألعاب أطفال",
+cleaning:"النظافة"
+};
+
+const subtitles = {
+all:"جميع المنتجات",
+perfumes:"منتجات العطور",
+makeup:"منتجات المكياج",
+skin:"منتجات العناية بالبشرة",
+personal:"منتجات العناية الشخصية",
+accessories:"الإكسسوارات",
+clothing:"الملابس",
+lingerie:"اللانجري",
+home:"منتجات المنزل",
+electronics:"منتجات الإلكترونيات",
+kids:"ألعاب الأطفال",
+cleaning:"منتجات النظافة اليومية"
+};
+
+const title = document.getElementById("shopTitle");
+const subtitle = document.getElementById("shopSubtitle");
+if(title) title.textContent = names[current] || names.all;
+if(subtitle) subtitle.textContent = subtitles[current] || "اكتشف مجموعة HZ.SHOP";
+
+render();
+setBottomNav((state.search || state.mobileSearch) ? null : (current === "all" ? "bottomHome" : "bottomCategories"));
+
+}catch(error){
+console.warn("HZ_SHOP_STATE_PARSE_ERROR",error);
 }
-/*
-   ننتظر حتى يتم تحميل المنتجات
-   حتى نستطيع العودة إلى نفس المكان
-*/
-setTimeout(
-()=>{
-window.scrollTo({
-top:scrollY,
-behavior:"instant"
-});
-},
-150
-);
+}
+
+if(savedScroll !== null){
+const scrollY = Number(savedScroll);
+if(Number.isFinite(scrollY) && scrollY >= 0){
+setTimeout(()=>{
+window.scrollTo({top:scrollY,behavior:"instant"});
+},250);
+}
+}
 }catch(error){
 console.warn(
 "HZ_SHOP_STATE_RESTORE_ERROR",
@@ -4004,6 +3980,7 @@ error
 );
 }
 }
+
 /* =========================
    INIT
 ========================= */
