@@ -1134,6 +1134,14 @@ header{
       class="logo"
       onclick="goHome()"
       aria-label="HZ.SHOP"
+      role="button"
+      tabindex="0"
+      onkeydown="
+        if(event.key==='Enter' || event.key===' '){
+          event.preventDefault();
+          goHome();
+        }
+      "
     >
       <strong>HZ.SHOP</strong>
       <small>SMART SHOPPING</small>
@@ -1285,8 +1293,6 @@ header{
     </div>
 
 
-    <!-- TABS -->
-
     <div
       class="customer-auth-tabs"
       id="cartCustomerAuthTabs"
@@ -1312,8 +1318,6 @@ header{
 
     </div>
 
-
-    <!-- LOGIN -->
 
     <div id="cartCustomerLoginPanel">
 
@@ -1387,8 +1391,6 @@ header{
 
     </div>
 
-
-    <!-- REGISTER -->
 
     <div
       id="cartCustomerRegisterPanel"
@@ -2319,10 +2321,6 @@ function changeQty(index,delta){
 
   }
 
-  /*
-    التحقق من المخزون الحقيقي من API
-    قبل السماح بزيادة الكمية
-  */
   if(delta > 0){
 
     fetch("/api/products?t=" + Date.now())
@@ -2628,10 +2626,6 @@ async function submitComputerOrder(){
   }
 
 
-  /* -------------------------------------------------------
-     CHECK CUSTOMER LOGIN
-  ------------------------------------------------------- */
-
   try{
 
     const authResponse =
@@ -2702,10 +2696,6 @@ async function submitComputerOrder(){
 
   }
 
-
-  /* -------------------------------------------------------
-     META INITIATE CHECKOUT
-  ------------------------------------------------------- */
 
   try{
 
@@ -2826,10 +2816,6 @@ async function submitComputerOrder(){
     }
 
 
-    /* -----------------------------------------------------
-       META PURCHASE
-    ----------------------------------------------------- */
-
     try{
 
       if(typeof fbq==="function"){
@@ -2883,10 +2869,6 @@ async function submitComputerOrder(){
     }
 
 
-    /* -----------------------------------------------------
-       CLEAR CART
-    ----------------------------------------------------- */
-
     cart=[];
     discountRate=0;
 
@@ -2894,10 +2876,6 @@ async function submitComputerOrder(){
 
     updateCartCount();
 
-
-    /* -----------------------------------------------------
-       SUCCESS
-    ----------------------------------------------------- */
 
     showSuccess(
       data.order_id
@@ -3259,10 +3237,6 @@ async function submitCartCustomerLogin(){
       data.customer || null;
 
 
-    /*
-     * نتأكد أن الجلسة أصبحت فعالة فعليًا.
-     */
-
     let sessionOk=false;
 
 
@@ -3284,9 +3258,9 @@ async function submitCartCustomerLogin(){
 
 
       if(
-  sessionResponse.ok &&
-  sessionData.customer
-){
+        sessionResponse.ok &&
+        sessionData.customer
+      ){
 
         sessionOk=true;
 
@@ -3319,38 +3293,30 @@ async function submitCartCustomerLogin(){
 
     closeCartCustomerAuth();
 
-if(cartCustomer){
+    if(cartCustomer){
 
-  const nameInput =
-    document.getElementById("customerName");
+      const nameInput =
+        document.getElementById("customerName");
 
-  const phoneInput =
-    document.getElementById("phone");
+      const phoneInput =
+        document.getElementById("phone");
 
-  if(nameInput && cartCustomer.name){
-    nameInput.value =
-      cartCustomer.name;
-  }
+      if(nameInput && cartCustomer.name){
+        nameInput.value =
+          cartCustomer.name;
+      }
 
-  if(phoneInput && cartCustomer.phone){
-    phoneInput.value =
-      cartCustomer.phone;
-  }
+      if(phoneInput && cartCustomer.phone){
+        phoneInput.value =
+          cartCustomer.phone;
+      }
 
-}
+    }
 
-toast(
-  "تم تسجيل الدخول بنجاح"
-);
+    toast(
+      "تم تسجيل الدخول بنجاح"
+    );
 
-
-    /*
-     * نرسل الطلب تلقائيًا.
-     *
-     * نحن لم نغادر صفحة السلة،
-     * لذلك جميع بيانات النموذج
-     * والسلة ما زالت موجودة.
-     */
 
     setTimeout(
       ()=>{
@@ -3564,10 +3530,6 @@ async function submitCartCustomerRegister(){
       data.customer || null;
 
 
-    /*
-     * نتأكد أن الحساب أنشئ والجلسة أصبحت فعالة.
-     */
-
     let sessionOk=false;
 
 
@@ -3589,9 +3551,9 @@ async function submitCartCustomerRegister(){
 
 
       if(
-  sessionResponse.ok &&
-  sessionData.customer
-){
+        sessionResponse.ok &&
+        sessionData.customer
+      ){
 
         sessionOk=true;
 
@@ -3639,37 +3601,30 @@ async function submitCartCustomerRegister(){
 
     closeCartCustomerAuth();
 
-if(cartCustomer){
+    if(cartCustomer){
 
-  const nameInput =
-    document.getElementById("customerName");
+      const nameInput =
+        document.getElementById("customerName");
 
-  const phoneInput =
-    document.getElementById("phone");
+      const phoneInput =
+        document.getElementById("phone");
 
-  if(nameInput && cartCustomer.name){
-    nameInput.value =
-      cartCustomer.name;
-  }
+      if(nameInput && cartCustomer.name){
+        nameInput.value =
+          cartCustomer.name;
+      }
 
-  if(phoneInput && cartCustomer.phone){
-    phoneInput.value =
-      cartCustomer.phone;
-  }
+      if(phoneInput && cartCustomer.phone){
+        phoneInput.value =
+          cartCustomer.phone;
+      }
 
-}
+    }
 
-toast(
-  "تم إنشاء الحساب بنجاح"
-);
+    toast(
+      "تم إنشاء الحساب بنجاح"
+    );
 
-
-    /*
-     * إرسال الطلب تلقائيًا بعد إنشاء الحساب.
-     *
-     * بيانات السلة وبيانات نموذج الطلب
-     * لم تتغير لأنها ما زالت في نفس الصفحة.
-     */
 
     setTimeout(
       ()=>{
@@ -3853,7 +3808,19 @@ function showSuccess(orderId){
 
 function goHome(target){
 
-  if(target){
+  if(target==="account"){
+
+    window.location.href="/Account.html";
+
+    return;
+
+  }
+
+
+  if(
+    target==="categories" ||
+    target==="favorites"
+  ){
 
     window.location.href =
       "/?section=" +
@@ -3863,6 +3830,7 @@ function goHome(target){
 
   }
 
+
   window.location.href="/";
 
 }
@@ -3870,10 +3838,22 @@ function goHome(target){
 
 function openCartPage(){
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  if(
+    location.pathname.toLowerCase().endsWith("/cart.html") ||
+    location.pathname.toLowerCase().endsWith("/cart")
+  ){
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+    return;
+
+  }
+
+
+  window.location.href="/Cart.html";
 
 }
 
@@ -3980,6 +3960,7 @@ async function loadCartCustomerData(){
         cartCustomer.phone;
 
     }
+
     const customerId =
       cartCustomer?.id ??
       cartCustomer?.phone ??
@@ -4072,6 +4053,7 @@ async function loadCartCustomerData(){
       }
 
     }
+
     return true;
 
   }catch(error){
