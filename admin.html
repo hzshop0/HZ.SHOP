@@ -862,9 +862,7 @@ textarea{min-height:120px;resize:vertical}
 
     <div class="login-brand">
       <div class="login-icon">🔐</div>
-
       <div class="logo">HZ.SHOP</div>
-
       <p>لوحة الإدارة والتحكم بالمتجر</p>
     </div>
 
@@ -974,7 +972,6 @@ textarea{min-height:120px;resize:vertical}
 
 
     <main class="main">
-
 
       <section id="dashboard">
 
@@ -1274,7 +1271,7 @@ textarea{min-height:120px;resize:vertical}
                   </div>
 
                   <div class="media-note">
-                    الفيديو يتم اختياره من الجهاز مباشرة. سيتم ربط الرفع الفعلي للفيديو مع الـ Worker في الخطوة التقنية الخاصة برفع الفيديو.
+                    يمكنك اختيار فيديو من الجهاز وسيتم رفعه تلقائيًا عند حفظ المنتج.
                   </div>
 
                 </div>
@@ -1533,6 +1530,15 @@ let selectedImages = [];
 let selectedVideo = null;
 let currentCategory = "";
 
+const ADMIN_SECTIONS = [
+  "dashboard",
+  "addSection",
+  "productsSection"
+];
+
+let restoringAdminSession = false;
+let changingHistory = false;
+
 
 /* =========================================================
    CATEGORY DATA
@@ -1639,6 +1645,22 @@ async function login(){
 
     await loadProducts();
 
+    /*
+      بعد تسجيل الدخول نبدأ سجل لوحة الإدارة
+      من الصفحة الرئيسية فقط.
+    */
+
+    history.replaceState(
+      {
+        admin:true,
+        section:"dashboard"
+      },
+      "",
+      location.href
+    );
+
+    setActiveSection("dashboard");
+
     showToast(
       "تم تسجيل الدخول بنجاح"
     );
@@ -1648,6 +1670,151 @@ async function login(){
     status.textContent =
       "خطأ: " +
       error.message;
+
+  }
+
+}
+
+
+/* =========================================================
+   RESTORE ADMIN SESSION
+========================================================= */
+
+async function restoreAdminSession(){
+
+  if(restoringAdminSession){
+
+    return;
+
+  }
+
+  restoringAdminSession = true;
+
+  const loginPage =
+    document.getElementById(
+      "loginPage"
+    );
+
+  const adminShell =
+    document.getElementById(
+      "adminShell"
+    );
+
+  try{
+
+    /*
+      /api/products محمي بجلسة الأدمن الحالية.
+      نجاح الطلب يعني أن جلسة الأدمن ما زالت صالحة.
+    */
+
+    const response =
+      await fetch(
+        "/api/products",
+        {
+          method:"GET",
+          credentials:"same-origin",
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "ADMIN_SESSION_INVALID"
+      );
+
+    }
+
+    const data =
+      await response
+        .json();
+
+    products =
+      Array.isArray(data)
+        ? data
+        : [];
+
+
+    loginPage
+      .classList
+      .add("hidden");
+
+    adminShell
+      .classList
+      .remove("hidden");
+
+
+    buildCategoryFilters();
+    renderProducts();
+    updateDashboard();
+    loadGridSettings();
+
+
+    /*
+      استرجاع القسم السابق من History
+      إذا كان موجودًا.
+    */
+
+    const state =
+      history.state;
+
+
+    const section =
+      state &&
+      state.admin === true &&
+      ADMIN_SECTIONS.includes(
+        state.section
+      )
+        ? state.section
+        : "dashboard";
+
+
+    if(
+      !state ||
+      state.admin !== true
+    ){
+
+      history.replaceState(
+        {
+          admin:true,
+          section:"dashboard"
+        },
+        "",
+        location.href
+      );
+
+    }
+
+
+    setActiveSection(
+      section
+    );
+
+
+    /*
+      إذا كان المستخدم دخل مباشرة على Admin.html
+      أثناء وجود جلسة صالحة، لا نعرض Login.
+    */
+
+  }catch(error){
+
+    /*
+      لا توجد جلسة صالحة:
+      تبقى صفحة تسجيل الدخول كما هي.
+    */
+
+    loginPage
+      .classList
+      .remove("hidden");
+
+    adminShell
+      .classList
+      .add("hidden");
+
+  }finally{
+
+    restoringAdminSession =
+      false;
 
   }
 
@@ -1676,25 +1843,24 @@ async function logoutAdmin(){
 
   }
 
+  history.replaceState(
+    null,
+    "",
+    location.href
+  );
+
   location.reload();
 
 }
 
 
 /* =========================================================
-   NAVIGATION
+   NAVIGATION HELPERS
 ========================================================= */
 
-function showSection(
-  sectionId,
-  button
-){
+function setActiveSection(sectionId){
 
-  const sections = [
-    "dashboard",
-    "addSection",
-    "productsSection"
-  ];
+  const sections = ADMIN_SECTIONS;
 
   sections.forEach(
     function(id){
@@ -1728,28 +1894,19 @@ function showSection(
     );
 
 
-  if(button){
+  const matching =
+    document.querySelector(
+      `[onclick*="'${sectionId}'"]`
+    );
 
-    button.classList.add(
+  if(matching){
+
+    matching.classList.add(
       "active"
     );
 
-  }else{
-
-    const matching =
-      document.querySelector(
-        `[onclick*="'${sectionId}'"]`
-      );
-
-    if(matching){
-
-      matching.classList.add(
-        "active"
-      );
-
-    }
-
   }
+
 
   window.scrollTo({
     top:0,
@@ -1757,6 +1914,140 @@ function showSection(
   });
 
 }
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showSection(
+  sectionId,
+  button,
+  skipHistory
+){
+
+  if(
+    !ADMIN_SECTIONS.includes(
+      sectionId
+    )
+  ){
+
+    return;
+
+  }
+
+
+  /*
+    إذا لم يكن انتقالًا بسبب Back/Forward،
+    نضيف القسم إلى سجل المتصفح.
+  */
+
+  if(!skipHistory){
+
+    const currentState =
+      history.state;
+
+
+    if(
+      !currentState ||
+      currentState.admin !== true ||
+      currentState.section !== sectionId
+    ){
+
+      history.pushState(
+        {
+          admin:true,
+          section:sectionId
+        },
+        "",
+        location.href
+      );
+
+    }
+
+  }
+
+
+  setActiveSection(
+    sectionId
+  );
+
+}
+
+
+/* =========================================================
+   BROWSER BACK / FORWARD
+========================================================= */
+
+window.addEventListener(
+  "popstate",
+  function(event){
+
+    const state =
+      event.state;
+
+
+    /*
+      إذا رجع المتصفح إلى حالة داخل لوحة الإدارة،
+      نعرض القسم المسجل بدل إعادة تحميل صفحة الدخول.
+    */
+
+    if(
+      state &&
+      state.admin === true &&
+      ADMIN_SECTIONS.includes(
+        state.section
+      )
+    ){
+
+      /*
+        إذا كانت الجلسة موجودة، نعرض القسم.
+        إذا لم تكن الجلسة موجودة، سيتم إبقاء Login.
+      */
+
+      const adminShell =
+        document.getElementById(
+          "adminShell"
+        );
+
+      const loginPage =
+        document.getElementById(
+          "loginPage"
+        );
+
+
+      if(
+        adminShell &&
+        !adminShell.classList.contains(
+          "hidden"
+        )
+      ){
+
+        showSection(
+          state.section,
+          null,
+          true
+        );
+
+      }else{
+
+        restoreAdminSession();
+
+      }
+
+      return;
+
+    }
+
+
+    /*
+      إذا خرج المستخدم من تاريخ لوحة الإدارة،
+      لا نعيده قسرًا إلى Login.
+      المتصفح يتعامل مع الصفحة السابقة طبيعيًا.
+    */
+
+  }
+);
 
 
 /* =========================================================
@@ -2838,11 +3129,6 @@ document
         );
 
 
-      /*
-         إذا لم يختر المستخدم صورًا جديدة،
-         لا نلمس الصور الحالية.
-      */
-
       if(!files.length){
 
         renderMediaPreviews();
@@ -2877,11 +3163,6 @@ document
 
       }
 
-
-      /*
-         عند اختيار صور جديدة نستبدل قائمة الصور
-         المختارة سابقًا بالصور الجديدة.
-      */
 
       selectedImages =
         [];
@@ -2984,11 +3265,6 @@ document
 
       }
 
-
-      /*
-         إذا كان هناك فيديو قديم محليًا،
-         نحرر Object URL قبل استبداله.
-      */
 
       if(
         selectedVideo?.file instanceof File &&
@@ -3178,12 +3454,6 @@ function removeSelectedVideo(){
   selectedVideo =
     null;
 
-
-  /*
-     مسح الحقل المخفي يعني:
-     إذا كان هناك فيديو محفوظ مسبقًا،
-     فسيتم حذفه عند حفظ التعديل.
-  */
 
   document
     .getElementById(
@@ -3440,12 +3710,6 @@ document
 
       try{
 
-        /*
-         =====================================================
-         IMAGES
-         =====================================================
-        */
-
         let image =
           document
             .getElementById("image")
@@ -3491,16 +3755,6 @@ document
 
         }
 
-
-        /*
-         =====================================================
-         IMPORTANT:
-         رفع الملفات الجديدة فقط.
-         
-         الصور القديمة تكون file:null،
-         لذلك لا يتم إرسالها إلى uploadImages().
-         =====================================================
-        */
 
         const newImageFiles =
           selectedImages
@@ -3554,12 +3808,6 @@ document
         }
 
 
-        /*
-         =====================================================
-         KEEP SINGLE IMAGE FIELD IN SYNC
-         =====================================================
-        */
-
         if(
           !images.length &&
           image
@@ -3572,23 +3820,12 @@ document
         }
 
 
-        /*
-         =====================================================
-         VIDEO
-         =====================================================
-        */
-
         let video =
           document
             .getElementById("video")
             .value
             .trim();
 
-
-        /*
-         إذا اختار المستخدم فيديو جديدًا:
-         نرفعه أولًا ثم نستخدم الرابط الجديد.
-        */
 
         if(
           selectedVideo &&
@@ -3612,18 +3849,6 @@ document
 
         }
 
-
-        /*
-         إذا كان selectedVideo يحتوي على فيديو
-         موجود مسبقًا، لا نغيّر الرابط.
-        */
-
-
-        /*
-         =====================================================
-         PRODUCT DATA
-         =====================================================
-        */
 
         const data = {
 
@@ -3681,12 +3906,6 @@ document
 
         }
 
-
-        /*
-         =====================================================
-         SAVE PRODUCT
-         =====================================================
-        */
 
         const response =
           await fetch(
@@ -3852,12 +4071,6 @@ function editProduct(id){
       product.badge || "";
 
 
-  /*
-   ==========================================================
-   IMAGES
-   ==========================================================
-  */
-
   const productImages =
     getProductImages(
       product
@@ -3881,12 +4094,6 @@ function editProduct(id){
         productImages
       );
 
-
-  /*
-   ==========================================================
-   VIDEO
-   ==========================================================
-  */
 
   document
     .getElementById(
@@ -3924,12 +4131,6 @@ function editProduct(id){
     [];
 
 
-  /*
-   ==========================================================
-   CURRENT IMAGES
-   ==========================================================
-  */
-
   productImages.forEach(
     function(image){
 
@@ -3946,12 +4147,6 @@ function editProduct(id){
     }
   );
 
-
-  /*
-   ==========================================================
-   CURRENT VIDEO
-   ==========================================================
-  */
 
   if(product.video){
 
@@ -4113,11 +4308,6 @@ async function deleteProduct(id){
 ========================================================= */
 
 function resetForm(){
-
-  /*
-   إذا كان الفيديو الحالي عبارة عن
-   Object URL محلي، حرره.
-  */
 
   if(
     selectedVideo?.file instanceof File &&
@@ -4516,6 +4706,13 @@ document
 ========================================================= */
 
 loadGridSettings();
+
+
+/* =========================================================
+   INITIAL ADMIN SESSION
+========================================================= */
+
+restoreAdminSession();
 
 </script>
 </body>
