@@ -3312,26 +3312,7 @@ toast(
 ========================= */
 
 function openCustomerAuth(){
-
-const modal =
-document.getElementById(
-"customerAuthModal"
-);
-
-if(!modal){
-console.error(
-"Customer auth modal not found"
-);
-return;
-}
-
-modal.classList.add("show");
-
-document.body.style.overflow =
-"hidden";
-
-checkCustomerSession();
-
+  window.location.href = "/Account.html";
 }
 
 /* =========================
