@@ -400,7 +400,7 @@ aria-label="السلة">
 
 <button
 class="icon-btn"
-onclick="window.location.href='/Account.html'"
+onclick="openCustomerAuth()"
 aria-label="حساب العميل">
 👤
 </button>
@@ -521,9 +521,8 @@ oninput="mobileSearchProducts()">
 <button type="button" id="bottomCart" onclick="openCart()">
 <span class="bn-icon">🛒</span><span>السلة</span><span class="bn-badge" id="bottomCartCount">0</span>
 </button>
-<button type="button" id="bottomAccount" onclick="window.location.href='/Account.html'">
-  <span class="bn-icon">♙</span>
-  <span>الحساب</span>
+<button type="button" id="bottomAccount" onclick="openCustomerAuth()">
+<span class="bn-icon">♙</span><span>الحساب</span>
 </button>
 </nav>
 
@@ -2003,46 +2002,47 @@ enableGallerySwipe();
 /* =========================
    PRODUCT
 ========================= */
+
 function openProduct(id){
+
 const product =
 products.find(
 x=>x.id === Number(id)
 );
+
 if(!product){
+
 toast("المنتج غير موجود");
+
 return;
+
 }
-/* حفظ حالة المتجر قبل فتح صفحة المنتج */
-try{
-sessionStorage.setItem(
-"hz_shop_return_scroll",
-String(window.scrollY)
-);
-sessionStorage.setItem(
-"hz_shop_return_url",
-window.location.href
-);
-}catch(error){
-console.warn(
-"HZ_SHOP_STATE_SAVE_ERROR",
-error
-);
-}
+
 /* Meta Pixel — ViewContent */
 if(typeof fbq === "function"){
+
 fbq("track","ViewContent",{
+
 content_ids:[
 String(product.id)
 ],
+
 content_type:"product",
+
 content_name:product.name,
+
 value:Number(product.price),
+
 currency:"USD"
+
 });
+
 }
+
 window.location.href =
-"/Product.html?id=" +
+"/product.html?id=" +
 encodeURIComponent(product.id);
+
 }
 /* =========================
    CATEGORY
@@ -2122,7 +2122,7 @@ subtitles[cat] ||
 
 render();
 
-scrollToShop();
+goShop();
 
 }
 
@@ -2180,7 +2180,7 @@ document.getElementById(
 
 render();
 
-scrollToShop();
+goShop();
 
 }
 
@@ -2224,7 +2224,6 @@ x.classList.remove("active")
 );
 
 render();
-scrollToShop();
 
 }
 
@@ -2259,7 +2258,6 @@ document.getElementById(
 "none";
 
 render();
-scrollToShop();
 
 }
 
@@ -2302,9 +2300,7 @@ document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
 const filterAll = document.querySelector(".filter");
 if(filterAll) filterAll.classList.add("active");
 const title = document.getElementById("shopTitle");
-const subtitle = document.getElementById("shopSubtitle");
 if(title) title.textContent = "جميع المنتجات";
-if(subtitle) subtitle.textContent = "جميع المنتجات";
 
 render();
 setHomeNav();
@@ -2326,7 +2322,7 @@ if(categoriesBtn) categoriesBtn.classList.add("active");
    SHOP SCROLL
 ========================= */
 
-function scrollToShop(){
+function goShop(){
 
 const shop =
 document.getElementById("shop");
@@ -2337,41 +2333,9 @@ shop.scrollIntoView({
 behavior:"smooth",
 block:"start"
 });
+setHomeNav();
 
 }
-
-function goShop(){
-
-current = "all";
-
-const search = document.getElementById("search");
-const mobileSearch = document.getElementById("mobileSearch");
-const sort = document.getElementById("sort");
-const clear = document.getElementById("searchClear");
-
-if(search) search.value = "";
-if(mobileSearch) mobileSearch.value = "";
-if(sort) sort.value = "default";
-if(clear) clear.style.display = "none";
-
-document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));
-document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
-
-const navHome = document.querySelector(".nav button");
-const filterAll = document.querySelector(".filter");
-if(navHome) navHome.classList.add("active");
-if(filterAll) filterAll.classList.add("active");
-
-const title = document.getElementById("shopTitle");
-const subtitle = document.getElementById("shopSubtitle");
-if(title) title.textContent = "جميع المنتجات";
-if(subtitle) subtitle.textContent = "جميع المنتجات";
-
-render();
-scrollToShop();
-
-}
-
 
 /* =========================
    CART
@@ -2728,7 +2692,7 @@ document.getElementById(
 }
 
 function openCart(){
-  window.location.href = "/Cart.html";
+  window.location.href = "/cart.html";
 }
 
 function closeCart(){
@@ -3943,65 +3907,22 @@ async function customerLogout(){
 
 }
 /* =========================
-   RESTORE SHOP POSITION
-========================= */
-function restoreShopPosition(){
-try{
-const savedScroll =
-sessionStorage.getItem(
-"hz_shop_return_scroll"
-);
-if(
-savedScroll === null
-){
-return;
-}
-sessionStorage.removeItem(
-"hz_shop_return_scroll"
-);
-sessionStorage.removeItem(
-"hz_shop_return_url"
-);
-const scrollY =
-Number(savedScroll);
-if(
-!Number.isFinite(scrollY) ||
-scrollY < 0
-){
-return;
-}
-/*
-   ننتظر حتى يتم تحميل المنتجات
-   حتى نستطيع العودة إلى نفس المكان
-*/
-setTimeout(
-()=>{
-window.scrollTo({
-top:scrollY,
-behavior:"instant"
-});
-},
-150
-);
-}catch(error){
-console.warn(
-"HZ_SHOP_STATE_RESTORE_ERROR",
-error
-);
-}
-}
-/* =========================
    INIT
 ========================= */
+
 window.addEventListener(
 "DOMContentLoaded",
 ()=>{
+
 updateFavoriteCount();
+
 renderCart();
+
 loadProducts();
-restoreShopPosition();
+
 }
 );
+
 </script>
 <!-- =========================
      CUSTOMER AUTH
