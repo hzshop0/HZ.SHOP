@@ -4175,6 +4175,7 @@ p.category
 );
 
 }
+
 if(search){
 
 list =
@@ -4275,9 +4276,8 @@ return;
 
 }
 
-box.innerHTML = "";
-
-list.forEach(p=>{
+const html =
+list.map(p=>{
 
 const fav =
 favorites.includes(p.id);
@@ -4292,7 +4292,7 @@ p.stock <= 5;
 const gallery =
 createProductGallery(p);
 
-box.innerHTML += `
+return `
 
 <article
 class="product"
@@ -4413,7 +4413,10 @@ onclick="event.stopPropagation()">
 
 `;
 
-});
+}).join("");
+
+box.innerHTML =
+html;
 
 enableGallerySwipe();
 
