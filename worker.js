@@ -47,6 +47,9 @@ const MAX_PRODUCT_BADGE_LENGTH =
 const MAX_IMAGES =
   10;
 
+const MAX_VIDEO_SIZE =
+  50 * 1024 * 1024;
+
 
 /* =========================================================
    JSON RESPONSE
@@ -293,6 +296,130 @@ async function uploadImageToGitHub(
 
             message:
               `Upload product image ${fileName}`,
+
+            content:
+              base64
+
+          })
+
+      }
+    );
+
+  if (
+    !response.ok
+  ) {
+
+    const error =
+      await response.text();
+
+    throw new Error(
+      error ||
+      `GitHub HTTP ${response.status}`
+    );
+
+  }
+
+  return (
+    `https://raw.githubusercontent.com/hzshop0/HZ.SHOP/main/${fileName}`
+  );
+
+}
+
+
+/* =========================================================
+   UPLOAD VIDEO TO GITHUB
+========================================================= */
+
+async function uploadVideoToGitHub(
+  file,
+  env
+) {
+
+  if (!env.GITHUB_TOKEN) {
+
+    throw new Error(
+      "GITHUB_TOKEN غير موجود"
+    );
+
+  }
+
+  const bytes =
+    new Uint8Array(
+      await file.arrayBuffer()
+    );
+
+  let binary = "";
+
+  const chunkSize =
+    0x8000;
+
+  for (
+    let i = 0;
+    i < bytes.length;
+    i += chunkSize
+  ) {
+
+    binary += String.fromCharCode(
+      ...bytes.subarray(
+        i,
+        Math.min(
+          i + chunkSize,
+          bytes.length
+        )
+      )
+    );
+
+  }
+
+  const base64 =
+    btoa(binary);
+
+  const originalName =
+    safeString(
+      file.name || "video",
+      150
+    );
+
+  const safeFileName =
+    originalName.replace(
+      /[^a-zA-Z0-9._-]/g,
+      "-"
+    );
+
+  const fileName =
+    `videos/${Date.now()}-${safeFileName}`;
+
+  const response =
+    await fetch(
+      `https://api.github.com/repos/hzshop0/HZ.SHOP/contents/${fileName}`,
+      {
+        method:
+          "PUT",
+
+        headers: {
+
+          "Authorization":
+            `Bearer ${env.GITHUB_TOKEN}`,
+
+          "Accept":
+            "application/vnd.github+json",
+
+          "X-GitHub-Api-Version":
+            "2022-11-28",
+
+          "User-Agent":
+            "HZ-SHOP",
+
+          "Content-Type":
+            "application/json"
+
+        },
+
+        body:
+          JSON.stringify({
+
+            message:
+              `Upload product video ${fileName}`,
 
             content:
               base64
@@ -1533,6 +1660,12 @@ function normalizeProduct(
       safeString(
         product?.image,
         2000
+      ),
+
+    video:
+      safeString(
+        product?.video,
+        2000
       )
 
   };
@@ -1630,8 +1763,6 @@ async function getProducts(
 }
 
 
- 
-
 /* =========================================================
    VALIDATE PRODUCT INPUT
 ========================================================= */
@@ -1662,6 +1793,12 @@ function validateProductInput(
     safeString(
       data?.badge,
       MAX_PRODUCT_BADGE_LENGTH
+    );
+
+  const video =
+    safeString(
+      data?.video,
+      2000
     );
 
   if (
@@ -1798,7 +1935,9 @@ function validateProductInput(
 
     stock,
 
-    images
+    images,
+
+    video
 
   };
 
@@ -2998,6 +3137,129 @@ export default {
 
 
     /* =====================================================
+       API: UPLOAD PRODUCT VIDEO
+    ===================================================== */
+
+    if (
+      url.pathname ===
+        "/api/upload-video" &&
+      request.method ===
+        "POST"
+    ) {
+
+      try {
+
+        const isAdmin =
+          await verifyAdminSession(
+            request,
+            env
+          );
+
+        if (
+          !isAdmin
+        ) {
+
+          return errorResponse(
+            "غير مصرح",
+            401
+          );
+
+        }
+
+        const formData =
+          await request.formData();
+
+        const file =
+          formData.get(
+            "video"
+          ) ||
+          formData.get(
+            "file"
+          );
+
+        if (
+          !file ||
+          typeof file.arrayBuffer !==
+            "function"
+        ) {
+
+          return errorResponse(
+            "لم يتم اختيار فيديو",
+            400
+          );
+
+        }
+
+        if (
+          !String(
+            file.type || ""
+          ).startsWith(
+            "video/"
+          )
+        ) {
+
+          return errorResponse(
+            "الملف يجب أن يكون فيديو",
+            400
+          );
+
+        }
+
+        if (
+          file.size &&
+          file.size >
+          MAX_VIDEO_SIZE
+        ) {
+
+          return errorResponse(
+            "حجم الفيديو كبير جدًا. الحد الأقصى 50MB",
+            400
+          );
+
+        }
+
+        const videoUrl =
+          await uploadVideoToGitHub(
+            file,
+            env
+          );
+
+        return jsonResponse({
+
+          success:
+            true,
+
+          video:
+            videoUrl,
+
+          url:
+            videoUrl
+
+        });
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          "UPLOAD_VIDEO_ERROR",
+          error?.stack ||
+          error?.message ||
+          error
+        );
+
+        return errorResponse(
+          error?.message ||
+          "تعذر رفع الفيديو",
+          500
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
        API: CREATE ORDER
     ===================================================== */
 
@@ -3829,9 +4091,10 @@ export default {
                     old_price,
                     image,
                     stock,
-                    badge
+                    badge,
+                    video
                   )
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 `)
                 .bind(
 
@@ -3853,7 +4116,9 @@ export default {
 
                   product.stock,
 
-                  product.badge
+                  product.badge,
+
+                  product.video
 
                 )
                 .run();
@@ -3903,7 +4168,8 @@ export default {
                   old_price = ?,
                   image = ?,
                   stock = ?,
-                  badge = ?
+                  badge = ?,
+                  video = ?
                 WHERE id = ?
               `)
               .bind(
@@ -3927,6 +4193,8 @@ export default {
                 product.stock,
 
                 product.badge,
+
+                product.video,
 
                 id
 
