@@ -89,7 +89,7 @@ export async function onRequestGet(context) {
           price,
           stock
         FROM products
-        ORDER BY id DESC
+        ORDER BY id ASC
       `)
       .all();
 
