@@ -461,6 +461,32 @@ header{
 
 }
 
+
+/* =========================================================
+   MAIN PRODUCT VIDEO
+========================================================= */
+
+.main-image video{
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:contain;
+
+  display:block;
+
+  background:#000000;
+
+}
+
+.main-image video:hover{
+
+  transform:none;
+
+}
+
+
 .fallback{
 
   display:none;
@@ -621,6 +647,24 @@ header{
   object-fit:cover;
 
   border-radius:5px;
+
+}
+
+.thumb video{
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+
+  border-radius:5px;
+
+  background:#000000;
+
+  pointer-events:none;
 
 }
 
@@ -1992,6 +2036,8 @@ let product = null;
 
 let images = [];
 
+let media = [];
+
 let currentImage = 0;
 
 
@@ -2362,6 +2408,50 @@ function categoryName(value){
 
 
 /* =========================================================
+   BUILD PRODUCT MEDIA
+========================================================= */
+
+function buildProductMedia(){
+
+  media =
+    images.map(function(image){
+
+      return {
+
+        type:"image",
+
+        url:String(image)
+
+      };
+
+    });
+
+
+  const productVideo =
+    String(
+      product?.video || ""
+    ).trim();
+
+
+  if(productVideo){
+
+    media.push({
+
+      type:"video",
+
+      url:productVideo
+
+    });
+
+  }
+
+
+  currentImage = 0;
+
+}
+
+
+/* =========================================================
    LOAD PRODUCT
 ========================================================= */
 
@@ -2457,6 +2547,9 @@ async function loadProduct(){
       ];
 
     }
+
+
+    buildProductMedia();
 
 
     const productName =
@@ -2651,11 +2744,11 @@ function renderProduct(){
 
 
   const hasMultiple =
-    images.length > 1;
+    media.length > 1;
 
 
-  const mainImage =
-    images[0] || "";
+  const mainMedia =
+    media[0] || null;
 
 
   let discountHtml = "";
@@ -2691,28 +2784,58 @@ function renderProduct(){
   if(hasMultiple){
 
     thumbs =
-      images
+      media
 
         .map(
-          (image,index)=>`
+          (item,index)=>{
 
-            <button
-              class="thumb ${index===0 ? "active" : ""}"
-              onclick="changeImage(${index})"
-              type="button"
-              aria-label="الصورة ${index+1}"
-            >
+            if(item.type === "video"){
 
-              <img
-                src="${escapeHtml(image)}"
-                alt="${escapeHtml(product.name)} - ${index+1}"
-                loading="${index===0 ? "eager" : "lazy"}"
-                onerror="this.style.opacity='.35'"
+              return `
+
+                <button
+                  class="thumb ${index===0 ? "active" : ""}"
+                  onclick="changeImage(${index})"
+                  type="button"
+                  aria-label="الفيديو"
+                >
+
+                  <video
+                    src="${escapeHtml(item.url)}"
+                    muted
+                    playsinline
+                    preload="metadata"
+                  ></video>
+
+                </button>
+
+              `;
+
+            }
+
+
+            return `
+
+              <button
+                class="thumb ${index===0 ? "active" : ""}"
+                onclick="changeImage(${index})"
+                type="button"
+                aria-label="الصورة ${index+1}"
               >
 
-            </button>
+                <img
+                  src="${escapeHtml(item.url)}"
+                  alt="${escapeHtml(product.name)} - ${index+1}"
+                  loading="${index===0 ? "eager" : "lazy"}"
+                  onerror="this.style.opacity='.35'"
+                >
 
-          `
+              </button>
+
+            `;
+
+          }
+
         )
 
         .join("");
@@ -2727,7 +2850,7 @@ function renderProduct(){
       <div class="main-image">
 
         ${
-          mainImage
+          mainMedia
 
           ?
 
@@ -2735,10 +2858,23 @@ function renderProduct(){
 
             <img
               id="mainProductImage"
-              src="${escapeHtml(mainImage)}"
+              src="${mainMedia.type === "image" ? escapeHtml(mainMedia.url) : ""}"
               alt="${escapeHtml(product.name)}"
+              style="display:${mainMedia.type === "image" ? "block" : "none"}"
               onerror="imageError(this)"
             >
+
+
+            <video
+              id="mainProductVideo"
+              class="main-product-video"
+              src="${mainMedia.type === "video" ? escapeHtml(mainMedia.url) : ""}"
+              controls
+              playsinline
+              preload="metadata"
+              style="display:${mainMedia.type === "video" ? "block" : "none"}"
+            ></video>
+
 
             <div
               class="fallback"
@@ -3048,12 +3184,12 @@ function imageError(img){
 
 
 /* =========================================================
-   CHANGE IMAGE
+   CHANGE IMAGE / VIDEO
 ========================================================= */
 
 function changeImage(index){
 
-  if(!images.length){
+  if(!media.length){
 
     return;
 
@@ -3063,12 +3199,12 @@ function changeImage(index){
   if(index < 0){
 
     index =
-      images.length - 1;
+      media.length - 1;
 
   }
 
 
-  if(index >= images.length){
+  if(index >= media.length){
 
     index = 0;
 
@@ -3078,31 +3214,99 @@ function changeImage(index){
   currentImage = index;
 
 
-  const main =
+  const selectedMedia =
+    media[index];
+
+
+  const mainImage =
     document.getElementById(
       "mainProductImage"
     );
 
 
-  if(main){
-
-    main.src =
-      images[index];
-
-
-    main.alt =
-      String(
-        product.name ||
-        "المنتج"
-      )
-      +
-      " - "
-      +
-      (index + 1);
+  const mainVideo =
+    document.getElementById(
+      "mainProductVideo"
+    );
 
 
-    main.style.display =
-      "block";
+  const fallback =
+    document.getElementById(
+      "fallback"
+    );
+
+
+  if(
+    selectedMedia &&
+    selectedMedia.type === "video"
+  ){
+
+    if(mainImage){
+
+      mainImage.style.display =
+        "none";
+
+    }
+
+
+    if(mainVideo){
+
+      mainVideo.pause();
+
+      mainVideo.src =
+        selectedMedia.url;
+
+      mainVideo.style.display =
+        "block";
+
+      mainVideo.load();
+
+    }
+
+  }
+
+  else if(
+    selectedMedia &&
+    selectedMedia.type === "image"
+  ){
+
+    if(mainVideo){
+
+      mainVideo.pause();
+
+      mainVideo.style.display =
+        "none";
+
+    }
+
+
+    if(mainImage){
+
+      mainImage.src =
+        selectedMedia.url;
+
+      mainImage.alt =
+        String(
+          product?.name ||
+          "المنتج"
+        )
+        +
+        " - "
+        +
+        (index + 1);
+
+      mainImage.style.display =
+        "block";
+
+    }
+
+  }
+
+
+  if(fallback){
+
+    fallback.style.display =
+      "none";
 
   }
 
@@ -3443,6 +3647,7 @@ function trackAddToCart(quantity){
         currency:"USD"
 
       }
+
     );
 
   }catch(error){
@@ -3743,22 +3948,30 @@ function updateFavoriteButton(){
 /* =========================================================
    NAVIGATION — HOME
 ========================================================= */
+
 function goHome(){
+
   /*
     العودة إلى صفحة المتجر السابقة
     بدل فتح الصفحة الرئيسية من جديد
   */
+
   if(
     document.referrer &&
     document.referrer.includes(
       window.location.origin
     )
   ){
+
     window.history.back();
+
     return;
+
   }
+
   window.location.href =
     "/";
+
 }
 
 
@@ -3876,7 +4089,7 @@ document.addEventListener(
   "touchend",
   event=>{
 
-    if(!images.length){
+    if(!media.length){
 
       return;
 
