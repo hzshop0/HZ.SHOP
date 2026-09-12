@@ -5004,8 +5004,6 @@ goShop();
    SEARCH
 ========================= */
 
-let searchTimer = null;
-
 function searchProducts(){
 
 const value =
@@ -5053,21 +5051,11 @@ x.classList.remove(
 )
 );
 
-clearTimeout(searchTimer);
-
-searchTimer =
-setTimeout(
-()=>{
 render();
-},
-120
-);
 
 }
 
 function clearSearch(){
-
-clearTimeout(searchTimer);
 
 document.getElementById(
 "search"
