@@ -862,7 +862,9 @@ textarea{min-height:120px;resize:vertical}
 
     <div class="login-brand">
       <div class="login-icon">🔐</div>
+
       <div class="logo">HZ.SHOP</div>
+
       <p>لوحة الإدارة والتحكم بالمتجر</p>
     </div>
 
@@ -972,6 +974,7 @@ textarea{min-height:120px;resize:vertical}
 
 
     <main class="main">
+
 
       <section id="dashboard">
 
@@ -1271,7 +1274,7 @@ textarea{min-height:120px;resize:vertical}
                   </div>
 
                   <div class="media-note">
-                    يمكنك اختيار فيديو من الجهاز وسيتم رفعه تلقائيًا عند حفظ المنتج.
+                    الفيديو يتم اختياره من الجهاز مباشرة. سيتم ربط الرفع الفعلي للفيديو مع الـ Worker في الخطوة التقنية الخاصة برفع الفيديو.
                   </div>
 
                 </div>
@@ -1530,15 +1533,6 @@ let selectedImages = [];
 let selectedVideo = null;
 let currentCategory = "";
 
-const ADMIN_SECTIONS = [
-  "dashboard",
-  "addSection",
-  "productsSection"
-];
-
-let restoringAdminSession = false;
-let changingHistory = false;
-
 
 /* =========================================================
    CATEGORY DATA
@@ -1645,22 +1639,6 @@ async function login(){
 
     await loadProducts();
 
-    /*
-      بعد تسجيل الدخول نبدأ سجل لوحة الإدارة
-      من الصفحة الرئيسية فقط.
-    */
-
-    history.replaceState(
-      {
-        admin:true,
-        section:"dashboard"
-      },
-      "",
-      location.href
-    );
-
-    setActiveSection("dashboard");
-
     showToast(
       "تم تسجيل الدخول بنجاح"
     );
@@ -1670,151 +1648,6 @@ async function login(){
     status.textContent =
       "خطأ: " +
       error.message;
-
-  }
-
-}
-
-
-/* =========================================================
-   RESTORE ADMIN SESSION
-========================================================= */
-
-async function restoreAdminSession(){
-
-  if(restoringAdminSession){
-
-    return;
-
-  }
-
-  restoringAdminSession = true;
-
-  const loginPage =
-    document.getElementById(
-      "loginPage"
-    );
-
-  const adminShell =
-    document.getElementById(
-      "adminShell"
-    );
-
-  try{
-
-    /*
-      /api/products محمي بجلسة الأدمن الحالية.
-      نجاح الطلب يعني أن جلسة الأدمن ما زالت صالحة.
-    */
-
-    const response =
-      await fetch(
-        "/api/products",
-        {
-          method:"GET",
-          credentials:"same-origin",
-          cache:"no-store"
-        }
-      );
-
-    if(!response.ok){
-
-      throw new Error(
-        "ADMIN_SESSION_INVALID"
-      );
-
-    }
-
-    const data =
-      await response
-        .json();
-
-    products =
-      Array.isArray(data)
-        ? data
-        : [];
-
-
-    loginPage
-      .classList
-      .add("hidden");
-
-    adminShell
-      .classList
-      .remove("hidden");
-
-
-    buildCategoryFilters();
-    renderProducts();
-    updateDashboard();
-    loadGridSettings();
-
-
-    /*
-      استرجاع القسم السابق من History
-      إذا كان موجودًا.
-    */
-
-    const state =
-      history.state;
-
-
-    const section =
-      state &&
-      state.admin === true &&
-      ADMIN_SECTIONS.includes(
-        state.section
-      )
-        ? state.section
-        : "dashboard";
-
-
-    if(
-      !state ||
-      state.admin !== true
-    ){
-
-      history.replaceState(
-        {
-          admin:true,
-          section:"dashboard"
-        },
-        "",
-        location.href
-      );
-
-    }
-
-
-    setActiveSection(
-      section
-    );
-
-
-    /*
-      إذا كان المستخدم دخل مباشرة على Admin.html
-      أثناء وجود جلسة صالحة، لا نعرض Login.
-    */
-
-  }catch(error){
-
-    /*
-      لا توجد جلسة صالحة:
-      تبقى صفحة تسجيل الدخول كما هي.
-    */
-
-    loginPage
-      .classList
-      .remove("hidden");
-
-    adminShell
-      .classList
-      .add("hidden");
-
-  }finally{
-
-    restoringAdminSession =
-      false;
 
   }
 
@@ -1843,24 +1676,25 @@ async function logoutAdmin(){
 
   }
 
-  history.replaceState(
-    null,
-    "",
-    location.href
-  );
-
   location.reload();
 
 }
 
 
 /* =========================================================
-   NAVIGATION HELPERS
+   NAVIGATION
 ========================================================= */
 
-function setActiveSection(sectionId){
+function showSection(
+  sectionId,
+  button
+){
 
-  const sections = ADMIN_SECTIONS;
+  const sections = [
+    "dashboard",
+    "addSection",
+    "productsSection"
+  ];
 
   sections.forEach(
     function(id){
@@ -1894,19 +1728,28 @@ function setActiveSection(sectionId){
     );
 
 
-  const matching =
-    document.querySelector(
-      `[onclick*="'${sectionId}'"]`
-    );
+  if(button){
 
-  if(matching){
-
-    matching.classList.add(
+    button.classList.add(
       "active"
     );
 
-  }
+  }else{
 
+    const matching =
+      document.querySelector(
+        `[onclick*="'${sectionId}'"]`
+      );
+
+    if(matching){
+
+      matching.classList.add(
+        "active"
+      );
+
+    }
+
+  }
 
   window.scrollTo({
     top:0,
@@ -1914,140 +1757,6 @@ function setActiveSection(sectionId){
   });
 
 }
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function showSection(
-  sectionId,
-  button,
-  skipHistory
-){
-
-  if(
-    !ADMIN_SECTIONS.includes(
-      sectionId
-    )
-  ){
-
-    return;
-
-  }
-
-
-  /*
-    إذا لم يكن انتقالًا بسبب Back/Forward،
-    نضيف القسم إلى سجل المتصفح.
-  */
-
-  if(!skipHistory){
-
-    const currentState =
-      history.state;
-
-
-    if(
-      !currentState ||
-      currentState.admin !== true ||
-      currentState.section !== sectionId
-    ){
-
-      history.pushState(
-        {
-          admin:true,
-          section:sectionId
-        },
-        "",
-        location.href
-      );
-
-    }
-
-  }
-
-
-  setActiveSection(
-    sectionId
-  );
-
-}
-
-
-/* =========================================================
-   BROWSER BACK / FORWARD
-========================================================= */
-
-window.addEventListener(
-  "popstate",
-  function(event){
-
-    const state =
-      event.state;
-
-
-    /*
-      إذا رجع المتصفح إلى حالة داخل لوحة الإدارة،
-      نعرض القسم المسجل بدل إعادة تحميل صفحة الدخول.
-    */
-
-    if(
-      state &&
-      state.admin === true &&
-      ADMIN_SECTIONS.includes(
-        state.section
-      )
-    ){
-
-      /*
-        إذا كانت الجلسة موجودة، نعرض القسم.
-        إذا لم تكن الجلسة موجودة، سيتم إبقاء Login.
-      */
-
-      const adminShell =
-        document.getElementById(
-          "adminShell"
-        );
-
-      const loginPage =
-        document.getElementById(
-          "loginPage"
-        );
-
-
-      if(
-        adminShell &&
-        !adminShell.classList.contains(
-          "hidden"
-        )
-      ){
-
-        showSection(
-          state.section,
-          null,
-          true
-        );
-
-      }else{
-
-        restoreAdminSession();
-
-      }
-
-      return;
-
-    }
-
-
-    /*
-      إذا خرج المستخدم من تاريخ لوحة الإدارة،
-      لا نعيده قسرًا إلى Login.
-      المتصفح يتعامل مع الصفحة السابقة طبيعيًا.
-    */
-
-  }
-);
 
 
 /* =========================================================
@@ -2692,21 +2401,6 @@ function renderProducts(){
                       ""
                 }
 
-
-                ${
-                  product.video
-                    ?
-                      `
-                        <div
-                          class="media-count"
-                          style="right:10px;left:auto">
-                          🎥 فيديو
-                        </div>
-                      `
-                    :
-                      ""
-                }
-
               </div>
 
 
@@ -3129,6 +2823,10 @@ document
         );
 
 
+      selectedImages =
+        [];
+
+
       if(!files.length){
 
         renderMediaPreviews();
@@ -3162,10 +2860,6 @@ document
         return;
 
       }
-
-
-      selectedImages =
-        [];
 
 
       files.forEach(
@@ -3236,6 +2930,10 @@ document
         this.files?.[0];
 
 
+      selectedVideo =
+        null;
+
+
       if(!file){
 
         renderMediaPreviews();
@@ -3266,18 +2964,6 @@ document
       }
 
 
-      if(
-        selectedVideo?.file instanceof File &&
-        selectedVideo?.preview
-      ){
-
-        URL.revokeObjectURL(
-          selectedVideo.preview
-        );
-
-      }
-
-
       selectedVideo = {
 
         type:"video",
@@ -3294,18 +2980,10 @@ document
 
       document
         .getElementById(
-          "video"
-        )
-        .value =
-          "";
-
-
-      document
-        .getElementById(
           "imageStatus"
         )
         .textContent =
-          "تم اختيار فيديو جديد وسيتم رفعه عند الحفظ";
+          "تم اختيار فيديو من الجهاز";
 
 
       renderMediaPreviews();
@@ -3324,13 +3002,6 @@ function renderMediaPreviews(){
     document.getElementById(
       "mediaPreview"
     );
-
-  if(!preview){
-
-    return;
-
-  }
-
 
   preview.innerHTML =
     "";
@@ -3387,19 +3058,14 @@ function renderMediaPreviews(){
 
           <video
             src="${escapeHtml(
-              selectedVideo.preview || ""
+              selectedVideo.preview
             )}"
             controls
-            muted
-            playsinline>
+            muted>
           </video>
 
           <div class="media-preview-type">
-            ${
-              selectedVideo.file instanceof File
-                ? "🎥 فيديو جديد"
-                : "🎥 فيديو المنتج الحالي"
-            }
+            🎥 فيديو المنتج
           </div>
 
           <button
@@ -3440,7 +3106,6 @@ function removeSelectedImage(index){
 function removeSelectedVideo(){
 
   if(
-    selectedVideo?.file instanceof File &&
     selectedVideo?.preview
   ){
 
@@ -3450,18 +3115,8 @@ function removeSelectedVideo(){
 
   }
 
-
   selectedVideo =
     null;
-
-
-  document
-    .getElementById(
-      "video"
-    )
-    .value =
-      "";
-
 
   document
     .getElementById(
@@ -3469,7 +3124,6 @@ function removeSelectedVideo(){
     )
     .value =
       "";
-
 
   renderMediaPreviews();
 
@@ -3581,103 +3235,6 @@ async function uploadImages(files){
 
 
 /* =========================================================
-   UPLOAD VIDEO
-========================================================= */
-
-async function uploadVideo(file){
-
-  if(
-    !(file instanceof File)
-  ){
-
-    throw new Error(
-      "لم يتم اختيار فيديو صالح"
-    );
-
-  }
-
-
-  if(
-    !file.type.startsWith(
-      "video/"
-    )
-  ){
-
-    throw new Error(
-      "الملف المختار ليس فيديو"
-    );
-
-  }
-
-
-  const status =
-    document.getElementById(
-      "imageStatus"
-    );
-
-
-  status.textContent =
-    "جاري رفع الفيديو...";
-
-
-  const formData =
-    new FormData();
-
-
-  formData.append(
-    "video",
-    file
-  );
-
-
-  const response =
-    await fetch(
-      "/api/upload-video",
-      {
-        method:"POST",
-        credentials:"same-origin",
-        body:formData
-      }
-    );
-
-
-  const result =
-    await response
-      .json()
-      .catch(() => ({}));
-
-
-  if(!response.ok){
-
-    throw new Error(
-      result.error ||
-      "فشل رفع الفيديو"
-    );
-
-  }
-
-
-  const videoUrl =
-    result.video ||
-    result.url ||
-    "";
-
-
-  if(!videoUrl){
-
-    throw new Error(
-      "لم يتم الحصول على رابط الفيديو"
-    );
-
-  }
-
-
-  return videoUrl;
-
-}
-
-
-/* =========================================================
    SAVE PRODUCT
 ========================================================= */
 
@@ -3692,16 +3249,22 @@ document
 
       const id =
         document
-          .getElementById("productId")
+          .getElementById(
+            "productId"
+          )
           .value;
 
 
       const status =
-        document.getElementById("status");
+        document.getElementById(
+          "status"
+        );
 
 
       const imageStatus =
-        document.getElementById("imageStatus");
+        document.getElementById(
+          "imageStatus"
+        );
 
 
       status.textContent =
@@ -3712,17 +3275,22 @@ document
 
         let image =
           document
-            .getElementById("image")
+            .getElementById(
+              "image"
+            )
             .value
             .trim();
 
 
-        let images = [];
+        let images =
+          [];
 
 
         const imagesHidden =
           document
-            .getElementById("images")
+            .getElementById(
+              "images"
+            )
             .value
             .trim();
 
@@ -3732,14 +3300,23 @@ document
           try{
 
             const parsed =
-              JSON.parse(imagesHidden);
+              JSON.parse(
+                imagesHidden
+              );
 
 
-            if(Array.isArray(parsed)){
+            if(
+              Array.isArray(
+                parsed
+              )
+            ){
 
               images =
                 parsed
-                  .map(x => String(x))
+                  .map(
+                    x =>
+                      String(x)
+                  )
                   .filter(Boolean);
 
             }
@@ -3756,19 +3333,16 @@ document
         }
 
 
-        const newImageFiles =
-          selectedImages
-            .map(
+        if(
+          selectedImages.length
+        ){
+
+          const files =
+            selectedImages.map(
               item =>
                 item.file
-            )
-            .filter(
-              file =>
-                file instanceof File
             );
 
-
-        if(newImageFiles.length){
 
           imageStatus.textContent =
             "جاري رفع الصور...";
@@ -3776,34 +3350,40 @@ document
 
           const uploadedImages =
             await uploadImages(
-              newImageFiles
+              files
             );
 
 
-          if(uploadedImages.length){
+          images =
+            uploadedImages;
 
-            images =
-              uploadedImages;
 
+          if(
+            uploadedImages.length
+          ){
 
             image =
               uploadedImages[0];
 
-
-            document
-              .getElementById("image")
-              .value =
-                image;
-
-
-            document
-              .getElementById("images")
-              .value =
-                JSON.stringify(
-                  images
-                );
-
           }
+
+
+          document
+            .getElementById(
+              "image"
+            )
+            .value =
+              image;
+
+
+          document
+            .getElementById(
+              "images"
+            )
+            .value =
+              JSON.stringify(
+                images
+              );
 
         }
 
@@ -3820,32 +3400,16 @@ document
         }
 
 
-        let video =
-          document
-            .getElementById("video")
-            .value
-            .trim();
+        /*
+          الفيديو لا يتم إرساله للـ API الحالي
+          حتى لا نخترع endpoint غير موجود.
+          سيتم ربطه فعليًا مع Worker في الخطوة التالية.
+        */
 
-
-        if(
-          selectedVideo &&
-          selectedVideo.file instanceof File
-        ){
+        if(selectedVideo){
 
           imageStatus.textContent =
-            "جاري رفع الفيديو...";
-
-
-          video =
-            await uploadVideo(
-              selectedVideo.file
-            );
-
-
-          document
-            .getElementById("video")
-            .value =
-              video;
+            "الفيديو تم اختياره، لكن رفعه يحتاج ربط Worker أولًا.";
 
         }
 
@@ -3854,33 +3418,45 @@ document
 
           name:
             document
-              .getElementById("name")
+              .getElementById(
+                "name"
+              )
               .value
               .trim(),
 
           category:
             document
-              .getElementById("category")
+              .getElementById(
+                "category"
+              )
               .value,
 
           price:
             document
-              .getElementById("price")
+              .getElementById(
+                "price"
+              )
               .value,
 
           old_price:
             document
-              .getElementById("old_price")
+              .getElementById(
+                "old_price"
+              )
               .value,
 
           stock:
             document
-              .getElementById("stock")
+              .getElementById(
+                "stock"
+              )
               .value,
 
           badge:
             document
-              .getElementById("badge")
+              .getElementById(
+                "badge"
+              )
               .value
               .trim(),
 
@@ -3888,11 +3464,11 @@ document
 
           images,
 
-          video,
-
           description:
             document
-              .getElementById("description")
+              .getElementById(
+                "description"
+              )
               .value
               .trim()
 
@@ -3955,10 +3531,6 @@ document
             : "تمت إضافة المنتج بنجاح ✅";
 
 
-        imageStatus.textContent =
-          "";
-
-
         showToast(
           id
             ? "تم تعديل المنتج"
@@ -3968,9 +3540,7 @@ document
 
         await loadProducts();
 
-
         resetForm();
-
 
         showSection(
           "productsSection"
@@ -3982,7 +3552,6 @@ document
         console.error(
           error
         );
-
 
         status.textContent =
           "خطأ: " +
@@ -4097,14 +3666,6 @@ function editProduct(id){
 
   document
     .getElementById(
-      "video"
-    )
-    .value =
-      product.video || "";
-
-
-  document
-    .getElementById(
       "description"
     )
     .value =
@@ -4130,6 +3691,9 @@ function editProduct(id){
   selectedImages =
     [];
 
+  selectedVideo =
+    null;
+
 
   productImages.forEach(
     function(image){
@@ -4148,29 +3712,6 @@ function editProduct(id){
   );
 
 
-  if(product.video){
-
-    selectedVideo = {
-
-      type:"video",
-
-      file:null,
-
-      preview:
-        String(
-          product.video
-        )
-
-    };
-
-  }else{
-
-    selectedVideo =
-      null;
-
-  }
-
-
   const currentTitle =
     document
       .getElementById(
@@ -4179,10 +3720,7 @@ function editProduct(id){
 
 
   currentTitle.textContent =
-    (
-      productImages.length ||
-      product.video
-    )
+    productImages.length
       ? "الوسائط الحالية للمنتج:"
       : "";
 
@@ -4193,14 +3731,6 @@ function editProduct(id){
   document
     .getElementById(
       "imageStatus"
-    )
-    .textContent =
-      "";
-
-
-  document
-    .getElementById(
-      "status"
     )
     .textContent =
       "";
@@ -4285,7 +3815,6 @@ async function deleteProduct(id){
 
     await loadProducts();
 
-
     showToast(
       "تم حذف المنتج"
     );
@@ -4308,18 +3837,6 @@ async function deleteProduct(id){
 ========================================================= */
 
 function resetForm(){
-
-  if(
-    selectedVideo?.file instanceof File &&
-    selectedVideo?.preview
-  ){
-
-    URL.revokeObjectURL(
-      selectedVideo.preview
-    );
-
-  }
-
 
   document
     .getElementById(
@@ -4403,6 +3920,15 @@ function resetForm(){
   selectedImages =
     [];
 
+  if(
+    selectedVideo?.preview
+  ){
+
+    URL.revokeObjectURL(
+      selectedVideo.preview
+    );
+
+  }
 
   selectedVideo =
     null;
@@ -4707,13 +4233,7 @@ document
 
 loadGridSettings();
 
-
-/* =========================================================
-   INITIAL ADMIN SESSION
-========================================================= */
-
-restoreAdminSession();
-
 </script>
+
 </body>
 </html>
