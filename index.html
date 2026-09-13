@@ -74,21 +74,6 @@ a{
 /* =========================
    TOP / HEADER
 ========================= */
-
-.topbar{
-  height:30px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f7f7f7;
-  color:#555;
-  font-size:11px;
-  padding:0 10px;
-  white-space:nowrap;
-  overflow:hidden;
-  border-bottom:1px solid #e9e9e9;
-}
-
 header{
   position:sticky;
   top:0;
@@ -233,6 +218,7 @@ header{
   border:2px solid #fff;
 }
 
+/* REMOVE OLD HEADER ACTIONS */
 /* CATEGORY NAV */
 
 nav{
@@ -269,7 +255,6 @@ nav{
   color:#111;
   border-bottom-color:var(--orange);
 }
-
 /* =========================
    MAIN
 ========================= */
@@ -1391,186 +1376,10 @@ footer{
 }
 
 /* =========================
-   CUSTOMER AUTH
-========================= */
-
-.customer-auth-box{
-  width:min(430px,100%);
-  max-height:92vh;
-}
-
-.customer-auth-tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:6px;
-  padding:12px 16px 0;
-}
-
-.customer-auth-tab{
-  border:1px solid #ddd;
-  background:#fff;
-  color:#666;
-  padding:10px;
-  border-radius:4px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.customer-auth-tab:hover,
-.customer-auth-tab.active{
-  background:#111;
-  border-color:#111;
-  color:#fff;
-}
-
-#customerLoginPanel,
-#customerRegisterPanel,
-#customerAccountPanel{
-  padding:16px;
-}
-
-.auth-intro{
-  text-align:center;
-  margin-bottom:18px;
-}
-
-.auth-intro strong{
-  display:block;
-  color:#111;
-  font-size:17px;
-  margin-bottom:6px;
-}
-
-.auth-intro span{
-  display:block;
-  color:#777;
-  font-size:11px;
-}
-
-.customer-auth-box .field{
-  margin-bottom:12px;
-}
-
-.customer-auth-box .field label{
-  font-weight:bold;
-}
-
-.customer-auth-box .field input{
-  height:43px;
-  font-size:13px;
-}
-
-.customer-auth-submit{
-  width:100%;
-  height:44px;
-  margin-top:5px;
-  border:1px solid #111;
-  background:#111;
-  color:#fff;
-  border-radius:4px;
-  font-size:13px;
-  font-weight:bold;
-}
-
-.customer-auth-submit:hover{
-  background:var(--orange);
-  border-color:var(--orange);
-}
-
-.customer-auth-submit:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
-
-.auth-switch-text{
-  text-align:center;
-  margin-top:15px;
-  color:#777;
-  font-size:11px;
-}
-
-.auth-switch-text button{
-  border:0;
-  background:none;
-  color:var(--orange);
-  font-weight:bold;
-  font-size:11px;
-}
-
-.auth-switch-text button:hover{
-  text-decoration:underline;
-}
-
-.customer-account-welcome{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:16px;
-  margin-bottom:15px;
-  background:#f7f7f7;
-  border:1px solid #eee;
-  border-radius:6px;
-}
-
-.customer-account-icon{
-  width:48px;
-  height:48px;
-  flex-shrink:0;
-  border-radius:50%;
-  background:#111;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:21px;
-}
-
-.customer-account-welcome strong{
-  display:block;
-  color:#111;
-  font-size:14px;
-  margin-bottom:5px;
-}
-
-.customer-account-welcome span{
-  display:block;
-  color:#777;
-  font-size:11px;
-  direction:ltr;
-  text-align:right;
-}
-
-.customer-logout-button{
-  width:100%;
-  height:43px;
-  border:1px solid #ddd;
-  background:#fff;
-  color:#555;
-  border-radius:4px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.customer-logout-button:hover{
-  border-color:var(--danger);
-  color:var(--danger);
-}
-
-#customerAuthModal.show{
-  display:flex !important;
-}
-
-/* =========================
    RESPONSIVE
 ========================= */
 
 @media(max-width:900px){
-
-  .topbar{
-    height:27px;
-    font-size:10px;
-  }
-
   .header{
     height:62px;
     padding:0 10px;
@@ -1613,7 +1422,6 @@ footer{
     width:22px;
     height:22px;
   }
-
   .nav{
     justify-content:flex-start;
   }
@@ -1800,7 +1608,6 @@ footer{
     height:145px;
     font-size:11px;
   }
-
   .footer{
     grid-template-columns:1fr 1fr;
     gap:25px;
@@ -1810,7 +1617,7 @@ footer{
     grid-column:1/-1;
   }
 
-  /* BOTTOM NAV — PRIMARY MOBILE STORE NAVIGATION */
+  /* BOTTOM NAV */
 
   .bottom-nav{
     position:fixed;
@@ -1901,7 +1708,6 @@ footer{
 }
 
 @media(min-width:901px){
-
   .header .logo{
     order:0;
   }
@@ -2268,11 +2074,13 @@ class="bottom-nav"
 aria-label="تنقل المتجر"
 >
 
+<!-- STORE -->
+
 <button
 type="button"
 class="active"
 id="bottomHome"
-onclick="goHome()"
+data-bottom-action="home"
 >
 
 <span class="bn-icon">
@@ -2296,10 +2104,12 @@ stroke-linejoin="round"
 
 </button>
 
+<!-- CART -->
+
 <button
 type="button"
 id="bottomCart"
-onclick="openCart()"
+data-bottom-action="cart"
 >
 
 <span class="bn-icon">
@@ -2329,10 +2139,12 @@ id="bottomCartCount">
 
 </button>
 
+<!-- NOTIFICATIONS -->
+
 <button
 type="button"
 id="bottomNotifications"
-onclick="openNotifications()"
+data-bottom-action="notifications"
 >
 
 <span class="bn-icon">
@@ -2355,10 +2167,12 @@ stroke-linejoin="round"
 
 </button>
 
+<!-- ACCOUNT -->
+
 <button
 type="button"
 id="bottomAccount"
-onclick="openCustomerAuth()"
+data-bottom-action="account"
 >
 
 <span class="bn-icon">
@@ -2381,10 +2195,12 @@ stroke-linejoin="round"
 
 </button>
 
+<!-- SHARE -->
+
 <button
 type="button"
 id="bottomShare"
-onclick="shareStore()"
+data-bottom-action="share"
 >
 
 <span class="bn-icon">
@@ -3085,6 +2901,8 @@ JSON.stringify(favorites)
 
 function openNotifications(){
 
+setBottomNav(document.getElementById("bottomNotifications"));
+
 const modal =
 document.getElementById(
 "notificationsModal"
@@ -3126,6 +2944,8 @@ document.body.style.overflow = "";
 ========================= */
 
 async function shareStore(){
+
+setBottomNav(document.getElementById("bottomShare"));
 
 const shareData = {
 title:"HZ.SHOP",
@@ -3192,7 +3012,11 @@ toast(
 ========================= */
 
 function openCustomerAuth(){
-  window.location.assign("Account.html");
+
+setBottomNav(document.getElementById("bottomAccount"));
+
+window.location.assign("/Account.html");
+
 }
 /* =========================
    PRODUCTS
@@ -4677,7 +4501,7 @@ product.id
 
 function category(cat,btn){
 
-current = cat;
+current = cat || "all";
 
 document
 .querySelectorAll(
@@ -4758,21 +4582,22 @@ cleaning:"منتجات النظافة اليومية"
 
 };
 
-document.getElementById(
-"shopTitle"
-).textContent =
-names[cat] ||
-"جميع المنتجات";
+const shopTitle = document.getElementById("shopTitle");
+if(shopTitle){
+  shopTitle.textContent = names[current] || "جميع المنتجات";
+}
 
-document.getElementById(
-"shopSubtitle"
-).textContent =
-subtitles[cat] ||
-"اكتشف مجموعة HZ.SHOP";
+const shopSubtitle = document.getElementById("shopSubtitle");
+if(shopSubtitle){
+  shopSubtitle.textContent = subtitles[current] || "اكتشف مجموعة HZ.SHOP";
+}
 
 render();
 
-goShop();
+const shop = document.getElementById("shop");
+if(shop){
+  shop.scrollIntoView({behavior:"smooth",block:"start"});
+}
 
 }
 
@@ -4942,35 +4767,72 @@ document
 searchProducts
 );
 /* =========================
-   HOME
+   BOTTOM NAVIGATION
 ========================= */
 
-function setHomeNav(btn){
+function setBottomNav(btn){
 
-document
-.querySelectorAll(
+const buttons =
+document.querySelectorAll(
 ".bottom-nav button"
-)
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
 );
 
-const home =
-btn ||
-document.getElementById(
-"bottomHome"
-);
+buttons.forEach(button=>{
+button.classList.remove("active");
+});
 
-if(home){
-home.classList.add(
-"active"
-);
+if(typeof btn === "string"){
+btn = document.getElementById(btn);
+}
+
+if(btn){
+btn.classList.add("active");
 }
 
 }
+
+/* =========================
+   BOTTOM NAVIGATION
+========================= */
+
+function initBottomNav(){
+
+const nav =
+document.querySelector(".bottom-nav");
+
+if(!nav || nav.dataset.ready === "1") return;
+
+nav.dataset.ready = "1";
+
+nav.addEventListener("click",event=>{
+
+const button =
+event.target.closest("button[data-bottom-action]");
+
+if(!button || !nav.contains(button)) return;
+
+const action =
+button.dataset.bottomAction;
+
+if(action === "home"){
+  goHome();
+}else if(action === "cart"){
+  openCart();
+}else if(action === "notifications"){
+  openNotifications();
+}else if(action === "account"){
+  openCustomerAuth();
+}else if(action === "share"){
+  shareStore();
+}
+
+});
+
+}
+
+/* =========================
+   HOME
+========================= */
 
 function goHome(event){
 
@@ -5065,7 +4927,7 @@ title.textContent =
 
 render();
 
-setHomeNav();
+setBottomNav("bottomHome");
 
 window.scrollTo({
 top:0,
@@ -5092,7 +4954,7 @@ behavior:"smooth",
 block:"start"
 });
 
-setHomeNav();
+setBottomNav("bottomHome");
 
 }
 
@@ -5312,17 +5174,6 @@ document.getElementById(
 "bottomCartCount"
 );
 
-const floatingCount =
-document.getElementById(
-"floatingCartCount"
-);
-
-if(floatingCount){
-
-floatingCount.textContent =
-count;
-
-}
 
 if(bottomCartCount){
 
@@ -5512,7 +5363,9 @@ total.toFixed(2);
 
 function openCart(){
 
-window.location.assign("Cart.html");
+setBottomNav(document.getElementById("bottomCart"));
+
+window.location.assign("/Cart.html");
 
 }
 
@@ -5860,7 +5713,7 @@ currency:"USD"
 
 }
 
-window.location.assign("Cart.html");
+window.location.assign("/Cart.html");
 
 }
 
@@ -6387,487 +6240,6 @@ document.body.style.overflow =
 }
 
 /* =========================
-   CUSTOMER AUTH
-========================= */
-
-let currentCustomer = null;
-
-function closeCustomerAuth(event){
-
-if(
-event &&
-event.target !== event.currentTarget
-){
-return;
-}
-
-const modal =
-document.getElementById(
-"customerAuthModal"
-);
-
-if(!modal){
-return;
-}
-
-modal.classList.remove(
-"show"
-);
-
-document.body.style.overflow =
-"";
-
-}
-
-function switchAuthMode(mode){
-
-const loginPanel =
-document.getElementById(
-"customerLoginPanel"
-);
-
-const registerPanel =
-document.getElementById(
-"customerRegisterPanel"
-);
-
-const accountPanel =
-document.getElementById(
-"customerAccountPanel"
-);
-
-const loginTab =
-document.getElementById(
-"customerLoginTab"
-);
-
-const registerTab =
-document.getElementById(
-"customerRegisterTab"
-);
-
-const tabs =
-document.getElementById(
-"customerAuthTabs"
-);
-
-const title =
-document.getElementById(
-"customerAuthTitle"
-);
-
-if(currentCustomer){
-
-loginPanel.style.display =
-"none";
-
-registerPanel.style.display =
-"none";
-
-accountPanel.style.display =
-"block";
-
-tabs.style.display =
-"none";
-
-title.textContent =
-"حساب العميل";
-
-return;
-
-}
-
-accountPanel.style.display =
-"none";
-
-tabs.style.display =
-"grid";
-
-if(mode === "register"){
-
-loginPanel.style.display =
-"none";
-
-registerPanel.style.display =
-"block";
-
-loginTab.classList.remove(
-"active"
-);
-
-registerTab.classList.add(
-"active"
-);
-
-title.textContent =
-"إنشاء حساب";
-
-}else{
-
-loginPanel.style.display =
-"block";
-
-registerPanel.style.display =
-"none";
-
-loginTab.classList.add(
-"active"
-);
-
-registerTab.classList.remove(
-"active"
-);
-
-title.textContent =
-"تسجيل الدخول";
-
-}
-
-}
-
-async function checkCustomerSession(){
-
-try{
-
-const response =
-await fetch(
-"/api/customer-me",
-{
-method:"GET",
-credentials:"include"
-}
-);
-
-const data =
-await response.json();
-
-if(
-response.ok &&
-data.customer
-){
-
-currentCustomer =
-data.customer;
-
-document.getElementById(
-"customerAccountName"
-).textContent =
-data.customer.name ||
-"العميل";
-
-document.getElementById(
-"customerAccountPhone"
-).textContent =
-data.customer.phone ||
-"—";
-
-switchAuthMode(
-"account"
-);
-
-}else{
-
-currentCustomer = null;
-
-switchAuthMode(
-"login"
-);
-
-}
-
-}catch(error){
-
-console.error(
-"Customer session error:",
-error
-);
-
-currentCustomer = null;
-
-switchAuthMode(
-"login"
-);
-
-}
-
-}
-
-async function submitCustomerLogin(){
-
-const phone =
-document.getElementById(
-"customerLoginPhone"
-).value.trim();
-
-const password =
-document.getElementById(
-"customerLoginPassword"
-).value;
-
-if(!phone || !password){
-
-alert(
-"يرجى إدخال رقم الهاتف وكلمة المرور."
-);
-
-return;
-
-}
-
-const button =
-document.getElementById(
-"customerLoginButton"
-);
-
-button.disabled = true;
-
-button.textContent =
-"جاري تسجيل الدخول...";
-
-try{
-
-const response =
-await fetch(
-"/api/customer-login",
-{
-method:"POST",
-credentials:"include",
-headers:{
-"Content-Type":
-"application/json"
-},
-body:
-JSON.stringify({
-phone:phone,
-password:password
-})
-}
-);
-
-const data =
-await response.json();
-
-if(!response.ok){
-
-alert(
-data.error ||
-data.message ||
-"فشل تسجيل الدخول."
-);
-
-return;
-
-}
-
-currentCustomer =
-data.customer ||
-null;
-
-await checkCustomerSession();
-
-alert(
-"تم تسجيل الدخول بنجاح."
-);
-
-}catch(error){
-
-console.error(
-"Customer login error:",
-error
-);
-
-alert(
-"حدث خطأ أثناء تسجيل الدخول."
-);
-
-}finally{
-
-button.disabled = false;
-
-button.textContent =
-"تسجيل الدخول";
-
-}
-
-}
-
-async function submitCustomerRegister(){
-
-const name =
-document.getElementById(
-"customerRegisterName"
-).value.trim();
-
-const phone =
-document.getElementById(
-"customerRegisterPhone"
-).value.trim();
-
-const password =
-document.getElementById(
-"customerRegisterPassword"
-).value;
-
-const passwordConfirm =
-document.getElementById(
-"customerRegisterPasswordConfirm"
-).value;
-
-if(
-!name ||
-!phone ||
-!password ||
-!passwordConfirm
-){
-
-alert(
-"يرجى تعبئة جميع الحقول."
-);
-
-return;
-
-}
-
-if(password.length < 6){
-
-alert(
-"كلمة المرور يجب أن تكون 6 أحرف على الأقل."
-);
-
-return;
-
-}
-
-if(password !== passwordConfirm){
-
-alert(
-"كلمتا المرور غير متطابقتين."
-);
-
-return;
-
-}
-
-const button =
-document.getElementById(
-"customerRegisterButton"
-);
-
-button.disabled = true;
-
-button.textContent =
-"جاري إنشاء الحساب...";
-
-try{
-
-const response =
-await fetch(
-"/api/customer-register",
-{
-method:"POST",
-credentials:"include",
-headers:{
-"Content-Type":
-"application/json"
-},
-body:
-JSON.stringify({
-name:name,
-phone:phone,
-password:password
-})
-}
-);
-
-const data =
-await response.json();
-
-if(!response.ok){
-
-alert(
-data.error ||
-data.message ||
-"فشل إنشاء الحساب."
-);
-
-return;
-
-}
-
-currentCustomer =
-data.customer ||
-null;
-
-await checkCustomerSession();
-
-alert(
-"تم إنشاء الحساب بنجاح."
-);
-
-}catch(error){
-
-console.error(
-"Customer register error:",
-error
-);
-
-alert(
-"حدث خطأ أثناء إنشاء الحساب."
-);
-
-}finally{
-
-button.disabled = false;
-
-button.textContent =
-"إنشاء الحساب";
-
-}
-
-}
-
-async function customerLogout(){
-
-try{
-
-await fetch(
-"/api/customer-logout",
-{
-method:"POST",
-credentials:"include"
-}
-);
-
-}catch(error){
-
-console.error(
-"Customer logout error:",
-error
-);
-
-}
-
-currentCustomer = null;
-
-switchAuthMode(
-"login"
-);
-
-document.getElementById(
-"customerLoginPhone"
-).value = "";
-
-document.getElementById(
-"customerLoginPassword"
-).value = "";
-
-alert(
-"تم تسجيل الخروج بنجاح."
-);
-
-}
-
-/* =========================
    KEYBOARD / ESC
 ========================= */
 
@@ -6889,8 +6261,6 @@ closeSuccess();
 
 closeNotifications();
 
-closeCustomerAuth();
-
 }
 );
 
@@ -6902,7 +6272,11 @@ window.addEventListener(
 "DOMContentLoaded",
 ()=>{
 
+initBottomNav();
+
 updateFavoriteCount();
+
+setBottomNav("bottomHome");
 
 renderCart();
 
@@ -6912,263 +6286,6 @@ loadProducts();
 );
 
 </script>
-
-<!-- =========================
-     CUSTOMER AUTH
-========================= -->
-
-<div
-class="modal"
-id="customerAuthModal"
-onclick="closeCustomerAuth(event)"
-style="display:none;"
->
-
-<div
-class="modal-box customer-auth-box"
-onclick="event.stopPropagation()"
->
-
-<div class="modal-head">
-
-<h2 id="customerAuthTitle">
-حساب العميل
-</h2>
-
-<button
-type="button"
-class="close"
-onclick="closeCustomerAuth()"
-aria-label="إغلاق">
-×
-</button>
-
-</div>
-
-<div
-class="customer-auth-tabs"
-id="customerAuthTabs">
-
-<button
-type="button"
-id="customerLoginTab"
-class="customer-auth-tab active"
-onclick="switchAuthMode('login')">
-تسجيل الدخول
-</button>
-
-<button
-type="button"
-id="customerRegisterTab"
-class="customer-auth-tab"
-onclick="switchAuthMode('register')">
-إنشاء حساب
-</button>
-
-</div>
-
-<!-- LOGIN -->
-
-<div id="customerLoginPanel">
-
-<div class="auth-intro">
-
-<strong>
-مرحبًا بك في HZ.SHOP
-</strong>
-
-<span>
-سجّل الدخول إلى حسابك للمتابعة.
-</span>
-
-</div>
-
-<div class="field">
-
-<label for="customerLoginPhone">
-رقم الهاتف
-</label>
-
-<input
-type="tel"
-id="customerLoginPhone"
-placeholder="أدخل رقم الهاتف"
-autocomplete="tel">
-
-</div>
-
-<div class="field">
-
-<label for="customerLoginPassword">
-كلمة المرور
-</label>
-
-<input
-type="password"
-id="customerLoginPassword"
-placeholder="أدخل كلمة المرور"
-autocomplete="current-password">
-
-</div>
-
-<button
-type="button"
-class="customer-auth-submit"
-id="customerLoginButton"
-onclick="submitCustomerLogin()">
-تسجيل الدخول
-</button>
-
-<div class="auth-switch-text">
-
-ليس لديك حساب؟
-
-<button
-type="button"
-onclick="switchAuthMode('register')">
-إنشاء حساب
-</button>
-
-</div>
-
-</div>
-
-<!-- REGISTER -->
-
-<div
-id="customerRegisterPanel"
-style="display:none;"
->
-
-<div class="auth-intro">
-
-<strong>
-إنشاء حساب جديد
-</strong>
-
-<span>
-أنشئ حسابك في HZ.SHOP خلال دقائق.
-</span>
-
-</div>
-
-<div class="field">
-
-<label for="customerRegisterName">
-الاسم
-</label>
-
-<input
-type="text"
-id="customerRegisterName"
-placeholder="أدخل اسمك"
-autocomplete="name">
-
-</div>
-
-<div class="field">
-
-<label for="customerRegisterPhone">
-رقم الهاتف
-</label>
-
-<input
-type="tel"
-id="customerRegisterPhone"
-placeholder="أدخل رقم الهاتف"
-autocomplete="tel">
-
-</div>
-
-<div class="field">
-
-<label for="customerRegisterPassword">
-كلمة المرور
-</label>
-
-<input
-type="password"
-id="customerRegisterPassword"
-placeholder="6 أحرف على الأقل"
-autocomplete="new-password">
-
-</div>
-
-<div class="field">
-
-<label for="customerRegisterPasswordConfirm">
-تأكيد كلمة المرور
-</label>
-
-<input
-type="password"
-id="customerRegisterPasswordConfirm"
-placeholder="أعد كتابة كلمة المرور"
-autocomplete="new-password">
-
-</div>
-
-<button
-type="button"
-class="customer-auth-submit"
-id="customerRegisterButton"
-onclick="submitCustomerRegister()">
-إنشاء الحساب
-</button>
-
-<div class="auth-switch-text">
-
-لديك حساب بالفعل؟
-
-<button
-type="button"
-onclick="switchAuthMode('login')">
-تسجيل الدخول
-</button>
-
-</div>
-
-</div>
-
-<!-- LOGGED IN -->
-
-<div
-id="customerAccountPanel"
-style="display:none;"
->
-
-<div class="customer-account-welcome">
-
-<div class="customer-account-icon">
-👤
-</div>
-
-<div>
-
-<strong id="customerAccountName">
-العميل
-</strong>
-
-<span id="customerAccountPhone">
-—
-</span>
-
-</div>
-
-</div>
-
-<button
-type="button"
-class="customer-logout-button"
-onclick="customerLogout()">
-تسجيل الخروج
-</button>
-
-</div>
-
-</div>
-
-</div>
 
 </body>
 </html>
