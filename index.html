@@ -400,7 +400,7 @@ aria-label="السلة">
 
 <button
 class="icon-btn"
-onclick="openCustomerAuth()"
+onclick="window.location.href='/account.html'"
 aria-label="حساب العميل">
 👤
 </button>
@@ -521,7 +521,7 @@ oninput="mobileSearchProducts()">
 <button type="button" id="bottomCart" onclick="openCart()">
 <span class="bn-icon">🛒</span><span>السلة</span><span class="bn-badge" id="bottomCartCount">0</span>
 </button>
-<button type="button" id="bottomAccount" onclick="openCustomerAuth()">
+<button type="button" id="bottomAccount" onclick="window.location.href='/account.html'"
 <span class="bn-icon">♙</span><span>الحساب</span>
 </button>
 </nav>
@@ -2002,47 +2002,46 @@ enableGallerySwipe();
 /* =========================
    PRODUCT
 ========================= */
-
 function openProduct(id){
-
 const product =
 products.find(
 x=>x.id === Number(id)
 );
-
 if(!product){
-
 toast("المنتج غير موجود");
-
 return;
-
 }
-
+/* حفظ حالة المتجر قبل فتح صفحة المنتج */
+try{
+sessionStorage.setItem(
+"hz_shop_return_scroll",
+String(window.scrollY)
+);
+sessionStorage.setItem(
+"hz_shop_return_url",
+window.location.href
+);
+}catch(error){
+console.warn(
+"HZ_SHOP_STATE_SAVE_ERROR",
+error
+);
+}
 /* Meta Pixel — ViewContent */
 if(typeof fbq === "function"){
-
 fbq("track","ViewContent",{
-
 content_ids:[
 String(product.id)
 ],
-
 content_type:"product",
-
 content_name:product.name,
-
 value:Number(product.price),
-
 currency:"USD"
-
 });
-
 }
-
 window.location.href =
 "/product.html?id=" +
 encodeURIComponent(product.id);
-
 }
 /* =========================
    CATEGORY
@@ -3907,22 +3906,65 @@ async function customerLogout(){
 
 }
 /* =========================
+   RESTORE SHOP POSITION
+========================= */
+function restoreShopPosition(){
+try{
+const savedScroll =
+sessionStorage.getItem(
+"hz_shop_return_scroll"
+);
+if(
+savedScroll === null
+){
+return;
+}
+sessionStorage.removeItem(
+"hz_shop_return_scroll"
+);
+sessionStorage.removeItem(
+"hz_shop_return_url"
+);
+const scrollY =
+Number(savedScroll);
+if(
+!Number.isFinite(scrollY) ||
+scrollY < 0
+){
+return;
+}
+/*
+   ننتظر حتى يتم تحميل المنتجات
+   حتى نستطيع العودة إلى نفس المكان
+*/
+setTimeout(
+()=>{
+window.scrollTo({
+top:scrollY,
+behavior:"instant"
+});
+},
+150
+);
+}catch(error){
+console.warn(
+"HZ_SHOP_STATE_RESTORE_ERROR",
+error
+);
+}
+}
+/* =========================
    INIT
 ========================= */
-
 window.addEventListener(
 "DOMContentLoaded",
 ()=>{
-
 updateFavoriteCount();
-
 renderCart();
-
 loadProducts();
-
+restoreShopPosition();
 }
 );
-
 </script>
 <!-- =========================
      CUSTOMER AUTH
