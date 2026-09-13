@@ -2025,7 +2025,20 @@ aria-label="المفضلة">
 <span class="badge" id="favCount">0</span>
 </button>
 
-<span id="cartCount" style="display:none">0</span>
+<button
+class="icon-btn"
+onclick="openCart()"
+aria-label="السلة">
+🛒
+<span class="badge" id="cartCount">0</span>
+</button>
+
+<button
+class="icon-btn"
+onclick="window.location.href='/account.html'"
+aria-label="حساب العميل">
+👤
+</button>
 
 </div>
 
@@ -2076,263 +2089,77 @@ oninput="mobileSearchProducts()">
 <main id="mainContent">
 
 <section class="section compact" id="newSection">
-
 <div class="section-head">
-
 <h2>وصل حديثًا</h2>
-
-<button
-class="more"
-type="button"
-onclick="goShop()">
-عرض الكل
-</button>
-
+<button class="more" type="button" onclick="goShop()">عرض الكل</button>
 </div>
-
-<div
-class="smart-rail"
-id="newRail">
-</div>
-
+<div class="smart-rail" id="newRail"></div>
 </section>
 
 <section class="section compact" id="bestSection">
-
 <div class="section-head">
-
 <h2>الأكثر طلبًا</h2>
-
-<button
-class="more"
-type="button"
-onclick="goShop()">
-عرض الكل
-</button>
-
+<button class="more" type="button" onclick="goShop()">عرض الكل</button>
 </div>
-
-<div
-class="smart-rail"
-id="bestRail">
-</div>
-
+<div class="smart-rail" id="bestRail"></div>
 </section>
 
-<section
-class="section section-main"
-id="shop">
-
+<section class="section section-main" id="shop">
 <div class="shop-title-row">
-
-<h1 id="shopTitle">
-جميع المنتجات
-</h1>
-
-<span
-id="shopSubtitle"
-hidden>
-جميع المنتجات
-</span>
-
-<div
-class="results"
-id="results">
-جاري تحميل المنتجات...
-</div>
-
+<h1 id="shopTitle">جميع المنتجات</h1>
+<span id="shopSubtitle" hidden>جميع المنتجات</span>
+<div class="results" id="results">جاري تحميل المنتجات...</div>
 </div>
 
 <div class="toolbar">
-
 <div class="filters">
-
-<button
-class="filter active"
-onclick="category('all',this)">
-الكل
-</button>
-
-<button
-class="filter"
-onclick="category('perfumes',this)">
-العطور
-</button>
-
-<button
-class="filter"
-onclick="category('makeup',this)">
-مكياج
-</button>
-
-<button
-class="filter"
-onclick="category('skin',this)">
-البشرة
-</button>
-
-<button
-class="filter"
-onclick="category('personal',this)">
-الشخصية
-</button>
-
-<button
-class="filter"
-onclick="category('accessories',this)">
-إكسسوارات
-</button>
-
-<button
-class="filter"
-onclick="category('clothing',this)">
-ملابس
-</button>
-
-<button
-class="filter"
-onclick="category('lingerie',this)">
-لانجري
-</button>
-
-<button
-class="filter"
-onclick="category('home',this)">
-منزل
-</button>
-
-<button
-class="filter"
-onclick="category('electronics',this)">
-إلكترونيات
-</button>
-
-<button
-class="filter"
-onclick="category('kids',this)">
-ألعاب أطفال
-</button>
-
-<button
-class="filter"
-onclick="category('cleaning',this)">
-النظافة
-</button>
-
+<button class="filter active" onclick="category('all',this)">الكل</button>
+<button class="filter" onclick="category('perfumes',this)">العطور</button>
+<button class="filter" onclick="category('makeup',this)">مكياج</button>
+<button class="filter" onclick="category('skin',this)">البشرة</button>
+<button class="filter" onclick="category('personal',this)">الشخصية</button>
+<button class="filter" onclick="category('accessories',this)">إكسسوارات</button>
+<button class="filter" onclick="category('clothing',this)">ملابس</button>
+<button class="filter" onclick="category('lingerie',this)">لانجري</button>
+<button class="filter" onclick="category('home',this)">منزل</button>
+<button class="filter" onclick="category('electronics',this)">إلكترونيات</button>
+<button class="filter" onclick="category('kids',this)">ألعاب أطفال</button>
+<button class="filter" onclick="category('cleaning',this)">النظافة</button>
 </div>
-
-<select
-class="sort"
-id="sort"
-onchange="render()">
-
-<option value="default">
-الترتيب
-</option>
-
-<option value="low">
-السعر الأقل
-</option>
-
-<option value="high">
-السعر الأعلى
-</option>
-
-<option value="name">
-الاسم
-</option>
-
+<select class="sort" id="sort" onchange="render()">
+<option value="default">الترتيب</option>
+<option value="low">السعر الأقل</option>
+<option value="high">السعر الأعلى</option>
+<option value="name">الاسم</option>
 </select>
-
 </div>
 
-<div
-class="products"
-id="products">
-
-<div class="loading">
-جاري تحميل المنتجات...
+<div class="products" id="products">
+<div class="loading">جاري تحميل المنتجات...</div>
 </div>
-
-</div>
-
 </section>
 
 </main>
 
 
 <!-- MOBILE BOTTOM NAVIGATION -->
-
-<nav
-class="bottom-nav"
-aria-label="تنقل المتجر على الهاتف">
-
-<button
-type="button"
-class="active"
-id="bottomHome"
-onclick="goHome()">
-
-<span class="bn-icon">⌂</span>
-<span>الرئيسية</span>
-
+<nav class="bottom-nav" aria-label="تنقل المتجر على الهاتف">
+<button type="button" class="active" id="bottomHome" onclick="goHome()">
+<span class="bn-icon">⌂</span><span>الرئيسية</span>
 </button>
-
-<button
-type="button"
-id="bottomAccount"
-onclick="window.location.href='/account.html'">
-
-<span class="bn-icon">♙</span>
-<span>حسابي</span>
-
+<button type="button" id="bottomCategories" onclick="openCategoriesNav()">
+<span class="bn-icon">☰</span><span>التصنيفات</span>
 </button>
-
-<button
-type="button"
-id="bottomNotifications"
-onclick="openNotifications()">
-
-<span class="bn-icon">🔔</span>
-<span>الإشعارات</span>
-
-<span
-class="bn-badge"
-id="bottomNotificationCount"
-style="display:none">
-0
-</span>
-
+<button type="button" id="bottomFavorites" onclick="openFavorites()">
+<span class="bn-icon">♡</span><span>المفضلة</span><span class="bn-badge" id="bottomFavCount">0</span>
 </button>
-
-<button
-type="button"
-id="bottomShare"
-onclick="shareStore()">
-
-<span class="bn-icon">↗</span>
-<span>المشاركة</span>
-
+<button type="button" id="bottomCart" onclick="openCart()">
+<span class="bn-icon">🛒</span><span>السلة</span><span class="bn-badge" id="bottomCartCount">0</span>
 </button>
-
-<button
-type="button"
-id="bottomCart"
-onclick="openCart()">
-
-<span class="bn-icon">🛒</span>
-<span>السلة</span>
-
-<span
-class="bn-badge"
-id="bottomCartCount">
-0
-</span>
-
+<button type="button" id="bottomAccount" onclick="window.location.href='/account.html'"
+<span class="bn-icon">♙</span><span>الحساب</span>
 </button>
-
 </nav>
-
 
 <!-- CART -->
 
@@ -2350,11 +2177,7 @@ id="cart">
 
 <h2>🛒 السلة</h2>
 
-<button
-class="close"
-onclick="closeCart()">
-×
-</button>
+<button class="close" onclick="closeCart()">×</button>
 
 </div>
 
@@ -2378,43 +2201,23 @@ placeholder="كود الخصم">
 </div>
 
 <div class="line">
-
 <span>المجموع</span>
-
-<span id="subtotal">
-$0.00
-</span>
-
+<span id="subtotal">$0.00</span>
 </div>
 
 <div class="line">
-
 <span>الخصم</span>
-
-<span id="discount">
-$0.00
-</span>
-
+<span id="discount">$0.00</span>
 </div>
 
 <div class="line">
-
 <span>التوصيل</span>
-
-<span id="delivery">
-$0.00
-</span>
-
+<span id="delivery">$0.00</span>
 </div>
 
 <div class="line total">
-
 <span>الإجمالي</span>
-
-<strong id="total">
-$0.00
-</strong>
-
+<strong id="total">$0.00</strong>
 </div>
 
 <button
@@ -2441,7 +2244,6 @@ id="floatingCartCount">
 </span>
 
 </button>
-
 
 <!-- CHECKOUT -->
 
@@ -2494,37 +2296,14 @@ placeholder="71 123 456">
 
 <select id="governorate">
 
-<option value="">
-اختر المحافظة
-</option>
-
-<option value="بيروت">
-بيروت
-</option>
-
-<option value="جبل لبنان">
-جبل لبنان
-</option>
-
-<option value="الشمال">
-الشمال
-</option>
-
-<option value="البقاع">
-البقاع
-</option>
-
-<option value="الجنوب">
-الجنوب
-</option>
-
-<option value="النبطية">
-النبطية
-</option>
-
-<option value="عكار">
-عكار
-</option>
+<option value="">اختر المحافظة</option>
+<option value="بيروت">بيروت</option>
+<option value="جبل لبنان">جبل لبنان</option>
+<option value="الشمال">الشمال</option>
+<option value="البقاع">البقاع</option>
+<option value="الجنوب">الجنوب</option>
+<option value="النبطية">النبطية</option>
+<option value="عكار">عكار</option>
 
 </select>
 
@@ -2546,8 +2325,7 @@ placeholder="المنطقة">
 
 <textarea
 id="address"
-placeholder="الشارع، المبنى، الطابق...">
-</textarea>
+placeholder="الشارع، المبنى، الطابق..."></textarea>
 
 </div>
 
@@ -2557,8 +2335,7 @@ placeholder="الشارع، المبنى، الطابق...">
 
 <textarea
 id="notes"
-placeholder="ملاحظات إضافية للطلب">
-</textarea>
+placeholder="ملاحظات إضافية للطلب"></textarea>
 
 </div>
 
@@ -2593,33 +2370,18 @@ onclick="payment(this,'دفع إلكتروني')">
 <div id="summary"></div>
 
 <div class="summary-row">
-
 <span>المجموع</span>
-
-<span id="summarySubtotal">
-$0.00
-</span>
-
+<span id="summarySubtotal">$0.00</span>
 </div>
 
 <div class="summary-row">
-
 <span>الخصم</span>
-
-<span id="summaryDiscount">
-$0.00
-</span>
-
+<span id="summaryDiscount">$0.00</span>
 </div>
 
 <div class="summary-row">
-
 <span>التوصيل</span>
-
-<strong id="summaryDelivery">
-$0.00
-</strong>
-
+<strong id="summaryDelivery">$0.00</strong>
 </div>
 
 <div class="summary-total">
@@ -2655,7 +2417,6 @@ onclick="submitComputerOrder()">
 
 </div>
 
-
 <!-- FAVORITES -->
 
 <div
@@ -2688,7 +2449,6 @@ id="favoritesList">
 
 </div>
 
-
 <!-- SUCCESS -->
 
 <div
@@ -2699,13 +2459,9 @@ id="successModal">
 
 <div class="success">
 
-<div class="success-icon">
-✓
-</div>
+<div class="success-icon">✓</div>
 
-<h3>
-تم استلام طلبك
-</h3>
+<h3>تم استلام طلبك</h3>
 
 <p>
 شكرًا لك. تم إرسال طلبك بنجاح،
@@ -2731,32 +2487,23 @@ onclick="closeSuccess()">
 
 </div>
 
-
 <footer>
 
 <div class="footer">
 
 <div>
 
-<a
-class="logo"
-href="/"
-onclick="goHome(event)"
-aria-label="HZ.SHOP الرئيسية">
+<a class="logo" href="/" onclick="goHome(event)" aria-label="HZ.SHOP الرئيسية">
 
 <strong>HZ.SHOP</strong>
 
-<small>
-LUXURY BEAUTY STORE
-</small>
+<small>LUXURY BEAUTY STORE</small>
 
 </a>
 
 <p style="margin-top:18px">
-
 متجر HZ.SHOP للعطور ومنتجات العناية
 بالبشرة والعناية الشخصية والنظافة.
-
 </p>
 
 </div>
@@ -2767,49 +2514,17 @@ LUXURY BEAUTY STORE
 
 <ul>
 
-<li onclick="category('perfumes')">
-العطور
-</li>
-
-<li onclick="category('makeup')">
-مكياج
-</li>
-
-<li onclick="category('skin')">
-العناية بالبشرة
-</li>
-
-<li onclick="category('personal')">
-العناية الشخصية
-</li>
-
-<li onclick="category('accessories')">
-إكسسوارات
-</li>
-
-<li onclick="category('clothing')">
-ملابس
-</li>
-
-<li onclick="category('lingerie')">
-لانجري
-</li>
-
-<li onclick="category('home')">
-منزل
-</li>
-
-<li onclick="category('electronics')">
-إلكترونيات
-</li>
-
-<li onclick="category('kids')">
-ألعاب أطفال
-</li>
-
-<li onclick="category('cleaning')">
-النظافة
-</li>
+<li onclick="category('perfumes')">العطور</li>
+<li onclick="category('makeup')">مكياج</li>
+<li onclick="category('skin')">العناية بالبشرة</li>
+<li onclick="category('personal')">العناية الشخصية</li>
+<li onclick="category('accessories')">إكسسوارات</li>
+<li onclick="category('clothing')">ملابس</li>
+<li onclick="category('lingerie')">لانجري</li>
+<li onclick="category('home')">منزل</li>
+<li onclick="category('electronics')">إلكترونيات</li>
+<li onclick="category('kids')">ألعاب أطفال</li>
+<li onclick="category('cleaning')">النظافة</li>
 
 </ul>
 
@@ -2841,6 +2556,10 @@ LUXURY BEAUTY STORE
 
 </div>
 
+
+
+</div>
+
 </div>
 
 <div class="copy">
@@ -2849,12 +2568,10 @@ LUXURY BEAUTY STORE
 
 </footer>
 
-
 <div
 class="toast"
 id="toast">
 </div>
-
 
 <script>
 
@@ -2868,16 +2585,9 @@ let products = [];
 let current = "all";
 let cart = readStoredArray("hz_cart");
 let favorites = readStoredArray("hz_fav");
-let discountRate =
-Number(
-localStorage.getItem("hz_discount_rate") || 0
-);
-
-let selectedPayment =
-"الدفع عند الاستلام";
-
+let discountRate = Number(localStorage.getItem("hz_discount_rate") || 0);
+let selectedPayment = "الدفع عند الاستلام";
 let searchTimer = null;
-
 
 /* =========================
    HELPERS
@@ -2885,8 +2595,7 @@ let searchTimer = null;
 
 function toast(msg){
 
-const t =
-document.getElementById("toast");
+const t = document.getElementById("toast");
 
 if(!t) return;
 
@@ -2896,13 +2605,11 @@ t.classList.add("show");
 
 clearTimeout(window.__toastTimer);
 
-window.__toastTimer =
-setTimeout(()=>{
+window.__toastTimer = setTimeout(()=>{
 t.classList.remove("show");
 },3000);
 
 }
-
 
 function escapeHtml(value){
 
@@ -2915,24 +2622,17 @@ return String(value ?? "")
 
 }
 
-
 function readStoredArray(key){
 
 try{
 
-const value =
-localStorage.getItem(key);
+const value = localStorage.getItem(key);
 
 if(!value) return [];
 
-const parsed =
-JSON.parse(value);
+const parsed = JSON.parse(value);
 
-return Array.isArray(parsed)
-?
-parsed
-:
-[];
+return Array.isArray(parsed) ? parsed : [];
 
 }catch(error){
 
@@ -2945,7 +2645,6 @@ return [];
 }
 
 }
-
 
 function save(){
 
@@ -2961,22 +2660,13 @@ JSON.stringify(favorites)
 
 }
 
-
 function openCustomerAuth(){
 
-const modal =
-document.getElementById(
-"customerAuthModal"
-);
+const modal = document.getElementById("customerAuthModal");
 
 if(!modal){
-
-console.error(
-"Customer auth modal not found"
-);
-
+console.error("Customer auth modal not found");
 return;
-
 }
 
 modal.classList.add("open");
@@ -2984,7 +2674,6 @@ modal.classList.add("open");
 checkCustomerSession();
 
 }
-
 
 /* =========================
    PRODUCTS
@@ -2994,56 +2683,32 @@ function normalizeImages(product){
 
 let raw = null;
 
-if(
-product &&
-product.images !== undefined
-){
-
+if(product && product.images !== undefined){
 raw = product.images;
-
-}else if(
-product &&
-product.image !== undefined
-){
-
+}else if(product && product.image !== undefined){
 raw = product.image;
-
 }
 
-if(
-raw === null ||
-raw === undefined
-){
-
+if(raw === null || raw === undefined){
 return [];
-
 }
 
 if(typeof raw === "string"){
 
-const value =
-raw.trim();
+const value = raw.trim();
 
 if(!value) return [];
 
-if(
-value.startsWith("[") &&
-value.endsWith("]")
-){
+if(value.startsWith("[") && value.endsWith("]")){
 
 try{
 
-const parsed =
-JSON.parse(value);
+const parsed = JSON.parse(value);
 
 if(Array.isArray(parsed)){
-
 raw = parsed;
-
 }else{
-
 raw = [value];
-
 }
 
 }catch(e){
@@ -3052,22 +2717,16 @@ raw = [value];
 
 }
 
-}else if(
-value.includes("\n")
-){
+}else if(value.includes("\n")){
 
-raw =
-value
+raw = value
 .split(/\r?\n/)
 .map(x=>x.trim())
 .filter(Boolean);
 
-}else if(
-value.includes(",")
-){
+}else if(value.includes(",")){
 
-raw =
-value
+raw = value
 .split(",")
 .map(x=>x.trim())
 .filter(Boolean);
@@ -3081,25 +2740,17 @@ raw = [value];
 }
 
 if(!Array.isArray(raw)){
-
 raw = [raw];
-
 }
 
 return raw
 .map(image=>{
 
 if(typeof image === "string"){
-
 return image.trim();
-
 }
 
-if(
-image &&
-typeof image === "object"
-){
-
+if(image && typeof image === "object"){
 return String(
 image.url ||
 image.image ||
@@ -3107,7 +2758,6 @@ image.src ||
 image.path ||
 ""
 ).trim();
-
 }
 
 return "";
@@ -3117,136 +2767,37 @@ return "";
 
 }
 
-
 function normalizeCategory(value){
 
-const text =
-String(value || "")
+const text = String(value || "")
 .trim()
 .toLowerCase();
 
 const aliases = {
-
-perfumes:[
-"perfumes",
-"perfume",
-"fragrance",
-"fragrances",
-"عطور",
-"العطور"
-],
-
-makeup:[
-"makeup",
-"cosmetics",
-"cosmetic",
-"مكياج",
-"المكياج",
-"مستحضرات تجميل"
-],
-
-skin:[
-"skin",
-"skincare",
-"skin care",
-"عناية بالبشرة",
-"العناية بالبشرة",
-"البشرة"
-],
-
-personal:[
-"personal",
-"personal care",
-"عناية شخصية",
-"العناية الشخصية"
-],
-
-accessories:[
-"accessories",
-"accessory",
-"اكسسوارات",
-"إكسسوارات",
-"الاكسسوارات",
-"الإكسسوارات"
-],
-
-clothing:[
-"clothing",
-"clothes",
-"fashion",
-"ملابس",
-"الملابس"
-],
-
-lingerie:[
-"lingerie",
-"underwear",
-"ملابس داخلية",
-"لانجري",
-"لانجيري"
-],
-
-home:[
-"home",
-"household",
-"منزل",
-"المنزل",
-"مستلزمات منزلية",
-"أدوات منزلية"
-],
-
-electronics:[
-"electronics",
-"electronic",
-"tech",
-"إلكترونيات",
-"الكترونيات",
-"الإلكترونيات",
-"الالكترونيات"
-],
-
-kids:[
-"kids",
-"kids games",
-"toys",
-"children",
-"children's",
-"ألعاب أطفال",
-"العاب اطفال",
-"ألعاب الأطفال",
-"العاب الأطفال"
-],
-
-cleaning:[
-"cleaning",
-"hygiene",
-"نظافة",
-"النظافة",
-"تنظيف",
-"مستلزمات تنظيف"
-]
-
+perfumes:["perfumes","perfume","fragrance","fragrances","عطور","العطور"],
+makeup:["makeup","cosmetics","cosmetic","مكياج","المكياج","مستحضرات تجميل"],
+skin:["skin","skincare","skin care","عناية بالبشرة","العناية بالبشرة","البشرة"],
+personal:["personal","personal care","عناية شخصية","العناية الشخصية"],
+accessories:["accessories","accessory","اكسسوارات","إكسسوارات","الاكسسوارات","الإكسسوارات"],
+clothing:["clothing","clothes","fashion","ملابس","الملابس"],
+lingerie:["lingerie","underwear","ملابس داخلية","لانجري","لانجيري"],
+home:["home","household","منزل","المنزل","مستلزمات منزلية","أدوات منزلية"],
+electronics:["electronics","electronic","tech","إلكترونيات","الكترونيات","الإلكترونيات","الالكترونيات"],
+kids:["kids","kids games","toys","children","children's","ألعاب أطفال","العاب اطفال","ألعاب الأطفال","العاب الأطفال"],
+cleaning:["cleaning","hygiene","نظافة","النظافة","تنظيف","مستلزمات تنظيف"]
 };
 
-for(
-const [key,list]
-of Object.entries(aliases)
-){
-
-if(list.includes(text))
-return key;
-
+for(const [key,list] of Object.entries(aliases)){
+if(list.includes(text)) return key;
 }
 
 return text;
 
 }
 
-
 function categoryName(value){
 
 const names = {
-
 perfumes:"العطور",
 makeup:"مكياج",
 skin:"العناية بالبشرة",
@@ -3258,24 +2809,17 @@ home:"منزل",
 electronics:"إلكترونيات",
 kids:"ألعاب أطفال",
 cleaning:"النظافة"
-
 };
 
-const category =
-normalizeCategory(value);
+const category = normalizeCategory(value);
 
-return names[category] ||
-String(value || "");
+return names[category] || String(value || "");
 
 }
 
-
 async function loadProducts(){
 
-const box =
-document.getElementById(
-"products"
-);
+const box = document.getElementById("products");
 
 box.innerHTML =
 '<div class="loading">جاري تحميل المنتجات...</div>';
@@ -3290,10 +2834,8 @@ setTimeout(()=>{
 controller.abort();
 },12000);
 
-const response =
-await fetch(
-"/api/products?t=" +
-Date.now(),
+const response = await fetch(
+"/api/products?t=" + Date.now(),
 {
 method:"GET",
 cache:"no-store",
@@ -3304,45 +2846,30 @@ signal:controller.signal
 clearTimeout(timeout);
 
 if(!response.ok){
-
-throw new Error(
-"تعذر تحميل المنتجات"
-);
-
+throw new Error("تعذر تحميل المنتجات");
 }
 
-const data =
-await response.json();
+const data = await response.json();
 
 if(!Array.isArray(data)){
-
-throw new Error(
-"بيانات المنتجات غير صحيحة"
-);
-
+throw new Error("بيانات المنتجات غير صحيحة");
 }
 
-products =
-data.map(product=>{
+products = data.map(product=>{
 
-const images =
-normalizeImages(product);
+const images = normalizeImages(product);
 
 return {
 
 id:Number(product.id),
 
-name:String(
-product.name || ""
-),
+name:String(product.name || ""),
 
-category:
-normalizeCategory(
+category:normalizeCategory(
 product.category
 ),
 
-categoryName:
-categoryName(
+categoryName:categoryName(
 product.category
 ),
 
@@ -3365,14 +2892,11 @@ null,
 
 image:
 images[0] ||
-String(
-product.image || ""
-),
+String(product.image || ""),
 
 images:images,
 
-stock:
-Math.max(
+stock:Math.max(
 0,
 Number(product.stock || 0)
 ),
@@ -3381,8 +2905,8 @@ badge:String(
 product.badge || ""
 ),
 
+/* Optional real backend metadata used only when present. */
 salesCount:(
-
 product.sales ??
 product.sold ??
 product.sold_count ??
@@ -3392,10 +2916,7 @@ product.ordersCount ??
 product.purchases ??
 product.purchase_count ??
 product.purchaseCount
-
-) !== undefined &&
-(
-
+) !== undefined && (
 product.sales ??
 product.sold ??
 product.sold_count ??
@@ -3405,12 +2926,8 @@ product.ordersCount ??
 product.purchases ??
 product.purchase_count ??
 product.purchaseCount
-
 ) !== null
-
-?
-Number(
-
+? Number(
 product.sales ??
 product.sold ??
 product.sold_count ??
@@ -3420,13 +2937,10 @@ product.ordersCount ??
 product.purchases ??
 product.purchase_count ??
 product.purchaseCount
-
 )
-:
-null,
+: null,
 
 createdAt:(
-
 product.created_at ??
 product.createdAt ??
 product.created ??
@@ -3434,7 +2948,6 @@ product.date_added ??
 product.dateAdded ??
 product.published_at ??
 product.publishedAt
-
 ) || null
 
 };
@@ -3444,11 +2957,8 @@ product.publishedAt
 cleanupCart();
 
 render();
-
 renderSmartSections();
-
 renderCart();
-
 updateFavoriteCount();
 
 }catch(error){
@@ -3470,19 +2980,16 @@ document.getElementById(
 
 }
 
-
 function cleanupCart(){
 
-cart =
-cart.filter(item=>{
+cart = cart.filter(item=>{
 
 const product =
 products.find(
 p=>p.id === Number(item.id)
 );
 
-return product &&
-product.stock > 0;
+return product && product.stock > 0;
 
 });
 
@@ -3495,23 +3002,12 @@ p=>p.id === Number(item.id)
 
 if(product){
 
-item.name =
-product.name;
+item.name = product.name;
+item.price = product.price;
+item.image = product.image || "";
 
-item.price =
-product.price;
-
-item.image =
-product.image || "";
-
-if(
-item.quantity >
-product.stock
-){
-
-item.quantity =
-product.stock;
-
+if(item.quantity > product.stock){
+item.quantity = product.stock;
 }
 
 }
@@ -3521,7 +3017,6 @@ product.stock;
 save();
 
 }
-
 
 /* =========================
    GALLERY
@@ -3637,7 +3132,6 @@ ${dots}
 
 }
 
-
 function getCardImageIndex(id){
 
 const gallery =
@@ -3647,14 +3141,11 @@ document.getElementById(
 
 return gallery
 ?
-Number(
-gallery.dataset.index || 0
-)
+Number(gallery.dataset.index || 0)
 :
 0;
 
 }
-
 
 function changeCardImage(id,index){
 
@@ -3672,20 +3163,14 @@ product.images
 :
 normalizeImages(product);
 
-if(images.length <= 1)
-return;
+if(images.length <= 1) return;
 
 if(index < 0){
-
-index =
-images.length - 1;
-
+index = images.length - 1;
 }
 
 if(index >= images.length){
-
 index = 0;
-
 }
 
 const gallery =
@@ -3698,11 +3183,9 @@ document.getElementById(
 "gallery-track-" + id
 );
 
-if(!gallery || !track)
-return;
+if(!gallery || !track) return;
 
-gallery.dataset.index =
-index;
+gallery.dataset.index = index;
 
 track.style.transform =
 "translateX(-" +
@@ -3710,27 +3193,20 @@ track.style.transform =
 "%)";
 
 gallery
-.querySelectorAll(
-".product-gallery-dot"
-)
+.querySelectorAll(".product-gallery-dot")
 .forEach((dot,i)=>{
-
 dot.classList.toggle(
 "active",
 i === index
 );
-
 });
 
 }
 
-
 function enableGallerySwipe(){
 
 document
-.querySelectorAll(
-".product-gallery"
-)
+.querySelectorAll(".product-gallery")
 .forEach(gallery=>{
 
 let startX = 0;
@@ -3740,10 +3216,8 @@ gallery.addEventListener(
 event=>{
 
 if(event.touches.length){
-
 startX =
 event.touches[0].clientX;
-
 }
 
 },
@@ -3754,15 +3228,17 @@ gallery.addEventListener(
 "touchend",
 event=>{
 
-if(!event.changedTouches.length)
+if(!event.changedTouches.length){
 return;
+}
 
 const difference =
 startX -
 event.changedTouches[0].clientX;
 
-if(Math.abs(difference) < 35)
+if(Math.abs(difference) < 35){
 return;
+}
 
 const id =
 gallery.id.replace(
@@ -3790,42 +3266,37 @@ index - 1
 
 }
 
-
 /* =========================
    RENDER PRODUCTS
 ========================= */
 
 function render(){
 
-let list =
-[...products];
+let list = [...products];
 
 const desktopSearch =
-document.getElementById(
-"search"
-).value
+document.getElementById("search")
+.value
 .trim()
 .toLowerCase();
 
 const mobileSearch =
-document.getElementById(
-"mobileSearch"
-).value
+document.getElementById("mobileSearch")
+.value
 .trim()
 .toLowerCase();
 
 const search =
-mobileSearch ||
-desktopSearch;
+mobileSearch || desktopSearch;
 
 if(current !== "all"){
 
 list =
 list.filter(
 p =>
-normalizeCategory(
-p.category
-) === current
+normalizeCategory(p.category)
+===
+current
 );
 
 }
@@ -3860,24 +3331,19 @@ p.categoryName
 }
 
 const sort =
-document.getElementById(
-"sort"
-).value;
+document.getElementById("sort")
+.value;
 
 if(sort === "low"){
-
 list.sort(
 (a,b)=>a.price-b.price
 );
-
 }
 
 if(sort === "high"){
-
 list.sort(
 (a,b)=>b.price-a.price
 );
-
 }
 
 if(sort === "name"){
@@ -3908,9 +3374,7 @@ box.innerHTML = `
 
 <div class="empty-products">
 
-<strong>
-لا توجد منتجات
-</strong>
+<strong>لا توجد منتجات</strong>
 
 لا توجد منتجات مطابقة لبحثك أو هذا القسم.
 
@@ -4062,310 +3526,107 @@ enableGallerySwipe();
 
 }
 
-
 /* =========================
    COMPACT SMART SECTIONS
-========================= */
+   ========================= */
 
 function productCardImage(product){
 
-const images =
-Array.isArray(product.images)
-?
-product.images
-:
-normalizeImages(product);
+const images = Array.isArray(product.images) ? product.images : normalizeImages(product);
 
 if(images.length){
-
 return `<img src="${escapeHtml(images[0])}" alt="${escapeHtml(product.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`;
-
 }
 
-return `
-<div class="bottle">
-${escapeHtml(product.name)}
-</div>
-`;
+return `<div class="bottle">${escapeHtml(product.name)}</div>`;
 
 }
-
 
 function smartProductCard(product,label){
 
-const fav =
-favorites.includes(product.id);
-
-const canBuy =
-product.stock > 0;
-
-const lowStock =
-product.stock > 0 &&
-product.stock <= 5;
-
-const discount =
-product.old !== null &&
-!isNaN(product.old) &&
-Number(product.old) >
-Number(product.price);
-
-const gallery =
-createProductGallery(product);
+const fav = favorites.includes(product.id);
+const canBuy = product.stock > 0;
+const lowStock = product.stock > 0 && product.stock <= 5;
+const discount = product.old !== null && !isNaN(product.old) && Number(product.old) > Number(product.price);
+const gallery = createProductGallery(product);
 
 return `
-
-<article
-class="smart-card"
-onclick="openProduct(${product.id})">
-
+<article class="smart-card" onclick="openProduct(${product.id})">
 <div class="product-image">
-
-${
-label
-?
-`<div class="product-badge">${escapeHtml(label)}</div>`
-:
-(
-product.badge
-?
-`<div class="product-badge">${escapeHtml(product.badge)}</div>`
-:
-""
-)
-}
-
-<button
-class="heart ${fav ? "active" : ""}"
-onclick="event.stopPropagation();toggleFav(${product.id})"
-aria-label="المفضلة">
-
-${fav ? "♥" : "♡"}
-
-</button>
-
+${label ? `<div class="product-badge">${escapeHtml(label)}</div>` : (product.badge ? `<div class="product-badge">${escapeHtml(product.badge)}</div>` : "")}
+<button class="heart ${fav ? "active" : ""}" onclick="event.stopPropagation();toggleFav(${product.id})" aria-label="المفضلة">${fav ? "♥" : "♡"}</button>
 ${gallery}
-
 </div>
-
 <div class="product-info">
-
-<div class="product-category">
-${escapeHtml(product.categoryName)}
+<div class="product-category">${escapeHtml(product.categoryName)}</div>
+<div class="product-name">${escapeHtml(product.name)}</div>
+<div class="price"><strong>$${Number(product.price).toFixed(2)}</strong>${discount ? `<del>$${Number(product.old).toFixed(2)}</del>` : ""}</div>
+${canBuy ? `<div class="stock ${lowStock ? "low" : ""}">${lowStock ? "متبقي " + product.stock + " فقط" : "متوفر"}</div><button class="add" onclick="event.stopPropagation();add(${product.id})">🛒 أضف</button>` : `<div class="stock">غير متوفر حاليًا</div><button class="out-of-stock" disabled>غير متوفر</button>`}
 </div>
-
-<div class="product-name">
-${escapeHtml(product.name)}
-</div>
-
-<div class="price">
-
-<strong>
-$${Number(product.price).toFixed(2)}
-</strong>
-
-${
-discount
-?
-`<del>$${Number(product.old).toFixed(2)}</del>`
-:
-""
-}
-
-</div>
-
-${
-canBuy
-?
-`
-<div class="stock ${lowStock ? "low" : ""}">
-${
-lowStock
-?
-"متبقي " + product.stock + " فقط"
-:
-"متوفر"
-}
-</div>
-
-<button
-class="add"
-onclick="event.stopPropagation();add(${product.id})">
-🛒 أضف
-</button>
-`
-:
-`
-<div class="stock">
-غير متوفر حاليًا
-</div>
-
-<button
-class="out-of-stock"
-disabled>
-غير متوفر
-</button>
-`
-}
-
-</div>
-
-</article>
-`;
+</article>`;
 
 }
-
 
 function renderSmartSections(){
 
-const newSection =
-document.getElementById(
-"newSection"
-);
+const newSection = document.getElementById("newSection");
+const newRail = document.getElementById("newRail");
+const bestSection = document.getElementById("bestSection");
+const bestRail = document.getElementById("bestRail");
 
-const newRail =
-document.getElementById(
-"newRail"
-);
+if(!newSection || !newRail || !bestSection || !bestRail) return;
 
-const bestSection =
-document.getElementById(
-"bestSection"
-);
-
-const bestRail =
-document.getElementById(
-"bestRail"
-);
-
-if(
-!newSection ||
-!newRail ||
-!bestSection ||
-!bestRail
-)
-return;
-
-
-/* Newest */
-
-const newest =
-[...products];
-
-const hasDate =
-newest.some(
-p =>
-p.createdAt &&
-!isNaN(
-new Date(
-p.createdAt
-).getTime()
-)
-);
-
+/* Newest: use an actual date only when the backend supplied one.
+   Otherwise preserve the API's current product ordering. */
+const newest = [...products];
+const hasDate = newest.some(p => p.createdAt && !isNaN(new Date(p.createdAt).getTime()));
 if(hasDate){
-
-newest.sort(
-(a,b)=>{
-
-const da =
-a.createdAt &&
-!isNaN(
-new Date(
-a.createdAt
-).getTime()
-)
-?
-new Date(
-a.createdAt
-).getTime()
-:
--Infinity;
-
-const db =
-b.createdAt &&
-!isNaN(
-new Date(
-b.createdAt
-).getTime()
-)
-?
-new Date(
-b.createdAt
-).getTime()
-:
--Infinity;
-
+newest.sort((a,b)=>{
+const da = a.createdAt && !isNaN(new Date(a.createdAt).getTime()) ? new Date(a.createdAt).getTime() : -Infinity;
+const db = b.createdAt && !isNaN(new Date(b.createdAt).getTime()) ? new Date(b.createdAt).getTime() : -Infinity;
 return db - da;
-
-}
-);
-
+});
 }
 
-const newestItems =
-newest.slice(0,8);
+const newestItems = newest.slice(0,8);
+newSection.style.display = newestItems.length ? "block" : "none";
+newRail.innerHTML = newestItems.map(p=>smartProductCard(p,"وصل حديثًا")).join("");
 
-newSection.style.display =
-newestItems.length
-?
-"block"
-:
-"none";
-
-newRail.innerHTML =
-newestItems
-.map(
-p =>
-smartProductCard(
-p,
-"وصل حديثًا"
-)
-)
-.join("");
-
-
-/* Best sellers */
-
-const salesData =
-products.filter(
-p =>
-Number.isFinite(
-Number(p.salesCount)
-) &&
-Number(p.salesCount) > 0
+/* Best sellers: prefer real backend sales/order data. If unavailable,
+   use the current API order as a safe fallback without inventing sales numbers. */
+const salesData = products.filter(
+  p =>
+    Number.isFinite(Number(p.salesCount)) &&
+    Number(p.salesCount) > 0
 );
 
-const best =
-[...salesData]
-.sort(
-(a,b)=>
-Number(b.salesCount) -
-Number(a.salesCount)
-)
-.slice(0,8);
+const best = [...salesData]
+  .sort(
+    (a,b) =>
+      Number(b.salesCount) -
+      Number(a.salesCount)
+  )
+  .slice(0,8);
 
 if(!best.length){
 
-bestSection.style.display =
-"none";
-
-bestRail.innerHTML = "";
+  bestSection.style.display = "none";
+  bestRail.innerHTML = "";
 
 }else{
 
-bestSection.style.display =
-"block";
+  bestSection.style.display = "block";
 
-bestRail.innerHTML =
-best
-.map(
-p =>
-smartProductCard(
-p,
-"الأكثر طلبًا"
-)
-)
-.join("");
+  bestRail.innerHTML =
+    best
+      .map(
+        p =>
+          smartProductCard(
+            p,
+            "الأكثر طلبًا"
+          )
+      )
+      .join("");
 
 }
 
@@ -4373,88 +3634,50 @@ enableGallerySwipe();
 
 }
 
-
 /* =========================
    PRODUCT
 ========================= */
-
 function openProduct(id){
-
 const product =
 products.find(
 x=>x.id === Number(id)
 );
-
 if(!product){
-
-toast(
-"المنتج غير موجود"
-);
-
+toast("المنتج غير موجود");
 return;
-
 }
-
+/* حفظ حالة المتجر قبل فتح صفحة المنتج */
 try{
-
 sessionStorage.setItem(
 "hz_shop_return_scroll",
-String(
-window.scrollY
-)
+String(window.scrollY)
 );
-
 sessionStorage.setItem(
 "hz_shop_return_url",
 window.location.href
 );
-
 }catch(error){
-
 console.warn(
 "HZ_SHOP_STATE_SAVE_ERROR",
 error
 );
-
 }
-
+/* Meta Pixel — ViewContent */
 if(typeof fbq === "function"){
-
-fbq(
-"track",
-"ViewContent",
-{
-
+fbq("track","ViewContent",{
 content_ids:[
 String(product.id)
 ],
-
-content_type:
-"product",
-
-content_name:
-product.name,
-
-value:
-Number(product.price),
-
-currency:
-"USD"
-
+content_type:"product",
+content_name:product.name,
+value:Number(product.price),
+currency:"USD"
+});
 }
-);
-
-}
-
 window.location.href =
 "/product.html?id=" +
-encodeURIComponent(
-product.id
-);
-
+encodeURIComponent(product.id);
 }
-
-
 /* =========================
    CATEGORY
 ========================= */
@@ -4465,26 +3688,18 @@ current = cat;
 
 document
 .querySelectorAll(".nav button")
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
+.forEach(x=>
+x.classList.remove("active")
 );
 
 document
 .querySelectorAll(".filter")
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
+.forEach(x=>
+x.classList.remove("active")
 );
 
 if(btn){
-
 btn.classList.add("active");
-
 }else{
 
 const matching =
@@ -4493,100 +3708,45 @@ document.querySelector(
 );
 
 if(matching){
-
-matching.classList.add(
-"active"
-);
-
+matching.classList.add("active");
 }
 
 }
 
 const names = {
-
-all:
-"جميع المنتجات",
-
-perfumes:
-"العطور",
-
-makeup:
-"مكياج",
-
-skin:
-"العناية بالبشرة",
-
-personal:
-"العناية الشخصية",
-
-accessories:
-"إكسسوارات",
-
-clothing:
-"ملابس",
-
-lingerie:
-"لانجري",
-
-home:
-"منزل",
-
-electronics:
-"إلكترونيات",
-
-kids:
-"ألعاب أطفال",
-
-cleaning:
-"النظافة"
-
+all:"جميع المنتجات",
+perfumes:"العطور",
+makeup:"مكياج",
+skin:"العناية بالبشرة",
+personal:"العناية الشخصية",
+accessories:"إكسسوارات",
+clothing:"ملابس",
+lingerie:"لانجري",
+home:"منزل",
+electronics:"إلكترونيات",
+kids:"ألعاب أطفال",
+cleaning:"النظافة"
 };
 
 const subtitles = {
-
-all:
-"جميع المنتجات",
-
-perfumes:
-"منتجات العطور",
-
-makeup:
-"منتجات المكياج",
-
-skin:
-"منتجات العناية بالبشرة",
-
-personal:
-"منتجات العناية الشخصية",
-
-accessories:
-"الإكسسوارات",
-
-clothing:
-"الملابس",
-
-lingerie:
-"اللانجري",
-
-home:
-"منتجات المنزل",
-
-electronics:
-"الإلكترونيات",
-
-kids:
-"ألعاب الأطفال",
-
-cleaning:
-"منتجات النظافة اليومية"
-
+all:"جميع المنتجات",
+perfumes:"منتجات العطور",
+makeup:"منتجات المكياج",
+skin:"منتجات العناية بالبشرة",
+personal:"منتجات العناية الشخصية",
+accessories:"الإكسسوارات",
+clothing:"الملابس",
+lingerie:"اللانجري",
+home:"منتجات المنزل",
+electronics:"الإلكترونيات",
+kids:"ألعاب الأطفال",
+cleaning:"منتجات النظافة اليومية"
 };
 
 document.getElementById(
 "shopTitle"
 ).textContent =
-names[cat] ||
-"جميع المنتجات";
+names[cat] || "جميع المنتجات";
 
 document.getElementById(
 "shopSubtitle"
@@ -4599,7 +3759,6 @@ render();
 goShop();
 
 }
-
 
 function resetFilters(){
 
@@ -4619,46 +3778,28 @@ document.getElementById(
 
 document
 .querySelectorAll(".nav button")
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
+.forEach(x=>
+x.classList.remove("active")
 );
 
 document
 .querySelectorAll(".filter")
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
+.forEach(x=>
+x.classList.remove("active")
 );
 
 const navHome =
-document.querySelector(
-".nav button"
-);
+document.querySelector(".nav button");
 
 const filterAll =
-document.querySelector(
-".filter"
-);
+document.querySelector(".filter");
 
 if(navHome){
-
-navHome.classList.add(
-"active"
-);
-
+navHome.classList.add("active");
 }
 
 if(filterAll){
-
-filterAll.classList.add(
-"active"
-);
-
+filterAll.classList.add("active");
 }
 
 document.getElementById(
@@ -4677,7 +3818,6 @@ goShop();
 
 }
 
-
 /* =========================
    SEARCH
 ========================= */
@@ -4691,8 +3831,7 @@ document.getElementById(
 
 document.getElementById(
 "mobileSearch"
-).value =
-value;
+).value = value;
 
 const clear =
 document.getElementById(
@@ -4700,40 +3839,27 @@ document.getElementById(
 );
 
 if(clear){
-
 clear.style.display =
-value
-?
-"block"
-:
-"none";
-
+value ? "block" : "none";
 }
 
 current = "all";
 
 document
 .querySelectorAll(".nav button")
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
+.forEach(x=>
+x.classList.remove("active")
 );
 
 document
 .querySelectorAll(".filter")
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
+.forEach(x=>
+x.classList.remove("active")
 );
 
 render();
 
 }
-
 
 function mobileSearchProducts(){
 
@@ -4744,13 +3870,11 @@ document.getElementById(
 
 document.getElementById(
 "search"
-).value =
-value;
+).value = value;
 
 searchProducts();
 
 }
-
 
 function clearSearch(){
 
@@ -4771,13 +3895,11 @@ render();
 
 }
 
-
 function clearMobileSearch(){
 
 clearSearch();
 
 }
-
 
 /* =========================
    HOME / MOBILE NAV
@@ -4785,178 +3907,50 @@ clearSearch();
 
 function setHomeNav(btn){
 
-document
-.querySelectorAll(
-".bottom-nav button"
-)
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
-);
-
-const home =
-btn ||
-document.getElementById(
-"bottomHome"
-);
-
-if(home)
-home.classList.add(
-"active"
-);
+document.querySelectorAll(".bottom-nav button").forEach(x=>x.classList.remove("active"));
+const home = btn || document.getElementById("bottomHome");
+if(home) home.classList.add("active");
 
 }
-
 
 function goHome(event){
 
-if(event){
-
-event.preventDefault();
-
-}
+if(event){ event.preventDefault(); }
 
 current = "all";
+const search = document.getElementById("search");
+const mobileSearch = document.getElementById("mobileSearch");
+const sort = document.getElementById("sort");
+if(search) search.value = "";
+if(mobileSearch) mobileSearch.value = "";
+if(sort) sort.value = "default";
+const clear = document.getElementById("searchClear");
+if(clear) clear.style.display = "none";
 
-const search =
-document.getElementById(
-"search"
-);
-
-const mobileSearch =
-document.getElementById(
-"mobileSearch"
-);
-
-const sort =
-document.getElementById(
-"sort"
-);
-
-if(search)
-search.value = "";
-
-if(mobileSearch)
-mobileSearch.value = "";
-
-if(sort)
-sort.value = "default";
-
-const clear =
-document.getElementById(
-"searchClear"
-);
-
-if(clear)
-clear.style.display = "none";
-
-document
-.querySelectorAll(
-".nav button"
-)
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
-);
-
-const navHome =
-document.querySelector(
-".nav button"
-);
-
-if(navHome)
-navHome.classList.add(
-"active"
-);
-
-document
-.querySelectorAll(
-".filter"
-)
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
-);
-
-const filterAll =
-document.querySelector(
-".filter"
-);
-
-if(filterAll)
-filterAll.classList.add(
-"active"
-);
-
-const title =
-document.getElementById(
-"shopTitle"
-);
-
-if(title)
-title.textContent =
-"جميع المنتجات";
+document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));
+const navHome = document.querySelector(".nav button");
+if(navHome) navHome.classList.add("active");
+document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+const filterAll = document.querySelector(".filter");
+if(filterAll) filterAll.classList.add("active");
+const title = document.getElementById("shopTitle");
+if(title) title.textContent = "جميع المنتجات";
 
 render();
-
 setHomeNav();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+window.scrollTo({top:0,behavior:"smooth"});
 
 }
-
 
 function openCategoriesNav(){
 
-const nav =
-document.querySelector(
-"header nav"
-);
-
-if(nav){
-
-nav.scrollIntoView({
-behavior:"smooth",
-block:"start"
-});
+const nav = document.querySelector("header nav");
+if(nav) nav.scrollIntoView({behavior:"smooth",block:"start"});
+document.querySelectorAll(".bottom-nav button").forEach(x=>x.classList.remove("active"));
+const categoriesBtn = document.getElementById("bottomCategories");
+if(categoriesBtn) categoriesBtn.classList.add("active");
 
 }
-
-document
-.querySelectorAll(
-".bottom-nav button"
-)
-.forEach(
-x =>
-x.classList.remove(
-"active"
-)
-);
-
-const categoriesBtn =
-document.getElementById(
-"bottomCategories"
-);
-
-if(categoriesBtn){
-
-categoriesBtn.classList.add(
-"active"
-);
-
-}
-
-}
-
 
 /* =========================
    SHOP SCROLL
@@ -4965,9 +3959,7 @@ categoriesBtn.classList.add(
 function goShop(){
 
 const shop =
-document.getElementById(
-"shop"
-);
+document.getElementById("shop");
 
 if(!shop) return;
 
@@ -4975,11 +3967,9 @@ shop.scrollIntoView({
 behavior:"smooth",
 block:"start"
 });
-
 setHomeNav();
 
 }
-
 
 /* =========================
    CART
@@ -4987,17 +3977,9 @@ setHomeNav();
 
 function add(id){
 
-if(window.__hzAddLock)
-return;
-
+if(window.__hzAddLock) return;
 window.__hzAddLock = true;
-
-setTimeout(
-()=>{
-window.__hzAddLock = false;
-},
-450
-);
+setTimeout(()=>{window.__hzAddLock=false;},450);
 
 const product =
 products.find(
@@ -5006,9 +3988,7 @@ x=>x.id === Number(id)
 
 if(!product){
 
-toast(
-"المنتج غير موجود"
-);
+toast("المنتج غير موجود");
 
 return;
 
@@ -5016,9 +3996,7 @@ return;
 
 if(product.stock <= 0){
 
-toast(
-"المنتج غير متوفر"
-);
+toast("المنتج غير متوفر");
 
 return;
 
@@ -5031,10 +4009,7 @@ x=>x.id === product.id
 
 if(item){
 
-if(
-item.quantity >=
-product.stock
-){
+if(item.quantity >= product.stock){
 
 toast(
 "لا يمكن إضافة كمية أكبر من المخزون"
@@ -5050,17 +4025,13 @@ item.quantity++;
 
 cart.push({
 
-id:
-product.id,
+id:product.id,
 
-name:
-product.name,
+name:product.name,
 
-price:
-product.price,
+price:product.price,
 
-image:
-product.image || "",
+image:product.image || "",
 
 quantity:1
 
@@ -5071,49 +4042,34 @@ quantity:1
 save();
 
 renderCart();
-
+/* Meta Pixel — AddToCart */
 if(typeof fbq === "function"){
 
-fbq(
-"track",
-"AddToCart",
-{
+fbq("track","AddToCart",{
 
 content_ids:[
 String(product.id)
 ],
 
-content_type:
-"product",
+content_type:"product",
 
-content_name:
-product.name,
+content_name:product.name,
 
 value:
 Number(product.price) *
-Number(
-item
-?
-item.quantity
-:
-1
-),
+Number(item ? item.quantity : 1),
 
-currency:
-"USD"
+currency:"USD"
+
+});
 
 }
-);
-
-}
-
 toast(
 product.name +
 " تمت إضافته إلى السلة"
 );
 
 }
-
 
 function change(id,num){
 
@@ -5132,8 +4088,7 @@ x=>x.id === Number(id)
 if(!product) return;
 
 const next =
-item.quantity +
-Number(num);
+item.quantity + Number(num);
 
 if(next > product.stock){
 
@@ -5162,7 +4117,6 @@ renderCart();
 
 }
 
-
 function removeItem(id){
 
 cart =
@@ -5174,12 +4128,9 @@ save();
 
 renderCart();
 
-toast(
-"تم حذف المنتج من السلة"
-);
+toast("تم حذف المنتج من السلة");
 
 }
-
 
 function renderCart(){
 
@@ -5191,46 +4142,20 @@ document.getElementById(
 const count =
 cart.reduce(
 (total,item)=>
-total +
-Number(item.quantity),
+total + Number(item.quantity),
 0
 );
 
-const cartCount =
 document.getElementById(
 "cartCount"
-);
+).textContent = count;
 
-if(cartCount){
-
-cartCount.textContent =
-count;
-
-}
-
-const floatingCartCount =
 document.getElementById(
 "floatingCartCount"
-);
+).textContent = count;
 
-if(floatingCartCount){
-
-floatingCartCount.textContent =
-count;
-
-}
-
-const bottomCartCount =
-document.getElementById(
-"bottomCartCount"
-);
-
-if(bottomCartCount){
-
-bottomCartCount.textContent =
-count;
-
-}
+const bottomCartCount = document.getElementById("bottomCartCount");
+if(bottomCartCount) bottomCartCount.textContent = count;
 
 if(!cart.length){
 
@@ -5349,7 +4274,6 @@ updateTotals();
 
 }
 
-
 function updateTotals(){
 
 const subtotal =
@@ -5362,8 +4286,7 @@ Number(b.quantity),
 );
 
 const discount =
-subtotal *
-discountRate;
+subtotal * discountRate;
 
 const delivery =
 subtotal > 0
@@ -5383,56 +4306,42 @@ delivery
 document.getElementById(
 "subtotal"
 ).textContent =
-"$" +
-subtotal.toFixed(2);
+"$" + subtotal.toFixed(2);
 
 document.getElementById(
 "discount"
 ).textContent =
-"-$" +
-discount.toFixed(2);
+"-$" + discount.toFixed(2);
 
 document.getElementById(
 "delivery"
 ).textContent =
-"$" +
-delivery.toFixed(2);
+"$" + delivery.toFixed(2);
 
 document.getElementById(
 "total"
 ).textContent =
-"$" +
-total.toFixed(2);
+"$" + total.toFixed(2);
 
 }
-
 
 function openCart(){
-
-window.location.href =
-"/cart.html";
-
+  window.location.href = "/cart.html";
 }
-
 
 function closeCart(){
 
 document.getElementById(
 "cart"
-).classList.remove(
-"open"
-);
+).classList.remove("open");
 
 document.getElementById(
 "overlay"
-).classList.remove(
-"show"
-);
+).classList.remove("show");
 
 document.body.style.overflow = "";
 
 }
-
 
 /* =========================
    COUPON
@@ -5459,9 +4368,7 @@ localStorage.setItem(
 "0.10"
 );
 
-toast(
-"تم تطبيق خصم 10%"
-);
+toast("تم تطبيق خصم 10%");
 
 }else{
 
@@ -5472,16 +4379,13 @@ localStorage.setItem(
 "0"
 );
 
-toast(
-"كود الخصم غير صحيح"
-);
+toast("كود الخصم غير صحيح");
 
 }
 
 updateTotals();
 
 }
-
 
 /* =========================
    FAVORITES
@@ -5494,45 +4398,29 @@ document.getElementById(
 ).textContent =
 favorites.length;
 
-const bottomFavCount =
-document.getElementById(
-"bottomFavCount"
-);
-
-if(bottomFavCount){
-
-bottomFavCount.textContent =
-favorites.length;
+const bottomFavCount = document.getElementById("bottomFavCount");
+if(bottomFavCount) bottomFavCount.textContent = favorites.length;
 
 }
-
-}
-
 
 function toggleFav(id){
 
 id = Number(id);
 
-if(
-favorites.includes(id)
-){
+if(favorites.includes(id)){
 
 favorites =
 favorites.filter(
 x=>x !== id
 );
 
-toast(
-"تمت إزالة المنتج من المفضلة"
-);
+toast("تمت إزالة المنتج من المفضلة");
 
 }else{
 
 favorites.push(id);
 
-toast(
-"تمت إضافة المنتج إلى المفضلة"
-);
+toast("تمت إضافة المنتج إلى المفضلة");
 
 }
 
@@ -5541,11 +4429,9 @@ save();
 updateFavoriteCount();
 
 render();
-
 renderSmartSections();
 
 }
-
 
 function openFavorites(){
 
@@ -5561,8 +4447,7 @@ document.getElementById(
 
 const list =
 products.filter(
-p =>
-favorites.includes(p.id)
+p=>favorites.includes(p.id)
 );
 
 if(!list.length){
@@ -5627,15 +4512,11 @@ onclick="removeFavoriteFromModal(${product.id})">
 
 }
 
-modal.classList.add(
-"show"
-);
+modal.classList.add("show");
 
-document.body.style.overflow =
-"hidden";
+document.body.style.overflow = "hidden";
 
 }
-
 
 function removeFavoriteFromModal(id){
 
@@ -5654,40 +4535,27 @@ render();
 
 }
 
-
 function closeFavorites(event){
 
-if(
-event &&
-event.target !==
-event.currentTarget
-){
-
+if(event && event.target !== event.currentTarget){
 return;
-
 }
 
 document.getElementById(
 "favoritesModal"
-).classList.remove(
-"show"
-);
+).classList.remove("show");
 
 if(
 !document.getElementById(
 "cart"
-).classList.contains(
-"open"
-)
+).classList.contains("open")
 ){
 
-document.body.style.overflow =
-"";
+document.body.style.overflow = "";
 
 }
 
 }
-
 
 /* =========================
    CHECKOUT
@@ -5695,102 +4563,77 @@ document.body.style.overflow =
 
 function checkout(){
 
-if(!cart.length){
+  if(!cart.length){
 
-toast(
-"السلة فارغة"
-);
+    toast("السلة فارغة");
 
-return;
+    return;
 
-}
+  }
 
-if(typeof fbq === "function"){
+  /* Meta Pixel — InitiateCheckout */
+  if(typeof fbq === "function"){
 
-const subtotal =
-cart.reduce(
-(a,b)=>
-a +
-Number(b.price) *
-Number(b.quantity),
-0
-);
+    const subtotal =
+      cart.reduce(
+        (a,b)=>
+          a +
+          Number(b.price) *
+          Number(b.quantity),
+        0
+      );
 
-const discount =
-subtotal *
-discountRate;
+    const discount =
+      subtotal * discountRate;
 
-const delivery =
-subtotal > 0
-?
-DELIVERY_FEE
-:
-0;
+    const delivery =
+      subtotal > 0
+        ? DELIVERY_FEE
+        : 0;
 
-const total =
-Math.max(
-0,
-subtotal -
-discount +
-delivery
-);
+    const total =
+      Math.max(
+        0,
+        subtotal -
+        discount +
+        delivery
+      );
 
-fbq(
-"track",
-"InitiateCheckout",
-{
+    fbq("track","InitiateCheckout",{
 
-content_ids:
-cart.map(
-item =>
-String(item.id)
-),
+      content_ids:
+        cart.map(item=>String(item.id)),
 
-content_type:
-"product",
+      content_type:"product",
 
-num_items:
-cart.reduce(
-(sum,item)=>
-sum +
-Number(
-item.quantity
-),
-0
-),
+      num_items:
+        cart.reduce(
+          (sum,item)=>
+            sum + Number(item.quantity),
+          0
+        ),
 
-value:
-Number(
-total.toFixed(2)
-),
+      value:Number(total.toFixed(2)),
 
-currency:
-"USD"
+      currency:"USD"
+
+    });
+
+  }
+
+  window.location.href = "/cart.html";
 
 }
-);
-
-}
-
-window.location.href =
-"/cart.html";
-
-}
-
 
 function closeCheckout(){
 
 document.getElementById(
 "modal"
-).classList.remove(
-"show"
-);
+).classList.remove("show");
 
-document.body.style.overflow =
-"";
+document.body.style.overflow = "";
 
 }
-
 
 function renderSummary(){
 
@@ -5835,8 +4678,7 @@ Number(b.quantity),
 );
 
 const discount =
-subtotal *
-discountRate;
+subtotal * discountRate;
 
 const delivery =
 subtotal > 0
@@ -5856,49 +4698,38 @@ delivery
 document.getElementById(
 "summarySubtotal"
 ).textContent =
-"$" +
-subtotal.toFixed(2);
+"$" + subtotal.toFixed(2);
 
 document.getElementById(
 "summaryDiscount"
 ).textContent =
-"-$" +
-discount.toFixed(2);
+"-$" + discount.toFixed(2);
 
 document.getElementById(
 "summaryDelivery"
 ).textContent =
-"$" +
-delivery.toFixed(2);
+"$" + delivery.toFixed(2);
 
 document.getElementById(
 "summaryTotal"
 ).textContent =
-"$" +
-total.toFixed(2);
+"$" + total.toFixed(2);
 
 }
-
 
 function payment(el,type){
 
 document
 .querySelectorAll(".pay")
-.forEach(
-x =>
-x.classList.remove(
-"selected"
-)
+.forEach(x=>
+x.classList.remove("selected")
 );
 
-el.classList.add(
-"selected"
-);
+el.classList.add("selected");
 
 selectedPayment = type;
 
 }
-
 
 /* =========================
    ORDER DATA
@@ -5938,9 +4769,7 @@ document.getElementById(
 
 if(!name){
 
-toast(
-"أدخل الاسم الكامل"
-);
+toast("أدخل الاسم الكامل");
 
 return null;
 
@@ -5948,9 +4777,7 @@ return null;
 
 if(!phone){
 
-toast(
-"أدخل رقم الهاتف"
-);
+toast("أدخل رقم الهاتف");
 
 return null;
 
@@ -5958,9 +4785,7 @@ return null;
 
 if(!governorate){
 
-toast(
-"اختر المحافظة"
-);
+toast("اختر المحافظة");
 
 return null;
 
@@ -5968,9 +4793,7 @@ return null;
 
 if(!area){
 
-toast(
-"أدخل المنطقة"
-);
+toast("أدخل المنطقة");
 
 return null;
 
@@ -5978,9 +4801,7 @@ return null;
 
 if(!address){
 
-toast(
-"أدخل العنوان بالتفصيل"
-);
+toast("أدخل العنوان بالتفصيل");
 
 return null;
 
@@ -5988,20 +4809,22 @@ return null;
 
 if(!cart.length){
 
-toast(
-"السلة فارغة"
-);
+toast("السلة فارغة");
 
 return null;
 
 }
 
+/*
+  إعادة التحقق من المنتجات والمخزون
+  قبل إرسال الطلب
+*/
+
 for(const item of cart){
 
 const product =
 products.find(
-p =>
-p.id === Number(item.id)
+p=>p.id === Number(item.id)
 );
 
 if(!product){
@@ -6016,8 +4839,7 @@ return null;
 
 if(
 product.stock <= 0 ||
-item.quantity >
-product.stock
+item.quantity > product.stock
 ){
 
 toast(
@@ -6040,8 +4862,7 @@ Number(b.quantity),
 );
 
 const discount =
-subtotal *
-discountRate;
+subtotal * discountRate;
 
 const delivery =
 subtotal > 0
@@ -6060,23 +4881,17 @@ delivery
 
 return {
 
-customer_name:
-name,
+customer_name:name,
 
-phone:
-phone,
+phone:phone,
 
-governorate:
-governorate,
+governorate:governorate,
 
-area:
-area,
+area:area,
 
-address:
-address,
+address:address,
 
-notes:
-notes,
+notes:notes,
 
 payment_method:
 selectedPayment,
@@ -6084,44 +4899,31 @@ selectedPayment,
 items:
 cart.map(item=>({
 
-id:
-Number(item.id),
+id:Number(item.id),
 
-name:
-String(item.name),
+name:String(item.name),
 
-price:
-Number(item.price),
+price:Number(item.price),
 
-quantity:
-Number(item.quantity)
+quantity:Number(item.quantity)
 
 })),
 
 subtotal:
-Number(
-subtotal.toFixed(2)
-),
+Number(subtotal.toFixed(2)),
 
 discount:
-Number(
-discount.toFixed(2)
-),
+Number(discount.toFixed(2)),
 
 delivery_fee:
-Number(
-delivery.toFixed(2)
-),
+Number(delivery.toFixed(2)),
 
 total:
-Number(
-total.toFixed(2)
-)
+Number(total.toFixed(2))
 
 };
 
 }
-
 
 /* =========================
    SUBMIT ORDER
@@ -6137,8 +4939,7 @@ document.getElementById(
 const order =
 getOrderData();
 
-if(!order)
-return;
+if(!order) return;
 
 button.disabled = true;
 
@@ -6156,8 +4957,7 @@ headers:{
 "Content-Type":
 "application/json"
 },
-body:
-JSON.stringify(order)
+body:JSON.stringify(order)
 }
 );
 
@@ -6189,6 +4989,11 @@ result.error
 
 }
 
+/*
+  حفظ رقم الطلب إن كان
+  السيرفر يعيده
+*/
+
 const orderNumber =
 result &&
 (
@@ -6196,49 +5001,37 @@ result.order_number ||
 result.orderNumber ||
 result.id
 );
-
+/* Meta Pixel — Purchase */
 if(typeof fbq === "function"){
 
-fbq(
-"track",
-"Purchase",
-{
+fbq("track","Purchase",{
 
 content_ids:
-cart.map(
-item =>
-String(item.id)
-),
+cart.map(item=>String(item.id)),
 
-content_type:
-"product",
+content_type:"product",
 
 num_items:
 cart.reduce(
 (sum,item)=>
-sum +
-Number(item.quantity),
+sum + Number(item.quantity),
 0
 ),
 
 value:
 Number(
-result &&
-result.total != null
+result && result.total != null
 ?
 result.total
 :
 order.total
 ),
 
-currency:
-"USD"
+currency:"USD"
+
+});
 
 }
-);
-
-}
-
 cart = [];
 
 discountRate = 0;
@@ -6259,16 +5052,13 @@ document.getElementById(
 ).textContent =
 orderNumber
 ?
-"رقم الطلب: " +
-orderNumber
+"رقم الطلب: " + orderNumber
 :
 "تم تسجيل طلبك بنجاح";
 
 document.getElementById(
 "successModal"
-).classList.add(
-"show"
-);
+).classList.add("show");
 
 document.body.style.overflow =
 "hidden";
@@ -6296,7 +5086,6 @@ button.textContent =
 
 }
 
-
 /* =========================
    SUCCESS
 ========================= */
@@ -6305,15 +5094,11 @@ function closeSuccess(){
 
 document.getElementById(
 "successModal"
-).classList.remove(
-"show"
-);
+).classList.remove("show");
 
-document.body.style.overflow =
-"";
+document.body.style.overflow = "";
 
 }
-
 
 /* =========================
    KEYBOARD / ESC
@@ -6328,685 +5113,465 @@ return;
 }
 
 closeCart();
-
 closeCheckout();
-
 closeFavorites();
-
 closeSuccess();
 
 }
 );
-
-
 /* =========================
    CUSTOMER AUTH
 ========================= */
 
 let currentCustomer = null;
 
-
 function openCustomerAuth(){
 
-const modal =
-document.getElementById(
-"customerAuthModal"
-);
+  const modal = document.getElementById("customerAuthModal");
 
-if(!modal){
+  if(!modal){
+    console.error("Customer auth modal not found");
+    return;
+  }
 
-console.error(
-"Customer auth modal not found"
-);
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
 
-return;
-
-}
-
-modal.classList.add("show");
-
-document.body.style.overflow =
-"hidden";
-
-checkCustomerSession();
+  checkCustomerSession();
 
 }
 
 
 function closeCustomerAuth(event){
 
-if(
-event &&
-event.target !==
-event.currentTarget
-){
+  if(event && event.target !== event.currentTarget){
+    return;
+  }
 
-return;
+  const modal = document.getElementById("customerAuthModal");
 
-}
+  if(!modal){
+    return;
+  }
 
-const modal =
-document.getElementById(
-"customerAuthModal"
-);
-
-if(!modal){
-return;
-}
-
-modal.classList.remove(
-"show"
-);
-
-document.body.style.overflow =
-"";
+  modal.classList.remove("show");
+  document.body.style.overflow = "";
 
 }
 
 
 function switchAuthMode(mode){
 
-const loginPanel =
-document.getElementById(
-"customerLoginPanel"
-);
+  const loginPanel =
+    document.getElementById("customerLoginPanel");
 
-const registerPanel =
-document.getElementById(
-"customerRegisterPanel"
-);
+  const registerPanel =
+    document.getElementById("customerRegisterPanel");
 
-const accountPanel =
-document.getElementById(
-"customerAccountPanel"
-);
+  const accountPanel =
+    document.getElementById("customerAccountPanel");
 
-const loginTab =
-document.getElementById(
-"customerLoginTab"
-);
+  const loginTab =
+    document.getElementById("customerLoginTab");
 
-const registerTab =
-document.getElementById(
-"customerRegisterTab"
-);
+  const registerTab =
+    document.getElementById("customerRegisterTab");
 
-const tabs =
-document.getElementById(
-"customerAuthTabs"
-);
+  const tabs =
+    document.getElementById("customerAuthTabs");
 
-const title =
-document.getElementById(
-"customerAuthTitle"
-);
+  const title =
+    document.getElementById("customerAuthTitle");
 
-if(currentCustomer){
 
-loginPanel.style.display =
-"none";
+  if(currentCustomer){
 
-registerPanel.style.display =
-"none";
+    loginPanel.style.display = "none";
+    registerPanel.style.display = "none";
+    accountPanel.style.display = "block";
+    tabs.style.display = "none";
 
-accountPanel.style.display =
-"block";
+    title.textContent = "حساب العميل";
 
-tabs.style.display =
-"none";
+    return;
+  }
 
-title.textContent =
-"حساب العميل";
 
-return;
+  accountPanel.style.display = "none";
+  tabs.style.display = "grid";
 
-}
 
-accountPanel.style.display =
-"none";
+  if(mode === "register"){
 
-tabs.style.display =
-"grid";
+    loginPanel.style.display = "none";
+    registerPanel.style.display = "block";
 
-if(mode === "register"){
+    loginTab.classList.remove("active");
+    registerTab.classList.add("active");
 
-loginPanel.style.display =
-"none";
+    title.textContent = "إنشاء حساب";
 
-registerPanel.style.display =
-"block";
+  }else{
 
-loginTab.classList.remove(
-"active"
-);
+    loginPanel.style.display = "block";
+    registerPanel.style.display = "none";
 
-registerTab.classList.add(
-"active"
-);
+    loginTab.classList.add("active");
+    registerTab.classList.remove("active");
 
-title.textContent =
-"إنشاء حساب";
+    title.textContent = "تسجيل الدخول";
 
-}else{
-
-loginPanel.style.display =
-"block";
-
-registerPanel.style.display =
-"none";
-
-loginTab.classList.add(
-"active"
-);
-
-registerTab.classList.remove(
-"active"
-);
-
-title.textContent =
-"تسجيل الدخول";
-
-}
+  }
 
 }
 
 
 async function checkCustomerSession(){
 
-try{
+  try{
 
-const response =
-await fetch(
-"/api/customer-me",
-{
-method:"GET",
-credentials:"include"
-}
-);
+    const response = await fetch(
+      "/api/customer-me",
+      {
+        method:"GET",
+        credentials:"include"
+      }
+    );
 
-const data =
-await response.json();
+    const data = await response.json();
 
-if(
-response.ok &&
-data.customer
-){
+    if(response.ok && data.customer){
 
-currentCustomer =
-data.customer;
+      currentCustomer = data.customer;
 
-document.getElementById(
-"customerAccountName"
-).textContent =
-data.customer.name ||
-"العميل";
+      document.getElementById(
+        "customerAccountName"
+      ).textContent =
+        data.customer.name || "العميل";
 
-document.getElementById(
-"customerAccountPhone"
-).textContent =
-data.customer.phone ||
-"—";
+      document.getElementById(
+        "customerAccountPhone"
+      ).textContent =
+        data.customer.phone || "—";
 
-switchAuthMode(
-"account"
-);
+      switchAuthMode("account");
 
-}else{
+    }else{
 
-currentCustomer = null;
+      currentCustomer = null;
 
-switchAuthMode(
-"login"
-);
+      switchAuthMode("login");
 
-}
+    }
 
-}catch(error){
+  }catch(error){
 
-console.error(
-"Customer session error:",
-error
-);
+    console.error(
+      "Customer session error:",
+      error
+    );
 
-currentCustomer = null;
+    currentCustomer = null;
 
-switchAuthMode(
-"login"
-);
+    switchAuthMode("login");
 
-}
+  }
 
 }
 
 
 async function submitCustomerLogin(){
 
-const phone =
-document.getElementById(
-"customerLoginPhone"
-).value.trim();
+  const phone =
+    document.getElementById(
+      "customerLoginPhone"
+    ).value.trim();
 
-const password =
-document.getElementById(
-"customerLoginPassword"
-).value;
+  const password =
+    document.getElementById(
+      "customerLoginPassword"
+    ).value;
 
-if(!phone || !password){
 
-alert(
-"يرجى إدخال رقم الهاتف وكلمة المرور."
-);
+  if(!phone || !password){
 
-return;
+    alert("يرجى إدخال رقم الهاتف وكلمة المرور.");
 
-}
+    return;
 
-const button =
-document.getElementById(
-"customerLoginButton"
-);
+  }
 
-button.disabled = true;
 
-button.textContent =
-"جاري تسجيل الدخول...";
+  const button =
+    document.getElementById(
+      "customerLoginButton"
+    );
 
-try{
+  button.disabled = true;
+  button.textContent = "جاري تسجيل الدخول...";
 
-const response =
-await fetch(
-"/api/customer-login",
-{
-method:"POST",
-credentials:"include",
-headers:{
-"Content-Type":
-"application/json"
-},
-body:
-JSON.stringify({
-phone:
-phone,
 
-password:
-password
-})
-}
-);
+  try{
 
-const data =
-await response.json();
+    const response = await fetch(
+      "/api/customer-login",
+      {
+        method:"POST",
+        credentials:"include",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          phone:phone,
+          password:password
+        })
+      }
+    );
 
-if(!response.ok){
 
-alert(
-data.error ||
-data.message ||
-"فشل تسجيل الدخول."
-);
+    const data = await response.json();
 
-return;
 
-}
+    if(!response.ok){
 
-currentCustomer =
-data.customer ||
-null;
+      alert(
+        data.error ||
+        data.message ||
+        "فشل تسجيل الدخول."
+      );
 
-await checkCustomerSession();
+      return;
 
-alert(
-"تم تسجيل الدخول بنجاح."
-);
+    }
 
-}catch(error){
 
-console.error(
-"Customer login error:",
-error
-);
+    currentCustomer =
+      data.customer || null;
 
-alert(
-"حدث خطأ أثناء تسجيل الدخول."
-);
 
-}finally{
+    await checkCustomerSession();
 
-button.disabled = false;
+    alert("تم تسجيل الدخول بنجاح.");
 
-button.textContent =
-"تسجيل الدخول";
+  }catch(error){
 
-}
+    console.error(
+      "Customer login error:",
+      error
+    );
+
+    alert(
+      "حدث خطأ أثناء تسجيل الدخول."
+    );
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = "تسجيل الدخول";
+
+  }
 
 }
 
 
 async function submitCustomerRegister(){
 
-const name =
-document.getElementById(
-"customerRegisterName"
-).value.trim();
+  const name =
+    document.getElementById(
+      "customerRegisterName"
+    ).value.trim();
 
-const phone =
-document.getElementById(
-"customerRegisterPhone"
-).value.trim();
+  const phone =
+    document.getElementById(
+      "customerRegisterPhone"
+    ).value.trim();
 
-const password =
-document.getElementById(
-"customerRegisterPassword"
-).value;
+  const password =
+    document.getElementById(
+      "customerRegisterPassword"
+    ).value;
 
-const passwordConfirm =
-document.getElementById(
-"customerRegisterPasswordConfirm"
-).value;
+  const passwordConfirm =
+    document.getElementById(
+      "customerRegisterPasswordConfirm"
+    ).value;
 
-if(
-!name ||
-!phone ||
-!password ||
-!passwordConfirm
-){
 
-alert(
-"يرجى تعبئة جميع الحقول."
-);
+  if(!name || !phone || !password || !passwordConfirm){
 
-return;
+    alert("يرجى تعبئة جميع الحقول.");
 
-}
+    return;
 
-if(password.length < 6){
+  }
 
-alert(
-"كلمة المرور يجب أن تكون 6 أحرف على الأقل."
-);
 
-return;
+  if(password.length < 6){
 
-}
+    alert(
+      "كلمة المرور يجب أن تكون 6 أحرف على الأقل."
+    );
 
-if(
-password !== passwordConfirm
-){
+    return;
 
-alert(
-"كلمتا المرور غير متطابقتين."
-);
+  }
 
-return;
 
-}
+  if(password !== passwordConfirm){
 
-const button =
-document.getElementById(
-"customerRegisterButton"
-);
+    alert(
+      "كلمتا المرور غير متطابقتين."
+    );
 
-button.disabled = true;
+    return;
 
-button.textContent =
-"جاري إنشاء الحساب...";
+  }
 
-try{
 
-const response =
-await fetch(
-"/api/customer-register",
-{
-method:"POST",
-credentials:"include",
-headers:{
-"Content-Type":
-"application/json"
-},
-body:
-JSON.stringify({
-name:
-name,
+  const button =
+    document.getElementById(
+      "customerRegisterButton"
+    );
 
-phone:
-phone,
+  button.disabled = true;
+  button.textContent = "جاري إنشاء الحساب...";
 
-password:
-password
-})
-}
-);
 
-const data =
-await response.json();
+  try{
 
-if(!response.ok){
+    const response = await fetch(
+      "/api/customer-register",
+      {
+        method:"POST",
+        credentials:"include",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          name:name,
+          phone:phone,
+          password:password
+        })
+      }
+    );
 
-alert(
-data.error ||
-data.message ||
-"فشل إنشاء الحساب."
-);
 
-return;
+    const data = await response.json();
 
-}
 
-currentCustomer =
-data.customer ||
-null;
+    if(!response.ok){
 
-await checkCustomerSession();
+      alert(
+        data.error ||
+        data.message ||
+        "فشل إنشاء الحساب."
+      );
 
-alert(
-"تم إنشاء الحساب بنجاح."
-);
+      return;
 
-}catch(error){
+    }
 
-console.error(
-"Customer register error:",
-error
-);
 
-alert(
-"حدث خطأ أثناء إنشاء الحساب."
-);
+    currentCustomer =
+      data.customer || null;
 
-}finally{
 
-button.disabled = false;
+    await checkCustomerSession();
 
-button.textContent =
-"إنشاء الحساب";
+    alert(
+      "تم إنشاء الحساب بنجاح."
+    );
 
-}
+  }catch(error){
+
+    console.error(
+      "Customer register error:",
+      error
+    );
+
+    alert(
+      "حدث خطأ أثناء إنشاء الحساب."
+    );
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = "إنشاء الحساب";
+
+  }
 
 }
 
 
 async function customerLogout(){
 
-try{
+  try{
 
-await fetch(
-"/api/customer-logout",
-{
-method:"POST",
-credentials:"include"
-}
-);
+    await fetch(
+      "/api/customer-logout",
+      {
+        method:"POST",
+        credentials:"include"
+      }
+    );
 
-}catch(error){
+  }catch(error){
 
-console.error(
-"Customer logout error:",
-error
-);
+    console.error(
+      "Customer logout error:",
+      error
+    );
 
-}
+  }
 
-currentCustomer = null;
 
-switchAuthMode(
-"login"
-);
+  currentCustomer = null;
 
-document.getElementById(
-"customerLoginPhone"
-).value = "";
+  switchAuthMode("login");
 
-document.getElementById(
-"customerLoginPassword"
-).value = "";
+  document.getElementById(
+    "customerLoginPhone"
+  ).value = "";
 
-alert(
-"تم تسجيل الخروج بنجاح."
-);
+  document.getElementById(
+    "customerLoginPassword"
+  ).value = "";
+
+  alert("تم تسجيل الخروج بنجاح.");
 
 }
-
-
-/* =========================
-   NOTIFICATIONS / SHARE
-========================= */
-
-function openNotifications(){
-
-window.location.href =
-"/account.html#notifications";
-
-}
-
-
-async function shareStore(){
-
-const shareData = {
-
-title:
-"HZ.SHOP | Luxury Beauty Store",
-
-text:
-"اكتشف متجر HZ.SHOP للعطور ومنتجات العناية والجمال.",
-
-url:
-window.location.origin + "/"
-
-};
-
-try{
-
-if(navigator.share){
-
-await navigator.share(
-shareData
-);
-
-return;
-
-}
-
-await navigator.clipboard.writeText(
-shareData.url
-);
-
-toast(
-"تم نسخ رابط المتجر"
-);
-
-}catch(error){
-
-if(
-error &&
-error.name === "AbortError"
-){
-
-return;
-
-}
-
-try{
-
-const textarea =
-document.createElement(
-"textarea"
-);
-
-textarea.value =
-shareData.url;
-
-textarea.style.position =
-"fixed";
-
-textarea.style.opacity =
-"0";
-
-document.body.appendChild(
-textarea
-);
-
-textarea.select();
-
-document.execCommand(
-"copy"
-);
-
-textarea.remove();
-
-toast(
-"تم نسخ رابط المتجر"
-);
-
-}catch(copyError){
-
-toast(
-"تعذر مشاركة المتجر"
-);
-
-}
-
-}
-
-
 /* =========================
    RESTORE SHOP POSITION
 ========================= */
-
 function restoreShopPosition(){
-
 try{
-
 const savedScroll =
 sessionStorage.getItem(
 "hz_shop_return_scroll"
 );
-
-if(savedScroll === null){
-
+if(
+savedScroll === null
+){
 return;
-
 }
-
 sessionStorage.removeItem(
 "hz_shop_return_scroll"
 );
-
 sessionStorage.removeItem(
 "hz_shop_return_url"
 );
-
 const scrollY =
 Number(savedScroll);
-
 if(
 !Number.isFinite(scrollY) ||
 scrollY < 0
 ){
-
 return;
-
 }
-
+/*
+   ننتظر حتى يتم تحميل المنتجات
+   حتى نستطيع العودة إلى نفس المكان
+*/
 setTimeout(
 ()=>{
 window.scrollTo({
@@ -7016,303 +5581,272 @@ behavior:"instant"
 },
 150
 );
-
 }catch(error){
-
 console.warn(
 "HZ_SHOP_STATE_RESTORE_ERROR",
 error
 );
-
 }
-
 }
-
-
 /* =========================
    INIT
 ========================= */
-
 window.addEventListener(
 "DOMContentLoaded",
 ()=>{
-
 updateFavoriteCount();
-
 renderCart();
-
 loadProducts();
-
 restoreShopPosition();
-
 }
 );
-
 </script>
-
-
 <!-- =========================
      CUSTOMER AUTH
 ========================= -->
 
 <div
-class="modal"
-id="customerAuthModal"
-onclick="closeCustomerAuth(event)"
-style="display:none;"
+  class="modal"
+  id="customerAuthModal"
+  onclick="closeCustomerAuth(event)"
+  style="display:none;"
 >
+  <div
+    class="modal-box customer-auth-box"
+    onclick="event.stopPropagation()"
+  >
 
-<div
-class="modal-box customer-auth-box"
-onclick="event.stopPropagation()"
->
+    <div class="modal-head">
+      <h2 id="customerAuthTitle">حساب العميل</h2>
 
-<div class="modal-head">
+      <button
+        type="button"
+        class="modal-close"
+        onclick="closeCustomerAuth()"
+        aria-label="إغلاق"
+      >
+        ×
+      </button>
+    </div>
 
-<h2 id="customerAuthTitle">
-حساب العميل
-</h2>
+    <!-- LOGIN / REGISTER TABS -->
 
-<button
-type="button"
-class="modal-close"
-onclick="closeCustomerAuth()"
-aria-label="إغلاق">
-×
-</button>
+    <div class="customer-auth-tabs" id="customerAuthTabs">
 
+      <button
+        type="button"
+        id="customerLoginTab"
+        class="customer-auth-tab active"
+        onclick="switchAuthMode('login')"
+      >
+        تسجيل الدخول
+      </button>
+
+      <button
+        type="button"
+        id="customerRegisterTab"
+        class="customer-auth-tab"
+        onclick="switchAuthMode('register')"
+      >
+        إنشاء حساب
+      </button>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <div id="customerLoginPanel">
+
+      <div class="auth-intro">
+        <strong>مرحبًا بك في HZ.SHOP</strong>
+        <span>سجّل الدخول إلى حسابك للمتابعة.</span>
+      </div>
+
+      <div class="field">
+
+        <label for="customerLoginPhone">
+          رقم الهاتف
+        </label>
+
+        <input
+          type="tel"
+          id="customerLoginPhone"
+          placeholder="أدخل رقم الهاتف"
+          autocomplete="tel"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="customerLoginPassword">
+          كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="customerLoginPassword"
+          placeholder="أدخل كلمة المرور"
+          autocomplete="current-password"
+        >
+
+      </div>
+
+      <button
+        type="button"
+        class="customer-auth-submit"
+        id="customerLoginButton"
+        onclick="submitCustomerLogin()"
+      >
+        تسجيل الدخول
+      </button>
+
+      <div class="auth-switch-text">
+        ليس لديك حساب؟
+        <button
+          type="button"
+          onclick="switchAuthMode('register')"
+        >
+          إنشاء حساب
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- REGISTER -->
+
+    <div
+      id="customerRegisterPanel"
+      style="display:none;"
+    >
+
+      <div class="auth-intro">
+        <strong>إنشاء حساب جديد</strong>
+        <span>أنشئ حسابك في HZ.SHOP خلال دقائق.</span>
+      </div>
+
+      <div class="field">
+
+        <label for="customerRegisterName">
+          الاسم
+        </label>
+
+        <input
+          type="text"
+          id="customerRegisterName"
+          placeholder="أدخل اسمك"
+          autocomplete="name"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="customerRegisterPhone">
+          رقم الهاتف
+        </label>
+
+        <input
+          type="tel"
+          id="customerRegisterPhone"
+          placeholder="أدخل رقم الهاتف"
+          autocomplete="tel"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="customerRegisterPassword">
+          كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="customerRegisterPassword"
+          placeholder="6 أحرف على الأقل"
+          autocomplete="new-password"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="customerRegisterPasswordConfirm">
+          تأكيد كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="customerRegisterPasswordConfirm"
+          placeholder="أعد كتابة كلمة المرور"
+          autocomplete="new-password"
+        >
+
+      </div>
+
+      <button
+        type="button"
+        class="customer-auth-submit"
+        id="customerRegisterButton"
+        onclick="submitCustomerRegister()"
+      >
+        إنشاء الحساب
+      </button>
+
+      <div class="auth-switch-text">
+        لديك حساب بالفعل؟
+        <button
+          type="button"
+          onclick="switchAuthMode('login')"
+        >
+          تسجيل الدخول
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- LOGGED IN -->
+
+    <div
+      id="customerAccountPanel"
+      style="display:none;"
+    >
+
+      <div class="customer-account-welcome">
+
+        <div class="customer-account-icon">
+          👤
+        </div>
+
+        <div>
+
+          <strong id="customerAccountName">
+            العميل
+          </strong>
+
+          <span id="customerAccountPhone">
+            —
+          </span>
+
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="customer-logout-button"
+        onclick="customerLogout()"
+      >
+        تسجيل الخروج
+      </button>
+
+    </div>
+
+  </div>
 </div>
-
-
-<!-- LOGIN / REGISTER TABS -->
-
-<div
-class="customer-auth-tabs"
-id="customerAuthTabs">
-
-<button
-type="button"
-id="customerLoginTab"
-class="customer-auth-tab active"
-onclick="switchAuthMode('login')">
-تسجيل الدخول
-</button>
-
-<button
-type="button"
-id="customerRegisterTab"
-class="customer-auth-tab"
-onclick="switchAuthMode('register')">
-إنشاء حساب
-</button>
-
-</div>
-
-
-<!-- LOGIN -->
-
-<div id="customerLoginPanel">
-
-<div class="auth-intro">
-
-<strong>
-مرحبًا بك في HZ.SHOP
-</strong>
-
-<span>
-سجّل الدخول إلى حسابك للمتابعة.
-</span>
-
-</div>
-
-<div class="field">
-
-<label for="customerLoginPhone">
-رقم الهاتف
-</label>
-
-<input
-type="tel"
-id="customerLoginPhone"
-placeholder="أدخل رقم الهاتف"
-autocomplete="tel">
-
-</div>
-
-<div class="field">
-
-<label for="customerLoginPassword">
-كلمة المرور
-</label>
-
-<input
-type="password"
-id="customerLoginPassword"
-placeholder="أدخل كلمة المرور"
-autocomplete="current-password">
-
-</div>
-
-<button
-type="button"
-class="customer-auth-submit"
-id="customerLoginButton"
-onclick="submitCustomerLogin()">
-تسجيل الدخول
-</button>
-
-<div class="auth-switch-text">
-
-ليس لديك حساب؟
-
-<button
-type="button"
-onclick="switchAuthMode('register')">
-إنشاء حساب
-</button>
-
-</div>
-
-</div>
-
-
-<!-- REGISTER -->
-
-<div
-id="customerRegisterPanel"
-style="display:none;"
->
-
-<div class="auth-intro">
-
-<strong>
-إنشاء حساب جديد
-</strong>
-
-<span>
-أنشئ حسابك في HZ.SHOP خلال دقائق.
-</span>
-
-</div>
-
-<div class="field">
-
-<label for="customerRegisterName">
-الاسم
-</label>
-
-<input
-type="text"
-id="customerRegisterName"
-placeholder="أدخل اسمك"
-autocomplete="name">
-
-</div>
-
-<div class="field">
-
-<label for="customerRegisterPhone">
-رقم الهاتف
-</label>
-
-<input
-type="tel"
-id="customerRegisterPhone"
-placeholder="أدخل رقم الهاتف"
-autocomplete="tel">
-
-</div>
-
-<div class="field">
-
-<label for="customerRegisterPassword">
-كلمة المرور
-</label>
-
-<input
-type="password"
-id="customerRegisterPassword"
-placeholder="6 أحرف على الأقل"
-autocomplete="new-password">
-
-</div>
-
-<div class="field">
-
-<label for="customerRegisterPasswordConfirm">
-تأكيد كلمة المرور
-</label>
-
-<input
-type="password"
-id="customerRegisterPasswordConfirm"
-placeholder="أعد كتابة كلمة المرور"
-autocomplete="new-password">
-
-</div>
-
-<button
-type="button"
-class="customer-auth-submit"
-id="customerRegisterButton"
-onclick="submitCustomerRegister()">
-إنشاء الحساب
-</button>
-
-<div class="auth-switch-text">
-
-لديك حساب بالفعل؟
-
-<button
-type="button"
-onclick="switchAuthMode('login')">
-تسجيل الدخول
-</button>
-
-</div>
-
-</div>
-
-
-<!-- LOGGED IN -->
-
-<div
-id="customerAccountPanel"
-style="display:none;"
->
-
-<div class="customer-account-welcome">
-
-<div class="customer-account-icon">
-👤
-</div>
-
-<div>
-
-<strong id="customerAccountName">
-العميل
-</strong>
-
-<span id="customerAccountPhone">
-—
-</span>
-
-</div>
-
-</div>
-
-<button
-type="button"
-class="customer-logout-button"
-onclick="customerLogout()">
-تسجيل الخروج
-</button>
-
-</div>
-
-</div>
-
-</div>
-
 </body>
 </html>
