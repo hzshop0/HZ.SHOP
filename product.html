@@ -6,7 +6,7 @@
 
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=1.0"
+  content="width=device-width,initial-scale=1.0"
 >
 
 <title>HZ.SHOP | المنتج</title>
@@ -19,45 +19,40 @@
 
 <meta
   name="theme-color"
-  content="#111111"
+  content="#ffffff"
 >
 
 <style>
 
 /* =========================================================
-   HZ.SHOP PRODUCT PAGE
-   BLACK + ORANGE + WHITE
+   HZ.SHOP — PRODUCT PAGE
+   MATCHED WITH CURRENT HOMEPAGE DESIGN
 ========================================================= */
 
 :root{
 
   --black:#111111;
-  --black-2:#181818;
-  --black-3:#222222;
-
-  --orange:#ff6a00;
-  --orange-dark:#e85f00;
-  --orange-soft:#fff1e8;
+  --black-2:#1b1b1b;
 
   --white:#ffffff;
-  --bg:#f7f7f7;
-  --soft:#f2f2f2;
 
-  --text:#171717;
-  --muted:#777777;
+  --soft:#f7f7f7;
 
-  --line:#e5e5e5;
+  --line:#e7e7e7;
+
+  --muted:#707070;
+
+  --orange:#ff6a00;
+  --orange2:#ff7a1a;
+
+  --orange-soft:#fff1e8;
+
+  --danger:#d93025;
 
   --success:#238b45;
-  --danger:#c43d3d;
-
-  --shadow:
-    0 8px 28px rgba(0,0,0,.07);
-
-  --shadow-hover:
-    0 14px 35px rgba(0,0,0,.12);
 
 }
+
 
 *{
   box-sizing:border-box;
@@ -65,35 +60,42 @@
   padding:0;
 }
 
+
 html{
   scroll-behavior:smooth;
 }
 
+
 body{
 
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Tahoma,
     Arial,
+    Tahoma,
     sans-serif;
 
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.7;
+  background:var(--white);
+
+  color:#151515;
+
+  overflow-x:hidden;
+
+  -webkit-text-size-adjust:100%;
+
   padding-bottom:0;
 
 }
 
+
 button,
 input{
-  font:inherit;
+  font-family:inherit;
 }
+
 
 button{
   cursor:pointer;
 }
+
 
 button:disabled{
   cursor:not-allowed;
@@ -101,46 +103,72 @@ button:disabled{
 
 
 /* =========================================================
-   TOP BAR
+   TOP BAR — SAME AS HOMEPAGE
 ========================================================= */
 
 .topbar{
 
-  background:var(--black);
-  color:#ffffff;
-  text-align:center;
+  height:30px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#f7f7f7;
+
+  color:#555;
+
   font-size:11px;
-  padding:8px 15px;
-  letter-spacing:.2px;
+
+  padding:0 10px;
+
+  white-space:nowrap;
+
+  overflow:hidden;
+
+  border-bottom:1px solid #e9e9e9;
 
 }
 
 
 /* =========================================================
-   HEADER
+   HEADER — SAME AS HOMEPAGE
 ========================================================= */
 
 header{
 
   position:sticky;
+
   top:0;
+
   z-index:1000;
-  background:rgba(17,17,17,.97);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(255,255,255,.08);
+
+  background:#ffffff;
+
+  color:#111111;
+
+  border-bottom:1px solid #e5e5e5;
+
+  box-shadow:
+    0 2px 14px rgba(0,0,0,.06);
 
 }
 
+
 .header{
 
+  height:72px;
+
   max-width:1400px;
+
   margin:auto;
-  min-height:72px;
-  padding:0 22px;
+
+  padding:0 20px;
 
   display:flex;
+
   align-items:center;
-  justify-content:space-between;
+
   gap:18px;
 
 }
@@ -152,105 +180,237 @@ header{
 
 .logo{
 
-  display:flex;
-  flex-direction:column;
-  min-width:150px;
-  text-decoration:none;
-  color:#ffffff;
+  display:block;
+
+  text-align:center;
+
+  min-width:145px;
+
   cursor:pointer;
 
+  flex-shrink:0;
+
+  text-decoration:none;
+
 }
+
 
 .logo strong{
 
+  display:block;
+
   font-size:25px;
-  letter-spacing:2px;
-  color:#ffffff;
+
+  letter-spacing:4px;
+
+  color:#111;
+
   line-height:1;
 
 }
+
 
 .logo strong span{
   color:var(--orange);
 }
 
+
 .logo small{
 
-  font-size:8px;
-  letter-spacing:2px;
-  color:#bcbcbc;
+  font-size:7px;
+
+  letter-spacing:3px;
+
+  color:#888;
+
+  display:block;
+
   margin-top:5px;
 
 }
 
 
 /* =========================================================
-   HEADER ACTIONS
+   SEARCH — SAME AS HOMEPAGE
 ========================================================= */
 
-.header-actions{
+.search{
 
-  display:flex;
-  align-items:center;
-  gap:8px;
+  flex:1;
+
+  max-width:680px;
+
+  position:relative;
+
+  margin:auto;
 
 }
 
-.icon-btn{
 
-  position:relative;
-  width:44px;
+.search input{
+
+  width:100%;
+
   height:44px;
 
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);
-  color:#ffffff;
-  border-radius:50%;
+  background:#fff;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  border:1px solid #d9d9d9;
 
-  font-size:18px;
+  color:#111;
+
+  padding:
+    0 44px
+    0 42px;
+
+  outline:none;
+
+  border-radius:6px;
+
+  font-size:13px;
+
   transition:.2s;
 
 }
 
-.icon-btn:hover{
+
+.search input:focus{
 
   border-color:var(--orange);
-  color:var(--orange);
-  transform:translateY(-1px);
-  background:rgba(255,106,0,.08);
+
+  box-shadow:
+    0 0 0 2px
+    rgba(255,106,0,.10);
 
 }
 
-.icon-btn:active{
+
+.search-icon{
+
+  position:absolute;
+
+  right:14px;
+
+  top:10px;
+
+  color:#111;
+
+  font-size:21px;
+
+  z-index:2;
+
+  line-height:1;
+
+  pointer-events:none;
+
+}
+
+
+.search-clear{
+
+  position:absolute;
+
+  left:7px;
+
+  top:6px;
+
+  width:32px;
+
+  height:32px;
+
+  border:0;
+
+  background:none;
+
+  color:#777;
+
+  display:none;
+
+  font-size:20px;
+
+}
+
+
+/* =========================================================
+   HEADER FAVORITE
+========================================================= */
+
+.header-favorite{
+
+  position:relative;
+
+  width:46px;
+
+  height:46px;
+
+  flex-shrink:0;
+
+  border:1px solid #ddd;
+
+  border-radius:6px;
+
+  background:#fff;
+
+  color:#111;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:24px;
+
+  transition:.2s;
+
+}
+
+
+.header-favorite:hover{
+
+  border-color:var(--orange);
+
+  color:var(--orange);
+
+}
+
+
+.header-favorite:active{
   transform:scale(.96);
 }
+
 
 .badge{
 
   position:absolute;
-  top:-4px;
-  right:-3px;
 
-  min-width:19px;
-  height:19px;
-  padding:0 5px;
+  top:-5px;
 
-  border-radius:50px;
+  right:-5px;
+
+  min-width:18px;
+
+  height:18px;
+
+  padding:0 4px;
+
+  border-radius:10px;
+
   background:var(--orange);
-  color:#ffffff;
+
+  color:#fff;
 
   font-size:9px;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
+  border:1px solid #fff;
+
   font-weight:bold;
-  border:2px solid var(--black);
 
 }
 
@@ -262,8 +422,13 @@ header{
 .page{
 
   max-width:1400px;
+
   margin:auto;
-  padding:22px 25px 80px;
+
+  padding:
+    20px
+    20px
+    90px;
 
 }
 
@@ -275,33 +440,44 @@ header{
 .breadcrumb{
 
   display:flex;
+
   align-items:center;
+
   gap:8px;
 
   font-size:11px;
-  color:#8a8a8a;
 
-  margin-bottom:20px;
+  color:#888;
+
+  margin-bottom:18px;
+
   flex-wrap:wrap;
 
 }
 
+
 .breadcrumb button{
 
   border:0;
+
   background:none;
+
   color:var(--orange);
+
   font-size:11px;
-  font-weight:600;
+
+  font-weight:700;
 
 }
+
 
 .breadcrumb button:hover{
   text-decoration:underline;
 }
 
+
 .breadcrumb strong{
-  color:#444444;
+  color:#333;
 }
 
 
@@ -317,7 +493,8 @@ header{
     minmax(0,1.08fr)
     minmax(350px,.92fr);
 
-  gap:48px;
+  gap:42px;
+
   align-items:start;
 
 }
@@ -330,80 +507,103 @@ header{
 .gallery-section{
 
   min-width:0;
+
   position:relative;
 
 }
+
 
 .main-image{
 
   position:relative;
+
   width:100%;
+
   height:650px;
 
-  background:#ffffff;
+  background:#f7f7f7;
 
-  border:1px solid var(--line);
-  border-radius:14px;
+  border:1px solid #eee;
+
+  border-radius:8px;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
   overflow:hidden;
-  box-shadow:var(--shadow);
 
 }
+
 
 .main-image img{
 
   width:100%;
+
   height:100%;
 
   object-fit:contain;
+
   display:block;
+
   padding:18px;
 
-  transition:transform .35s ease;
+  transition:transform .3s ease;
 
 }
 
+
 .main-image:hover img{
-  transform:scale(1.025);
+  transform:scale(1.015);
 }
 
 
 /* =========================================================
-   MAIN PRODUCT VIDEO
+   VIDEO
 ========================================================= */
 
 .main-image video{
 
   width:100%;
+
   height:100%;
+
   object-fit:contain;
+
   display:block;
-  background:#000000;
+
+  background:#000;
 
 }
+
 
 .main-image video:hover{
   transform:none;
 }
 
+
 .fallback{
 
   display:none;
+
   align-items:center;
+
   justify-content:center;
 
   width:100%;
+
   height:100%;
+
   padding:30px;
 
   text-align:center;
+
   font-size:28px;
 
   color:var(--orange);
+
   font-weight:bold;
 
 }
@@ -416,48 +616,58 @@ header{
 .gallery-arrow{
 
   position:absolute;
+
   top:50%;
+
   transform:translateY(-50%);
 
-  width:44px;
-  height:44px;
+  width:42px;
 
-  border:1px solid #dddddd;
+  height:42px;
+
+  border:1px solid #ddd;
+
   border-radius:50%;
 
-  background:rgba(255,255,255,.95);
-  color:var(--black);
+  background:rgba(255,255,255,.96);
 
-  font-size:27px;
+  color:#111;
+
+  font-size:25px;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
   z-index:3;
+
   transition:.2s;
 
-  box-shadow:0 5px 18px rgba(0,0,0,.08);
-
 }
+
 
 .gallery-arrow:hover{
 
   border-color:var(--orange);
+
   color:var(--orange);
 
   transform:
     translateY(-50%)
-    scale(1.05);
+    scale(1.04);
 
 }
+
 
 .gallery-arrow.prev{
-  right:15px;
+  right:14px;
 }
 
+
 .gallery-arrow.next{
-  left:15px;
+  left:14px;
 }
 
 
@@ -468,60 +678,90 @@ header{
 .thumbs{
 
   display:flex;
-  gap:10px;
+
+  gap:9px;
+
   overflow-x:auto;
 
-  padding:12px 2px 3px;
+  padding:
+    11px
+    1px
+    3px;
 
   scrollbar-width:none;
 
 }
 
+
 .thumbs::-webkit-scrollbar{
   display:none;
 }
 
+
 .thumb{
 
-  flex:0 0 78px;
-  height:78px;
+  flex:0 0 76px;
 
-  border:1px solid var(--line);
-  background:#ffffff;
-  border-radius:9px;
+  height:76px;
+
+  border:1px solid #ddd;
+
+  background:#fff;
+
+  border-radius:6px;
 
   padding:3px;
+
   overflow:hidden;
+
   transition:.2s;
 
 }
 
+
 .thumb:hover{
-  border-color:#bbbbbb;
+  border-color:#bbb;
 }
 
+
 .thumb.active{
-  border:2px solid var(--orange);
+
+  border:
+    2px solid
+    var(--orange);
+
 }
+
 
 .thumb img{
 
   width:100%;
+
   height:100%;
+
   object-fit:cover;
-  border-radius:5px;
+
+  border-radius:4px;
+
+  display:block;
 
 }
+
 
 .thumb video{
 
   width:100%;
+
   height:100%;
+
   object-fit:cover;
+
   display:block;
 
-  border-radius:5px;
-  background:#000000;
+  border-radius:4px;
+
+  background:#000;
+
   pointer-events:none;
 
 }
@@ -532,63 +772,66 @@ header{
 ========================================================= */
 
 .product-info{
-  padding:5px 0;
+
+  padding:4px 0;
+
 }
 
-
-/* =========================================================
-   CATEGORY
-========================================================= */
 
 .category{
 
   display:inline-flex;
+
   align-items:center;
 
-  min-height:28px;
-  padding:4px 11px;
+  min-height:27px;
 
-  border-radius:50px;
+  padding:
+    4px
+    11px;
+
+  border-radius:20px;
+
   background:var(--orange-soft);
-  color:var(--orange-dark);
+
+  color:#e85f00;
 
   font-size:11px;
+
   font-weight:700;
 
-  margin-bottom:11px;
+  margin-bottom:10px;
 
 }
 
-
-/* =========================================================
-   PRODUCT NAME
-========================================================= */
 
 .product-name{
 
-  font-size:38px;
-  line-height:1.25;
+  font-size:36px;
+
+  line-height:1.3;
+
   font-weight:750;
 
-  color:var(--black);
+  color:#111;
 
-  margin-bottom:16px;
-  letter-spacing:-.4px;
+  margin-bottom:14px;
+
+  letter-spacing:-.3px;
 
 }
 
-
-/* =========================================================
-   DESCRIPTION
-========================================================= */
 
 .description{
 
   font-size:14px;
+
   color:var(--muted);
+
   line-height:2;
 
-  margin-bottom:24px;
+  margin-bottom:22px;
+
   white-space:pre-line;
 
 }
@@ -601,48 +844,62 @@ header{
 .price-box{
 
   display:flex;
+
   align-items:center;
-  gap:14px;
 
-  padding:18px 0;
+  gap:12px;
 
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
+  padding:
+    16px
+    0;
 
-  margin-bottom:20px;
+  border-top:
+    1px solid
+    var(--line);
+
+  border-bottom:
+    1px solid
+    var(--line);
+
+  margin-bottom:18px;
 
 }
+
 
 .price{
 
-  font-size:32px;
+  font-size:31px;
+
   font-weight:800;
-  color:var(--black);
+
+  color:#111;
 
 }
+
 
 .old-price{
 
-  font-size:16px;
-  color:#999999;
-  text-decoration:line-through;
+  font-size:15px;
+
+  color:#999;
 
 }
 
+
 .discount{
 
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  padding:
+    4px
+    8px;
 
-  padding:4px 8px;
-
-  border-radius:5px;
+  border-radius:4px;
 
   background:var(--orange);
-  color:#ffffff;
+
+  color:#fff;
 
   font-size:10px;
+
   font-weight:800;
 
 }
@@ -655,26 +912,36 @@ header{
 .stock{
 
   display:inline-flex;
+
   align-items:center;
+
   gap:7px;
 
   font-size:12px;
+
   color:var(--success);
 
   background:#eff9f2;
 
   border:1px solid #d7eedf;
-  border-radius:6px;
 
-  padding:7px 12px;
-  margin-bottom:20px;
+  border-radius:5px;
+
+  padding:
+    7px
+    11px;
+
+  margin-bottom:18px;
 
 }
+
 
 .stock.out{
 
   color:var(--danger);
+
   background:#fff1f1;
+
   border-color:#efd7d7;
 
 }
@@ -687,162 +954,179 @@ header{
 .quantity-row{
 
   display:flex;
+
   align-items:center;
+
   gap:12px;
-  margin-bottom:14px;
+
+  margin-bottom:12px;
 
 }
+
 
 .quantity-label{
 
   font-size:12px;
+
   color:var(--muted);
-  font-weight:600;
+
+  font-weight:700;
 
 }
+
 
 .quantity{
 
   display:flex;
-  height:48px;
 
-  border:1px solid #dcdcdc;
-  background:#ffffff;
+  height:46px;
 
-  border-radius:7px;
+  border:1px solid #ddd;
+
+  background:#fff;
+
+  border-radius:6px;
+
   overflow:hidden;
 
 }
 
+
 .quantity button{
 
-  width:45px;
+  width:43px;
+
   border:0;
 
   background:#f5f5f5;
-  color:var(--black);
 
-  font-size:21px;
+  color:#111;
+
+  font-size:20px;
+
   transition:.15s;
 
 }
 
+
 .quantity button:hover{
 
   background:var(--orange-soft);
+
   color:var(--orange);
 
 }
 
+
 .quantity input{
 
   width:55px;
+
   border:0;
 
   border-left:1px solid #e5e5e5;
+
   border-right:1px solid #e5e5e5;
 
-  background:#ffffff;
-  color:var(--black);
-
   text-align:center;
-  outline:none;
-  font-weight:600;
 
-}
+  outline:0;
 
-.quantity input:focus{
+  font-weight:700;
 
-  box-shadow:
-    inset 0 0 0 1px
-    var(--orange);
+  color:#111;
+
+  background:#fff;
 
 }
 
 
 /* =========================================================
-   ADD BUTTON
+   ADD TO CART
 ========================================================= */
 
 .add-btn{
 
   width:100%;
-  min-height:57px;
+
+  min-height:55px;
 
   border:0;
-  border-radius:7px;
 
-  background:var(--black);
-  color:#ffffff;
+  border-radius:6px;
+
+  background:#111;
+
+  color:#fff;
 
   font-weight:800;
-  font-size:15px;
 
-  box-shadow:
-    0 8px 24px rgba(0,0,0,.14);
+  font-size:15px;
 
   transition:.2s;
 
 }
 
+
 .add-btn:hover{
 
   background:#242424;
-  transform:translateY(-2px);
 
-  box-shadow:
-    0 12px 30px rgba(0,0,0,.20);
+  transform:translateY(-1px);
 
 }
+
 
 .add-btn:active{
   transform:translateY(0);
 }
 
+
 .add-btn:disabled{
 
-  background:#b9b9b9;
-  box-shadow:none;
+  background:#aaa;
+
   transform:none;
 
 }
 
 
 /* =========================================================
-   FAVORITE BUTTON
+   FAVORITE
 ========================================================= */
 
 .favorite-btn{
 
   width:100%;
-  min-height:50px;
-  margin-top:10px;
 
-  border:1px solid #dddddd;
-  border-radius:7px;
+  min-height:49px;
 
-  background:#ffffff;
-  color:#333333;
+  margin-top:9px;
+
+  border:1px solid #ddd;
+
+  border-radius:6px;
+
+  background:#fff;
+
+  color:#333;
 
   font-size:13px;
+
   font-weight:700;
 
   transition:.2s;
 
 }
 
-.favorite-btn:hover{
 
-  border-color:var(--orange);
-  color:var(--orange);
-  background:var(--orange-soft);
-
-}
-
+.favorite-btn:hover,
 .favorite-btn.active{
 
   border-color:var(--orange);
+
   color:var(--orange);
+
   background:var(--orange-soft);
 
 }
@@ -855,32 +1139,45 @@ header{
 .buy-info{
 
   display:grid;
-  grid-template-columns:1fr 1fr;
 
-  gap:9px;
-  margin-top:14px;
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap:8px;
+
+  margin-top:13px;
 
 }
 
+
 .info-box{
 
-  border:1px solid var(--line);
-  background:#ffffff;
+  border:1px solid #e7e7e7;
 
-  border-radius:7px;
-  padding:13px 10px;
+  background:#fff;
+
+  border-radius:6px;
+
+  padding:
+    12px
+    8px;
 
   text-align:center;
+
   font-size:11px;
-  color:#666666;
+
+  color:#666;
 
   transition:.2s;
 
 }
 
+
 .info-box:hover{
 
-  border-color:#cccccc;
+  border-color:#ccc;
+
   transform:translateY(-1px);
 
 }
@@ -893,52 +1190,58 @@ header{
 .loading,
 .error{
 
-  min-height:500px;
+  min-height:450px;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
   text-align:center;
-  color:#777777;
+
+  color:#777;
 
   font-size:14px;
+
   padding:30px;
 
-}
+  background:#fff;
 
-.loading{
+  border:1px solid #e7e7e7;
 
-  background:#ffffff;
-  border:1px solid var(--line);
-  border-radius:12px;
+  border-radius:8px;
 
 }
+
 
 .error{
 
   flex-direction:column;
+
   gap:15px;
 
-  background:#ffffff;
-  border:1px solid var(--line);
-  border-radius:12px;
-
 }
+
 
 .back-btn{
 
   border:0;
-  background:var(--black);
-  color:#ffffff;
 
-  padding:11px 22px;
-  border-radius:6px;
+  background:#111;
+
+  color:#fff;
+
+  padding:
+    11px
+    22px;
+
+  border-radius:5px;
 
   font-weight:700;
-  transition:.2s;
 
 }
+
 
 .back-btn:hover{
   background:var(--orange);
@@ -952,61 +1255,69 @@ header{
 .toast{
 
   position:fixed;
+
   bottom:25px;
-  right:25px;
+
+  right:20px;
 
   z-index:5000;
 
-  max-width:calc(100vw - 50px);
+  max-width:
+    calc(100vw - 40px);
 
-  background:var(--black);
+  background:#111;
 
-  border:1px solid rgba(255,106,0,.65);
+  border:
+    1px solid
+    rgba(255,106,0,.65);
 
-  padding:13px 18px;
-  border-radius:7px;
+  padding:
+    12px
+    17px;
 
-  color:#ffffff;
+  border-radius:6px;
 
-  transform:translateY(120px);
+  color:#fff;
+
+  transform:
+    translateY(120px);
+
   opacity:0;
 
   transition:.3s;
-
-  box-shadow:
-    0 12px 35px rgba(0,0,0,.22);
 
   font-size:12px;
 
 }
 
+
 .toast.show{
 
-  transform:translateY(0);
+  transform:
+    translateY(0);
+
   opacity:1;
 
 }
 
 
 /* =========================================================
-   MOBILE BOTTOM NAVIGATION
+   MOBILE BOTTOM NAV
+   MATCHED WITH HOMEPAGE
 ========================================================= */
 
-.mobile-nav{
+.bottom-nav{
   display:none;
 }
 
-
-/* =========================================================
-   DESKTOP
-========================================================= */
 
 @media(min-width:901px){
 
   .product-info{
 
     position:sticky;
-    top:100px;
+
+    top:94px;
 
   }
 
@@ -1020,45 +1331,88 @@ header{
 @media(max-width:900px){
 
   body{
-    padding-bottom:70px;
+    padding-bottom:68px;
   }
+
 
   .header{
 
-    min-height:66px;
-    padding:0 15px;
+    height:66px;
+
+    padding:
+      0
+      15px;
+
+    gap:8px;
 
   }
+
+
+  .logo{
+    min-width:105px;
+  }
+
 
   .logo strong{
+    font-size:20px;
+  }
+
+
+  .search{
+    max-width:none;
+  }
+
+
+  .header-favorite{
+
+    width:40px;
+    height:40px;
+
+  }
+
+
+  .header-favorite{
     font-size:21px;
   }
+
 
   .product-layout{
 
     grid-template-columns:1fr;
-    gap:28px;
+
+    gap:25px;
 
   }
+
 
   .main-image{
     height:520px;
   }
 
+
   .product-name{
     font-size:31px;
   }
 
+
   .page{
-    padding:18px 15px 55px;
+
+    padding:
+      16px
+      15px
+      80px;
+
   }
 
-  .mobile-nav{
+
+  .bottom-nav{
 
     position:fixed;
 
     display:grid;
-    grid-template-columns:repeat(5,1fr);
+
+    grid-template-columns:
+      repeat(5,1fr);
 
     left:0;
     right:0;
@@ -1068,80 +1422,108 @@ header{
 
     z-index:4000;
 
-    background:rgba(17,17,17,.98);
+    background:#fff;
 
     border-top:
       1px solid
-      rgba(255,255,255,.10);
+      #e5e5e5;
 
     box-shadow:
-      0 -8px 25px rgba(0,0,0,.16);
+      0 -5px 18px
+      rgba(0,0,0,.08);
 
     padding:
-      5px 4px
+      4px
+      3px
       env(safe-area-inset-bottom);
 
   }
 
-  .mobile-nav-item{
+
+  .bottom-nav button{
 
     position:relative;
 
     border:0;
+
     background:none;
 
-    color:#bdbdbd;
+    color:#777;
 
     display:flex;
+
     flex-direction:column;
+
     align-items:center;
+
     justify-content:center;
 
-    gap:2px;
+    gap:3px;
 
     font-size:10px;
-    transition:.2s;
 
   }
 
-  .mobile-nav-item .nav-icon{
 
-    font-size:20px;
-    line-height:1.1;
+  .bottom-nav button .bn-icon{
+
+    width:25px;
+
+    height:25px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:21px;
+
+    line-height:1;
 
   }
 
-  .mobile-nav-item.active{
+
+  .bottom-nav button.active{
+
     color:var(--orange);
+
   }
 
-  .mobile-nav-item:active{
+
+  .bottom-nav button:active{
     transform:scale(.94);
   }
+
 
   .nav-count{
 
     position:absolute;
-    top:3px;
-    right:50%;
 
-    transform:translateX(-3px);
+    top:2px;
+
+    right:
+      calc(50% - 22px);
 
     min-width:16px;
+
     height:16px;
 
-    padding:0 4px;
-
-    border-radius:50px;
+    border-radius:9px;
 
     background:var(--orange);
-    color:#ffffff;
+
+    color:#fff;
 
     font-size:8px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
+
+    border:1px solid #fff;
 
     font-weight:bold;
 
@@ -1158,168 +1540,185 @@ header{
 
   .topbar{
 
-    font-size:9px;
-    padding:7px 10px;
+    height:27px;
 
-  }
-
-  .header{
-    padding:0 10px;
-  }
-
-  .header-actions{
-    gap:5px;
-  }
-
-  .icon-btn{
-
-    width:39px;
-    height:39px;
-    min-width:39px;
-
-    font-size:16px;
-
-  }
-
-  .logo{
-    min-width:120px;
-  }
-
-  .logo strong{
-
-    font-size:19px;
-    letter-spacing:1.5px;
-
-  }
-
-  .logo small{
-
-    font-size:7px;
-    letter-spacing:1.4px;
-
-  }
-
-  .page{
-    padding:14px 10px 45px;
-  }
-
-  .breadcrumb{
-
-    margin-bottom:14px;
     font-size:10px;
 
   }
 
-  .product-layout{
-    gap:22px;
+
+  .header{
+
+    padding:
+      0
+      9px;
+
   }
+
+
+  .logo{
+
+    min-width:88px;
+
+  }
+
+
+  .logo strong{
+
+    font-size:18px;
+
+    letter-spacing:2px;
+
+  }
+
+
+  .logo small{
+
+    font-size:6px;
+
+    letter-spacing:1.7px;
+
+  }
+
+
+  .search input{
+
+    height:40px;
+
+    font-size:12px;
+
+    padding:
+      0
+      38px
+      0
+      38px;
+
+  }
+
+
+  .search-icon{
+
+    top:8px;
+
+    right:11px;
+
+  }
+
+
+  .header-favorite{
+
+    width:38px;
+
+    height:38px;
+
+    font-size:20px;
+
+  }
+
+
+  .page{
+
+    padding:
+      13px
+      10px
+      78px;
+
+  }
+
+
+  .breadcrumb{
+
+    font-size:10px;
+
+    margin-bottom:13px;
+
+  }
+
 
   .main-image{
 
     height:390px;
-    border-radius:10px;
+
+    border-radius:7px;
 
   }
+
 
   .main-image img{
     padding:10px;
   }
 
+
   .gallery-arrow{
 
-    width:38px;
-    height:38px;
-    font-size:23px;
+    width:37px;
+
+    height:37px;
+
+    font-size:22px;
 
   }
+
 
   .gallery-arrow.prev{
-    right:9px;
+    right:8px;
   }
 
+
   .gallery-arrow.next{
-    left:9px;
+    left:8px;
   }
+
 
   .thumb{
 
-    flex-basis:64px;
-    height:64px;
-    border-radius:7px;
+    flex-basis:63px;
+
+    height:63px;
 
   }
+
 
   .product-name{
 
     font-size:27px;
-    margin-bottom:12px;
 
   }
+
 
   .description{
 
     font-size:13px;
+
     line-height:1.9;
-    margin-bottom:18px;
 
   }
 
-  .price-box{
-
-    padding:15px 0;
-    gap:10px;
-    margin-bottom:16px;
-
-  }
 
   .price{
     font-size:28px;
   }
 
-  .old-price{
-    font-size:14px;
-  }
-
-  .stock{
-    margin-bottom:16px;
-  }
-
-  .quantity-row{
-    margin-bottom:11px;
-  }
 
   .add-btn{
 
-    min-height:54px;
+    min-height:53px;
+
     font-size:14px;
 
   }
 
-  .favorite-btn{
-    min-height:48px;
-  }
-
-  .buy-info{
-
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-
-  }
-
-  .info-box{
-
-    padding:11px 5px;
-    font-size:9px;
-
-  }
 
   .toast{
 
-    left:12px;
-    right:12px;
-    bottom:82px;
+    left:10px;
+
+    right:10px;
+
+    bottom:78px;
 
     max-width:none;
+
     text-align:center;
 
   }
@@ -1333,29 +1732,25 @@ header{
 
 @media(max-width:360px){
 
-  .header-actions{
-    gap:3px;
+  .search{
+    display:none;
   }
 
-  .icon-btn{
 
-    width:36px;
-    min-width:36px;
-    height:36px;
-
+  .header{
+    justify-content:space-between;
   }
 
-  .logo strong{
-    font-size:17px;
-  }
 
   .main-image{
     height:350px;
   }
 
+
   .product-name{
     font-size:24px;
   }
+
 
   .buy-info{
     grid-template-columns:1fr;
@@ -1371,14 +1766,25 @@ header{
 <body>
 
 
+<!-- =======================================================
+     TOP BAR
+======================================================= -->
+
 <div class="topbar">
+
   ✦ HZ.SHOP — تسوق بسهولة واستمتع بتجربة مميزة ✦
+
 </div>
 
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
 
 <header>
 
   <div class="header">
+
 
     <a
       class="logo"
@@ -1391,86 +1797,73 @@ header{
       </strong>
 
       <small>
-        LUXURY SHOPPING
+        LUXURY BEAUTY STORE
       </small>
 
     </a>
 
 
-    <div class="header-actions">
+    <div class="search">
 
-      <button
-        class="icon-btn"
-        onclick="goHome()"
-        title="الرئيسية"
-        aria-label="الرئيسية"
-        type="button"
+      <span class="search-icon">
+        ⌕
+      </span>
+
+
+      <input
+        id="headerSearch"
+        type="search"
+        placeholder="ابحث عن منتج..."
+        autocomplete="off"
       >
-        ⌂
-      </button>
-
-
-      <button
-        class="icon-btn"
-        onclick="openFavorites()"
-        title="المفضلة"
-        aria-label="المفضلة"
-        type="button"
-      >
-
-        ♡
-
-        <span
-          class="badge"
-          id="favCount"
-        >
-          0
-        </span>
-
-      </button>
 
 
       <button
-        class="icon-btn"
-        onclick="openCart()"
-        title="السلة"
-        aria-label="السلة"
+        class="search-clear"
+        id="searchClear"
         type="button"
+        aria-label="مسح البحث"
       >
-
-        🛒
-
-        <span
-          class="badge"
-          id="cartCount"
-        >
-          0
-        </span>
-
-      </button>
-
-
-      <button
-        class="icon-btn"
-        onclick="openAccount()"
-        title="حساب العميل"
-        aria-label="حساب العميل"
-        type="button"
-      >
-        ♙
+        ×
       </button>
 
     </div>
+
+
+    <button
+      class="header-favorite"
+      onclick="openFavorites()"
+      type="button"
+      aria-label="المفضلة"
+      title="المفضلة"
+    >
+
+      ♡
+
+      <span
+        class="badge"
+        id="favCount"
+      >
+        0
+      </span>
+
+    </button>
+
 
   </div>
 
 </header>
 
 
+<!-- =======================================================
+     PAGE
+======================================================= -->
+
 <main class="page">
 
 
   <div class="breadcrumb">
+
 
     <button
       onclick="goHome()"
@@ -1479,17 +1872,22 @@ header{
       الرئيسية
     </button>
 
+
     <span>›</span>
+
 
     <span id="breadcrumbCategory">
       المنتج
     </span>
 
+
     <span>›</span>
+
 
     <strong id="breadcrumbName">
       جاري التحميل...
     </strong>
+
 
   </div>
 
@@ -1506,25 +1904,34 @@ header{
 </main>
 
 
+<!-- =======================================================
+     TOAST
+======================================================= -->
+
 <div
   class="toast"
   id="toast"
 ></div>
 
 
+<!-- =======================================================
+     MOBILE BOTTOM NAV
+======================================================= -->
+
 <nav
-  class="mobile-nav"
+  class="bottom-nav"
   aria-label="التنقل الرئيسي"
 >
 
 
   <button
-    class="mobile-nav-item"
+    id="bottomHome"
+    class="active"
     onclick="goHome()"
     type="button"
   >
 
-    <span class="nav-icon">
+    <span class="bn-icon">
       ⌂
     </span>
 
@@ -1536,12 +1943,12 @@ header{
 
 
   <button
-    class="mobile-nav-item"
+    id="bottomCategories"
     onclick="openCategories()"
     type="button"
   >
 
-    <span class="nav-icon">
+    <span class="bn-icon">
       ☰
     </span>
 
@@ -1553,12 +1960,12 @@ header{
 
 
   <button
-    class="mobile-nav-item"
+    id="bottomFavorites"
     onclick="openFavorites()"
     type="button"
   >
 
-    <span class="nav-icon">
+    <span class="bn-icon">
       ♡
     </span>
 
@@ -1577,12 +1984,12 @@ header{
 
 
   <button
-    class="mobile-nav-item"
+    id="bottomCart"
     onclick="openCart()"
     type="button"
   >
 
-    <span class="nav-icon">
+    <span class="bn-icon">
       🛒
     </span>
 
@@ -1601,12 +2008,12 @@ header{
 
 
   <button
-    class="mobile-nav-item"
+    id="bottomAccount"
     onclick="openAccount()"
     type="button"
   >
 
-    <span class="nav-icon">
+    <span class="bn-icon">
       ♙
     </span>
 
@@ -1622,11 +2029,22 @@ header{
 
 <script>
 
+/* =========================================================
+   HZ.SHOP PRODUCT LOGIC
+========================================================= */
+
 let product = null;
+
 let images = [];
+
 let media = [];
+
 let currentImage = 0;
 
+
+/* =========================================================
+   CART
+========================================================= */
 
 function loadCart(){
 
@@ -1637,9 +2055,11 @@ function loadCart(){
         localStorage.getItem("hz_cart") || "[]"
       );
 
+
     return Array.isArray(parsed)
       ? parsed
       : [];
+
 
   }catch(error){
 
@@ -1648,14 +2068,20 @@ function loadCart(){
       error
     );
 
+
     return [];
 
   }
 
 }
 
+
 let cart = loadCart();
 
+
+/* =========================================================
+   FAVORITES
+========================================================= */
 
 function loadFavorites(){
 
@@ -1666,9 +2092,11 @@ function loadFavorites(){
         localStorage.getItem("hz_fav") || "[]"
       );
 
+
     return Array.isArray(parsed)
       ? parsed
       : [];
+
 
   }catch(error){
 
@@ -1677,27 +2105,41 @@ function loadFavorites(){
       error
     );
 
+
     return [];
 
   }
 
 }
 
+
 let favorites = loadFavorites();
 
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
 
 function escapeHtml(value){
 
   return String(value ?? "")
 
     .replace(/&/g,"&amp;")
+
     .replace(/</g,"&lt;")
+
     .replace(/>/g,"&gt;")
+
     .replace(/"/g,"&quot;")
+
     .replace(/'/g,"&#039;");
 
 }
 
+
+/* =========================================================
+   NORMALIZE IMAGES
+========================================================= */
 
 function normalizeImages(product){
 
@@ -1705,17 +2147,22 @@ function normalizeImages(product){
     product &&
     product.images !== undefined &&
     product.images !== null
+
       ? product.images
+
       : product?.image || [];
 
 
   if(typeof raw === "string"){
 
-    const value = raw.trim();
+    const value =
+      raw.trim();
+
 
     if(!value){
       return [];
     }
+
 
     if(
       value.startsWith("[") &&
@@ -1724,12 +2171,18 @@ function normalizeImages(product){
 
       try{
 
-        const parsed = JSON.parse(value);
+        const parsed =
+          JSON.parse(value);
+
 
         if(Array.isArray(parsed)){
+
           raw = parsed;
+
         }else{
+
           raw = [value];
+
         }
 
       }catch(error){
@@ -1745,7 +2198,9 @@ function normalizeImages(product){
       raw =
         value
           .split(/\r?\n/)
-          .map(x=>x.trim())
+          .map(
+            x=>x.trim()
+          )
           .filter(Boolean);
 
     }
@@ -1755,7 +2210,9 @@ function normalizeImages(product){
       raw =
         value
           .split(",")
-          .map(x=>x.trim())
+          .map(
+            x=>x.trim()
+          )
           .filter(Boolean);
 
     }
@@ -1779,8 +2236,11 @@ function normalizeImages(product){
     .map(image=>{
 
       if(typeof image === "string"){
+
         return image.trim();
+
       }
+
 
       if(
         image &&
@@ -1799,6 +2259,7 @@ function normalizeImages(product){
 
       }
 
+
       return "";
 
     })
@@ -1808,6 +2269,10 @@ function normalizeImages(product){
 }
 
 
+/* =========================================================
+   PRODUCT ID
+========================================================= */
+
 function getProductId(){
 
   const params =
@@ -1815,17 +2280,26 @@ function getProductId(){
       window.location.search
     );
 
+
   const id =
     Number(
       params.get("id")
     );
 
-  return Number.isFinite(id) && id > 0
+
+  return Number.isFinite(id) &&
+    id > 0
+
     ? id
+
     : null;
 
 }
 
+
+/* =========================================================
+   STOCK
+========================================================= */
 
 function getStock(){
 
@@ -1835,15 +2309,22 @@ function getStock(){
     product.stock === null ||
     product.stock === ""
   ){
+
     return null;
+
   }
+
 
   const value =
     Number(product.stock);
 
+
   if(!Number.isFinite(value)){
+
     return null;
+
   }
+
 
   return Math.max(
     0,
@@ -1855,7 +2336,9 @@ function getStock(){
 
 function getMaxQuantity(){
 
-  const stock = getStock();
+  const stock =
+    getStock();
+
 
   return stock === null
     ? 99
@@ -1866,28 +2349,46 @@ function getMaxQuantity(){
 
 function isAvailable(){
 
-  const stock = getStock();
+  const stock =
+    getStock();
 
-  return stock === null || stock > 0;
+
+  return stock === null ||
+    stock > 0;
 
 }
 
+
+/* =========================================================
+   CATEGORY
+========================================================= */
 
 function categoryName(value){
 
   const names = {
 
     perfumes:"العطور",
+
     perfume:"العطور",
+
     makeup:"مكياج",
+
     skin:"العناية بالبشرة",
+
     personal:"العناية الشخصية",
+
     accessories:"إكسسوارات",
+
     clothing:"ملابس",
+
     lingerie:"لانجري",
+
     home:"منزل",
+
     electronics:"إلكترونيات",
+
     kids:"ألعاب أطفال",
+
     cleaning:"النظافة"
 
   };
@@ -1900,22 +2401,33 @@ function categoryName(value){
 
 
   return names[text] ||
-    String(value || "المنتج");
+    String(
+      value || "المنتج"
+    );
 
 }
 
 
+/* =========================================================
+   MEDIA
+========================================================= */
+
 function buildProductMedia(){
 
   media =
-    images.map(function(image){
+    images.map(
+      function(image){
 
-      return {
-        type:"image",
-        url:String(image)
-      };
+        return {
 
-    });
+          type:"image",
+
+          url:String(image)
+
+        };
+
+      }
+    );
 
 
   const productVideo =
@@ -1929,6 +2441,7 @@ function buildProductMedia(){
     media.push({
 
       type:"video",
+
       url:productVideo
 
     });
@@ -1941,13 +2454,11 @@ function buildProductMedia(){
 }
 
 
+/* =========================================================
+   LOAD PRODUCT
+========================================================= */
+
 async function loadProduct(){
-
-  const container =
-    document.getElementById(
-      "productContainer"
-    );
-
 
   const id =
     getProductId();
@@ -2029,7 +2540,11 @@ async function loadProduct(){
     ){
 
       images = [
-        String(product.image)
+
+        String(
+          product.image
+        )
+
       ];
 
     }
@@ -2040,7 +2555,8 @@ async function loadProduct(){
 
     const productName =
       String(
-        product.name || "HZ.SHOP"
+        product.name ||
+        "HZ.SHOP"
       );
 
 
@@ -2058,10 +2574,13 @@ async function loadProduct(){
     if(meta){
 
       meta.setAttribute(
+
         "content",
+
         "HZ.SHOP — " +
         productName +
         "، اكتشف تفاصيل المنتج وتسوق بسهولة."
+
       );
 
     }
@@ -2087,9 +2606,13 @@ async function loadProduct(){
 
     renderProduct();
 
+
     updateCartCount();
+
     updateFavoriteCount();
+
     updateFavoriteButton();
+
 
     trackViewContent();
 
@@ -2097,6 +2620,7 @@ async function loadProduct(){
   }catch(error){
 
     console.error(error);
+
 
     showError(
       "تعذر تحميل المنتج. حاول تحديث الصفحة."
@@ -2106,6 +2630,10 @@ async function loadProduct(){
 
 }
 
+
+/* =========================================================
+   META — VIEW CONTENT
+========================================================= */
 
 function trackViewContent(){
 
@@ -2122,8 +2650,11 @@ function trackViewContent(){
   try{
 
     fbq(
+
       "track",
+
       "ViewContent",
+
       {
 
         content_ids:[
@@ -2145,6 +2676,7 @@ function trackViewContent(){
         currency:"USD"
 
       }
+
     );
 
   }catch(error){
@@ -2158,6 +2690,10 @@ function trackViewContent(){
 
 }
 
+
+/* =========================================================
+   RENDER PRODUCT
+========================================================= */
 
 function renderProduct(){
 
@@ -2174,24 +2710,34 @@ function renderProduct(){
 
 
   const oldRaw =
+
     product.old !== undefined &&
     product.old !== null &&
     product.old !== ""
+
       ? product.old
+
       : product.old_price;
 
 
   const old =
+
     oldRaw !== undefined &&
     oldRaw !== null &&
     oldRaw !== ""
+
       ? Number(oldRaw)
+
       : null;
 
 
-  const stock = getStock();
-  const available = isAvailable();
-  const maxQuantity = getMaxQuantity();
+  const available =
+    isAvailable();
+
+
+  const maxQuantity =
+    getMaxQuantity();
+
 
   const hasMultiple =
     media.length > 1;
@@ -2205,10 +2751,15 @@ function renderProduct(){
 
 
   if(
+
     old !== null &&
+
     Number.isFinite(old) &&
+
     old > price &&
+
     old > 0
+
   ){
 
     const percentage =
@@ -2238,7 +2789,9 @@ function renderProduct(){
         .map(
           (item,index)=>{
 
-            if(item.type === "video"){
+            if(
+              item.type === "video"
+            ){
 
               return `
 
@@ -2284,7 +2837,6 @@ function renderProduct(){
             `;
 
           }
-
         )
         .join("");
 
@@ -2299,27 +2851,49 @@ function renderProduct(){
 
         ${
           mainMedia
+
           ?
 
           `
 
             <img
               id="mainProductImage"
-              src="${mainMedia.type === "image" ? escapeHtml(mainMedia.url) : ""}"
+              src="${
+                mainMedia.type === "image"
+                  ? escapeHtml(mainMedia.url)
+                  : ""
+              }"
               alt="${escapeHtml(product.name)}"
-              style="display:${mainMedia.type === "image" ? "block" : "none"}"
+              style="
+                display:
+                ${
+                  mainMedia.type === "image"
+                    ? "block"
+                    : "none"
+                }
+              "
               onerror="imageError(this)"
             >
 
 
             <video
               id="mainProductVideo"
-              class="main-product-video"
-              src="${mainMedia.type === "video" ? escapeHtml(mainMedia.url) : ""}"
+              src="${
+                mainMedia.type === "video"
+                  ? escapeHtml(mainMedia.url)
+                  : ""
+              }"
               controls
               playsinline
               preload="metadata"
-              style="display:${mainMedia.type === "video" ? "block" : "none"}"
+              style="
+                display:
+                ${
+                  mainMedia.type === "video"
+                    ? "block"
+                    : "none"
+                }
+              "
             ></video>
 
 
@@ -2419,33 +2993,41 @@ function renderProduct(){
 
 
         <div class="category">
+
           ${escapeHtml(
             categoryName(
               product.category
             )
           )}
+
         </div>
 
 
         <h1 class="product-name">
+
           ${escapeHtml(
             product.name
           )}
+
         </h1>
 
 
         <div class="description">
+
           ${escapeHtml(
             product.description ||
             "اكتشف تفاصيل هذا المنتج من HZ.SHOP."
           )}
+
         </div>
 
 
         <div class="price-box">
 
           <strong class="price">
+
             $${price.toFixed(2)}
+
           </strong>
 
 
@@ -2459,7 +3041,9 @@ function renderProduct(){
             `
 
               <del class="old-price">
+
                 $${old.toFixed(2)}
+
               </del>
 
               ${discountHtml}
@@ -2475,14 +3059,21 @@ function renderProduct(){
         </div>
 
 
-        <div class="stock ${available ? "" : "out"}">
+        <div
+          class="stock ${available ? "" : "out"}"
+        >
 
           ${
             available
+
             ?
-            `✓ المنتج متوفر`
+
+            "✓ المنتج متوفر"
+
             :
-            `✕ المنتج غير متوفر حاليًا`
+
+            "✕ المنتج غير متوفر حاليًا"
+
           }
 
         </div>
@@ -2539,10 +3130,15 @@ function renderProduct(){
 
           ${
             available
-              ?
-              "🛒 أضف إلى السلة"
-              :
-              "المنتج غير متوفر"
+
+            ?
+
+            "🛒 أضف إلى السلة"
+
+            :
+
+            "المنتج غير متوفر"
+
           }
 
         </button>
@@ -2588,6 +3184,10 @@ function renderProduct(){
 }
 
 
+/* =========================================================
+   IMAGE ERROR
+========================================================= */
+
 function imageError(img){
 
   img.style.display =
@@ -2610,6 +3210,10 @@ function imageError(img){
 }
 
 
+/* =========================================================
+   CHANGE MEDIA
+========================================================= */
+
 function changeImage(index){
 
   if(!media.length){
@@ -2618,16 +3222,22 @@ function changeImage(index){
 
 
   if(index < 0){
-    index = media.length - 1;
+
+    index =
+      media.length - 1;
+
   }
 
 
   if(index >= media.length){
+
     index = 0;
+
   }
 
 
-  currentImage = index;
+  currentImage =
+    index;
 
 
   const selectedMedia =
@@ -2658,7 +3268,10 @@ function changeImage(index){
   ){
 
     if(mainImage){
-      mainImage.style.display = "none";
+
+      mainImage.style.display =
+        "none";
+
     }
 
 
@@ -2679,8 +3292,10 @@ function changeImage(index){
   }
 
   else if(
+
     selectedMedia &&
     selectedMedia.type === "image"
+
   ){
 
     if(mainVideo){
@@ -2702,10 +3317,8 @@ function changeImage(index){
         String(
           product?.name ||
           "المنتج"
-        )
-        +
-        " - "
-        +
+        ) +
+        " - " +
         (index + 1);
 
       mainImage.style.display =
@@ -2717,7 +3330,10 @@ function changeImage(index){
 
 
   if(fallback){
-    fallback.style.display = "none";
+
+    fallback.style.display =
+      "none";
+
   }
 
 
@@ -2746,7 +3362,9 @@ function changeImage(index){
     active.scrollIntoView({
 
       behavior:"smooth",
+
       block:"nearest",
+
       inline:"center"
 
     });
@@ -2755,6 +3373,10 @@ function changeImage(index){
 
 }
 
+
+/* =========================================================
+   QUANTITY
+========================================================= */
 
 function changeQuantity(amount){
 
@@ -2785,7 +3407,9 @@ function changeQuantity(amount){
 
 
   if(!Number.isFinite(value)){
+
     value = 1;
+
   }
 
 
@@ -2797,12 +3421,16 @@ function changeQuantity(amount){
 
 
   if(value < 1){
+
     value = 1;
+
   }
 
 
   if(value > max){
+
     value = max;
+
   }
 
 
@@ -2812,10 +3440,16 @@ function changeQuantity(amount){
 }
 
 
+/* =========================================================
+   ADD TO CART
+========================================================= */
+
 function addToCart(){
 
   if(!product){
+
     return;
+
   }
 
 
@@ -2843,7 +3477,9 @@ function addToCart(){
 
 
   if(!Number.isFinite(quantity)){
+
     quantity = 1;
+
   }
 
 
@@ -2876,16 +3512,23 @@ function addToCart(){
 
   const existingQuantity =
     item
+
       ?
+
       Math.max(
+
         0,
+
         Math.floor(
           Number(
             item.quantity
           ) || 0
         )
+
       )
+
       :
+
       0;
 
 
@@ -2894,16 +3537,21 @@ function addToCart(){
 
 
   if(
+
     existingQuantity +
     quantity >
     max
+
   ){
 
     const remaining =
       Math.max(
+
         0,
+
         max -
         existingQuantity
+
       );
 
 
@@ -2922,6 +3570,7 @@ function addToCart(){
       );
 
     }
+
 
     return;
 
@@ -2967,15 +3616,20 @@ function addToCart(){
 
 
   saveCart();
+
+
   updateCartCount();
 
 
   toast(
+
     String(
       product.name ||
       "المنتج"
     ) +
+
     " تمت إضافته إلى السلة"
+
   );
 
 
@@ -2985,6 +3639,10 @@ function addToCart(){
 
 }
 
+
+/* =========================================================
+   META — ADD TO CART
+========================================================= */
 
 function trackAddToCart(quantity){
 
@@ -3001,8 +3659,11 @@ function trackAddToCart(quantity){
   try{
 
     fbq(
+
       "track",
+
       "AddToCart",
+
       {
 
         content_ids:[
@@ -3042,15 +3703,26 @@ function trackAddToCart(quantity){
 }
 
 
+/* =========================================================
+   SAVE CART
+========================================================= */
+
 function saveCart(){
 
   localStorage.setItem(
+
     "hz_cart",
+
     JSON.stringify(cart)
+
   );
 
 }
 
+
+/* =========================================================
+   CART COUNT
+========================================================= */
 
 function updateCartCount(){
 
@@ -3058,28 +3730,22 @@ function updateCartCount(){
     cart.reduce(
 
       (total,item)=>
+
         total +
+
         Math.max(
+
           0,
+
           Number(
             item.quantity || 0
           )
+
         ),
 
       0
 
     );
-
-
-  const badge =
-    document.getElementById(
-      "cartCount"
-    );
-
-
-  if(badge){
-    badge.textContent = count;
-  }
 
 
   const mobile =
@@ -3089,16 +3755,25 @@ function updateCartCount(){
 
 
   if(mobile){
-    mobile.textContent = count;
+
+    mobile.textContent =
+      count;
+
   }
 
 }
 
 
+/* =========================================================
+   FAVORITE CHECK
+========================================================= */
+
 function isFavorite(){
 
   if(!product){
+
     return false;
+
   }
 
 
@@ -3107,21 +3782,34 @@ function isFavorite(){
 
 
   return favorites.some(
+
     item =>
+
       Number(
+
         typeof item === "object"
+
           ? item.id
+
           : item
+
       ) === id
+
   );
 
 }
 
 
+/* =========================================================
+   TOGGLE FAVORITE
+========================================================= */
+
 function toggleFavorite(){
 
   if(!product){
+
     return;
+
   }
 
 
@@ -3133,10 +3821,15 @@ function toggleFavorite(){
     favorites.findIndex(
 
       item =>
+
         Number(
+
           typeof item === "object"
+
             ? item.id
+
             : item
+
         ) === id
 
     );
@@ -3197,17 +3890,28 @@ function toggleFavorite(){
 }
 
 
+/* =========================================================
+   SAVE FAVORITES
+========================================================= */
+
 function saveFavorites(){
 
   localStorage.setItem(
+
     "hz_fav",
+
     JSON.stringify(
       favorites
     )
+
   );
 
 }
 
+
+/* =========================================================
+   FAVORITE COUNT
+========================================================= */
 
 function updateFavoriteCount(){
 
@@ -3222,7 +3926,10 @@ function updateFavoriteCount(){
 
 
   if(badge){
-    badge.textContent = count;
+
+    badge.textContent =
+      count;
+
   }
 
 
@@ -3233,11 +3940,18 @@ function updateFavoriteCount(){
 
 
   if(mobile){
-    mobile.textContent = count;
+
+    mobile.textContent =
+      count;
+
   }
 
 }
 
+
+/* =========================================================
+   FAVORITE BUTTON
+========================================================= */
 
 function updateFavoriteButton(){
 
@@ -3248,7 +3962,9 @@ function updateFavoriteButton(){
 
 
   if(!button){
+
     return;
+
   }
 
 
@@ -3257,6 +3973,7 @@ function updateFavoriteButton(){
     button.classList.add(
       "active"
     );
+
 
     button.innerHTML =
       "♥ تمت الإضافة إلى المفضلة";
@@ -3269,6 +3986,7 @@ function updateFavoriteButton(){
       "active"
     );
 
+
     button.innerHTML =
       "♡ إضافة إلى المفضلة";
 
@@ -3278,12 +3996,13 @@ function updateFavoriteButton(){
 
 
 /* =========================================================
-   NAVIGATION — ORGANIZED
+   NAVIGATION
 ========================================================= */
 
 function goHome(){
 
-  window.location.href = "/";
+  window.location.href =
+    "/";
 
 }
 
@@ -3291,7 +4010,7 @@ function goHome(){
 function openCart(){
 
   window.location.href =
-    "/cart.html";
+    "/Cart.html";
 
 }
 
@@ -3315,10 +4034,96 @@ function openCategories(){
 function openAccount(){
 
   window.location.href =
-    "/account.html";
+    "/Account.html";
 
 }
 
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+const headerSearch =
+  document.getElementById(
+    "headerSearch"
+  );
+
+
+const searchClear =
+  document.getElementById(
+    "searchClear"
+  );
+
+
+if(headerSearch){
+
+  headerSearch.addEventListener(
+    "input",
+    function(){
+
+      if(searchClear){
+
+        searchClear.style.display =
+          headerSearch.value
+            ? "block"
+            : "none";
+
+      }
+
+    }
+  );
+
+
+  headerSearch.addEventListener(
+    "keydown",
+    function(event){
+
+      if(
+        event.key === "Enter" &&
+        headerSearch.value.trim()
+      ){
+
+        window.location.href =
+          "/?search=" +
+          encodeURIComponent(
+            headerSearch.value.trim()
+          );
+
+      }
+
+    }
+  );
+
+}
+
+
+if(searchClear){
+
+  searchClear.addEventListener(
+    "click",
+    function(){
+
+      if(headerSearch){
+
+        headerSearch.value =
+          "";
+
+        searchClear.style.display =
+          "none";
+
+        headerSearch.focus();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
 
 function showError(message){
 
@@ -3350,16 +4155,24 @@ function showError(message){
 }
 
 
+/* =========================================================
+   TOUCH SWIPE
+========================================================= */
+
 let touchStartX = 0;
 
 
 document.addEventListener(
+
   "touchstart",
+
   event=>{
 
     if(
+
       event.touches &&
       event.touches.length
+
     ){
 
       touchStartX =
@@ -3368,24 +4181,32 @@ document.addEventListener(
     }
 
   },
+
   {
     passive:true
   }
+
 );
 
 
 document.addEventListener(
+
   "touchend",
+
   event=>{
 
     if(!media.length){
+
       return;
+
     }
 
 
     if(
+
       !event.changedTouches ||
       !event.changedTouches.length
+
     ){
 
       return;
@@ -3428,14 +4249,22 @@ document.addEventListener(
     }
 
   },
+
   {
     passive:true
   }
+
 );
 
 
+/* =========================================================
+   ENTER = ADD TO CART
+========================================================= */
+
 document.addEventListener(
+
   "keydown",
+
   event=>{
 
     if(
@@ -3452,8 +4281,10 @@ document.addEventListener(
 
 
     if(
+
       active &&
       active.id === "quantity"
+
     ){
 
       event.preventDefault();
@@ -3463,15 +4294,19 @@ document.addEventListener(
     }
 
   }
+
 );
 
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
 loadProduct();
 
 updateCartCount();
 
 updateFavoriteCount();
-
 
 </script>
 
