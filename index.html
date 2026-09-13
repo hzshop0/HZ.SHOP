@@ -3586,10 +3586,46 @@ p.categoryName
 
 }
 
+/* =========================
+   DYNAMIC PRODUCT ORDER
+   المنتجات تتغير دوريًا
+========================= */
+
 const sort =
 document.getElementById(
 "sort"
 ).value;
+
+if(
+!sort &&
+list.length > 1
+){
+
+const dynamicCycle =
+Math.floor(
+Date.now() /
+(15 * 60 * 1000)
+);
+
+list.sort((a,b)=>{
+
+const scoreA =
+(
+(Number(a.id) * 9301) +
+(dynamicCycle * 49297)
+) % 233280;
+
+const scoreB =
+(
+(Number(b.id) * 9301) +
+(dynamicCycle * 49297)
+) % 233280;
+
+return scoreA - scoreB;
+
+});
+
+}
 
 if(sort === "low"){
 
