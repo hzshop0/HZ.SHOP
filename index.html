@@ -3709,7 +3709,7 @@ return;
 
 }
 
-box.innerHTML = "";
+let html = "";
 
 list.forEach(p=>{
 
@@ -3726,7 +3726,7 @@ p.stock <= 5;
 const gallery =
 createProductGallery(p);
 
-box.innerHTML += `
+html += `
 
 <article
 class="product"
@@ -3837,10 +3837,11 @@ onclick="event.stopPropagation()">
 
 });
 
+box.innerHTML = html;
+
 enableGallerySwipe();
 
 }
-
 
 /* =========================
    COMPACT SMART SECTIONS
