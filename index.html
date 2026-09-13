@@ -3597,7 +3597,9 @@ document.getElementById(
 ).value;
 
 if(
-!sort &&
+sort !== "low" &&
+sort !== "high" &&
+sort !== "name" &&
 list.length > 1
 ){
 
@@ -3609,15 +3611,29 @@ Date.now() /
 
 list.sort((a,b)=>{
 
+const idA =
+Number.isFinite(Number(a.id))
+?
+Number(a.id)
+:
+0;
+
+const idB =
+Number.isFinite(Number(b.id))
+?
+Number(b.id)
+:
+0;
+
 const scoreA =
 (
-(Number(a.id) * 9301) +
+(idA * 9301) +
 (dynamicCycle * 49297)
 ) % 233280;
 
 const scoreB =
 (
-(Number(b.id) * 9301) +
+(idB * 9301) +
 (dynamicCycle * 49297)
 ) % 233280;
 
