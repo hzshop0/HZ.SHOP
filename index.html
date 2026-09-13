@@ -3049,11 +3049,10 @@ controller.abort();
 
 const response =
 await fetch(
-"/api/products?t=" +
-Date.now(),
+"/api/products",
 {
 method:"GET",
-cache:"no-store",
+cache:"default",
 signal:controller.signal
 }
 );
