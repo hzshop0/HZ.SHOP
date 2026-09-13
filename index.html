@@ -3294,6 +3294,7 @@ return `
 src="${escapeHtml(images[0])}"
 alt="${escapeHtml(product.name)}"
 loading="lazy"
+decoding="async"
 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
 <div
 class="bottle"
@@ -3315,7 +3316,8 @@ images.map(
 <img
 src="${escapeHtml(image)}"
 alt="${escapeHtml(product.name)} ${index+1}"
-loading="${index === 0 ? "eager" : "lazy"}"
+loading="lazy"
+decoding="async"
 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
 
 <div
