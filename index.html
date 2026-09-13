@@ -2108,7 +2108,7 @@ footer{
 id="search"
 type="search"
 placeholder="ابحث عن منتج..."
-oninput="searchProducts">
+>
 
 <button
 class="search-clear"
@@ -3312,7 +3312,7 @@ toast(
 ========================= */
 
 function openCustomerAuth(){
-  window.location.href = "Account.html";
+  window.location.assign("Account.html");
 }
 /* =========================
    PRODUCTS
@@ -5632,8 +5632,7 @@ total.toFixed(2);
 
 function openCart(){
 
-window.location.href =
-"/cart.html";
+window.location.assign("Cart.html");
 
 }
 
@@ -5981,8 +5980,7 @@ currency:"USD"
 
 }
 
-window.location.href =
-"/cart.html";
+window.location.assign("Cart.html");
 
 }
 
