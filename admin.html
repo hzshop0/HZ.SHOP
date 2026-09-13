@@ -3333,37 +3333,75 @@ document
         }
 
 
+        /* =====================================================
+           HANDLE PRODUCT IMAGES
+        ===================================================== */
+
         if(
           selectedImages.length
         ){
 
-          const files =
-            selectedImages.map(
-              item =>
-                item.file
-            );
+          const existingImages =
+            selectedImages
+              .filter(
+                item =>
+                  !item.file &&
+                  item.preview
+              )
+              .map(
+                item =>
+                  String(
+                    item.preview
+                  )
+              )
+              .filter(Boolean);
 
 
-          imageStatus.textContent =
-            "جاري رفع الصور...";
+          const newFiles =
+            selectedImages
+              .filter(
+                item =>
+                  item.file instanceof File
+              )
+              .map(
+                item =>
+                  item.file
+              );
 
 
-          const uploadedImages =
-            await uploadImages(
-              files
-            );
-
-
-          images =
-            uploadedImages;
+          let uploadedImages =
+            [];
 
 
           if(
-            uploadedImages.length
+            newFiles.length
+          ){
+
+            imageStatus.textContent =
+              "جاري رفع الصور الجديدة...";
+
+
+            uploadedImages =
+              await uploadImages(
+                newFiles
+              );
+
+          }
+
+
+          images =
+            [
+              ...existingImages,
+              ...uploadedImages
+            ];
+
+
+          if(
+            images.length
           ){
 
             image =
-              uploadedImages[0];
+              images[0];
 
           }
 
@@ -3388,6 +3426,10 @@ document
         }
 
 
+        /* =====================================================
+           FALLBACK FOR SINGLE IMAGE
+        ===================================================== */
+
         if(
           !images.length &&
           image
@@ -3406,13 +3448,19 @@ document
           سيتم ربطه فعليًا مع Worker في الخطوة التالية.
         */
 
-        if(selectedVideo){
+        if(
+          selectedVideo
+        ){
 
           imageStatus.textContent =
             "الفيديو تم اختياره، لكن رفعه يحتاج ربط Worker أولًا.";
 
         }
 
+
+        /* =====================================================
+           PRODUCT DATA
+        ===================================================== */
 
         const data = {
 
@@ -3424,12 +3472,14 @@ document
               .value
               .trim(),
 
+
           category:
             document
               .getElementById(
                 "category"
               )
               .value,
+
 
           price:
             document
@@ -3438,6 +3488,7 @@ document
               )
               .value,
 
+
           old_price:
             document
               .getElementById(
@@ -3445,12 +3496,14 @@ document
               )
               .value,
 
+
           stock:
             document
               .getElementById(
                 "stock"
               )
               .value,
+
 
           badge:
             document
@@ -3460,9 +3513,12 @@ document
               .value
               .trim(),
 
+
           image,
 
+
           images,
+
 
           description:
             document
@@ -3483,6 +3539,10 @@ document
         }
 
 
+        /* =====================================================
+           SAVE TO API
+        ===================================================== */
+
         const response =
           await fetch(
             "/api/products",
@@ -3492,13 +3552,16 @@ document
                   ? "PUT"
                   : "POST",
 
+
               credentials:
                 "same-origin",
+
 
               headers:{
                 "Content-Type":
                   "application/json"
               },
+
 
               body:
                 JSON.stringify(
@@ -3512,10 +3575,14 @@ document
         const result =
           await response
             .json()
-            .catch(() => ({}));
+            .catch(
+              () => ({})
+            );
 
 
-        if(!response.ok){
+        if(
+          !response.ok
+        ){
 
           throw new Error(
             result.error ||
@@ -3524,6 +3591,10 @@ document
 
         }
 
+
+        /* =====================================================
+           SUCCESS
+        ===================================================== */
 
         status.textContent =
           id
@@ -3540,7 +3611,9 @@ document
 
         await loadProducts();
 
+
         resetForm();
+
 
         showSection(
           "productsSection"
@@ -3552,6 +3625,7 @@ document
         console.error(
           error
         );
+
 
         status.textContent =
           "خطأ: " +
