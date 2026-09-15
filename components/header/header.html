@@ -1,1 +1,76 @@
+<header class="site-header" id="siteHeader">
+  <div class="header-main">
 
+    <a href="/" class="site-logo" aria-label="HZ.shop">
+      <strong>HZ.shop</strong>
+    </a>
+
+    <div class="header-search">
+      <form id="headerSearchForm" role="search">
+        <input
+          type="search"
+          id="headerSearchInput"
+          name="q"
+          placeholder="ابحث عن منتج..."
+          autocomplete="off"
+          aria-label="البحث عن المنتجات"
+        />
+
+        <button
+          type="submit"
+          aria-label="بحث"
+        >
+          🔍
+        </button>
+      </form>
+    </div>
+
+    <nav class="header-actions" aria-label="روابط المتجر">
+
+      <button
+        type="button"
+        class="header-action"
+        id="headerWishlistButton"
+        aria-label="المفضلة"
+      >
+        ♡
+      </button>
+
+      <button
+        type="button"
+        class="header-action"
+        id="headerNotificationsButton"
+        aria-label="الإشعارات"
+      >
+        🔔
+      </button>
+
+      <button
+        type="button"
+        class="header-action"
+        id="headerCartButton"
+        aria-label="السلة"
+      >
+        🛒
+        <span
+          class="header-cart-count"
+          id="headerCartCount"
+          hidden
+        >
+          0
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="header-action"
+        id="headerAccountButton"
+        aria-label="حسابي"
+      >
+        👤
+      </button>
+
+    </nav>
+
+  </div>
+</header>
