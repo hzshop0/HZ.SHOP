@@ -1,0 +1,148 @@
+/* =========================================
+   HZ.SHOP — Product Fragrance Section
+   ========================================= */
+
+.store-product-fragrance {
+  width: 100%;
+  padding: 24px 0;
+}
+
+.store-product-fragrance__container {
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.store-product-fragrance__header {
+  margin-bottom: 18px;
+}
+
+.store-product-fragrance__title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.store-product-fragrance__subtitle {
+  margin: 6px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.store-product-fragrance__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.store-product-fragrance__card {
+  padding: 18px;
+  background: var(--card-background, #fff);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 14px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.store-product-fragrance__card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 106, 0, 0.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
+}
+
+.store-product-fragrance__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 12px;
+  color: #ff6a00;
+  background: rgba(255, 106, 0, 0.08);
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.store-product-fragrance__name {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 0.98rem;
+  font-weight: 800;
+}
+
+.store-product-fragrance__description {
+  margin: 7px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+
+.store-product-fragrance__details {
+  display: grid;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.store-product-fragrance__detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color, #e8e8e8);
+}
+
+.store-product-fragrance__detail:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.store-product-fragrance__label {
+  color: var(--muted-text-color, #777);
+  font-size: 0.8rem;
+}
+
+.store-product-fragrance__value {
+  color: var(--text-color, #111);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .store-product-fragrance__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .store-product-fragrance {
+    padding: 18px 0;
+  }
+
+  .store-product-fragrance__container {
+    padding-inline: 14px;
+  }
+
+  .store-product-fragrance__grid {
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+
+  .store-product-fragrance__card {
+    padding: 15px;
+  }
+
+  .store-product-fragrance__title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-product-fragrance__card {
+    transition: none;
+  }
+}
