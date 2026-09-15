@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>HZ.shop | المفضلة</title>
+
+  <meta
+    name="description"
+    content="المنتجات المفضلة في HZ.shop"
+  >
+</head>
+
+<body>
+
+  <main class="wishlist-page">
+
+    <div class="wishlist-page-container">
+
+      <header class="wishlist-page-header">
+
+        <div>
+          <h1 class="wishlist-page-title">
+            المفضلة
+          </h1>
+
+          <p
+            class="wishlist-page-subtitle"
+            data-wishlist-subtitle
+            hidden
+          ></p>
+        </div>
+
+        <button
+          type="button"
+          class="wishlist-clear-button"
+          data-wishlist-clear
+          hidden
+        >
+          حذف الكل
+        </button>
+
+      </header>
+
+
+      <div
+        class="wishlist-loading"
+        data-wishlist-loading
+      >
+        جاري تحميل المفضلة...
+      </div>
+
+
+      <section
+        class="wishlist-products"
+        data-wishlist-products
+        aria-live="polite"
+      ></section>
+
+
+      <section
+        class="wishlist-empty"
+        data-wishlist-empty
+        hidden
+      >
+
+        <div
+          class="wishlist-empty-icon"
+          aria-hidden="true"
+        >
+          ♡
+        </div>
+
+        <h2>
+          لا توجد منتجات في المفضلة
+        </h2>
+
+        <p>
+          أضف المنتجات التي تعجبك إلى المفضلة لتجدها هنا بسهولة.
+        </p>
+
+        <a
+          href="/"
+          class="wishlist-empty-button"
+        >
+          متابعة التسوق
+        </a>
+
+      </section>
+
+
+      <div
+        class="wishlist-pagination-container"
+        data-pagination-container
+      ></div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
