@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>HZ.shop | إتمام الطلب</title>
+
+  <meta
+    name="description"
+    content="إتمام طلبك من HZ.shop"
+  >
+</head>
+
+<body>
+
+  <main class="checkout-page">
+
+    <div class="checkout-page-container">
+
+      <header class="checkout-page-header">
+
+        <h1 class="checkout-page-title">
+          إتمام الطلب
+        </h1>
+
+      </header>
+
+      <div class="checkout-layout">
+
+        <section class="checkout-form-section">
+
+          <div class="checkout-section">
+
+            <h2 class="checkout-section-title">
+              معلومات العميل
+            </h2>
+
+            <div class="checkout-fields">
+
+              <div class="checkout-field">
+
+                <label
+                  for="checkoutName"
+                >
+                  الاسم الكامل
+                </label>
+
+                <input
+                  type="text"
+                  id="checkoutName"
+                  name="name"
+                  autocomplete="name"
+                  required
+                >
+
+              </div>
+
+              <div class="checkout-field">
+
+                <label
+                  for="checkoutPhone"
+                >
+                  رقم الهاتف
+                </label>
+
+                <input
+                  type="tel"
+                  id="checkoutPhone"
+                  name="phone"
+                  autocomplete="tel"
+                  required
+                >
+
+              </div>
+
+              <div class="checkout-field">
+
+                <label
+                  for="checkoutEmail"
+                >
+                  البريد الإلكتروني
+                </label>
+
+                <input
+                  type="email"
+                  id="checkoutEmail"
+                  name="email"
+                  autocomplete="email"
+                >
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="checkout-section">
+
+            <h2 class="checkout-section-title">
+              عنوان التوصيل
+            </h2>
+
+            <div class="checkout-fields">
+
+              <div class="checkout-field">
+
+                <label
+                  for="checkoutCity"
+                >
+                  المدينة
+                </label>
+
+                <input
+                  type="text"
+                  id="checkoutCity"
+                  name="city"
+                  autocomplete="address-level2"
+                  required
+                >
+
+              </div>
+
+              <div class="checkout-field">
+
+                <label
+                  for="checkoutAddress"
+                >
+                  العنوان
+                </label>
+
+                <textarea
+                  id="checkoutAddress"
+                  name="address"
+                  rows="3"
+                  autocomplete="street-address"
+                  required
+                ></textarea>
+
+              </div>
+
+              <div class="checkout-field">
+
+                <label
+                  for="checkoutNotes"
+                >
+                  ملاحظات إضافية
+                </label>
+
+                <textarea
+                  id="checkoutNotes"
+                  name="notes"
+                  rows="3"
+                ></textarea>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="checkout-section">
+
+            <h2 class="checkout-section-title">
+              طريقة الدفع
+            </h2>
+
+            <label class="checkout-payment-option">
+
+              <input
+                type="radio"
+                name="payment"
+                value="cod"
+                checked
+              >
+
+              <span>
+                الدفع عند الاستلام
+              </span>
+
+            </label>
+
+          </div>
+
+          <div
+            class="checkout-error"
+            data-checkout-error
+            hidden
+          ></div>
+
+        </section>
+
+        <aside class="checkout-summary">
+
+          <h2 class="checkout-summary-title">
+            ملخص الطلب
+          </h2>
+
+          <div
+            class="checkout-items"
+            data-checkout-items
+          ></div>
+
+          <div class="checkout-summary-row">
+
+            <span>
+              المجموع الفرعي
+            </span>
+
+            <strong
+              data-checkout-subtotal
+            >
+              $0.00
+            </strong>
+
+          </div>
+
+          <div class="checkout-summary-row">
+
+            <span>
+              التوصيل
+            </span>
+
+            <strong
+              data-checkout-delivery
+            >
+              $4.00
+            </strong>
+
+          </div>
+
+          <div
+            class="checkout-summary-row"
+            data-checkout-discount-row
+            hidden
+          >
+
+            <span>
+              الخصم
+            </span>
+
+            <strong
+              data-checkout-discount
+            >
+              -$0.00
+            </strong>
+
+          </div>
+
+          <div class="checkout-summary-total">
+
+            <span>
+              الإجمالي
+            </span>
+
+            <strong
+              data-checkout-total
+            >
+              $4.00
+            </strong>
+
+          </div>
+
+          <button
+            type="button"
+            class="checkout-submit"
+            data-checkout-submit
+          >
+            تأكيد الطلب
+          </button>
+
+          <a
+            href="/pages/cart/"
+            class="checkout-back"
+          >
+            العودة إلى السلة
+          </a>
+
+        </aside>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+
+</html>
