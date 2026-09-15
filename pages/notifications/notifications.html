@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>HZ.shop | الإشعارات</title>
+
+  <meta
+    name="description"
+    content="إشعارات HZ.shop"
+  >
+</head>
+
+<body>
+
+  <main class="notifications-page">
+
+    <div class="notifications-page-container">
+
+      <header class="notifications-page-header">
+
+        <div>
+          <h1 class="notifications-page-title">
+            الإشعارات
+          </h1>
+
+          <p
+            class="notifications-page-subtitle"
+            data-notifications-subtitle
+            hidden
+          ></p>
+        </div>
+
+        <button
+          type="button"
+          class="notifications-read-button"
+          data-notifications-read
+          hidden
+        >
+          تحديد الكل كمقروء
+        </button>
+
+      </header>
+
+
+      <div
+        class="notifications-loading"
+        data-notifications-loading
+      >
+        جاري تحميل الإشعارات...
+      </div>
+
+
+      <section
+        class="notifications-list"
+        data-notifications-list
+        aria-live="polite"
+      ></section>
+
+
+      <section
+        class="notifications-empty"
+        data-notifications-empty
+        hidden
+      >
+
+        <div
+          class="notifications-empty-icon"
+          aria-hidden="true"
+        >
+          🔔
+        </div>
+
+        <h2>
+          لا توجد إشعارات
+        </h2>
+
+        <p>
+          ستظهر هنا آخر التحديثات والعروض الخاصة بك.
+        </p>
+
+        <a
+          href="/"
+          class="notifications-empty-button"
+        >
+          العودة للرئيسية
+        </a>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
