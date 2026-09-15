@@ -1,0 +1,89 @@
+:root {
+  --store-name: "HZ.shop";
+
+  --color-primary: #ff6a00;
+  --color-primary-dark: #e85f00;
+  --color-primary-light: #fff1e8;
+
+  --color-black: #111;
+  --color-white: #fff;
+
+  --color-text: #222;
+  --color-text-secondary: #666;
+  --color-text-muted: #999;
+
+  --color-border: #eee;
+  --color-border-dark: #ddd;
+
+  --color-background: #fff;
+  --color-background-soft: #fafafa;
+
+  --color-success: #18a558;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+
+  --container-width: 1200px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 50px;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-round: 999px;
+
+  --shadow-sm:
+    0 2px 8px rgba(0, 0, 0, 0.06);
+
+  --shadow-md:
+    0 6px 20px rgba(0, 0, 0, 0.08);
+
+  --shadow-lg:
+    0 12px 35px rgba(0, 0, 0, 0.12);
+
+  --transition-fast:
+    0.15s ease;
+
+  --transition:
+    0.2s ease;
+
+  --transition-slow:
+    0.3s ease;
+
+  --header-height: 72px;
+
+  --bottom-nav-height: 64px;
+
+  --z-header: 1000;
+  --z-dropdown: 1100;
+  --z-modal: 2000;
+  --z-toast: 3000;
+}
+
+html[dir="rtl"] {
+  --direction: rtl;
+}
+
+html[dir="ltr"] {
+  --direction: ltr;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 60px;
+    --bottom-nav-height: 62px;
+
+    --space-6: 20px;
+    --space-7: 28px;
+    --space-8: 34px;
+    --space-9: 40px;
+  }
+}
