@@ -1,0 +1,48 @@
+<template id="modalTemplate">
+
+  <div
+    class="store-modal"
+    data-modal
+    hidden
+  >
+
+    <div
+      class="store-modal-overlay"
+      data-modal-close
+    ></div>
+
+    <div
+      class="store-modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+
+      <div class="store-modal-header">
+
+        <h2
+          class="store-modal-title"
+          id="modalTitle"
+        ></h2>
+
+        <button
+          type="button"
+          class="store-modal-close"
+          data-modal-close
+          aria-label="إغلاق"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div
+        class="store-modal-content"
+        data-modal-content
+      ></div>
+
+    </div>
+
+  </div>
+
+</template>
