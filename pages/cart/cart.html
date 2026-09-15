@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>HZ.shop | السلة</title>
+
+  <meta
+    name="description"
+    content="سلة مشتريات HZ.shop"
+  >
+</head>
+
+<body>
+
+  <main class="cart-page">
+
+    <div class="cart-page-container">
+
+      <header class="cart-page-header">
+
+        <h1 class="cart-page-title">
+          سلة المشتريات
+        </h1>
+
+        <span
+          class="cart-page-count"
+          data-cart-page-count
+          hidden
+        ></span>
+
+      </header>
+
+      <div class="cart-page-layout">
+
+        <section class="cart-items-section">
+
+          <div
+            class="cart-items-loading"
+            data-cart-loading
+          >
+            جاري تحميل السلة...
+          </div>
+
+          <div
+            class="cart-items"
+            data-cart-items
+          ></div>
+
+          <div
+            class="cart-empty"
+            data-cart-empty
+            hidden
+          >
+
+            <div
+              class="cart-empty-icon"
+              aria-hidden="true"
+            >
+              🛒
+            </div>
+
+            <h2>
+              السلة فارغة
+            </h2>
+
+            <p>
+              لم تضف أي منتجات إلى السلة بعد.
+            </p>
+
+            <a
+              href="/"
+              class="cart-empty-button"
+            >
+              متابعة التسوق
+            </a>
+
+          </div>
+
+        </section>
+
+        <aside class="cart-summary">
+
+          <h2 class="cart-summary-title">
+            ملخص الطلب
+          </h2>
+
+          <div class="cart-summary-row">
+
+            <span>
+              المجموع الفرعي
+            </span>
+
+            <strong
+              data-cart-subtotal
+            >
+              $0.00
+            </strong>
+
+          </div>
+
+          <div class="cart-summary-row">
+
+            <span>
+              التوصيل
+            </span>
+
+            <strong
+              data-cart-delivery
+            >
+              $4.00
+            </strong>
+
+          </div>
+
+          <div
+            class="cart-summary-row cart-summary-discount"
+            data-cart-discount-row
+            hidden
+          >
+
+            <span>
+              الخصم
+            </span>
+
+            <strong
+              data-cart-discount
+            >
+              -$0.00
+            </strong>
+
+          </div>
+
+          <div class="cart-summary-total">
+
+            <span>
+              الإجمالي
+            </span>
+
+            <strong
+              data-cart-total
+            >
+              $4.00
+            </strong>
+
+          </div>
+
+          <button
+            type="button"
+            class="cart-checkout-button"
+            data-cart-checkout
+            disabled
+          >
+            متابعة إلى الدفع
+          </button>
+
+          <a
+            href="/"
+            class="cart-continue-button"
+          >
+            متابعة التسوق
+          </a>
+
+        </aside>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+
+</html>
