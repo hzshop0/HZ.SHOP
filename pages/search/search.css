@@ -1,0 +1,283 @@
+.search-page {
+  width: 100%;
+  padding: 24px 20px 50px;
+}
+
+.search-page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-page-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 480px);
+  align-items: end;
+  gap: 25px;
+
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #eee;
+}
+
+.search-page-title {
+  margin: 0;
+  color: #111;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.search-page-query {
+  margin: 7px 0 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.search-page-form {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.search-page-input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+
+  padding: 0 13px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  background: #fff;
+  color: #111;
+
+  font: inherit;
+  font-size: 13px;
+
+  outline: 0;
+  box-sizing: border-box;
+}
+
+.search-page-input:focus {
+  border-color: #ff6a00;
+}
+
+.search-page-button {
+  flex: 0 0 auto;
+
+  min-width: 75px;
+  height: 44px;
+
+  padding: 0 16px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: #ff6a00;
+  color: #fff;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+.search-page-button:hover {
+  background: #e85f00;
+  transform: translateY(-1px);
+}
+
+.search-page-loading {
+  padding: 50px 20px;
+
+  color: #777;
+  font-size: 14px;
+  text-align: center;
+}
+
+.search-results {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+}
+
+.search-results:empty {
+  display: none;
+}
+
+.search-empty {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  padding: 70px 20px;
+
+  text-align: center;
+}
+
+.search-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 76px;
+  height: 76px;
+
+  margin-bottom: 18px;
+
+  border: 1px solid #eee;
+  border-radius: 50%;
+
+  background: #fafafa;
+  font-size: 30px;
+}
+
+.search-empty h2 {
+  margin: 0 0 8px;
+
+  color: #111;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.search-empty p {
+  max-width: 420px;
+
+  margin: 0 0 22px;
+
+  color: #777;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.search-empty-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+  padding: 0 24px;
+
+  border-radius: 8px;
+
+  background: #ff6a00;
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  text-decoration: none;
+
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+.search-empty-button:hover {
+  background: #e85f00;
+  transform: translateY(-1px);
+}
+
+.search-pagination-container {
+  margin-top: 28px;
+}
+
+@media (max-width: 1000px) {
+  .search-results {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .search-page-header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 750px) {
+  .search-page {
+    padding: 18px 14px 40px;
+  }
+
+  .search-page-title {
+    font-size: 23px;
+  }
+
+  .search-results {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-page {
+    padding: 12px 10px 35px;
+  }
+
+  .search-page-header {
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+  }
+
+  .search-page-title {
+    font-size: 20px;
+  }
+
+  .search-page-query {
+    font-size: 11px;
+  }
+
+  .search-page-form {
+    gap: 6px;
+  }
+
+  .search-page-input,
+  .search-page-button {
+    height: 42px;
+  }
+
+  .search-page-input {
+    font-size: 12px;
+  }
+
+  .search-page-button {
+    min-width: 62px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .search-results {
+    gap: 10px;
+  }
+
+  .search-empty {
+    padding: 55px 15px;
+  }
+
+  .search-empty-icon {
+    width: 66px;
+    height: 66px;
+    font-size: 26px;
+  }
+
+  .search-empty h2 {
+    font-size: 17px;
+  }
+
+  .search-empty p {
+    font-size: 12px;
+  }
+}
