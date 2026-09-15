@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>HZ.shop | الفئة</title>
+
+  <meta
+    name="description"
+    content="تصفح منتجات HZ.shop حسب الفئة"
+  >
+</head>
+
+<body>
+
+  <main class="category-page">
+
+    <div class="category-page-container">
+
+      <header class="category-page-header">
+
+        <div class="category-page-heading">
+
+          <span
+            class="category-breadcrumb"
+            data-category-breadcrumb
+          >
+            الرئيسية
+          </span>
+
+          <h1
+            class="category-page-title"
+            data-category-title
+          >
+            المنتجات
+          </h1>
+
+          <p
+            class="category-page-description"
+            data-category-description
+            hidden
+          ></p>
+
+        </div>
+
+        <span
+          class="category-product-count"
+          data-category-count
+          hidden
+        ></span>
+
+      </header>
+
+      <div
+        class="category-page-layout"
+      >
+
+        <div
+          class="category-filters-container"
+          data-category-filters-container
+        ></div>
+
+        <section class="category-products">
+
+          <div
+            class="category-toolbar"
+          >
+
+            <button
+              type="button"
+              class="category-filter-button"
+              data-category-filter-button
+            >
+              تصفية
+            </button>
+
+            <select
+              class="category-sort"
+              data-category-sort
+              aria-label="ترتيب المنتجات"
+            >
+              <option value="default">
+                الترتيب الافتراضي
+              </option>
+
+              <option value="newest">
+                الأحدث
+              </option>
+
+              <option value="price-low">
+                السعر: من الأقل للأعلى
+              </option>
+
+              <option value="price-high">
+                السعر: من الأعلى للأعلى
+              </option>
+
+              <option value="rating">
+                الأعلى تقييماً
+              </option>
+
+              <option value="sales">
+                الأكثر مبيعاً
+              </option>
+            </select>
+
+          </div>
+
+          <div
+            class="category-products-loading"
+            data-category-loading
+          >
+            جاري تحميل المنتجات...
+          </div>
+
+          <div
+            class="category-products-grid"
+            id="categoryProductGrid"
+            data-category-product-grid
+            aria-live="polite"
+          ></div>
+
+          <div
+            class="category-products-empty"
+            data-category-empty
+            hidden
+          >
+            <h2>لا توجد منتجات</h2>
+
+            <p>
+              لا توجد منتجات متاحة في هذه الفئة حالياً.
+            </p>
+          </div>
+
+          <div
+            class="category-pagination-container"
+            data-pagination-container
+          ></div>
+
+        </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+
+</html>
