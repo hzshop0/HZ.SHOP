@@ -1,0 +1,108 @@
+.store-pagination {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  margin-top: 28px;
+}
+
+.store-pagination-pages {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+.store-pagination-button {
+  min-width: 36px;
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 9px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-white);
+  color: var(--color-text);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.store-pagination-button:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.store-pagination-button.is-active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.store-pagination-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.store-pagination-ellipsis {
+  min-width: 24px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+}
+
+.store-pagination-prev,
+.store-pagination-next {
+  font-size: 14px;
+}
+
+html[dir="rtl"] .store-pagination-prev,
+html[dir="rtl"] .store-pagination-next {
+  /* Keep the controls visually directional through their icons. */
+}
+
+@media (max-width: 640px) {
+  .store-pagination {
+    gap: 4px;
+
+    margin-top: 22px;
+  }
+
+  .store-pagination-pages {
+    gap: 3px;
+  }
+
+  .store-pagination-button {
+    min-width: 32px;
+    height: 32px;
+
+    padding: 0 7px;
+
+    font-size: 10px;
+  }
+
+  .store-pagination-ellipsis {
+    min-width: 18px;
+
+    font-size: 10px;
+  }
+}
