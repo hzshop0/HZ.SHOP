@@ -1,0 +1,197 @@
+/* =========================================
+   HZ.SHOP — Store Order Status Section
+   ========================================= */
+
+.store-order-status{
+  width:100%;
+  margin:0 auto;
+  padding:32px 20px;
+}
+
+.store-order-status__container{
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.store-order-status__header{
+  margin-bottom:24px;
+  text-align:center;
+}
+
+.store-order-status__title{
+  margin:0;
+  color:var(--text-color,#111);
+  font-size:clamp(22px,3vw,32px);
+  font-weight:800;
+  line-height:1.3;
+}
+
+.store-order-status__subtitle{
+  max-width:720px;
+  margin:10px auto 0;
+  color:var(--muted-text-color,#777);
+  font-size:15px;
+  line-height:1.8;
+}
+
+.store-order-status__grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+
+.store-order-status__card{
+  min-width:0;
+  padding:20px;
+  border:1px solid var(--border-color,#e8e8e8);
+  border-radius:15px;
+  background:var(--card-background,#fff);
+  text-align:center;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.store-order-status__card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(255,106,0,.3);
+  box-shadow:0 10px 25px rgba(0,0,0,.07);
+}
+
+.store-order-status__icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:52px;
+  height:52px;
+  margin:0 auto 13px;
+  border-radius:50%;
+  background:rgba(255,106,0,.09);
+  color:#ff6a00;
+  font-size:22px;
+}
+
+.store-order-status__name{
+  margin:0 0 7px;
+  color:var(--text-color,#111);
+  font-size:16px;
+  font-weight:800;
+}
+
+.store-order-status__description{
+  margin:0;
+  color:var(--muted-text-color,#777);
+  font-size:13px;
+  line-height:1.7;
+}
+
+.store-order-status__badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:30px;
+  margin-top:13px;
+  padding:5px 12px;
+  border-radius:999px;
+  background:rgba(255,106,0,.08);
+  color:#ff6a00;
+  font-size:12px;
+  font-weight:700;
+}
+
+.store-order-status__info{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:20px;
+  padding:14px 18px;
+  border:1px solid rgba(255,106,0,.16);
+  border-radius:12px;
+  background:rgba(255,106,0,.05);
+  color:var(--text-color,#333);
+  font-size:14px;
+  line-height:1.7;
+  text-align:center;
+}
+
+.store-order-status__info strong{
+  color:#ff6a00;
+  font-weight:800;
+}
+
+@media (max-width:1000px){
+  .store-order-status__grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:600px){
+  .store-order-status{
+    padding:26px 15px;
+  }
+
+  .store-order-status__header{
+    margin-bottom:20px;
+  }
+
+  .store-order-status__title{
+    font-size:23px;
+  }
+
+  .store-order-status__subtitle{
+    font-size:14px;
+  }
+
+  .store-order-status__grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  .store-order-status__card{
+    display:grid;
+    grid-template-columns:48px minmax(0,1fr);
+    column-gap:13px;
+    align-items:center;
+    padding:16px;
+    text-align:start;
+  }
+
+  .store-order-status__icon{
+    width:48px;
+    height:48px;
+    margin:0;
+    grid-row:span 2;
+  }
+
+  .store-order-status__name{
+    margin:0 0 3px;
+    font-size:15px;
+  }
+
+  .store-order-status__description{
+    font-size:13px;
+  }
+
+  .store-order-status__badge{
+    grid-column:2;
+    justify-self:start;
+    margin-top:9px;
+  }
+
+  .store-order-status__info{
+    font-size:13px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .store-order-status__card{
+    transition:none;
+  }
+
+  .store-order-status__card:hover{
+    transform:none;
+  }
+}
