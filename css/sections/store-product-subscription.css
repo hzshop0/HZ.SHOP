@@ -1,0 +1,327 @@
+/* =========================================
+   HZ.SHOP — Product Subscription Section
+   ========================================= */
+
+.store-product-subscription {
+  width: 100%;
+  padding: 32px 0;
+}
+
+.store-product-subscription__container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.store-product-subscription__header {
+  margin-bottom: 22px;
+  text-align: center;
+}
+
+.store-product-subscription__title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.store-product-subscription__subtitle {
+  max-width: 680px;
+  margin: 8px auto 0;
+  color: var(--muted-text-color, #777);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.store-product-subscription__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.store-product-subscription__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 22px;
+  overflow: hidden;
+  background: var(--card-background, #fff);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 16px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.store-product-subscription__card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 106, 0, 0.35);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.store-product-subscription__badge {
+  position: absolute;
+  top: 14px;
+  inset-inline-end: 14px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  color: #fff;
+  background: #ff6a00;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.store-product-subscription__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 16px;
+  color: #ff6a00;
+  background: rgba(255, 106, 0, 0.1);
+  border-radius: 14px;
+  font-size: 24px;
+}
+
+.store-product-subscription__name {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.store-product-subscription__description {
+  margin: 8px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.store-product-subscription__price {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-top: 18px;
+}
+
+.store-product-subscription__amount {
+  color: var(--text-color, #111);
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.store-product-subscription__period {
+  color: var(--muted-text-color, #777);
+  font-size: 13px;
+}
+
+.store-product-subscription__features {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.store-product-subscription__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--text-color, #222);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.store-product-subscription__feature::before {
+  content: "✓";
+  flex: 0 0 auto;
+  color: #ff6a00;
+  font-weight: 900;
+}
+
+.store-product-subscription__action {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.store-product-subscription__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid #ff6a00;
+  border-radius: 10px;
+  color: #fff;
+  background: #ff6a00;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-product-subscription__button:hover {
+  border-color: #e85f00;
+  background: #e85f00;
+}
+
+.store-product-subscription__button:active {
+  transform: translateY(1px);
+}
+
+.store-product-subscription__button--secondary {
+  color: #ff6a00;
+  background: transparent;
+}
+
+.store-product-subscription__button--secondary:hover {
+  color: #fff;
+  background: #ff6a00;
+}
+
+.store-product-subscription__empty {
+  padding: 30px 20px;
+  color: var(--muted-text-color, #777);
+  border: 1px dashed var(--border-color, #e8e8e8);
+  border-radius: 14px;
+  font-size: 14px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .store-product-subscription {
+    padding: 28px 0;
+  }
+
+  .store-product-subscription__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .store-product-subscription__title {
+    font-size: 24px;
+  }
+
+  .store-product-subscription__card {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  .store-product-subscription {
+    padding: 24px 0;
+  }
+
+  .store-product-subscription__container {
+    padding-inline: 14px;
+  }
+
+  .store-product-subscription__header {
+    margin-bottom: 18px;
+  }
+
+  .store-product-subscription__title {
+    font-size: 21px;
+  }
+
+  .store-product-subscription__subtitle {
+    font-size: 14px;
+  }
+
+  .store-product-subscription__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .store-product-subscription__card {
+    padding: 14px;
+  }
+
+  .store-product-subscription__badge {
+    top: 10px;
+    inset-inline-end: 10px;
+    min-height: 25px;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .store-product-subscription__icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    font-size: 20px;
+  }
+
+  .store-product-subscription__name {
+    font-size: 15px;
+  }
+
+  .store-product-subscription__description {
+    font-size: 12px;
+  }
+
+  .store-product-subscription__price {
+    margin-top: 13px;
+  }
+
+  .store-product-subscription__amount {
+    font-size: 20px;
+  }
+
+  .store-product-subscription__period {
+    font-size: 11px;
+  }
+
+  .store-product-subscription__features {
+    gap: 7px;
+    margin-top: 13px;
+  }
+
+  .store-product-subscription__feature {
+    font-size: 11px;
+  }
+
+  .store-product-subscription__action {
+    padding-top: 14px;
+  }
+
+  .store-product-subscription__button {
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-product-subscription__card,
+  .store-product-subscription__button {
+    transition: none;
+  }
+
+  .store-product-subscription__card:hover,
+  .store-product-subscription__button:active {
+    transform: none;
+  }
+}
