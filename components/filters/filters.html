@@ -1,0 +1,122 @@
+<template id="filtersTemplate">
+
+  <aside
+    class="filters-panel"
+    data-filters-panel
+  >
+
+    <div class="filters-header">
+
+      <h2 class="filters-title">
+        تصفية المنتجات
+      </h2>
+
+      <button
+        type="button"
+        class="filters-reset"
+        data-filters-reset
+      >
+        إعادة ضبط
+      </button>
+
+    </div>
+
+    <div class="filters-body">
+
+      <div class="filter-group">
+
+        <h3 class="filter-group-title">
+          الفئة
+        </h3>
+
+        <div
+          class="filter-options"
+          data-filter="category"
+        ></div>
+
+      </div>
+
+      <div class="filter-group">
+
+        <h3 class="filter-group-title">
+          السعر
+        </h3>
+
+        <div class="filter-price">
+
+          <input
+            type="number"
+            class="filter-price-input"
+            data-price-min
+            min="0"
+            step="0.01"
+            placeholder="من"
+            aria-label="الحد الأدنى للسعر"
+          />
+
+          <span>—</span>
+
+          <input
+            type="number"
+            class="filter-price-input"
+            data-price-max
+            min="0"
+            step="0.01"
+            placeholder="إلى"
+            aria-label="الحد الأقصى للسعر"
+          />
+
+        </div>
+
+      </div>
+
+      <div class="filter-group">
+
+        <h3 class="filter-group-title">
+          الترتيب
+        </h3>
+
+        <select
+          class="filter-sort"
+          data-filter-sort
+        >
+          <option value="default">
+            الافتراضي
+          </option>
+
+          <option value="newest">
+            الأحدث
+          </option>
+
+          <option value="price-low">
+            السعر: من الأقل للأعلى
+          </option>
+
+          <option value="price-high">
+            السعر: من الأعلى للأقل
+          </option>
+
+          <option value="rating">
+            الأعلى تقييماً
+          </option>
+
+          <option value="sales">
+            الأكثر مبيعاً
+          </option>
+        </select>
+
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="filters-apply"
+      data-filters-apply
+    >
+      تطبيق الفلاتر
+    </button>
+
+  </aside>
+
+</template>
