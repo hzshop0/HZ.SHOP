@@ -1,0 +1,222 @@
+/* =================================
+   HZ.SHOP — Store Social
+   ================================= */
+
+.store-social {
+  width: 100%;
+  margin: 32px 0;
+}
+
+.store-social__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 28px;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e9e9e9);
+  border-radius: var(--radius-xl, 22px);
+}
+
+.store-social__content {
+  min-width: 0;
+}
+
+.store-social__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  color: var(--color-primary, #ff6a00);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.store-social__title {
+  margin: 0;
+  color: var(--color-text, #171717);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.store-social__description {
+  max-width: 540px;
+  margin: 8px 0 0;
+  color: var(--color-text-muted, #777777);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.store-social__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.store-social__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 10px 14px;
+  color: var(--color-text, #171717);
+  background: var(--color-surface-soft, #fafafa);
+  border: 1px solid var(--color-border, #e9e9e9);
+  border-radius: var(--radius-md, 10px);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-social__link:hover {
+  color: #ffffff;
+  background: var(--color-primary, #ff6a00);
+  border-color: var(--color-primary, #ff6a00);
+  transform: translateY(-2px);
+}
+
+.store-social__link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  line-height: 1;
+}
+
+.store-social__link-label {
+  white-space: nowrap;
+}
+
+.store-social--center .store-social__wrapper {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.store-social--center .store-social__description {
+  margin-inline: auto;
+}
+
+.store-social--center .store-social__links {
+  justify-content: center;
+}
+
+.store-social--stacked .store-social__wrapper {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.store-social--stacked .store-social__links {
+  justify-content: flex-start;
+}
+
+.store-social--dark .store-social__wrapper {
+  background: #171717;
+  border-color: #303030;
+}
+
+.store-social--dark .store-social__title {
+  color: #ffffff;
+}
+
+.store-social--dark .store-social__description {
+  color: #b7b7b7;
+}
+
+.store-social--dark .store-social__link {
+  color: #ffffff;
+  background: #222222;
+  border-color: #3b3b3b;
+}
+
+.store-social--dark .store-social__link:hover {
+  background: var(--color-primary, #ff6a00);
+  border-color: var(--color-primary, #ff6a00);
+}
+
+.store-social--compact .store-social__wrapper {
+  padding: 18px 20px;
+  gap: 16px;
+}
+
+.store-social--compact .store-social__title {
+  font-size: 18px;
+}
+
+.store-social--compact .store-social__description {
+  font-size: 12px;
+}
+
+.store-social--compact .store-social__link {
+  min-height: 38px;
+  padding: 9px 11px;
+  font-size: 12px;
+}
+
+@media (max-width: 850px) {
+  .store-social__wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .store-social__links {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 560px) {
+  .store-social {
+    margin: 24px 0;
+  }
+
+  .store-social__wrapper {
+    padding: 21px 15px;
+    border-radius: 16px;
+  }
+
+  .store-social__title {
+    font-size: 19px;
+  }
+
+  .store-social__description {
+    font-size: 12px;
+  }
+
+  .store-social__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .store-social__link {
+    width: 100%;
+  }
+
+  .store-social__link-label {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-social__link {
+    transition: none;
+  }
+
+  .store-social__link:hover {
+    transform: none;
+  }
+}
