@@ -1,0 +1,140 @@
+.category-card {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-white);
+
+  color: var(--color-text);
+
+  text-decoration: none;
+
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.category-card:hover {
+  border-color: #ffd5bb;
+  background: var(--color-primary-light);
+
+  transform: translateY(-1px);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.category-card-image {
+  flex: 0 0 auto;
+
+  width: 58px;
+  height: 58px;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  background: var(--color-background-soft);
+}
+
+.category-card-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.category-card-icon {
+  flex: 0 0 auto;
+
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+
+  font-size: 22px;
+}
+
+.category-card-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.category-card-title {
+  margin: 0;
+
+  overflow: hidden;
+
+  color: var(--color-text);
+
+  font-size: 13px;
+  font-weight: 800;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.category-card-count {
+  margin: 4px 0 0;
+
+  color: var(--color-text-muted);
+
+  font-size: 10px;
+}
+
+.category-card-arrow {
+  flex: 0 0 auto;
+
+  color: var(--color-text-muted);
+
+  font-size: 16px;
+}
+
+html[dir="rtl"] .category-card-arrow {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+  .category-card {
+    gap: 8px;
+    padding: 8px;
+    border-radius: var(--radius-md);
+  }
+
+  .category-card-image,
+  .category-card-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .category-card-icon {
+    font-size: 18px;
+  }
+
+  .category-card-title {
+    font-size: 11px;
+  }
+
+  .category-card-count {
+    font-size: 9px;
+  }
+
+  .category-card-arrow {
+    font-size: 13px;
+  }
+}
