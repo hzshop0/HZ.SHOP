@@ -1,0 +1,221 @@
+/* =========================================
+   HZ.SHOP — Store Live Support Section
+   ========================================= */
+
+.store-live-support{
+  width:100%;
+  margin:0 auto;
+  padding:32px 20px;
+}
+
+.store-live-support__container{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.store-live-support__header{
+  margin-bottom:24px;
+  text-align:center;
+}
+
+.store-live-support__title{
+  margin:0;
+  color:var(--text-color,#111);
+  font-size:clamp(22px,3vw,32px);
+  font-weight:800;
+  line-height:1.3;
+}
+
+.store-live-support__subtitle{
+  max-width:720px;
+  margin:10px auto 0;
+  color:var(--muted-text-color,#777);
+  font-size:15px;
+  line-height:1.8;
+}
+
+.store-live-support__grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.store-live-support__card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-width:0;
+  padding:24px 20px;
+  border:1px solid var(--border-color,#e8e8e8);
+  border-radius:16px;
+  background:var(--card-background,#fff);
+  text-align:center;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.store-live-support__card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(255,106,0,.3);
+  box-shadow:0 10px 28px rgba(0,0,0,.08);
+}
+
+.store-live-support__icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:56px;
+  height:56px;
+  margin-bottom:15px;
+  border-radius:50%;
+  background:rgba(255,106,0,.1);
+  color:#ff6a00;
+  font-size:24px;
+}
+
+.store-live-support__name{
+  margin:0 0 8px;
+  color:var(--text-color,#111);
+  font-size:17px;
+  font-weight:800;
+}
+
+.store-live-support__text{
+  margin:0;
+  color:var(--muted-text-color,#777);
+  font-size:14px;
+  line-height:1.8;
+}
+
+.store-live-support__availability{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:13px;
+  color:#4b8f3a;
+  font-size:12px;
+  font-weight:700;
+}
+
+.store-live-support__availability::before{
+  content:"";
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#4b8f3a;
+}
+
+.store-live-support__button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  margin-top:16px;
+  padding:8px 18px;
+  border:1px solid #ff6a00;
+  border-radius:10px;
+  background:#ff6a00;
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  text-decoration:none;
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    transform .2s ease;
+}
+
+.store-live-support__button:hover{
+  border-color:#e85f00;
+  background:#e85f00;
+  transform:translateY(-1px);
+}
+
+.store-live-support__note{
+  margin-top:20px;
+  padding:15px 18px;
+  border:1px solid rgba(255,106,0,.18);
+  border-radius:12px;
+  background:rgba(255,106,0,.05);
+  color:var(--text-color,#333);
+  font-size:13px;
+  line-height:1.8;
+  text-align:center;
+}
+
+.store-live-support__note strong{
+  color:#ff6a00;
+  font-weight:800;
+}
+
+@media (max-width:900px){
+  .store-live-support__grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:600px){
+  .store-live-support{
+    padding:26px 15px;
+  }
+
+  .store-live-support__header{
+    margin-bottom:20px;
+  }
+
+  .store-live-support__title{
+    font-size:23px;
+  }
+
+  .store-live-support__subtitle{
+    font-size:14px;
+  }
+
+  .store-live-support__grid{
+    grid-template-columns:1fr;
+    gap:13px;
+  }
+
+  .store-live-support__card{
+    padding:20px 16px;
+    border-radius:14px;
+  }
+
+  .store-live-support__icon{
+    width:52px;
+    height:52px;
+    margin-bottom:13px;
+    font-size:22px;
+  }
+
+  .store-live-support__name{
+    font-size:16px;
+  }
+
+  .store-live-support__text{
+    font-size:13px;
+  }
+
+  .store-live-support__button{
+    width:100%;
+  }
+
+  .store-live-support__note{
+    font-size:12px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .store-live-support__card,
+  .store-live-support__button{
+    transition:none;
+  }
+
+  .store-live-support__card:hover,
+  .store-live-support__button:hover{
+    transform:none;
+  }
+}
