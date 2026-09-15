@@ -1,0 +1,55 @@
+.price-display {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.price-current {
+  color: #111;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.price-old {
+  color: #999;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: line-through;
+  line-height: 1.2;
+}
+
+.price-discount {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 3px 6px;
+  border-radius: 4px;
+
+  background: #ff6a00;
+  color: #fff;
+
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (max-width: 600px) {
+  .price-display {
+    gap: 6px;
+  }
+
+  .price-current {
+    font-size: 17px;
+  }
+
+  .price-old {
+    font-size: 11px;
+  }
+
+  .price-discount {
+    padding: 3px 5px;
+    font-size: 10px;
+  }
+}
