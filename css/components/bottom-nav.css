@@ -1,0 +1,124 @@
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .bottom-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: var(--z-header);
+
+    width: 100%;
+    height: var(--bottom-nav-height);
+
+    padding:
+      5px
+      max(5px, env(safe-area-inset-right))
+      calc(5px + env(safe-area-inset-bottom))
+      max(5px, env(safe-area-inset-left));
+
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+
+    border-top: 1px solid var(--color-border);
+
+    background: rgba(255, 255, 255, 0.98);
+
+    box-shadow:
+      0 -4px 16px
+      rgba(0, 0, 0, 0.06);
+  }
+
+  .bottom-nav-item {
+    min-width: 0;
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
+
+    border-radius: var(--radius-md);
+
+    color: var(--color-text-muted);
+
+    font: inherit;
+    font-size: 10px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+      background var(--transition),
+      color var(--transition);
+  }
+
+  .bottom-nav-item:hover,
+  .bottom-nav-item.active {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+
+  .bottom-nav-icon {
+    position: relative;
+
+    width: 21px;
+    height: 21px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .bottom-nav-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bottom-nav-label {
+    display: block;
+
+    max-width: 100%;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .bottom-nav-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+
+    min-width: 15px;
+    height: 15px;
+
+    padding: 0 3px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--radius-round);
+
+    background: var(--color-primary);
+    color: var(--color-white);
+
+    font-size: 8px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  body {
+    padding-bottom: var(--bottom-nav-height);
+  }
+}
