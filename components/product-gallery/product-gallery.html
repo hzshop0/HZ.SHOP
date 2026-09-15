@@ -1,0 +1,45 @@
+<template id="productGalleryTemplate">
+
+  <div
+    class="product-gallery"
+    data-product-gallery
+  >
+
+    <div class="product-gallery-main">
+
+      <button
+        type="button"
+        class="product-gallery-arrow product-gallery-prev"
+        data-gallery-prev
+        aria-label="الصورة السابقة"
+      >
+        ‹
+      </button>
+
+      <img
+        class="product-gallery-main-image"
+        data-gallery-main-image
+        src=""
+        alt=""
+      />
+
+      <button
+        type="button"
+        class="product-gallery-arrow product-gallery-next"
+        data-gallery-next
+        aria-label="الصورة التالية"
+      >
+        ›
+      </button>
+
+    </div>
+
+    <div
+      class="product-gallery-thumbnails"
+      data-gallery-thumbnails
+      role="list"
+    ></div>
+
+  </div>
+
+</template>
