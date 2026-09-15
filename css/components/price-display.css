@@ -1,0 +1,106 @@
+.price-display {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  min-width: 0;
+}
+
+.price-display-current {
+  color: var(--color-primary);
+
+  font-size: 18px;
+  font-weight: 900;
+
+  line-height: 1.2;
+}
+
+.price-display-old {
+  color: var(--color-text-muted);
+
+  font-size: 11px;
+
+  text-decoration: line-through;
+
+  line-height: 1.2;
+}
+
+.price-display-discount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 20px;
+
+  padding: 0 6px;
+
+  border-radius: 4px;
+
+  background: #fff0e8;
+  color: var(--color-primary);
+
+  font-size: 9px;
+  font-weight: 900;
+
+  line-height: 1;
+}
+
+.price-display-small .price-display-current {
+  font-size: 14px;
+}
+
+.price-display-small .price-display-old {
+  font-size: 9px;
+}
+
+.price-display-small .price-display-discount {
+  min-height: 17px;
+
+  padding: 0 5px;
+
+  font-size: 8px;
+}
+
+.price-display-large .price-display-current {
+  font-size: 24px;
+}
+
+.price-display-large .price-display-old {
+  font-size: 13px;
+}
+
+.price-display-large .price-display-discount {
+  min-height: 23px;
+
+  padding: 0 8px;
+
+  font-size: 10px;
+}
+
+.price-display-no-sale .price-display-current {
+  color: var(--color-text);
+}
+
+@media (max-width: 640px) {
+  .price-display {
+    gap: 5px;
+  }
+
+  .price-display-current {
+    font-size: 15px;
+  }
+
+  .price-display-old {
+    font-size: 9px;
+  }
+
+  .price-display-discount {
+    min-height: 18px;
+
+    padding: 0 5px;
+
+    font-size: 8px;
+  }
+}
