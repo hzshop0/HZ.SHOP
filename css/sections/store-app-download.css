@@ -1,0 +1,282 @@
+/* =================================
+   HZ.SHOP — Store App Download Section
+   ================================= */
+
+.store-app-download,
+.app-download-section,
+.download-app-section {
+  width: 100%;
+  margin: 40px 0;
+  padding: 28px 24px;
+  border-radius: 16px;
+  background: var(--color-primary, #ff6a00);
+  color: #ffffff;
+}
+
+.store-app-download__container,
+.app-download-section__container,
+.download-app-section__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.store-app-download__content,
+.app-download-section__content,
+.download-app-section__content {
+  display: flex;
+  flex: 1 1 420px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.store-app-download__title,
+.app-download-section__title,
+.download-app-section__title {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.store-app-download__description,
+.app-download-section__description,
+.download-app-section__description {
+  max-width: 560px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.store-app-download__actions,
+.app-download-section__actions,
+.download-app-section__actions {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.store-app-download__button,
+.app-download-section__button,
+.download-app-section__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid #ffffff;
+  border-radius: 9px;
+  background: #ffffff;
+  color: var(--color-primary, #ff6a00);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-app-download__button:hover,
+.app-download-section__button:hover,
+.download-app-section__button:hover {
+  background: transparent;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.store-app-download__button--outline,
+.app-download-section__button--outline,
+.download-app-section__button--outline {
+  background: transparent;
+  color: #ffffff;
+}
+
+.store-app-download__button--outline:hover,
+.app-download-section__button--outline:hover,
+.download-app-section__button--outline:hover {
+  background: #ffffff;
+  color: var(--color-primary, #ff6a00);
+}
+
+.store-app-download__stores,
+.app-download-section__stores,
+.download-app-section__stores {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.store-app-download__store,
+.app-download-section__store,
+.download-app-section__store {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 6px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.store-app-download__store:hover,
+.app-download-section__store:hover,
+.download-app-section__store:hover {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.store-app-download__store-icon,
+.app-download-section__store-icon,
+.download-app-section__store-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  font-size: 21px;
+}
+
+.store-app-download__store-text,
+.app-download-section__store-text,
+.download-app-section__store-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.store-app-download__store-label,
+.app-download-section__store-label,
+.download-app-section__store-label {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 9px;
+  line-height: 1;
+}
+
+.store-app-download__store-name,
+.app-download-section__store-name,
+.download-app-section__store-name {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* QR Code */
+
+.store-app-download__qr,
+.app-download-section__qr,
+.download-app-section__qr {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 82px;
+  height: 82px;
+  padding: 6px;
+  border: 4px solid #ffffff;
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, #111111 10%, transparent 10% 20%, #111111 20% 30%, transparent 30% 40%, #111111 40% 50%, transparent 50% 60%, #111111 60% 70%, transparent 70% 80%, #111111 80% 90%, transparent 90%),
+    linear-gradient(#111111 10%, transparent 10% 20%, #111111 20% 30%, transparent 30% 40%, #111111 40% 50%, transparent 50% 60%, #111111 60% 70%, transparent 70% 80%, #111111 80% 90%, transparent 90%);
+}
+
+/* Dark Mode */
+
+body.dark-mode .store-app-download,
+body.dark-mode .app-download-section,
+body.dark-mode .download-app-section {
+  background: #e85d00;
+}
+
+/* Responsive */
+
+@media (max-width: 760px) {
+  .store-app-download,
+  .app-download-section,
+  .download-app-section {
+    padding: 26px 20px;
+  }
+
+  .store-app-download__container,
+  .app-download-section__container,
+  .download-app-section__container {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .store-app-download__content,
+  .app-download-section__content,
+  .download-app-section__content {
+    align-items: center;
+  }
+
+  .store-app-download__description,
+  .app-download-section__description,
+  .download-app-section__description {
+    max-width: 100%;
+  }
+
+  .store-app-download__actions,
+  .app-download-section__actions,
+  .download-app-section__actions,
+  .store-app-download__stores,
+  .app-download-section__stores,
+  .download-app-section__stores {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 440px) {
+  .store-app-download,
+  .app-download-section,
+  .download-app-section {
+    padding: 24px 15px;
+    border-radius: 13px;
+  }
+
+  .store-app-download__actions,
+  .app-download-section__actions,
+  .download-app-section__actions,
+  .store-app-download__stores,
+  .app-download-section__stores,
+  .download-app-section__stores {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .store-app-download__button,
+  .app-download-section__button,
+  .download-app-section__button,
+  .store-app-download__store,
+  .app-download-section__store,
+  .download-app-section__store {
+    width: 100%;
+  }
+
+  .store-app-download__qr,
+  .app-download-section__qr,
+  .download-app-section__qr {
+    width: 74px;
+    height: 74px;
+  }
+}
