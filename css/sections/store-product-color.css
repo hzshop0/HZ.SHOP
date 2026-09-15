@@ -1,0 +1,140 @@
+/* =========================================
+   HZ.SHOP — Product Color Section
+   ========================================= */
+
+.store-product-color {
+  width: 100%;
+  padding: 24px 0;
+}
+
+.store-product-color__container {
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.store-product-color__header {
+  margin-bottom: 18px;
+}
+
+.store-product-color__title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.store-product-color__subtitle {
+  margin: 6px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.store-product-color__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.store-product-color__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 8px 13px;
+  color: var(--text-color, #111);
+  background: var(--card-background, #fff);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-product-color__option:hover {
+  border-color: #ff6a00;
+  transform: translateY(-2px);
+}
+
+.store-product-color__option.is-active,
+.store-product-color__option[aria-selected="true"] {
+  border-color: #ff6a00;
+  background: rgba(255, 106, 0, 0.06);
+  box-shadow: 0 5px 14px rgba(255, 106, 0, 0.12);
+}
+
+.store-product-color__swatch {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  background: var(--color-swatch, #fff);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.store-product-color__option.is-active .store-product-color__swatch,
+.store-product-color__option[aria-selected="true"] .store-product-color__swatch {
+  outline: 2px solid #ff6a00;
+  outline-offset: 2px;
+}
+
+.store-product-color__name {
+  line-height: 1.4;
+}
+
+.store-product-color__hint {
+  margin-top: 10px;
+  color: var(--muted-text-color, #777);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.store-product-color__option.is-disabled,
+.store-product-color__option:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  .store-product-color {
+    padding: 18px 0;
+  }
+
+  .store-product-color__container {
+    padding-inline: 14px;
+  }
+
+  .store-product-color__grid {
+    gap: 9px;
+  }
+
+  .store-product-color__option {
+    min-height: 42px;
+    padding: 7px 11px;
+    font-size: 0.84rem;
+  }
+
+  .store-product-color__swatch {
+    width: 20px;
+    height: 20px;
+    flex-basis: 20px;
+  }
+
+  .store-product-color__title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-product-color__option {
+    transition: none;
+  }
+}
