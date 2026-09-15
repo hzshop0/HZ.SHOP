@@ -1,0 +1,207 @@
+/* =========================================
+   HZ.SHOP — Product Badges Section
+   ========================================= */
+
+.store-product-badges {
+  width: 100%;
+}
+
+.store-product-badges__container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 0 20px;
+}
+
+.store-product-badges__header {
+  margin-bottom: 22px;
+}
+
+.store-product-badges__title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.store-product-badges__subtitle {
+  margin: 7px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.store-product-badges__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.store-product-badges__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 20px;
+  overflow: hidden;
+  background: var(--card-background, #fff);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 16px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.store-product-badges__card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 106, 0, 0.35);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.store-product-badges__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-height: 30px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #ff6a00;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.store-product-badges__badge--sale {
+  background: #ff6a00;
+}
+
+.store-product-badges__badge--new {
+  background: #111;
+}
+
+.store-product-badges__badge--popular {
+  background: #f3f3f3;
+  color: #111;
+  border: 1px solid var(--border-color, #e8e8e8);
+}
+
+.store-product-badges__content {
+  min-width: 0;
+}
+
+.store-product-badges__card-title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.store-product-badges__text {
+  margin: 6px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.store-product-badges__value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  color: #ff6a00;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.store-product-badges__value::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: #ff6a00;
+}
+
+.store-product-badges__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 38px;
+  margin-top: 4px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 106, 0, 0.35);
+  border-radius: 10px;
+  background: transparent;
+  color: #ff6a00;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.store-product-badges__link:hover {
+  background: #ff6a00;
+  border-color: #ff6a00;
+  color: #fff;
+}
+
+.store-product-badges__card:focus-within {
+  border-color: #ff6a00;
+  box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.12);
+}
+
+@media (max-width: 900px) {
+  .store-product-badges__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .store-product-badges__container {
+    padding-inline: 14px;
+  }
+
+  .store-product-badges__header {
+    margin-bottom: 16px;
+  }
+
+  .store-product-badges__title {
+    font-size: 1.15rem;
+  }
+
+  .store-product-badges__subtitle {
+    font-size: 0.85rem;
+  }
+
+  .store-product-badges__grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .store-product-badges__card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-product-badges__card,
+  .store-product-badges__link {
+    transition: none;
+  }
+
+  .store-product-badges__card:hover {
+    transform: none;
+  }
+}
