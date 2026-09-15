@@ -1,1 +1,7 @@
-
+const APP_CONSTANTS = {
+  DELIVERY_FEE: 4,
+  DEFAULT_LANGUAGE: "ar",
+  SUPPORTED_LANGUAGES: ["ar", "en"],
+  CURRENCY: "$",
+  STORE_NAME: "HZ.shop"
+};
