@@ -1,0 +1,175 @@
+/* =========================================
+   HZ.SHOP — Product Tags Section
+   ========================================= */
+
+.store-product-tags {
+  width: 100%;
+}
+
+.store-product-tags__container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 0 20px;
+}
+
+.store-product-tags__header {
+  margin-bottom: 20px;
+}
+
+.store-product-tags__title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.store-product-tags__subtitle {
+  margin: 7px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.store-product-tags__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.store-product-tags__item {
+  display: inline-flex;
+  min-width: 0;
+}
+
+.store-product-tags__tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  max-width: 100%;
+  padding: 7px 13px;
+  overflow: hidden;
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 999px;
+  background: var(--card-background, #fff);
+  color: var(--text-color, #111);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-product-tags__tag:hover {
+  border-color: #ff6a00;
+  background: #ff6a00;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.store-product-tags__tag--active {
+  border-color: #ff6a00;
+  background: #ff6a00;
+  color: #fff;
+}
+
+.store-product-tags__tag--soft {
+  border-color: rgba(255, 106, 0, 0.2);
+  background: rgba(255, 106, 0, 0.08);
+  color: #ff6a00;
+}
+
+.store-product-tags__tag--dark {
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.store-product-tags__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  margin-inline-start: 7px;
+  padding-inline: 5px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.07);
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.store-product-tags__tag--active .store-product-tags__count,
+.store-product-tags__tag--dark .store-product-tags__count {
+  background: rgba(255, 255, 255, 0.18);
+  color: inherit;
+}
+
+.store-product-tags__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 16px;
+  border: 1px dashed var(--border-color, #e8e8e8);
+  border-radius: 14px;
+  color: var(--muted-text-color, #777);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.store-product-tags__tag:focus-visible {
+  outline: 3px solid rgba(255, 106, 0, 0.2);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .store-product-tags__container {
+    padding-inline: 14px;
+  }
+
+  .store-product-tags__header {
+    margin-bottom: 16px;
+  }
+
+  .store-product-tags__title {
+    font-size: 1.15rem;
+  }
+
+  .store-product-tags__subtitle {
+    font-size: 0.85rem;
+  }
+
+  .store-product-tags__list {
+    gap: 8px;
+  }
+
+  .store-product-tags__tag {
+    min-height: 34px;
+    padding: 6px 11px;
+    font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-product-tags__tag {
+    transition: none;
+  }
+
+  .store-product-tags__tag:hover {
+    transform: none;
+  }
+}
