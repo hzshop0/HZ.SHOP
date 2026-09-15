@@ -1,0 +1,4232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+<title>السلة | HZ.SHOP</title>
+
+<style>
+
+:root{
+  --black:#0b0b0b;
+  --black2:#151515;
+  --orange:#ff6a00;
+  --orange2:#ff7a1a;
+  --white:#ffffff;
+  --bg:#f6f6f6;
+  --text:#171717;
+  --muted:#777;
+  --border:#e5e5e5;
+  --green:#16833d;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+  padding-bottom:80px;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:var(--black);
+  color:#fff;
+  box-shadow:0 2px 12px rgba(0,0,0,.18);
+}
+
+.header{
+  height:70px;
+  max-width:1200px;
+  margin:auto;
+  padding:0 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  cursor:pointer;
+  user-select:none;
+}
+
+.logo strong{
+  display:block;
+  color:#fff;
+  font-size:22px;
+  letter-spacing:1px;
+}
+
+.logo small{
+  display:block;
+  color:#aaa;
+  font-size:8px;
+  letter-spacing:2px;
+  margin-top:3px;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  position:relative;
+  width:42px;
+  height:42px;
+  border:1px solid #333;
+  border-radius:10px;
+  background:#161616;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+
+.icon-btn:hover{
+  border-color:var(--orange);
+}
+
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+
+  min-width:18px;
+  height:18px;
+  padding:0 5px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:20px;
+  background:var(--orange);
+  color:#fff;
+
+  font-size:10px;
+  font-weight:bold;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+  max-width:1100px;
+  margin:auto;
+  padding:25px 16px 50px;
+}
+
+.page-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.page-head h1{
+  margin:0;
+  font-size:28px;
+}
+
+.page-head p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.back-btn{
+  border:1px solid var(--border);
+  background:#fff;
+  color:#222;
+  padding:11px 16px;
+  border-radius:9px;
+  font-weight:bold;
+}
+
+.back-btn:hover{
+  border-color:var(--orange);
+  color:var(--orange);
+}
+
+
+/* =========================================================
+   EMPTY CART
+========================================================= */
+
+.empty{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:55px 20px;
+  text-align:center;
+}
+
+.empty-icon{
+  font-size:48px;
+  margin-bottom:12px;
+}
+
+.empty h2{
+  margin:0 0 8px;
+  font-size:21px;
+}
+
+.empty p{
+  margin:0 0 22px;
+  color:var(--muted);
+}
+
+.shop-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  min-height:48px;
+  padding:0 25px;
+
+  border:0;
+  border-radius:10px;
+
+  background:var(--orange);
+  color:#fff;
+
+  font-weight:bold;
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.cart-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 350px;
+  gap:20px;
+  align-items:start;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.card-title{
+  padding:17px 18px;
+  border-bottom:1px solid var(--border);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.card-title h2{
+  margin:0;
+  font-size:18px;
+}
+
+.clear-btn{
+  border:0;
+  background:none;
+  color:#c33;
+  font-size:12px;
+  font-weight:bold;
+}
+
+
+/* =========================================================
+   CART ITEMS
+========================================================= */
+
+.cart-item{
+  padding:15px;
+  display:grid;
+  grid-template-columns:92px minmax(0,1fr) auto;
+  gap:14px;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+}
+
+.cart-item:last-child{
+  border-bottom:0;
+}
+
+.cart-image{
+  width:92px;
+  height:105px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#f1f1f1;
+}
+
+.cart-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.cart-info{
+  min-width:0;
+}
+
+.cart-name{
+  font-size:15px;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.cart-price{
+  color:var(--orange);
+  font-weight:bold;
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+.qty{
+  display:inline-flex;
+  align-items:center;
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+  height:34px;
+}
+
+.qty button{
+  width:34px;
+  height:34px;
+  border:0;
+  background:#fafafa;
+  font-size:18px;
+}
+
+.qty span{
+  width:36px;
+  text-align:center;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.remove{
+  align-self:start;
+  border:0;
+  background:none;
+  color:#999;
+  font-size:18px;
+  padding:2px;
+}
+
+.remove:hover{
+  color:#d00;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary{
+  position:sticky;
+  top:90px;
+}
+
+.summary-body{
+  padding:18px;
+}
+
+.line{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:13px;
+  font-size:14px;
+}
+
+.line span:first-child{
+  color:#666;
+}
+
+.line strong{
+  color:#222;
+}
+
+.discount-line strong{
+  color:var(--green);
+}
+
+.total-line{
+  border-top:1px solid var(--border);
+  margin-top:15px;
+  padding-top:17px;
+}
+
+.total-line span{
+  color:#111 !important;
+  font-weight:bold;
+  font-size:16px;
+}
+
+.total-line strong{
+  color:var(--orange);
+  font-size:23px;
+}
+
+
+/* =========================================================
+   COUPON
+========================================================= */
+
+.coupon{
+  margin:0 0 18px;
+}
+
+.coupon-title{
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.coupon-row{
+  display:flex;
+  gap:7px;
+}
+
+.coupon-row input{
+  flex:1;
+  min-width:0;
+  height:43px;
+
+  border:1px solid var(--border);
+  border-radius:8px;
+
+  padding:0 12px;
+  outline:none;
+  direction:ltr;
+  text-align:left;
+}
+
+.coupon-row input:focus{
+  border-color:var(--orange);
+}
+
+.coupon-row button{
+  height:43px;
+  padding:0 15px;
+
+  border:0;
+  border-radius:8px;
+
+  background:var(--black);
+  color:#fff;
+  font-weight:bold;
+}
+
+.coupon-message{
+  min-height:18px;
+  margin-top:7px;
+  font-size:11px;
+}
+
+.coupon-success{
+  color:var(--green);
+}
+
+.coupon-error{
+  color:#c33;
+}
+
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+.checkout-card{
+  margin-top:20px;
+}
+
+.form{
+  padding:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:12px;
+  font-weight:bold;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#fff;
+  padding:12px;
+  outline:none;
+}
+
+.field input,
+.field select{
+  height:45px;
+}
+
+.field textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--orange);
+}
+
+
+/* =========================================================
+   PAYMENT
+========================================================= */
+
+.payment{
+  padding:0 18px 18px;
+}
+
+.payment-title{
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:9px;
+}
+
+.pay-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.pay{
+  min-height:48px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:bold;
+  background:#fff;
+}
+
+.pay.selected{
+  border-color:var(--orange);
+  background:#fff7f0;
+  color:var(--orange);
+}
+
+
+/* =========================================================
+   FINAL ACTION
+========================================================= */
+
+.order-action{
+  padding:18px;
+  border-top:1px solid var(--border);
+  background:#fff;
+}
+
+.order-btn{
+  width:100%;
+  min-height:54px;
+
+  border:0;
+  border-radius:11px;
+
+  background:var(--orange);
+  color:#fff;
+
+  font-size:16px;
+  font-weight:bold;
+
+  box-shadow:0 5px 15px rgba(255,106,0,.18);
+}
+
+.order-btn:hover{
+  background:var(--orange2);
+}
+
+.order-btn:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.security{
+  text-align:center;
+  margin-top:10px;
+  color:#777;
+  font-size:11px;
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.success{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:50px 20px;
+  text-align:center;
+}
+
+.success-icon{
+  width:65px;
+  height:65px;
+  margin:0 auto 17px;
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#e8f7ee;
+  color:var(--green);
+
+  font-size:35px;
+  font-weight:bold;
+}
+
+.success h2{
+  margin:0 0 10px;
+}
+
+.success p{
+  color:#666;
+  line-height:1.8;
+}
+
+.order-number{
+  display:inline-block;
+  margin:10px 0 22px;
+  padding:9px 14px;
+  border-radius:8px;
+  background:#f5f5f5;
+  font-weight:bold;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:85px;
+  transform:translateX(-50%) translateY(20px);
+
+  background:#111;
+  color:#fff;
+
+  padding:12px 18px;
+  border-radius:9px;
+
+  font-size:12px;
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:.25s;
+
+  z-index:9999;
+
+  max-width:90%;
+  text-align:center;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+
+/* =========================================================
+   CUSTOMER AUTH MODAL
+========================================================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  padding:18px;
+
+  background:rgba(0,0,0,.68);
+
+  z-index:10000;
+
+  overflow-y:auto;
+}
+
+.modal-box{
+  width:100%;
+  max-width:430px;
+
+  background:#fff;
+
+  border-radius:16px;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.30);
+
+  overflow:hidden;
+
+  animation:
+    cartAuthModalIn .22s ease;
+}
+
+@keyframes cartAuthModalIn{
+
+  from{
+    opacity:0;
+    transform:translateY(15px) scale(.98);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+
+}
+
+.modal-head{
+  min-height:62px;
+
+  padding:0 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  background:var(--black);
+  color:#fff;
+}
+
+.modal-head h2{
+  margin:0;
+  font-size:19px;
+}
+
+.modal-close{
+  width:38px;
+  height:38px;
+
+  border:1px solid #333;
+  border-radius:9px;
+
+  background:#161616;
+  color:#fff;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:25px;
+  line-height:1;
+}
+
+.modal-close:hover{
+  border-color:var(--orange);
+  color:var(--orange);
+}
+
+.customer-auth-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  margin:16px 16px 0;
+
+  border:1px solid var(--border);
+  border-radius:10px;
+
+  overflow:hidden;
+}
+
+.customer-auth-tab{
+  min-height:43px;
+
+  border:0;
+
+  background:#fafafa;
+  color:#666;
+
+  font-size:13px;
+  font-weight:bold;
+}
+
+.customer-auth-tab.active{
+  background:var(--orange);
+  color:#fff;
+}
+
+#cartCustomerLoginPanel,
+#cartCustomerRegisterPanel{
+  padding:18px;
+}
+
+.auth-intro{
+  display:flex;
+  flex-direction:column;
+
+  gap:5px;
+
+  margin-bottom:18px;
+
+  text-align:right;
+}
+
+.auth-intro strong{
+  color:#171717;
+  font-size:15px;
+}
+
+.auth-intro span{
+  color:#777;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.customer-auth-box .field{
+  margin-bottom:13px;
+}
+
+.customer-auth-box .field label{
+  font-size:12px;
+}
+
+.customer-auth-box .field input{
+  min-height:45px;
+}
+
+.customer-auth-submit{
+  width:100%;
+  min-height:50px;
+
+  margin-top:4px;
+
+  border:0;
+  border-radius:10px;
+
+  background:var(--orange);
+  color:#fff;
+
+  font-size:15px;
+  font-weight:bold;
+
+  box-shadow:
+    0 5px 15px rgba(255,106,0,.16);
+}
+
+.customer-auth-submit:hover{
+  background:var(--orange2);
+}
+
+.customer-auth-submit:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.auth-switch-text{
+  margin-top:15px;
+
+  text-align:center;
+
+  color:#777;
+
+  font-size:12px;
+}
+
+.auth-switch-text button{
+  border:0;
+  background:none;
+
+  color:var(--orange);
+
+  font-weight:bold;
+
+  padding:0 3px;
+}
+
+.auth-switch-text button:hover{
+  text-decoration:underline;
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-bottom{
+  position:fixed;
+  display:flex;
+
+  left:0;
+  right:0;
+  bottom:0;
+
+  height:66px;
+
+  background:rgba(255,255,255,.98);
+  border-top:1px solid #ddd;
+
+  z-index:3000;
+
+  justify-content:space-around;
+  align-items:center;
+
+  box-shadow:0 -4px 15px rgba(0,0,0,.07);
+}
+
+.mobile-bottom button{
+  flex:1;
+  height:100%;
+
+  border:0;
+  background:none;
+
+  color:#777;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  gap:3px;
+
+  font-size:9px;
+}
+
+.mobile-bottom button strong{
+  font-size:19px;
+  color:#222;
+}
+
+.mobile-bottom button.active{
+  color:var(--orange);
+}
+
+.mobile-bottom button.active strong{
+  color:var(--orange);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:800px){
+
+  body{
+    padding-bottom:75px;
+  }
+
+  .header{
+    height:64px;
+    padding:0 12px;
+  }
+
+  .logo strong{
+    font-size:20px;
+  }
+
+  .logo small{
+    font-size:7px;
+  }
+
+  .page{
+    padding:18px 10px 35px;
+  }
+
+  .page-head{
+    align-items:flex-start;
+  }
+
+  .page-head h1{
+    font-size:22px;
+  }
+
+  .page-head p{
+    font-size:11px;
+  }
+
+  .back-btn{
+    padding:9px 12px;
+    font-size:11px;
+  }
+
+  .cart-layout{
+    grid-template-columns:1fr;
+  }
+
+  .summary{
+    position:static;
+  }
+
+  .form{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .cart-item{
+    grid-template-columns:70px minmax(0,1fr) auto;
+    gap:10px;
+    padding:12px;
+  }
+
+  .cart-image{
+    width:70px;
+    height:85px;
+  }
+
+  .cart-name{
+    font-size:13px;
+  }
+
+  .cart-price{
+    font-size:12px;
+    margin-bottom:9px;
+  }
+
+  .qty{
+    height:31px;
+  }
+
+  .qty button{
+    width:30px;
+    height:31px;
+  }
+
+  .qty span{
+    width:30px;
+  }
+
+  .remove{
+    font-size:16px;
+  }
+
+  .pay-options{
+    grid-template-columns:1fr;
+  }
+
+  .summary-body,
+  .form,
+  .payment,
+  .order-action{
+    padding-left:13px;
+    padding-right:13px;
+  }
+
+  .modal{
+    padding:10px;
+  }
+
+  .modal-box{
+    max-width:100%;
+    border-radius:14px;
+  }
+
+  .modal-head{
+    min-height:58px;
+  }
+
+  #cartCustomerLoginPanel,
+  #cartCustomerRegisterPanel{
+    padding:15px;
+  }
+
+}
+
+
+/* UNIFIED STORE NAVIGATION */
+header{position:relative !important;top:auto !important;background:#fff !important;color:#111 !important;box-shadow:none !important;border-bottom:1px solid #e8e8e8 !important;}
+.header{height:68px !important;max-width:1400px !important;padding:0 20px !important;gap:20px !important;}
+.logo{display:block !important;text-align:center !important;min-width:140px !important;color:#111 !important;}
+.logo strong{display:block !important;color:#111 !important;font-size:25px !important;letter-spacing:4px !important;line-height:1 !important;}
+.logo small{display:block !important;color:#777 !important;font-size:7px !important;letter-spacing:3px !important;margin-top:5px !important;}
+.search{flex:1 !important;max-width:620px !important;position:relative !important;}
+.search input{width:100% !important;height:42px !important;background:#fff !important;border:1px solid #dcdcdc !important;color:#111 !important;padding:0 43px 0 38px !important;border-radius:5px !important;}
+.search-icon{position:absolute !important;right:14px !important;top:10px !important;color:#444 !important;font-size:18px !important;z-index:2 !important;}
+.search-clear{position:absolute !important;left:7px !important;top:5px !important;width:32px !important;height:32px !important;border:0 !important;background:none !important;color:#777 !important;}
+.actions{display:flex !important;gap:8px !important;}
+.icon-btn{position:relative !important;width:42px !important;height:42px !important;min-width:42px !important;border:1px solid #d7d7d7 !important;background:#fff !important;color:#111 !important;border-radius:50% !important;font-size:17px !important;display:flex !important;align-items:center !important;justify-content:center !important;transform:none !important;transition:border-color .2s,color .2s,background-color .2s !important;}
+.icon-btn:hover,.icon-btn:active,.icon-btn:focus,.icon-btn:focus-visible{transform:none !important;outline:none !important;}
+.icon-btn:hover{border-color:#ff6a00 !important;color:#ff6a00 !important;}
+.badge{border:2px solid #fff !important;background:#ff6a00 !important;}
+header nav{background:#111 !important;border-top:1px solid #222 !important;}
+.nav{max-width:1400px !important;margin:auto !important;display:flex !important;justify-content:center !important;overflow-x:auto !important;scrollbar-width:none !important;}
+.nav::-webkit-scrollbar{display:none !important;}
+.nav button{background:none !important;border:0 !important;color:#ccc !important;padding:11px 22px !important;font-size:12px !important;white-space:nowrap !important;border-bottom:2px solid transparent !important;}
+.nav button:hover,.nav button.active{color:#fff !important;border-bottom-color:#ff6a00 !important;}
+.mobile-search{display:none !important;}
+.bottom-nav{display:none;}
+@media(max-width:900px){
+ .header{height:62px !important;padding:0 10px !important;gap:8px !important;} .logo{min-width:92px !important;} .logo strong{font-size:20px !important;letter-spacing:3px !important;} .logo small{display:none !important;} .header>.search{display:none !important;} .actions{gap:5px !important;} .icon-btn{width:38px !important;height:38px !important;min-width:38px !important;font-size:15px !important;} .mobile-search{display:flex !important;padding:8px 10px !important;background:#111 !important;border-top:1px solid #222 !important;} .mobile-search-box{position:relative !important;flex:1 !important;} .mobile-search input{width:100% !important;height:41px !important;border:1px solid #333 !important;background:#fff !important;color:#111 !important;padding:0 40px 0 36px !important;border-radius:5px !important;} .mobile-favorite-button{flex:0 0 42px !important;width:42px !important;height:42px !important;border:0 !important;background:transparent !important;font-size:26px !important;position:relative !important;} .bottom-nav{position:fixed !important;display:grid !important;grid-template-columns:repeat(5,1fr) !important;left:0 !important;right:0 !important;bottom:0 !important;height:64px !important;background:#111 !important;border-top:1px solid #292929 !important;z-index:5000 !important;padding-bottom:env(safe-area-inset-bottom) !important;box-shadow:0 -5px 18px rgba(0,0,0,.18) !important;} .bottom-nav button{border:0 !important;background:none !important;color:#aaa !important;display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:center !important;gap:3px !important;font-size:9px !important;} .bottom-nav .bn-icon{font-size:19px !important;line-height:1 !important;color:#ddd !important;} .bottom-nav button.active,.bottom-nav button.active .bn-icon{color:#ff6a00 !important;} .bottom-nav .bn-badge{position:absolute !important;top:5px !important;right:calc(50% - 22px) !important;min-width:16px !important;height:16px !important;border-radius:9px !important;background:#ff6a00 !important;color:#fff !important;font-size:9px !important;display:flex !important;align-items:center !important;justify-content:center !important;}
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="header">
+
+<a class="logo" href="/" onclick="goHome(event)" aria-label="HZ.SHOP الرئيسية">
+<strong>HZ.SHOP</strong>
+<small>LUXURY BEAUTY STORE</small>
+</a>
+
+<div class="search">
+
+<span class="search-icon">⌕</span>
+
+<input
+id="search"
+type="search"
+placeholder="ابحث عن منتج..."
+oninput="searchProducts()">
+<button
+class="search-clear"
+id="searchClear"
+onclick="clearSearch()">
+×
+</button>
+
+</div>
+
+<div class="actions">
+
+<button
+class="icon-btn"
+onclick="openFavorites()"
+aria-label="المفضلة">
+♡
+<span class="badge" id="favCount">0</span>
+</button>
+
+<button
+class="icon-btn"
+onclick="openCart()"
+aria-label="السلة">
+🛒
+<span class="badge" id="cartCount">0</span>
+</button>
+
+<button
+class="icon-btn"
+onclick="window.location.href='/account.html'"
+aria-label="حساب العميل">
+👤
+</button>
+
+<button
+class="icon-btn"
+onclick="shareStore()"
+aria-label="مشاركة المتجر">
+↗
+</button>
+
+</div>
+
+</div>
+
+<div class="mobile-search">
+
+<div class="mobile-search-box">
+
+<span>⌕</span>
+
+<input
+id="mobileSearch"
+type="search"
+placeholder="ابحث عن منتج..."
+oninput="mobileSearchProducts()">
+
+<button onclick="clearMobileSearch()">×</button>
+
+</div>
+
+<button
+type="button"
+class="mobile-favorite-button"
+onclick="openFavorites()"
+aria-label="المفضلة">
+
+♡
+<span
+class="badge"
+id="mobileFavCount">
+0
+</span>
+
+</button>
+
+</div>
+
+<nav>
+
+<div class="nav">
+
+<button class="active" onclick="category('all',this)">الرئيسية</button>
+<button onclick="category('perfumes',this)">العطور</button>
+<button onclick="category('makeup',this)">مكياج</button>
+<button onclick="category('skin',this)">العناية بالبشرة</button>
+<button onclick="category('personal',this)">العناية الشخصية</button>
+<button onclick="category('accessories',this)">إكسسوارات</button>
+<button onclick="category('clothing',this)">ملابس</button>
+<button onclick="category('lingerie',this)">لانجري</button>
+<button onclick="category('home',this)">منزل</button>
+<button onclick="category('electronics',this)">إلكترونيات</button>
+<button onclick="category('kids',this)">ألعاب أطفال</button>
+<button onclick="category('cleaning',this)">النظافة</button>
+<button onclick="goShop()">جميع المنتجات</button>
+
+</div>
+
+</nav>
+
+</header>
+
+
+<main class="page">
+
+  <div
+    class="page-head"
+    id="pageHead"
+  >
+
+    <div>
+
+      <h1>
+        سلة التسوق
+      </h1>
+
+      <p id="cartSubtitle">
+        راجع منتجاتك وأكمل طلبك بسهولة.
+      </p>
+
+    </div>
+
+    <button
+      class="back-btn"
+      onclick="goHome()"
+    >
+      ← متابعة التسوق
+    </button>
+
+  </div>
+
+
+  <div id="pageContent"></div>
+
+</main>
+
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+<nav class="mobile-bottom">
+
+  <button
+    onclick="goHome()"
+  >
+    <strong>⌂</strong>
+    الرئيسية
+  </button>
+
+  <button
+    onclick="goHome('categories')"
+  >
+    <strong>☰</strong>
+    التصنيفات
+  </button>
+
+  <button
+    onclick="goHome('favorites')"
+  >
+    <strong>♡</strong>
+    المفضلة
+  </button>
+
+  <button
+    class="active"
+    onclick="openCartPage()"
+  >
+    <strong>🛒</strong>
+    السلة
+  </button>
+
+  <button
+    onclick="goHome('account')"
+  >
+    <strong>♙</strong>
+    الحساب
+  </button>
+
+</nav>
+
+
+<!-- =======================================================
+     CUSTOMER AUTH MODAL
+======================================================= -->
+
+<div
+  class="modal"
+  id="cartCustomerAuthModal"
+  style="display:none;"
+>
+
+  <div
+    class="modal-box customer-auth-box"
+  >
+
+    <div class="modal-head">
+
+      <h2 id="cartCustomerAuthTitle">
+        تسجيل الدخول
+      </h2>
+
+      <button
+        type="button"
+        class="modal-close"
+        onclick="closeCartCustomerAuth()"
+        aria-label="إغلاق"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- TABS -->
+
+    <div
+      class="customer-auth-tabs"
+      id="cartCustomerAuthTabs"
+    >
+
+      <button
+        type="button"
+        id="cartCustomerLoginTab"
+        class="customer-auth-tab active"
+        onclick="switchCartCustomerAuth('login')"
+      >
+        تسجيل الدخول
+      </button>
+
+      <button
+        type="button"
+        id="cartCustomerRegisterTab"
+        class="customer-auth-tab"
+        onclick="switchCartCustomerAuth('register')"
+      >
+        إنشاء حساب
+      </button>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <div id="cartCustomerLoginPanel">
+
+      <div class="auth-intro">
+
+        <strong>
+          مرحبًا بك في HZ.SHOP
+        </strong>
+
+        <span>
+          سجّل الدخول للمتابعة وإرسال طلبك.
+        </span>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerLoginPhone">
+          رقم الهاتف
+        </label>
+
+        <input
+          type="tel"
+          id="cartCustomerLoginPhone"
+          placeholder="أدخل رقم الهاتف"
+          autocomplete="tel"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerLoginPassword">
+          كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="cartCustomerLoginPassword"
+          placeholder="أدخل كلمة المرور"
+          autocomplete="current-password"
+        >
+
+      </div>
+
+
+      <button
+        type="button"
+        class="customer-auth-submit"
+        id="cartCustomerLoginButton"
+        onclick="submitCartCustomerLogin()"
+      >
+        تسجيل الدخول
+      </button>
+
+
+      <div class="auth-switch-text">
+
+        ليس لديك حساب؟
+
+        <button
+          type="button"
+          onclick="switchCartCustomerAuth('register')"
+        >
+          إنشاء حساب
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- REGISTER -->
+
+    <div
+      id="cartCustomerRegisterPanel"
+      style="display:none;"
+    >
+
+      <div class="auth-intro">
+
+        <strong>
+          إنشاء حساب جديد
+        </strong>
+
+        <span>
+          أنشئ حسابك في HZ.SHOP للمتابعة.
+        </span>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerRegisterName">
+          الاسم
+        </label>
+
+        <input
+          type="text"
+          id="cartCustomerRegisterName"
+          placeholder="أدخل اسمك"
+          autocomplete="name"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerRegisterPhone">
+          رقم الهاتف
+        </label>
+
+        <input
+          type="tel"
+          id="cartCustomerRegisterPhone"
+          placeholder="أدخل رقم الهاتف"
+          autocomplete="tel"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerRegisterPassword">
+          كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="cartCustomerRegisterPassword"
+          placeholder="6 أحرف على الأقل"
+          autocomplete="new-password"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cartCustomerRegisterPasswordConfirm">
+          تأكيد كلمة المرور
+        </label>
+
+        <input
+          type="password"
+          id="cartCustomerRegisterPasswordConfirm"
+          placeholder="أعد كتابة كلمة المرور"
+          autocomplete="new-password"
+        >
+
+      </div>
+
+
+      <button
+        type="button"
+        class="customer-auth-submit"
+        id="cartCustomerRegisterButton"
+        onclick="submitCartCustomerRegister()"
+      >
+        إنشاء الحساب
+      </button>
+
+
+      <div class="auth-switch-text">
+
+        لديك حساب بالفعل؟
+
+        <button
+          type="button"
+          onclick="switchCartCustomerAuth('login')"
+        >
+          تسجيل الدخول
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let cart =
+  JSON.parse(
+    localStorage.getItem("hz_cart") || "[]"
+  );
+
+let discountRate =
+  Number(
+    localStorage.getItem("hz_discount_rate") || "0"
+  );
+
+let selectedPayment =
+  "الدفع عند الاستلام";
+
+let cartCustomer = null;
+
+const DELIVERY_FEE = 4;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function normalizeImages(product){
+
+  let value =
+    product &&
+    (
+      product.images ??
+      product.image ??
+      ""
+    );
+
+  let raw = [];
+
+  if(Array.isArray(value)){
+
+    raw = value;
+
+  }else if(typeof value === "string"){
+
+    if(value.includes("\n")){
+
+      raw =
+        value
+          .split(/\r?\n/)
+          .map(x=>x.trim())
+          .filter(Boolean);
+
+    }else if(value.includes(",")){
+
+      raw =
+        value
+          .split(",")
+          .map(x=>x.trim())
+          .filter(Boolean);
+
+    }else if(value.trim()){
+
+      raw=[value.trim()];
+
+    }
+
+  }
+
+  return raw
+    .map(image=>{
+
+      if(typeof image==="string"){
+        return image.trim();
+      }
+
+      if(image && typeof image==="object"){
+
+        return String(
+          image.url ||
+          image.image ||
+          image.src ||
+          image.path ||
+          ""
+        ).trim();
+
+      }
+
+      return "";
+
+    })
+    .filter(Boolean);
+
+}
+
+
+function getItemImage(item){
+
+  if(item.image){
+    return item.image;
+  }
+
+  if(Array.isArray(item.images) && item.images.length){
+    return item.images[0];
+  }
+
+  return "";
+
+}
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function saveCart(){
+
+  localStorage.setItem(
+    "hz_cart",
+    JSON.stringify(cart)
+  );
+
+  localStorage.setItem(
+    "hz_discount_rate",
+    String(discountRate)
+  );
+
+}
+
+
+/* =========================================================
+   TOTALS
+========================================================= */
+
+function getSubtotal(){
+
+  return cart.reduce(
+    (sum,item)=>
+      sum +
+      (
+        Number(item.price || 0) *
+        Number(item.quantity || 0)
+      ),
+    0
+  );
+
+}
+
+
+function getDiscount(){
+
+  return getSubtotal() * discountRate;
+
+}
+
+
+function getProductsTotal(){
+
+  return getSubtotal() - getDiscount();
+
+}
+
+
+function getFinalTotal(){
+
+  return getProductsTotal() + DELIVERY_FEE;
+
+}
+
+
+/* =========================================================
+   CART COUNT
+========================================================= */
+
+function updateCartCount(){
+
+  const count =
+    cart.reduce(
+      (sum,item)=>
+        sum + Number(item.quantity || 0),
+      0
+    );
+
+  const badge =
+    document.getElementById("cartCount");
+  const bottomCartCount=document.getElementById("bottomCartCount");
+  if(bottomCartCount) bottomCartCount.textContent=cartCount ? cartCount.textContent : "0";
+
+  if(badge){
+    badge.textContent = count;
+  }
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+  updateCartCount();
+
+  const content =
+    document.getElementById("pageContent");
+
+  if(!content) return;
+
+
+  if(!cart.length){
+
+    content.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          🛒
+        </div>
+
+        <h2>
+          سلتك فارغة
+        </h2>
+
+        <p>
+          لم تضف أي منتجات إلى السلة بعد.
+        </p>
+
+        <button
+          class="shop-btn"
+          onclick="goHome()"
+        >
+          ابدأ التسوق
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  content.innerHTML = `
+
+    <div class="cart-layout">
+
+      <div>
+
+        <section class="card">
+
+          <div class="card-title">
+
+            <h2>
+              المنتجات
+              (${cart.length})
+            </h2>
+
+            <button
+              class="clear-btn"
+              onclick="clearCart()"
+            >
+              مسح السلة
+            </button>
+
+          </div>
+
+          <div id="cartItems"></div>
+
+        </section>
+
+
+        <section
+          class="card checkout-card"
+        >
+
+          <div class="card-title">
+
+            <h2>
+              معلومات الطلب
+            </h2>
+
+          </div>
+
+
+          <div class="form">
+
+            <div class="field">
+
+              <label for="customerName">
+                الاسم الكامل *
+              </label>
+
+              <input
+                id="customerName"
+                type="text"
+                placeholder="اسمك الكامل"
+                autocomplete="name"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="phone">
+                رقم الهاتف *
+              </label>
+
+              <input
+                id="phone"
+                type="tel"
+                placeholder="71 123 456"
+                autocomplete="tel"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="governorate">
+                المحافظة *
+              </label>
+
+              <select id="governorate">
+
+                <option value="">
+                  اختر المحافظة
+                </option>
+
+                <option>بيروت</option>
+                <option>جبل لبنان</option>
+                <option>الشمال</option>
+                <option>البقاع</option>
+                <option>الجنوب</option>
+                <option>النبطية</option>
+                <option>عكار</option>
+
+              </select>
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="area">
+                المنطقة *
+              </label>
+
+              <input
+                id="area"
+                type="text"
+                placeholder="المنطقة"
+              >
+
+            </div>
+
+
+            <div class="field full">
+
+              <label for="address">
+                العنوان بالتفصيل *
+              </label>
+
+              <textarea
+                id="address"
+                placeholder="الشارع، المبنى، الطابق..."
+              ></textarea>
+
+            </div>
+
+
+            <div class="field full">
+
+              <label for="notes">
+                ملاحظات
+              </label>
+
+              <textarea
+                id="notes"
+                placeholder="ملاحظات إضافية للطلب"
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <div class="payment">
+
+            <div class="payment-title">
+              طريقة الدفع
+            </div>
+
+            <div class="pay-options">
+
+              <div
+                class="pay selected"
+                onclick="
+                  payment(
+                    this,
+                    'الدفع عند الاستلام'
+                  )
+                "
+              >
+                الدفع عند الاستلام
+              </div>
+
+              <div
+                class="pay"
+                onclick="
+                  payment(
+                    this,
+                    'دفع إلكتروني'
+                  )
+                "
+              >
+                دفع إلكتروني
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="order-action">
+
+            <button
+              class="order-btn"
+              id="computerOrderButton"
+              onclick="submitComputerOrder()"
+            >
+              ✓ تأكيد وإرسال الطلب
+            </button>
+
+            <div class="security">
+              🔒 بياناتك محفوظة ويتم إرسال الطلب بشكل آمن
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+
+      <aside class="card summary">
+
+        <div class="card-title">
+
+          <h2>
+            ملخص الطلب
+          </h2>
+
+        </div>
+
+
+        <div class="summary-body">
+
+          <div class="coupon">
+
+            <div class="coupon-title">
+              لديك كوبون خصم؟
+            </div>
+
+            <div class="coupon-row">
+
+              <input
+                id="coupon"
+                type="text"
+                placeholder="HZ10"
+                autocomplete="off"
+              >
+
+              <button
+                onclick="applyCoupon()"
+              >
+                تطبيق
+              </button>
+
+            </div>
+
+            <div
+              id="couponMessage"
+              class="coupon-message"
+            ></div>
+
+          </div>
+
+
+          <div class="line">
+
+            <span>
+              المنتجات
+            </span>
+
+            <strong id="subtotal">
+              $0.00
+            </strong>
+
+          </div>
+
+
+          <div
+            class="line discount-line"
+            id="discountLine"
+            style="display:none"
+          >
+
+            <span>
+              الخصم
+            </span>
+
+            <strong id="discount">
+              -$0.00
+            </strong>
+
+          </div>
+
+
+          <div class="line">
+
+            <span>
+              التوصيل
+            </span>
+
+            <strong>
+              $4.00
+            </strong>
+
+          </div>
+
+
+          <div class="line total-line">
+
+            <span>
+              الإجمالي
+            </span>
+
+            <strong id="total">
+              $0.00
+            </strong>
+
+          </div>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  `;
+
+
+  renderItems();
+  renderTotals();
+
+}
+
+
+/* =========================================================
+   RENDER ITEMS
+========================================================= */
+
+function renderItems(){
+
+  const box =
+    document.getElementById("cartItems");
+
+  if(!box) return;
+
+  box.innerHTML =
+    cart.map(
+      (item,index)=>{
+
+        const image =
+          getItemImage(item);
+
+        const price =
+          Number(item.price || 0);
+
+        const quantity =
+          Number(item.quantity || 1);
+
+        const total =
+          price * quantity;
+
+
+        return `
+
+          <div class="cart-item">
+
+            <div class="cart-image">
+
+              ${
+                image
+                ?
+                `
+                  <img
+                    src="${escapeHtml(image)}"
+                    alt="${escapeHtml(item.name)}"
+                    onerror="
+                      this.style.display='none'
+                    "
+                  >
+                `
+                :
+                `
+                  <div
+                    style="
+                      width:100%;
+                      height:100%;
+                      display:flex;
+                      align-items:center;
+                      justify-content:center;
+                      font-size:28px;
+                    "
+                  >
+                    🛍️
+                  </div>
+                `
+              }
+
+            </div>
+
+
+            <div class="cart-info">
+
+              <div class="cart-name">
+                ${escapeHtml(item.name)}
+              </div>
+
+              <div class="cart-price">
+                $${price.toFixed(2)}
+              </div>
+
+              <div class="qty">
+
+                <button
+                  onclick="
+                    changeQty(
+                      ${index},
+                      -1
+                    )
+                  "
+                  aria-label="تقليل"
+                >
+                  −
+                </button>
+
+                <span>
+                  ${quantity}
+                </span>
+
+                <button
+                  onclick="
+                    changeQty(
+                      ${index},
+                      1
+                    )
+                  "
+                  aria-label="زيادة"
+                >
+                  +
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <button
+                class="remove"
+                onclick="
+                  removeItem(${index})
+                "
+                aria-label="حذف المنتج"
+                title="حذف"
+              >
+                ×
+              </button>
+
+              <div
+                style="
+                  margin-top:30px;
+                  font-weight:bold;
+                  font-size:13px;
+                  white-space:nowrap;
+                "
+              >
+                $${total.toFixed(2)}
+              </div>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+/* =========================================================
+   TOTALS RENDER
+========================================================= */
+
+function renderTotals(){
+
+  const subtotal =
+    getSubtotal();
+
+  const discount =
+    getDiscount();
+
+  const total =
+    getFinalTotal();
+
+
+  const subtotalEl =
+    document.getElementById("subtotal");
+
+  const discountEl =
+    document.getElementById("discount");
+
+  const discountLine =
+    document.getElementById("discountLine");
+
+  const totalEl =
+    document.getElementById("total");
+
+
+  if(subtotalEl){
+
+    subtotalEl.textContent =
+      "$" + subtotal.toFixed(2);
+
+  }
+
+
+  if(discount > 0){
+
+    if(discountLine){
+      discountLine.style.display="flex";
+    }
+
+    if(discountEl){
+
+      discountEl.textContent =
+        "-$" + discount.toFixed(2);
+
+    }
+
+  }else{
+
+    if(discountLine){
+      discountLine.style.display="none";
+    }
+
+  }
+
+
+  if(totalEl){
+
+    totalEl.textContent =
+      "$" + total.toFixed(2);
+
+  }
+
+}
+
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
+function changeQty(index,delta){
+
+  if(!cart[index]) return;
+
+  const item = cart[index];
+
+  const newQuantity =
+    Number(item.quantity || 1) + Number(delta);
+
+  if(newQuantity <= 0){
+
+    cart.splice(index,1);
+
+    saveCart();
+
+    render();
+
+    toast(
+      "تم حذف المنتج من السلة"
+    );
+
+    return;
+
+  }
+
+  /*
+    التحقق من المخزون الحقيقي من API
+    قبل السماح بزيادة الكمية
+  */
+  if(delta > 0){
+
+    fetch("/api/products?t=" + Date.now())
+      .then(response => {
+
+        if(!response.ok){
+          throw new Error("products fetch failed");
+        }
+
+        return response.json();
+
+      })
+      .then(data => {
+
+        const products =
+          Array.isArray(data)
+          ? data
+          : Array.isArray(data.products)
+          ? data.products
+          : [];
+
+        const product =
+          products.find(
+            p => Number(p.id) === Number(item.id)
+          );
+
+        if(!product){
+
+          toast(
+            "تعذر التحقق من مخزون المنتج"
+          );
+
+          return;
+
+        }
+
+        const stock =
+          Number(product.stock || 0);
+
+        if(newQuantity > stock){
+
+          toast(
+            "لا يمكن طلب كمية أكبر من المتوفر"
+          );
+
+          return;
+
+        }
+
+        item.quantity =
+          newQuantity;
+
+        saveCart();
+
+        render();
+
+      })
+      .catch(() => {
+
+        toast(
+          "تعذر التحقق من المخزون"
+        );
+
+      });
+
+    return;
+
+  }
+
+  item.quantity =
+    newQuantity;
+
+  saveCart();
+
+  render();
+
+}
+
+
+/* =========================================================
+   COUPON
+========================================================= */
+
+function applyCoupon(){
+
+  const input =
+    document.getElementById("coupon");
+
+  const message =
+    document.getElementById(
+      "couponMessage"
+    );
+
+  if(!input || !message) return;
+
+
+  const code =
+    input.value
+      .trim()
+      .toUpperCase();
+
+
+  if(code==="HZ10"){
+
+    discountRate=.10;
+
+    saveCart();
+
+    message.className =
+      "coupon-message coupon-success";
+
+    message.textContent =
+      "✓ تم تطبيق خصم 10%";
+
+    renderTotals();
+
+    return;
+
+  }
+
+
+  discountRate=0;
+
+  saveCart();
+
+  message.className =
+    "coupon-message coupon-error";
+
+  message.textContent =
+    "كود الخصم غير صحيح";
+
+  renderTotals();
+
+}
+
+
+/* =========================================================
+   PAYMENT
+========================================================= */
+
+function payment(el,type){
+
+  document
+    .querySelectorAll(".pay")
+    .forEach(
+      x=>
+        x.classList.remove("selected")
+    );
+
+  el.classList.add("selected");
+
+  selectedPayment=type;
+
+}
+
+
+/* =========================================================
+   ORDER DATA
+========================================================= */
+
+function getOrderData(){
+
+  const name =
+    document
+      .getElementById("customerName")
+      .value
+      .trim();
+
+
+  const phone =
+    document
+      .getElementById("phone")
+      .value
+      .trim();
+
+
+  const governorate =
+    document
+      .getElementById("governorate")
+      .value;
+
+
+  const area =
+    document
+      .getElementById("area")
+      .value
+      .trim();
+
+
+  const address =
+    document
+      .getElementById("address")
+      .value
+      .trim();
+
+
+  const notes =
+    document
+      .getElementById("notes")
+      .value
+      .trim();
+
+
+  if(
+    !name ||
+    !phone ||
+    !governorate ||
+    !area ||
+    !address
+  ){
+
+    toast(
+      "يرجى تعبئة جميع المعلومات المطلوبة"
+    );
+
+    return null;
+
+  }
+
+
+  const subtotal =
+    getSubtotal();
+
+
+  const discount =
+    getDiscount();
+
+
+  const productsTotal =
+    subtotal - discount;
+
+
+  const total =
+    productsTotal + DELIVERY_FEE;
+
+
+  return {
+
+    customer_name:name,
+
+    phone:phone,
+
+    governorate:governorate,
+
+    area:area,
+
+    address:address,
+
+    notes:notes,
+
+    payment_method:
+      selectedPayment,
+
+    items:
+      cart.map(
+        item=>({
+
+          id:Number(item.id),
+
+          name:String(item.name),
+
+          price:Number(item.price),
+
+          quantity:Number(item.quantity)
+
+        })
+      ),
+
+    subtotal:
+      Number(
+        subtotal.toFixed(2)
+      ),
+
+    discount:
+      Number(
+        discount.toFixed(2)
+      ),
+
+    total:
+      Number(
+        total.toFixed(2)
+      )
+
+  };
+
+}
+
+
+/* =========================================================
+   SUBMIT ORDER
+========================================================= */
+
+async function submitComputerOrder(){
+
+  if(!cart.length){
+
+    toast(
+      "السلة فارغة"
+    );
+
+    return;
+
+  }
+
+
+  /* -------------------------------------------------------
+     CHECK CUSTOMER LOGIN
+  ------------------------------------------------------- */
+
+  try{
+
+    const authResponse =
+      await fetch(
+        "/api/customer-me",
+        {
+          method:"GET",
+          credentials:"include",
+          cache:"no-store"
+        }
+      );
+
+
+    let authData={};
+
+
+    try{
+
+      authData =
+        await authResponse.json();
+
+    }catch(error){
+
+      authData={};
+
+    }
+
+
+    if(
+      !authResponse.ok ||
+      !authData.customer
+    ){
+
+      openCartCustomerAuth();
+
+      return;
+
+    }
+
+
+    cartCustomer =
+      authData.customer || null;
+
+
+  }catch(error){
+
+    console.error(
+      "CUSTOMER_AUTH_CHECK_ERROR",
+      error
+    );
+
+    toast(
+      "تعذر التحقق من تسجيل الدخول"
+    );
+
+    return;
+
+  }
+
+
+  const order =
+    getOrderData();
+
+
+  if(!order){
+
+    return;
+
+  }
+
+
+  /* -------------------------------------------------------
+     META INITIATE CHECKOUT
+  ------------------------------------------------------- */
+
+  try{
+
+    if(typeof fbq==="function"){
+
+      fbq(
+        "track",
+        "InitiateCheckout",
+        {
+
+          content_ids:
+            cart.map(
+              item=>
+                String(item.id)
+            ),
+
+          content_type:
+            "product",
+
+          num_items:
+            cart.reduce(
+              (sum,item)=>
+                sum +
+                Number(
+                  item.quantity || 0
+                ),
+              0
+            ),
+
+          value:
+            Number(
+              order.total
+            ),
+
+          currency:
+            "USD"
+
+        }
+      );
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "META_INITIATE_CHECKOUT_ERROR",
+      error
+    );
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "computerOrderButton"
+    );
+
+
+  if(button){
+
+    button.disabled=true;
+
+    button.textContent =
+      "جاري تأكيد الطلب...";
+
+  }
+
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/orders",
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          credentials:"same-origin",
+
+          body:
+            JSON.stringify(order)
+
+        }
+      );
+
+
+    let data={};
+
+
+    try{
+
+      data =
+        await response.json();
+
+    }catch(error){
+
+      data={};
+
+    }
+
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        data.message ||
+        "تعذر إرسال الطلب"
+      );
+
+    }
+
+
+    /* -----------------------------------------------------
+       META PURCHASE
+    ----------------------------------------------------- */
+
+    try{
+
+      if(typeof fbq==="function"){
+
+        fbq(
+          "track",
+          "Purchase",
+          {
+
+            content_ids:
+              cart.map(
+                item=>
+                  String(item.id)
+              ),
+
+            content_type:
+              "product",
+
+            num_items:
+              cart.reduce(
+                (sum,item)=>
+                  sum +
+                  Number(
+                    item.quantity || 0
+                  ),
+                0
+              ),
+
+            value:
+              Number(
+                data.total != null
+                  ? data.total
+                  : order.total
+              ),
+
+            currency:
+              "USD"
+
+          }
+        );
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        "META_PURCHASE_ERROR",
+        error
+      );
+
+    }
+
+
+    /* -----------------------------------------------------
+       CLEAR CART
+    ----------------------------------------------------- */
+
+    cart=[];
+    discountRate=0;
+
+    saveCart();
+
+    updateCartCount();
+
+
+    /* -----------------------------------------------------
+       SUCCESS
+    ----------------------------------------------------- */
+
+    showSuccess(
+      data.order_id
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "ORDER_SUBMIT_ERROR",
+      error
+    );
+
+    toast(
+      error.message ||
+      "تعذر إرسال الطلب. حاول مرة أخرى."
+    );
+
+
+    if(button){
+
+      button.disabled=false;
+
+      button.textContent =
+        "✓ تأكيد وإرسال الطلب";
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   CUSTOMER AUTH — OPEN
+========================================================= */
+
+function openCartCustomerAuth(){
+
+  const modal =
+    document.getElementById(
+      "cartCustomerAuthModal"
+    );
+
+
+  if(!modal){
+
+    console.error(
+      "CART_CUSTOMER_AUTH_MODAL_NOT_FOUND"
+    );
+
+    return;
+
+  }
+
+
+  modal.style.display="flex";
+
+  document.body.style.overflow="hidden";
+
+
+  switchCartCustomerAuth(
+    "login"
+  );
+
+
+  setTimeout(
+    ()=>{
+
+      const phoneInput =
+        document.getElementById(
+          "cartCustomerLoginPhone"
+        );
+
+      if(phoneInput){
+
+        phoneInput.focus();
+
+      }
+
+    },
+    100
+  );
+
+}
+
+
+/* =========================================================
+   CUSTOMER AUTH — CLOSE
+========================================================= */
+
+function closeCartCustomerAuth(){
+
+  const modal =
+    document.getElementById(
+      "cartCustomerAuthModal"
+    );
+
+
+  if(!modal){
+    return;
+  }
+
+
+  modal.style.display="none";
+
+  document.body.style.overflow="";
+
+}
+
+
+/* =========================================================
+   CUSTOMER AUTH — SWITCH
+========================================================= */
+
+function switchCartCustomerAuth(mode){
+
+  const loginPanel =
+    document.getElementById(
+      "cartCustomerLoginPanel"
+    );
+
+
+  const registerPanel =
+    document.getElementById(
+      "cartCustomerRegisterPanel"
+    );
+
+
+  const loginTab =
+    document.getElementById(
+      "cartCustomerLoginTab"
+    );
+
+
+  const registerTab =
+    document.getElementById(
+      "cartCustomerRegisterTab"
+    );
+
+
+  const title =
+    document.getElementById(
+      "cartCustomerAuthTitle"
+    );
+
+
+  if(
+    !loginPanel ||
+    !registerPanel ||
+    !loginTab ||
+    !registerTab ||
+    !title
+  ){
+
+    return;
+
+  }
+
+
+  if(mode==="register"){
+
+    loginPanel.style.display="none";
+
+    registerPanel.style.display="block";
+
+    loginTab.classList.remove(
+      "active"
+    );
+
+    registerTab.classList.add(
+      "active"
+    );
+
+    title.textContent =
+      "إنشاء حساب";
+
+    setTimeout(
+      ()=>{
+
+        const nameInput =
+          document.getElementById(
+            "cartCustomerRegisterName"
+          );
+
+        if(nameInput){
+
+          nameInput.focus();
+
+        }
+
+      },
+      100
+    );
+
+    return;
+
+  }
+
+
+  registerPanel.style.display="none";
+
+  loginPanel.style.display="block";
+
+  registerTab.classList.remove(
+    "active"
+  );
+
+  loginTab.classList.add(
+    "active"
+  );
+
+  title.textContent =
+    "تسجيل الدخول";
+
+
+  setTimeout(
+    ()=>{
+
+      const phoneInput =
+        document.getElementById(
+          "cartCustomerLoginPhone"
+        );
+
+      if(phoneInput){
+
+        phoneInput.focus();
+
+      }
+
+    },
+    100
+  );
+
+}
+
+
+/* =========================================================
+   CUSTOMER LOGIN
+========================================================= */
+
+async function submitCartCustomerLogin(){
+
+  const phoneInput =
+    document.getElementById(
+      "cartCustomerLoginPhone"
+    );
+
+
+  const passwordInput =
+    document.getElementById(
+      "cartCustomerLoginPassword"
+    );
+
+
+  const button =
+    document.getElementById(
+      "cartCustomerLoginButton"
+    );
+
+
+  if(
+    !phoneInput ||
+    !passwordInput
+  ){
+
+    return;
+
+  }
+
+
+  const phone =
+    phoneInput.value.trim();
+
+
+  const password =
+    passwordInput.value;
+
+
+  if(!phone || !password){
+
+    alert(
+      "يرجى إدخال رقم الهاتف وكلمة المرور."
+    );
+
+    return;
+
+  }
+
+
+  if(button){
+
+    button.disabled=true;
+
+    button.textContent =
+      "جاري تسجيل الدخول...";
+
+  }
+
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-login",
+        {
+
+          method:"POST",
+
+          credentials:"include",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+
+              phone:phone,
+
+              password:password
+
+            })
+
+        }
+      );
+
+
+    let data={};
+
+
+    try{
+
+      data =
+        await response.json();
+
+    }catch(error){
+
+      data={};
+
+    }
+
+
+    if(!response.ok){
+
+      alert(
+        data.error ||
+        data.message ||
+        "فشل تسجيل الدخول."
+      );
+
+      return;
+
+    }
+
+
+    cartCustomer =
+      data.customer || null;
+
+
+    /*
+     * نتأكد أن الجلسة أصبحت فعالة فعليًا.
+     */
+
+    let sessionOk=false;
+
+
+    try{
+
+      const sessionResponse =
+        await fetch(
+          "/api/customer-me",
+          {
+            method:"GET",
+            credentials:"include",
+            cache:"no-store"
+          }
+        );
+
+
+      const sessionData =
+        await sessionResponse.json();
+
+
+      if(
+  sessionResponse.ok &&
+  sessionData.customer
+){
+
+        sessionOk=true;
+
+        cartCustomer =
+          sessionData.customer ||
+          cartCustomer;
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        "CART_CUSTOMER_SESSION_VERIFY_ERROR",
+        error
+      );
+
+    }
+
+
+    if(!sessionOk){
+
+      alert(
+        "تم تسجيل الدخول لكن تعذر تأكيد جلسة العميل. حاول مرة أخرى."
+      );
+
+      return;
+
+    }
+
+
+    closeCartCustomerAuth();
+
+if(cartCustomer){
+
+  const nameInput =
+    document.getElementById("customerName");
+
+  const phoneInput =
+    document.getElementById("phone");
+
+  if(nameInput && cartCustomer.name){
+    nameInput.value =
+      cartCustomer.name;
+  }
+
+  if(phoneInput && cartCustomer.phone){
+    phoneInput.value =
+      cartCustomer.phone;
+  }
+
+}
+
+toast(
+  "تم تسجيل الدخول بنجاح"
+);
+
+
+    /*
+     * نرسل الطلب تلقائيًا.
+     *
+     * نحن لم نغادر صفحة السلة،
+     * لذلك جميع بيانات النموذج
+     * والسلة ما زالت موجودة.
+     */
+
+    setTimeout(
+      ()=>{
+
+        submitComputerOrder();
+
+      },
+      350
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "CART_CUSTOMER_LOGIN_ERROR",
+      error
+    );
+
+    alert(
+      "حدث خطأ أثناء تسجيل الدخول."
+    );
+
+  }finally{
+
+    if(button){
+
+      button.disabled=false;
+
+      button.textContent =
+        "تسجيل الدخول";
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   CUSTOMER REGISTER
+========================================================= */
+
+async function submitCartCustomerRegister(){
+
+  const nameInput =
+    document.getElementById(
+      "cartCustomerRegisterName"
+    );
+
+
+  const phoneInput =
+    document.getElementById(
+      "cartCustomerRegisterPhone"
+    );
+
+
+  const passwordInput =
+    document.getElementById(
+      "cartCustomerRegisterPassword"
+    );
+
+
+  const passwordConfirmInput =
+    document.getElementById(
+      "cartCustomerRegisterPasswordConfirm"
+    );
+
+
+  const button =
+    document.getElementById(
+      "cartCustomerRegisterButton"
+    );
+
+
+  if(
+    !nameInput ||
+    !phoneInput ||
+    !passwordInput ||
+    !passwordConfirmInput
+  ){
+
+    return;
+
+  }
+
+
+  const name =
+    nameInput.value.trim();
+
+
+  const phone =
+    phoneInput.value.trim();
+
+
+  const password =
+    passwordInput.value;
+
+
+  const passwordConfirm =
+    passwordConfirmInput.value;
+
+
+  if(
+    !name ||
+    !phone ||
+    !password ||
+    !passwordConfirm
+  ){
+
+    alert(
+      "يرجى تعبئة جميع الحقول."
+    );
+
+    return;
+
+  }
+
+
+  if(password.length < 6){
+
+    alert(
+      "كلمة المرور يجب أن تكون 6 أحرف على الأقل."
+    );
+
+    return;
+
+  }
+
+
+  if(password !== passwordConfirm){
+
+    alert(
+      "كلمتا المرور غير متطابقتين."
+    );
+
+    return;
+
+  }
+
+
+  if(button){
+
+    button.disabled=true;
+
+    button.textContent =
+      "جاري إنشاء الحساب...";
+
+  }
+
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-register",
+        {
+
+          method:"POST",
+
+          credentials:"include",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+
+              name:name,
+
+              phone:phone,
+
+              password:password
+
+            })
+
+        }
+      );
+
+
+    let data={};
+
+
+    try{
+
+      data =
+        await response.json();
+
+    }catch(error){
+
+      data={};
+
+    }
+
+
+    if(!response.ok){
+
+      alert(
+        data.error ||
+        data.message ||
+        "فشل إنشاء الحساب."
+      );
+
+      return;
+
+    }
+
+
+    cartCustomer =
+      data.customer || null;
+
+
+    /*
+     * نتأكد أن الحساب أنشئ والجلسة أصبحت فعالة.
+     */
+
+    let sessionOk=false;
+
+
+    try{
+
+      const sessionResponse =
+        await fetch(
+          "/api/customer-me",
+          {
+            method:"GET",
+            credentials:"include",
+            cache:"no-store"
+          }
+        );
+
+
+      const sessionData =
+        await sessionResponse.json();
+
+
+      if(
+  sessionResponse.ok &&
+  sessionData.customer
+){
+
+        sessionOk=true;
+
+        cartCustomer =
+          sessionData.customer ||
+          cartCustomer;
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        "CART_CUSTOMER_REGISTER_SESSION_VERIFY_ERROR",
+        error
+      );
+
+    }
+
+
+    if(!sessionOk){
+
+      alert(
+        "تم إنشاء الحساب لكن تعذر تأكيد جلسة العميل. حاول تسجيل الدخول."
+      );
+
+      switchCartCustomerAuth(
+        "login"
+      );
+
+      const loginPhone =
+        document.getElementById(
+          "cartCustomerLoginPhone"
+        );
+
+      if(loginPhone){
+
+        loginPhone.value=phone;
+
+      }
+
+      return;
+
+    }
+
+
+    closeCartCustomerAuth();
+
+if(cartCustomer){
+
+  const nameInput =
+    document.getElementById("customerName");
+
+  const phoneInput =
+    document.getElementById("phone");
+
+  if(nameInput && cartCustomer.name){
+    nameInput.value =
+      cartCustomer.name;
+  }
+
+  if(phoneInput && cartCustomer.phone){
+    phoneInput.value =
+      cartCustomer.phone;
+  }
+
+}
+
+toast(
+  "تم إنشاء الحساب بنجاح"
+);
+
+
+    /*
+     * إرسال الطلب تلقائيًا بعد إنشاء الحساب.
+     *
+     * بيانات السلة وبيانات نموذج الطلب
+     * لم تتغير لأنها ما زالت في نفس الصفحة.
+     */
+
+    setTimeout(
+      ()=>{
+
+        submitComputerOrder();
+
+      },
+      350
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "CART_CUSTOMER_REGISTER_ERROR",
+      error
+    );
+
+    alert(
+      "حدث خطأ أثناء إنشاء الحساب."
+    );
+
+  }finally{
+
+    if(button){
+
+      button.disabled=false;
+
+      button.textContent =
+        "إنشاء الحساب";
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   MODAL OUTSIDE CLICK
+========================================================= */
+
+document.addEventListener(
+  "click",
+  function(event){
+
+    const modal =
+      document.getElementById(
+        "cartCustomerAuthModal"
+      );
+
+
+    if(
+      modal &&
+      modal.style.display==="flex" &&
+      event.target===modal
+    ){
+
+      closeCartCustomerAuth();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   ESC — CLOSE AUTH MODAL
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key!=="Escape"){
+      return;
+    }
+
+
+    const modal =
+      document.getElementById(
+        "cartCustomerAuthModal"
+      );
+
+
+    if(
+      modal &&
+      modal.style.display==="flex"
+    ){
+
+      closeCartCustomerAuth();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SUCCESS PAGE
+========================================================= */
+
+function showSuccess(orderId){
+
+  const content =
+    document.getElementById(
+      "pageContent"
+    );
+
+
+  const pageHead =
+    document.getElementById(
+      "pageHead"
+    );
+
+
+  if(pageHead){
+
+    pageHead.style.display="none";
+
+  }
+
+
+  if(!content){
+    return;
+  }
+
+
+  content.innerHTML = `
+
+    <div class="success">
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <h2>
+        تم استلام طلبك بنجاح
+      </h2>
+
+      <p>
+        شكرًا لطلبك من HZ.SHOP.
+        <br>
+        تم تسجيل طلبك وإرساله بنجاح.
+        <br>
+        سيتم التواصل معك لتأكيد الطلب.
+      </p>
+
+      ${
+        orderId
+        ?
+        `
+          <div class="order-number">
+            رقم الطلب:
+            #${escapeHtml(orderId)}
+          </div>
+        `
+        :
+        ""
+      }
+
+      <br>
+
+      <button
+        class="shop-btn"
+        onclick="goHome()"
+      >
+        العودة إلى المتجر
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function category(name,button){
+  if(name==="all"){window.location.href="/";return;}
+  sessionStorage.setItem("hz_shop_pending_category",name);
+  window.location.href="/";
+}
+function goShop(){window.location.href="/";}
+
+function shareStore(){const d={title:"HZ.SHOP | Luxury Beauty Store",text:"اكتشف متجر HZ.SHOP للعطور ومنتجات العناية والجمال.",url:window.location.origin+"/"};if(navigator.share){navigator.share(d).catch(()=>{});}else if(navigator.clipboard){navigator.clipboard.writeText(d.url).catch(()=>{});}}
+function openNotifications(){window.location.href="/account.html";}
+function goHome(target){
+
+  if(target){
+
+    window.location.href =
+      "/?section=" +
+      encodeURIComponent(target);
+
+    return;
+
+  }
+
+  window.location.href="/";
+
+}
+
+
+function openCartPage(){
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message){
+
+  const box =
+    document.getElementById(
+      "toast"
+    );
+
+
+  if(!box) return;
+
+
+  box.textContent=message;
+
+  box.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    window.__hzToastTimer
+  );
+
+
+  window.__hzToastTimer =
+    setTimeout(
+      ()=>{
+
+        box.classList.remove(
+          "show"
+        );
+
+      },
+      2500
+    );
+
+}
+
+
+async function loadCartCustomerData(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/customer-me",
+        {
+          method:"GET",
+          credentials:"include",
+          cache:"no-store"
+        }
+      );
+
+    const data =
+      await response.json()
+        .catch(() => ({}));
+
+    if(
+      !response.ok ||
+      !data.customer
+    ){
+
+      cartCustomer = null;
+      return false;
+
+    }
+
+    cartCustomer =
+      data.customer;
+
+    const nameInput =
+      document.getElementById(
+        "customerName"
+      );
+
+    const phoneInput =
+      document.getElementById(
+        "phone"
+      );
+
+    if(
+      nameInput &&
+      cartCustomer.name
+    ){
+
+      nameInput.value =
+        cartCustomer.name;
+
+    }
+
+    if(
+      phoneInput &&
+      cartCustomer.phone
+    ){
+
+      phoneInput.value =
+        cartCustomer.phone;
+
+    }
+    const customerId =
+      cartCustomer?.id ??
+      cartCustomer?.phone ??
+      "guest";
+
+    const addressesKey =
+      "hz_customer_addresses_" +
+      String(customerId);
+
+    let addresses = [];
+
+    try{
+
+      const storedAddresses =
+        JSON.parse(
+          localStorage.getItem(
+            addressesKey
+          ) || "[]"
+        );
+
+      if(
+        Array.isArray(storedAddresses)
+      ){
+
+        addresses =
+          storedAddresses;
+
+      }
+
+    }catch(error){
+
+      addresses = [];
+
+    }
+
+    const defaultAddress =
+      addresses.find(
+        address =>
+          address &&
+          address.isDefault === true
+      ) ||
+      addresses[0] ||
+      null;
+
+    if(defaultAddress){
+
+      const governorateInput =
+        document.getElementById(
+          "governorate"
+        );
+
+      const areaInput =
+        document.getElementById(
+          "area"
+        );
+
+      const addressInput =
+        document.getElementById(
+          "address"
+        );
+
+      if(
+        governorateInput &&
+        defaultAddress.governorate
+      ){
+
+        governorateInput.value =
+          defaultAddress.governorate;
+
+      }
+
+      if(
+        areaInput &&
+        defaultAddress.area
+      ){
+
+        areaInput.value =
+          defaultAddress.area;
+
+      }
+
+      if(
+        addressInput &&
+        defaultAddress.address
+      ){
+
+        addressInput.value =
+          defaultAddress.address;
+
+      }
+
+    }
+    return true;
+
+  }catch(error){
+
+    console.error(
+      "CART_CUSTOMER_SESSION_ERROR",
+      error
+    );
+
+    cartCustomer = null;
+
+    return false;
+
+  }
+
+}
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async function(){
+
+    render();
+
+    await loadCartCustomerData();
+
+  }
+);
+
+</script>
+
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+<nav class="bottom-nav" aria-label="تنقل المتجر على الهاتف">
+<button type="button" onclick="goHome()"><span class="bn-icon">👤</span><span>حسابي</span></button>
+<button type="button" class="active" onclick="openCartPage()"><span class="bn-icon">🛒</span><span>السلة</span><span class="bn-badge" id="bottomCartCount">0</span></button>
+<button type="button" onclick="goHome()"><span class="bn-icon">⌂</span><span>الرئيسية</span></button>
+<button type="button" onclick="shareStore()"><span class="bn-icon">↗</span><span>مشاركة</span></button>
+<button type="button" onclick="openNotifications()"><span class="bn-icon">🔔</span><span>إشعارات</span></button>
+</nav>
+
+</body>
+</html>
