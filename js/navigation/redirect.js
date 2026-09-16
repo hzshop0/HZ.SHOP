@@ -33,20 +33,50 @@ const HZRedirect = {
         if (!id) return;
 
         this.to(
-            `/product.html?id=${encodeURIComponent(id)}`
+            `/pages/product/?id=${encodeURIComponent(id)}`
+        );
+    },
+
+    category(id) {
+        if (!id) return;
+
+        this.to(
+            `/pages/category/?id=${encodeURIComponent(id)}`
         );
     },
 
     cart() {
-        this.to("/cart.html");
+        this.to("/pages/cart/");
     },
 
     account() {
-        this.to("/account.html");
+        this.to("/pages/account/");
     },
 
     checkout() {
-        this.to("/checkout.html");
+        this.to("/pages/checkout/");
+    },
+
+    orders() {
+        this.to("/pages/orders/");
+    },
+
+    wishlist() {
+        this.to("/pages/wishlist/");
+    },
+
+    search(query = "") {
+        const value = String(query).trim();
+
+        this.to(
+            value
+                ? `/pages/search/?q=${encodeURIComponent(value)}`
+                : "/pages/search/"
+        );
+    },
+
+    notifications() {
+        this.to("/pages/notifications/");
     }
 };
 
