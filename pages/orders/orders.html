@@ -1,1 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>HZ.shop | طلباتي</title>
+
+  <meta
+    name="description"
+    content="طلباتك ومتابعة حالة الطلبات في HZ.shop"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/css/main.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/pages/orders/orders.css"
+  >
+
+</head>
+
+
+<body>
+
+<div id="app">
+
+  <header id="site-header"></header>
+
+
+  <main class="orders-page">
+
+    <div class="orders-page-container">
+
+      <header class="orders-page-header">
+
+        <div class="orders-page-heading">
+
+          <span class="orders-breadcrumb">
+            حسابي
+          </span>
+
+          <h1 class="orders-page-title">
+            طلباتي
+          </h1>
+
+          <p
+            class="orders-page-subtitle"
+            data-orders-subtitle
+            hidden
+          ></p>
+
+        </div>
+
+        <a
+          href="/"
+          class="orders-back-home"
+        >
+          الرئيسية
+        </a>
+
+      </header>
+
+
+      <div
+        class="orders-loading"
+        data-orders-loading
+      >
+        جاري تحميل الطلبات...
+      </div>
+
+
+      <section
+        class="orders-list"
+        data-orders-list
+        aria-live="polite"
+      ></section>
+
+
+      <section
+        class="orders-empty"
+        data-orders-empty
+        hidden
+      >
+
+        <div
+          class="orders-empty-icon"
+          aria-hidden="true"
+        >
+          📦
+        </div>
+
+        <h2>
+          لا توجد طلبات حتى الآن
+        </h2>
+
+        <p>
+          عندما تقوم بإتمام طلب، ستظهر تفاصيله وحالته هنا.
+        </p>
+
+        <a
+          href="/"
+          class="orders-empty-button"
+        >
+          تصفح المنتجات
+        </a>
+
+      </section>
+
+
+      <section
+        class="orders-error"
+        data-orders-error
+        hidden
+      >
+
+        <div
+          class="orders-error-icon"
+          aria-hidden="true"
+        >
+          ⚠️
+        </div>
+
+        <h2>
+          تعذر تحميل الطلبات
+        </h2>
+
+        <p
+          data-orders-error-message
+        >
+          حدث خطأ أثناء تحميل الطلبات.
+        </p>
+
+        <button
+          type="button"
+          class="orders-retry-button"
+          data-orders-retry
+        >
+          إعادة المحاولة
+        </button>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer id="site-footer"></footer>
+
+  <nav id="bottom-navigation"></nav>
+
+  <div id="toast-container"></div>
+
+</div>
+
+
+<script src="/js/core/storage.js"></script>
+<script src="/js/core/utils.js"></script>
+<script src="/js/core/state.js"></script>
+<script src="/js/core/api.js"></script>
+
+<script src="/js/analytics/analytics.js"></script>
+
+<script src="/js/features/cart.js"></script>
+<script src="/js/features/customer.js"></script>
+<script src="/js/features/favorites.js"></script>
+<script src="/js/features/notifications.js"></script>
+<script src="/js/features/recent.js"></script>
+
+<script src="/js/navigation/history.js"></script>
+<script src="/js/navigation/navigation.js"></script>
+<script src="/js/navigation/redirect.js"></script>
+<script src="/js/navigation/scroll.js"></script>
+
+<script src="/components/header/header.js"></script>
+<script src="/components/footer/footer.js"></script>
+<script src="/components/bottom-nav/bottom-nav.js"></script>
+
+<script src="/js/components/loader.js"></script>
+<script src="/js/components/modal.js"></script>
+<script src="/js/components/toast.js"></script>
+
+<script src="/pages/orders/orders.js"></script>
+
+</body>
+
+</html>
