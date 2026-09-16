@@ -1,0 +1,172 @@
+/* =========================================
+   HZ.SHOP — Product Time Of Day Section
+   ========================================= */
+
+.store-product-time-of-day {
+  width: 100%;
+  padding: 24px 0;
+}
+
+.store-product-time-of-day__container {
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.store-product-time-of-day__header {
+  margin-bottom: 18px;
+}
+
+.store-product-time-of-day__title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.store-product-time-of-day__subtitle {
+  margin: 6px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.store-product-time-of-day__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.store-product-time-of-day__option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 116px;
+  padding: 16px;
+  color: var(--text-color, #111);
+  background: var(--card-background, #fff);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-product-time-of-day__option:hover {
+  border-color: #ff6a00;
+  transform: translateY(-2px);
+}
+
+.store-product-time-of-day__option.is-active,
+.store-product-time-of-day__option[aria-selected="true"] {
+  color: #fff;
+  background: #ff6a00;
+  border-color: #ff6a00;
+  box-shadow: 0 7px 18px rgba(255, 106, 0, 0.18);
+}
+
+.store-product-time-of-day__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 10px;
+  color: #ff6a00;
+  background: rgba(255, 106, 0, 0.1);
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+.store-product-time-of-day__option.is-active .store-product-time-of-day__icon,
+.store-product-time-of-day__option[aria-selected="true"] .store-product-time-of-day__icon {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.store-product-time-of-day__name {
+  font-size: 0.94rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.store-product-time-of-day__description {
+  margin-top: 5px;
+  color: var(--muted-text-color, #777);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.store-product-time-of-day__option.is-active .store-product-time-of-day__description,
+.store-product-time-of-day__option[aria-selected="true"] .store-product-time-of-day__description {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.store-product-time-of-day__option.is-disabled,
+.store-product-time-of-day__option:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration: line-through;
+  transform: none;
+}
+
+.store-product-time-of-day__hint {
+  margin-top: 10px;
+  color: var(--muted-text-color, #777);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .store-product-time-of-day__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .store-product-time-of-day {
+    padding: 18px 0;
+  }
+
+  .store-product-time-of-day__container {
+    padding-inline: 14px;
+  }
+
+  .store-product-time-of-day__grid {
+    gap: 10px;
+  }
+
+  .store-product-time-of-day__option {
+    min-height: 104px;
+    padding: 13px 10px;
+  }
+
+  .store-product-time-of-day__title {
+    font-size: 1.1rem;
+  }
+
+  .store-product-time-of-day__subtitle {
+    font-size: 0.86rem;
+  }
+
+  .store-product-time-of-day__name {
+    font-size: 0.88rem;
+  }
+
+  .store-product-time-of-day__description {
+    font-size: 0.74rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-product-time-of-day__option {
+    transition: none;
+  }
+}
