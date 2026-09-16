@@ -1,0 +1,221 @@
+/* =========================================
+   HZ.SHOP — Product Gift Message Section
+   ========================================= */
+
+.store-product-gift-message {
+  width: 100%;
+  padding: 24px 0;
+}
+
+.store-product-gift-message__container {
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.store-product-gift-message__header {
+  margin-bottom: 18px;
+}
+
+.store-product-gift-message__title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.store-product-gift-message__subtitle {
+  margin: 6px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.store-product-gift-message__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.store-product-gift-message__card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  background: var(--card-background, #fff);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.store-product-gift-message__card:focus-within {
+  border-color: #ff6a00;
+  box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.1);
+}
+
+.store-product-gift-message__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-color, #111);
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+
+.store-product-gift-message__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: #ff6a00;
+  background: rgba(255, 106, 0, 0.1);
+  border-radius: 50%;
+  font-size: 0.95rem;
+}
+
+.store-product-gift-message__textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 13px 14px;
+  color: var(--text-color, #111);
+  background: var(--input-background, #fff);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  resize: vertical;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.store-product-gift-message__textarea::placeholder {
+  color: var(--muted-text-color, #999);
+}
+
+.store-product-gift-message__textarea:focus {
+  border-color: #ff6a00;
+  box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.1);
+}
+
+.store-product-gift-message__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.store-product-gift-message__hint {
+  margin: 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.store-product-gift-message__counter {
+  color: var(--muted-text-color, #777);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.store-product-gift-message__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.store-product-gift-message__button {
+  min-height: 38px;
+  padding: 9px 16px;
+  color: #fff;
+  background: #ff6a00;
+  border: 1px solid #ff6a00;
+  border-radius: 9px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-product-gift-message__button:hover {
+  background: #e85f00;
+  border-color: #e85f00;
+  transform: translateY(-1px);
+}
+
+.store-product-gift-message__button--secondary {
+  color: var(--text-color, #111);
+  background: transparent;
+  border-color: var(--border-color, #e8e8e8);
+}
+
+.store-product-gift-message__button--secondary:hover {
+  color: #ff6a00;
+  background: rgba(255, 106, 0, 0.06);
+  border-color: #ff6a00;
+}
+
+.store-product-gift-message__card.is-disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .store-product-gift-message {
+    padding: 18px 0;
+  }
+
+  .store-product-gift-message__container {
+    padding-inline: 14px;
+  }
+
+  .store-product-gift-message__card {
+    padding: 14px;
+  }
+
+  .store-product-gift-message__title {
+    font-size: 1.1rem;
+  }
+
+  .store-product-gift-message__subtitle {
+    font-size: 0.86rem;
+  }
+
+  .store-product-gift-message__textarea {
+    min-height: 108px;
+    font-size: 0.82rem;
+  }
+
+  .store-product-gift-message__footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .store-product-gift-message__actions {
+    width: 100%;
+  }
+
+  .store-product-gift-message__button {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-product-gift-message__card,
+  .store-product-gift-message__textarea,
+  .store-product-gift-message__button {
+    transition: none;
+  }
+}
