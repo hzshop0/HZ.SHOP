@@ -39,3 +39,5 @@ const SCROLL = {
     } catch {}
   }
 };
+
+window.SCROLL = SCROLL;
