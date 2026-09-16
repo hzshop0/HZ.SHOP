@@ -100,11 +100,14 @@ const SEARCH_PAGE = {
 
     if (!this.query) {
       this.products = [];
+
       this.renderEmpty(
         "ابدأ البحث عن المنتجات",
         "اكتب اسم المنتج أو الكلمة التي تبحث عنها."
       );
+
       this.showLoading(false);
+
       return;
     }
 
@@ -647,6 +650,9 @@ const SEARCH_PAGE = {
       );
   }
 };
+
+window.SEARCH_PAGE =
+  SEARCH_PAGE;
 
 document.addEventListener(
   "DOMContentLoaded",
