@@ -44,3 +44,5 @@ const UTILS = {
     };
   }
 };
+
+window.UTILS = UTILS;
