@@ -35,9 +35,9 @@ const HZBottomNav = {
                     </a>
 
                     <a
-                        href="/wishlist.html"
+                        href="/pages/wishlist/"
                         class="bottom-nav-item"
-                        data-nav-target="/wishlist.html"
+                        data-nav-target="/pages/wishlist/"
                         aria-label="المفضلة"
                     >
                         <span>♡</span>
@@ -45,9 +45,9 @@ const HZBottomNav = {
                     </a>
 
                     <a
-                        href="/cart.html"
+                        href="/pages/cart/"
                         class="bottom-nav-item"
-                        data-nav-target="/cart.html"
+                        data-nav-target="/pages/cart/"
                         aria-label="السلة"
                     >
                         <span>🛒</span>
@@ -55,9 +55,9 @@ const HZBottomNav = {
                     </a>
 
                     <a
-                        href="/notifications.html"
+                        href="/pages/notifications/"
                         class="bottom-nav-item"
-                        data-nav-target="/notifications.html"
+                        data-nav-target="/pages/notifications/"
                         aria-label="الإشعارات"
                     >
                         <span>🔔</span>
@@ -65,9 +65,9 @@ const HZBottomNav = {
                     </a>
 
                     <a
-                        href="/account.html"
+                        href="/pages/account/"
                         class="bottom-nav-item"
-                        data-nav-target="/account.html"
+                        data-nav-target="/pages/account/"
                         aria-label="حسابي"
                     >
                         <span>👤</span>
