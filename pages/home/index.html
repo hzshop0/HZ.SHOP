@@ -136,6 +136,8 @@
 
 <script src="/components/header/header.js"></script>
 <script src="/components/footer/footer.js"></script>
+<script src="/components/bottom-nav/bottom-nav.js"></script>
+
 <script src="/js/components/dropdown.js"></script>
 <script src="/js/components/loader.js"></script>
 <script src="/js/components/modal.js"></script>
@@ -154,6 +156,22 @@ document.addEventListener(
             typeof HEADER.init === "function"
         ) {
             HEADER.init();
+        }
+
+
+        if (
+            typeof FOOTER !== "undefined" &&
+            typeof FOOTER.init === "function"
+        ) {
+            FOOTER.init();
+        }
+
+
+        if (
+            typeof HZBottomNav !== "undefined" &&
+            typeof HZBottomNav.init === "function"
+        ) {
+            HZBottomNav.init();
         }
 
     }
