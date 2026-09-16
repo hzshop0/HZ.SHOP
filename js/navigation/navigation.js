@@ -12,13 +12,17 @@ const NAVIGATION = {
   product(id) {
     if (!id) return;
 
-    this.go(`/pages/product/?id=${encodeURIComponent(id)}`);
+    this.go(
+      `/pages/product/?id=${encodeURIComponent(id)}`
+    );
   },
 
   category(id) {
     if (!id) return;
 
-    this.go(`/pages/category/?id=${encodeURIComponent(id)}`);
+    this.go(
+      `/pages/category/?id=${encodeURIComponent(id)}`
+    );
   },
 
   cart() {
@@ -55,3 +59,5 @@ const NAVIGATION = {
     this.go("/pages/notifications/");
   }
 };
+
+window.NAVIGATION = NAVIGATION;
