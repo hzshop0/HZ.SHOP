@@ -1,1 +1,1017 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>حسابي | HZ.SHOP</title>
+
+    <meta
+        name="description"
+        content="حسابك في HZ.SHOP"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/pages/account/account.css"
+    >
+
+</head>
+
+
+<body>
+
+<div id="app">
+
+    <!-- HEADER -->
+    <header id="site-header"></header>
+
+
+    <!-- ACCOUNT PAGE -->
+    <main
+        id="account-page"
+        class="account-page"
+    >
+
+        <!-- PAGE HEADER -->
+        <section class="account-page-header">
+
+            <div class="account-page-container">
+
+                <h1>حسابي</h1>
+
+                <p>
+                    إدارة حسابك وطلباتك ومفضلاتك
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CUSTOMER ACCOUNT -->
+        <section
+            id="account-content"
+            class="account-content"
+        >
+
+            <div class="account-page-container">
+
+
+                <!-- LOGIN / REGISTER -->
+                <section
+                    id="account-auth"
+                    class="account-auth"
+                >
+
+                    <div class="account-auth-card">
+
+                        <div class="account-auth-header">
+
+                            <h2>
+                                أهلاً بك في HZ.SHOP
+                            </h2>
+
+                            <p>
+                                سجّل الدخول للوصول إلى حسابك
+                            </p>
+
+                        </div>
+
+
+                        <form
+                            id="account-login-form"
+                            class="account-form"
+                        >
+
+                            <div class="account-field">
+
+                                <label
+                                    for="account-login-phone"
+                                >
+                                    رقم الهاتف
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="account-login-phone"
+                                    name="phone"
+                                    autocomplete="tel"
+                                    placeholder="أدخل رقم الهاتف"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="account-field">
+
+                                <label
+                                    for="account-login-password"
+                                >
+                                    كلمة المرور
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="account-login-password"
+                                    name="password"
+                                    autocomplete="current-password"
+                                    placeholder="أدخل كلمة المرور"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div
+                                id="account-login-error"
+                                class="account-form-error"
+                                hidden
+                            ></div>
+
+
+                            <button
+                                type="submit"
+                                class="account-primary-button"
+                            >
+                                تسجيل الدخول
+                            </button>
+
+                        </form>
+
+
+                        <div class="account-auth-divider">
+
+                            <span>أو</span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="account-register-button"
+                            class="account-secondary-button"
+                        >
+                            إنشاء حساب جديد
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- REGISTER -->
+                <section
+                    id="account-register"
+                    class="account-register"
+                    hidden
+                >
+
+                    <div class="account-auth-card">
+
+                        <div class="account-auth-header">
+
+                            <h2>
+                                إنشاء حساب
+                            </h2>
+
+                            <p>
+                                أنشئ حسابك في HZ.SHOP
+                            </p>
+
+                        </div>
+
+
+                        <form
+                            id="account-register-form"
+                            class="account-form"
+                        >
+
+                            <div class="account-field">
+
+                                <label
+                                    for="account-register-name"
+                                >
+                                    الاسم الكامل
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="account-register-name"
+                                    name="name"
+                                    autocomplete="name"
+                                    placeholder="أدخل اسمك الكامل"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="account-field">
+
+                                <label
+                                    for="account-register-phone"
+                                >
+                                    رقم الهاتف
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="account-register-phone"
+                                    name="phone"
+                                    autocomplete="tel"
+                                    placeholder="أدخل رقم الهاتف"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="account-field">
+
+                                <label
+                                    for="account-register-email"
+                                >
+                                    البريد الإلكتروني
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="account-register-email"
+                                    name="email"
+                                    autocomplete="email"
+                                    placeholder="أدخل البريد الإلكتروني"
+                                >
+
+                            </div>
+
+
+                            <div class="account-field">
+
+                                <label
+                                    for="account-register-password"
+                                >
+                                    كلمة المرور
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="account-register-password"
+                                    name="password"
+                                    autocomplete="new-password"
+                                    placeholder="أنشئ كلمة مرور"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div
+                                id="account-register-error"
+                                class="account-form-error"
+                                hidden
+                            ></div>
+
+
+                            <button
+                                type="submit"
+                                class="account-primary-button"
+                            >
+                                إنشاء الحساب
+                            </button>
+
+                        </form>
+
+
+                        <button
+                            type="button"
+                            id="account-back-login-button"
+                            class="account-text-button"
+                        >
+                            العودة إلى تسجيل الدخول
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- CUSTOMER DASHBOARD -->
+                <section
+                    id="account-dashboard"
+                    class="account-dashboard"
+                    hidden
+                >
+
+                    <!-- CUSTOMER SUMMARY -->
+                    <div class="account-customer-card">
+
+                        <div class="account-customer-avatar">
+                            👤
+                        </div>
+
+                        <div class="account-customer-info">
+
+                            <h2
+                                id="account-customer-name"
+                            >
+                                مرحباً بك
+                            </h2>
+
+                            <p
+                                id="account-customer-phone"
+                            ></p>
+
+                            <p
+                                id="account-customer-email"
+                            ></p>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="account-logout-button"
+                            class="account-logout-button"
+                        >
+                            تسجيل الخروج
+                        </button>
+
+                    </div>
+
+
+                    <!-- ACCOUNT NAVIGATION -->
+                    <nav
+                        class="account-sections"
+                        aria-label="أقسام الحساب"
+                    >
+
+                        <button
+                            type="button"
+                            class="account-section-button"
+                            data-account-section="overview"
+                        >
+                            <span class="account-section-icon">
+                                🏠
+                            </span>
+
+                            <span>
+                                الرئيسية
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="account-section-button"
+                            data-account-section="orders"
+                        >
+                            <span class="account-section-icon">
+                                📦
+                            </span>
+
+                            <span>
+                                طلباتي
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="account-section-button"
+                            data-account-section="favorites"
+                        >
+                            <span class="account-section-icon">
+                                ♡
+                            </span>
+
+                            <span>
+                                المفضلة
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="account-section-button"
+                            data-account-section="cart"
+                        >
+                            <span class="account-section-icon">
+                                🛒
+                            </span>
+
+                            <span>
+                                السلة
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="account-section-button"
+                            data-account-section="recent"
+                        >
+                            <span class="account-section-icon">
+                                🕘
+                            </span>
+
+                            <span>
+                                شاهدتها مؤخراً
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="account-section-button"
+                            data-account-section="addresses"
+                        >
+                            <span class="account-section-icon">
+                                📍
+                            </span>
+
+                            <span>
+                                عناويني
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="account-section-button"
+                            data-account-section="notifications"
+                        >
+                            <span class="account-section-icon">
+                                🔔
+                            </span>
+
+                            <span>
+                                الإشعارات
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="account-section-button"
+                            data-account-section="settings"
+                        >
+                            <span class="account-section-icon">
+                                ⚙️
+                            </span>
+
+                            <span>
+                                الإعدادات
+                            </span>
+                        </button>
+
+                    </nav>
+
+
+                    <!-- ACCOUNT PANELS -->
+                    <div
+                        id="account-panels"
+                        class="account-panels"
+                    >
+
+
+                        <!-- OVERVIEW -->
+                        <section
+                            id="account-panel-overview"
+                            class="account-panel"
+                            data-account-panel="overview"
+                        >
+
+                            <div class="account-panel-header">
+
+                                <h2>
+                                    حسابي
+                                </h2>
+
+                                <p>
+                                    نظرة سريعة على نشاطك في المتجر
+                                </p>
+
+                            </div>
+
+
+                            <div class="account-overview-grid">
+
+                                <button
+                                    type="button"
+                                    data-account-section="orders"
+                                    class="account-overview-card"
+                                >
+                                    <strong
+                                        id="account-orders-count"
+                                    >
+                                        0
+                                    </strong>
+
+                                    <span>
+                                        الطلبات
+                                    </span>
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    data-account-section="favorites"
+                                    class="account-overview-card"
+                                >
+                                    <strong
+                                        id="account-favorites-count"
+                                    >
+                                        0
+                                    </strong>
+
+                                    <span>
+                                        المفضلة
+                                    </span>
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    data-account-section="cart"
+                                    class="account-overview-card"
+                                >
+                                    <strong
+                                        id="account-cart-count"
+                                    >
+                                        0
+                                    </strong>
+
+                                    <span>
+                                        منتجات السلة
+                                    </span>
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    data-account-section="recent"
+                                    class="account-overview-card"
+                                >
+                                    <strong
+                                        id="account-recent-count"
+                                    >
+                                        0
+                                    </strong>
+
+                                    <span>
+                                        شاهدتها مؤخراً
+                                    </span>
+                                </button>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- ORDERS -->
+                        <section
+                            id="account-panel-orders"
+                            class="account-panel"
+                            data-account-panel="orders"
+                            hidden
+                        >
+
+                            <div class="account-panel-header">
+
+                                <h2>
+                                    طلباتي
+                                </h2>
+
+                                <p>
+                                    متابعة جميع طلباتك
+                                </p>
+
+                            </div>
+
+                            <div
+                                id="account-orders-list"
+                                class="account-orders-list"
+                            ></div>
+
+                            <div
+                                id="account-orders-empty"
+                                class="account-empty"
+                                hidden
+                            >
+                                <span>📦</span>
+
+                                <h3>
+                                    لا توجد طلبات بعد
+                                </h3>
+
+                                <p>
+                                    ستظهر طلباتك هنا بعد إتمام أول عملية شراء.
+                                </p>
+                            </div>
+
+                        </section>
+
+
+                        <!-- FAVORITES -->
+                        <section
+                            id="account-panel-favorites"
+                            class="account-panel"
+                            data-account-panel="favorites"
+                            hidden
+                        >
+
+                            <div class="account-panel-header">
+
+                                <h2>
+                                    المفضلة
+                                </h2>
+
+                                <p>
+                                    المنتجات التي حفظتها
+                                </p>
+
+                            </div>
+
+                            <div
+                                id="account-favorites-list"
+                                class="account-product-grid"
+                            ></div>
+
+                            <div
+                                id="account-favorites-empty"
+                                class="account-empty"
+                                hidden
+                            >
+                                <span>♡</span>
+
+                                <h3>
+                                    قائمة المفضلة فارغة
+                                </h3>
+
+                                <p>
+                                    أضف المنتجات التي تعجبك إلى المفضلة.
+                                </p>
+                            </div>
+
+                        </section>
+
+
+                        <!-- CART -->
+                        <section
+                            id="account-panel-cart"
+                            class="account-panel"
+                            data-account-panel="cart"
+                            hidden
+                        >
+
+                            <div class="account-panel-header">
+
+                                <h2>
+                                    السلة
+                                </h2>
+
+                                <p>
+                                    المنتجات التي اخترتها للشراء
+                                </p>
+
+                            </div>
+
+                            <div
+                                id="account-cart-list"
+                                class="account-cart-list"
+                            ></div>
+
+                            <div
+                                id="account-cart-empty"
+                                class="account-empty"
+                                hidden
+                            >
+                                <span>🛒</span>
+
+                                <h3>
+                                    السلة فارغة
+                                </h3>
+
+                                <p>
+                                    أضف بعض المنتجات للبدء بالتسوق.
+                                </p>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                id="account-open-cart-button"
+                                class="account-primary-button"
+                            >
+                                فتح السلة
+                            </button>
+
+                        </section>
+
+
+                        <!-- RECENT -->
+                        <section
+                            id="account-panel-recent"
+                            class="account-panel"
+                            data-account-panel="recent"
+                            hidden
+                        >
+
+                            <div class="account-panel-header">
+
+                                <h2>
+                                    شاهدتها مؤخراً
+                                </h2>
+
+                                <p>
+                                    المنتجات التي شاهدتها مؤخراً
+                                </p>
+
+                            </div>
+
+                            <div
+                                id="account-recent-list"
+                                class="account-product-grid"
+                            ></div>
+
+                            <div
+                                id="account-recent-empty"
+                                class="account-empty"
+                                hidden
+                            >
+                                <span>🕘</span>
+
+                                <h3>
+                                    لا توجد منتجات بعد
+                                </h3>
+
+                                <p>
+                                    ستظهر هنا المنتجات التي شاهدتها مؤخراً.
+                                </p>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- ADDRESSES -->
+                        <section
+                            id="account-panel-addresses"
+                            class="account-panel"
+                            data-account-panel="addresses"
+                            hidden
+                        >
+
+                            <div class="account-panel-header">
+
+                                <h2>
+                                    عناويني
+                                </h2>
+
+                                <p>
+                                    إدارة عناوين التوصيل
+                                </p>
+
+                            </div>
+
+                            <div
+                                id="account-addresses-list"
+                                class="account-addresses-list"
+                            ></div>
+
+                            <button
+                                type="button"
+                                id="account-add-address-button"
+                                class="account-secondary-button"
+                            >
+                                إضافة عنوان
+                            </button>
+
+                        </section>
+
+
+                        <!-- NOTIFICATIONS -->
+                        <section
+                            id="account-panel-notifications"
+                            class="account-panel"
+                            data-account-panel="notifications"
+                            hidden
+                        >
+
+                            <div class="account-panel-header">
+
+                                <h2>
+                                    الإشعارات
+                                </h2>
+
+                                <p>
+                                    آخر تحديثات وتنبيهات حسابك
+                                </p>
+
+                            </div>
+
+                            <div
+                                id="account-notifications-list"
+                                class="account-notifications-list"
+                            ></div>
+
+                            <div
+                                id="account-notifications-empty"
+                                class="account-empty"
+                                hidden
+                            >
+                                <span>🔔</span>
+
+                                <h3>
+                                    لا توجد إشعارات
+                                </h3>
+
+                                <p>
+                                    ستظهر الإشعارات الجديدة هنا.
+                                </p>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- SETTINGS -->
+                        <section
+                            id="account-panel-settings"
+                            class="account-panel"
+                            data-account-panel="settings"
+                            hidden
+                        >
+
+                            <div class="account-panel-header">
+
+                                <h2>
+                                    الإعدادات
+                                </h2>
+
+                                <p>
+                                    إدارة إعدادات حسابك
+                                </p>
+
+                            </div>
+
+
+                            <div class="account-settings-list">
+
+                                <div class="account-setting-row">
+
+                                    <div>
+
+                                        <strong>
+                                            الوضع الداكن
+                                        </strong>
+
+                                        <p>
+                                            تغيير مظهر صفحة الحساب
+                                        </p>
+
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        id="account-dark-mode-button"
+                                        class="account-toggle-button"
+                                        aria-pressed="false"
+                                    >
+                                        تشغيل
+                                    </button>
+
+                                </div>
+
+
+                                <div class="account-setting-row">
+
+                                    <div>
+
+                                        <strong>
+                                            بيانات الحساب
+                                        </strong>
+
+                                        <p>
+                                            تحديث معلوماتك الشخصية
+                                        </p>
+
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        id="account-edit-profile-button"
+                                        class="account-secondary-button"
+                                    >
+                                        تعديل
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                    </div>
+
+                </section>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer id="site-footer"></footer>
+
+
+    <!-- MOBILE NAVIGATION -->
+    <nav id="bottom-navigation"></nav>
+
+
+    <!-- TOAST -->
+    <div id="toast-container"></div>
+
+</div>
+
+
+<!-- =====================================================
+     CORE
+     ===================================================== -->
+
+<script src="/js/core/storage.js"></script>
+<script src="/js/core/utils.js"></script>
+<script src="/js/core/state.js"></script>
+<script src="/js/core/api.js"></script>
+
+
+<!-- =====================================================
+     ANALYTICS
+     ===================================================== -->
+
+<script src="/js/analytics/analytics.js"></script>
+
+
+<!-- =====================================================
+     FEATURES
+     ===================================================== -->
+
+<script src="/js/features/cart.js"></script>
+<script src="/js/features/customer.js"></script>
+<script src="/js/features/favorites.js"></script>
+<script src="/js/features/notifications.js"></script>
+<script src="/js/features/product.js"></script>
+<script src="/js/features/recent.js"></script>
+<script src="/js/features/search.js"></script>
+
+
+<!-- =====================================================
+     NAVIGATION
+     ===================================================== -->
+
+<script src="/js/navigation/history.js"></script>
+<script src="/js/navigation/navigation.js"></script>
+<script src="/js/navigation/redirect.js"></script>
+<script src="/js/navigation/scroll.js"></script>
+
+
+<!-- =====================================================
+     COMPONENTS
+     ===================================================== -->
+
+<script src="/components/header/header.js"></script>
+<script src="/components/footer/footer.js"></script>
+<script src="/components/bottom-nav/bottom-nav.js"></script>
+
+<script src="/js/components/loader.js"></script>
+<script src="/js/components/modal.js"></script>
+<script src="/js/components/toast.js"></script>
+
+
+<!-- =====================================================
+     ACCOUNT PAGE
+     ===================================================== -->
+
+<script src="/pages/account/account.js"></script>
+
+
+</body>
+
+</html>
