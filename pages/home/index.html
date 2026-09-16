@@ -134,11 +134,32 @@
      COMPONENTS
      ===================================================== -->
 
+<script src="/components/header/header.js"></script>
+
 <script src="/js/components/dropdown.js"></script>
 <script src="/js/components/loader.js"></script>
 <script src="/js/components/modal.js"></script>
 <script src="/js/components/tabs.js"></script>
 <script src="/js/components/toast.js"></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        if (
+            typeof HEADER !== "undefined" &&
+            typeof HEADER.init === "function"
+        ) {
+            HEADER.init();
+        }
+
+    }
+);
+
+</script>
 
 </body>
 
