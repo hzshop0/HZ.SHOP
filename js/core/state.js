@@ -23,3 +23,5 @@ const APP_STATE = {
     results: []
   }
 };
+
+window.APP_STATE = APP_STATE;
