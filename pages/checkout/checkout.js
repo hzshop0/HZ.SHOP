@@ -36,19 +36,25 @@ const CHECKOUT_PAGE = {
 
   getCartItems() {
     if (
-      typeof CART !== "undefined" &&
-      Array.isArray(CART.items)
+      typeof HZCart !== "undefined" &&
+      Array.isArray(HZCart.items)
     ) {
-      return CART.items
+      return HZCart.items
         .map(item =>
           this.normalizeItem(item)
         )
-        .filter(item => item.id !== "");
+        .filter(
+          item =>
+            item.id !== ""
+        );
     }
 
     const stored =
       typeof STORAGE !== "undefined"
-        ? STORAGE.get("hz_cart", [])
+        ? STORAGE.get(
+            "hz_cart",
+            []
+          )
         : [];
 
     return Array.isArray(stored)
@@ -56,7 +62,10 @@ const CHECKOUT_PAGE = {
           .map(item =>
             this.normalizeItem(item)
           )
-          .filter(item => item.id !== "")
+          .filter(
+            item =>
+              item.id !== ""
+          )
       : [];
   },
 
@@ -90,15 +99,19 @@ const CHECKOUT_PAGE = {
 
     return {
       ...item,
+
       id,
       productId: id,
+
       name:
         item.name ||
         product.name ||
         product.title ||
         "",
+
       price,
       quantity,
+
       total:
         price * quantity
     };
@@ -113,7 +126,8 @@ const CHECKOUT_PAGE = {
           )
         : 0;
 
-    const rate = Number(value);
+    const rate =
+      Number(value);
 
     return Number.isFinite(rate)
       ? Math.max(
@@ -138,13 +152,23 @@ const CHECKOUT_PAGE = {
           (this.discountRate / 100)
         : 0;
 
+    let configuredDeliveryFee =
+      4;
+
+    if (
+      typeof APP_CONSTANTS !==
+        "undefined" &&
+      APP_CONSTANTS &&
+      APP_CONSTANTS.DELIVERY_FEE != null
+    ) {
+      configuredDeliveryFee =
+        APP_CONSTANTS.DELIVERY_FEE;
+    }
+
     const deliveryFee =
       this.items.length > 0
         ? Number(
-            typeof APP_CONSTANTS !==
-              "undefined"
-              ? APP_CONSTANTS.DELIVERY_FEE
-              : 4
+            configuredDeliveryFee
           ) || 4
         : 0;
 
@@ -153,9 +177,12 @@ const CHECKOUT_PAGE = {
       discount,
       deliveryFee,
       total:
-        subtotal -
-        discount +
-        deliveryFee
+        Math.max(
+          0,
+          subtotal -
+            discount +
+            deliveryFee
+        )
     };
   },
 
@@ -169,33 +196,42 @@ const CHECKOUT_PAGE = {
       );
 
     if (itemsContainer) {
-      itemsContainer.innerHTML = "";
+      itemsContainer.innerHTML =
+        "";
 
-      this.items.forEach(item => {
-        const element =
-          document.createElement("div");
+      this.items.forEach(
+        item => {
+          const element =
+            document.createElement(
+              "div"
+            );
 
-        element.className =
-          "checkout-item";
+          element.className =
+            "checkout-item";
 
-        element.innerHTML = `
-          <span class="checkout-item-name">
-            ${this.escapeHTML(item.name)}
-          </span>
+          element.innerHTML = `
+            <span class="checkout-item-name">
+              ${this.escapeHTML(
+                item.name
+              )}
+            </span>
 
-          <span class="checkout-item-quantity">
-            ×${item.quantity}
-          </span>
+            <span class="checkout-item-quantity">
+              ×${item.quantity}
+            </span>
 
-          <span class="checkout-item-price">
-            ${this.formatPrice(item.total)}
-          </span>
-        `;
+            <span class="checkout-item-price">
+              ${this.formatPrice(
+                item.total
+              )}
+            </span>
+          `;
 
-        itemsContainer.appendChild(
-          element
-        );
-      });
+          itemsContainer.appendChild(
+            element
+          );
+        }
+      );
     }
 
     const subtotal =
@@ -283,20 +319,29 @@ const CHECKOUT_PAGE = {
         "checkoutEmail"
       );
 
-    if (name && !name.value) {
+    if (
+      name &&
+      !name.value
+    ) {
       name.value =
         customer.name ||
         customer.fullName ||
         "";
     }
 
-    if (phone && !phone.value) {
+    if (
+      phone &&
+      !phone.value
+    ) {
       phone.value =
         customer.phone ||
         "";
     }
 
-    if (email && !email.value) {
+    if (
+      email &&
+      !email.value
+    ) {
       email.value =
         customer.email ||
         "";
@@ -338,7 +383,8 @@ const CHECKOUT_PAGE = {
       payment:
         document.querySelector(
           'input[name="payment"]:checked'
-        )?.value || "cod"
+        )?.value ||
+        "cod"
     };
   },
 
@@ -382,6 +428,7 @@ const CHECKOUT_PAGE = {
       this.showError(
         validation
       );
+
       return;
     }
 
@@ -389,6 +436,7 @@ const CHECKOUT_PAGE = {
 
     if (button) {
       button.disabled = true;
+
       button.textContent =
         "جاري إرسال الطلب...";
     }
@@ -400,18 +448,27 @@ const CHECKOUT_PAGE = {
       const order = {
         customer: data,
 
-        items: this.items.map(
-          item => ({
-            id: item.id,
-            productId:
-              item.productId,
-            name: item.name,
-            price: item.price,
-            quantity:
-              item.quantity,
-            total: item.total
-          })
-        ),
+        items:
+          this.items.map(
+            item => ({
+              id: item.id,
+
+              productId:
+                item.productId,
+
+              name:
+                item.name,
+
+              price:
+                item.price,
+
+              quantity:
+                item.quantity,
+
+              total:
+                item.total
+            })
+          ),
 
         subtotal:
           summary.subtotal,
@@ -437,12 +494,16 @@ const CHECKOUT_PAGE = {
           "/api/orders",
           {
             method: "POST",
+
             headers: {
               "Content-Type":
                 "application/json"
             },
+
             body:
-              JSON.stringify(order)
+              JSON.stringify(
+                order
+              )
           }
         );
 
@@ -471,7 +532,9 @@ const CHECKOUT_PAGE = {
       );
 
       if (button) {
-        button.disabled = false;
+        button.disabled =
+          false;
+
         button.textContent =
           "تأكيد الطلب";
       }
@@ -484,7 +547,7 @@ const CHECKOUT_PAGE = {
   ) {
     if (
       typeof STORAGE !==
-        "undefined"
+      "undefined"
     ) {
       STORAGE.set(
         "hz_last_order",
@@ -500,12 +563,12 @@ const CHECKOUT_PAGE = {
     }
 
     if (
-      typeof CART !==
+      typeof HZCart !==
         "undefined" &&
-      typeof CART.clear ===
+      typeof HZCart.clear ===
         "function"
     ) {
-      CART.clear();
+      HZCart.clear();
     }
 
     if (
@@ -528,28 +591,37 @@ const CHECKOUT_PAGE = {
       typeof NAVIGATION.orders ===
         "function"
     ) {
-      setTimeout(() => {
-        NAVIGATION.orders();
-      }, 900);
+      setTimeout(
+        () => {
+          NAVIGATION.orders();
+        },
+        900
+      );
 
       return;
     }
 
     if (orderId) {
-      setTimeout(() => {
-        window.location.href =
-          `/pages/orders/?id=${encodeURIComponent(
-            orderId
-          )}`;
-      }, 900);
+      setTimeout(
+        () => {
+          window.location.href =
+            `/pages/orders/?id=${encodeURIComponent(
+              orderId
+            )}`;
+        },
+        900
+      );
 
       return;
     }
 
-    setTimeout(() => {
-      window.location.href =
-        "/pages/orders/";
-    }, 900);
+    setTimeout(
+      () => {
+        window.location.href =
+          "/pages/orders/";
+      },
+      900
+    );
   },
 
   showEmptyCart() {
@@ -563,7 +635,8 @@ const CHECKOUT_PAGE = {
       );
 
     if (button) {
-      button.disabled = true;
+      button.disabled =
+        true;
     }
   },
 
@@ -580,7 +653,8 @@ const CHECKOUT_PAGE = {
     element.textContent =
       message || "";
 
-    element.hidden = !message;
+    element.hidden =
+      !message;
 
     if (message) {
       element.scrollIntoView({
@@ -600,8 +674,11 @@ const CHECKOUT_PAGE = {
       return;
     }
 
-    element.textContent = "";
-    element.hidden = true;
+    element.textContent =
+      "";
+
+    element.hidden =
+      true;
   },
 
   getValue(id) {
@@ -617,7 +694,9 @@ const CHECKOUT_PAGE = {
     const number =
       Number(value);
 
-    return Number.isFinite(number)
+    return Number.isFinite(
+      number
+    )
       ? `$${number.toFixed(2)}`
       : "$0.00";
   },
@@ -646,6 +725,11 @@ const CHECKOUT_PAGE = {
       );
   }
 };
+
+
+window.CHECKOUT_PAGE =
+  CHECKOUT_PAGE;
+
 
 document.addEventListener(
   "DOMContentLoaded",
