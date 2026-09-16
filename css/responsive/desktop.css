@@ -1,0 +1,25 @@
+/* HZ.SHOP — Desktop Responsive */
+
+@media (min-width: 1025px){
+
+  .container,
+  .page-container,
+  main{
+    width: 100%;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .products-grid{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .mobile-only{
+    display: none !important;
+  }
+
+}
