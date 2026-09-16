@@ -1,0 +1,213 @@
+/* =========================================
+   HZ.SHOP — Product Barcode Section
+   ========================================= */
+
+.store-product-barcode {
+  width: 100%;
+  padding: 24px 0;
+}
+
+.store-product-barcode__container {
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.store-product-barcode__header {
+  margin-bottom: 18px;
+}
+
+.store-product-barcode__title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.store-product-barcode__subtitle {
+  margin: 6px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.store-product-barcode__content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  padding: 20px;
+  background: var(--card-background, #fff);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-product-barcode__content:hover {
+  border-color: rgba(255, 106, 0, 0.55);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.store-product-barcode__visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  min-height: 90px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 10px;
+}
+
+.store-product-barcode__image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.store-product-barcode__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 190px;
+  min-height: 60px;
+  color: #555;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #111 0,
+      #111 2px,
+      transparent 2px,
+      transparent 5px,
+      #111 5px,
+      #111 6px,
+      transparent 6px,
+      transparent 9px
+    );
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.store-product-barcode__details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 220px;
+}
+
+.store-product-barcode__name {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.store-product-barcode__description {
+  margin: 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.82rem;
+  line-height: 1.75;
+}
+
+.store-product-barcode__value {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: 32px;
+  padding: 7px 12px;
+  color: var(--text-color, #111);
+  background: var(--surface-secondary, #f8f8f8);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  direction: ltr;
+}
+
+.store-product-barcode__note {
+  margin: 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.74rem;
+  line-height: 1.6;
+}
+
+.store-product-barcode__content.is-active {
+  border-color: #ff6a00;
+  box-shadow: 0 8px 22px rgba(255, 106, 0, 0.12);
+}
+
+.store-product-barcode__content.is-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .store-product-barcode {
+    padding: 18px 0;
+  }
+
+  .store-product-barcode__container {
+    padding-inline: 14px;
+  }
+
+  .store-product-barcode__title {
+    font-size: 1.1rem;
+  }
+
+  .store-product-barcode__subtitle {
+    font-size: 0.86rem;
+  }
+
+  .store-product-barcode__content {
+    align-items: stretch;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .store-product-barcode__visual {
+    width: 100%;
+    min-width: 0;
+    min-height: 78px;
+  }
+
+  .store-product-barcode__placeholder {
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+  }
+
+  .store-product-barcode__details {
+    min-width: 0;
+  }
+
+  .store-product-barcode__name {
+    font-size: 0.88rem;
+  }
+
+  .store-product-barcode__description,
+  .store-product-barcode__note {
+    font-size: 0.74rem;
+  }
+
+  .store-product-barcode__value {
+    font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-product-barcode__content {
+    transition: none;
+  }
+}
