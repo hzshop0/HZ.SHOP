@@ -127,6 +127,7 @@ const PRODUCT_PAGE = {
         if (product) {
           return product;
         }
+
       } catch (error) {
         lastError = error;
       }
@@ -645,6 +646,7 @@ const PRODUCT_PAGE = {
 
     if (addButton) {
       addButton.onclick = () => {
+
         let quantity = 1;
 
         const quantityElement =
@@ -664,22 +666,27 @@ const PRODUCT_PAGE = {
         }
 
         if (
-          typeof CART !==
+          typeof HZCart !==
             "undefined" &&
-          typeof CART.add ===
+          typeof HZCart.add ===
             "function"
         ) {
+
           for (
             let index = 0;
             index < quantity;
             index++
           ) {
-            CART.add(product);
+            HZCart.add(
+              product
+            );
           }
 
           if (
             typeof TOAST !==
-              "undefined"
+              "undefined" &&
+            typeof TOAST.success ===
+              "function"
           ) {
             TOAST.success(
               "تمت إضافة المنتج إلى السلة"
@@ -691,13 +698,15 @@ const PRODUCT_PAGE = {
 
     if (wishlistButton) {
       wishlistButton.onclick = () => {
+
         if (
-          typeof WISHLIST !==
+          typeof HZFavorites !==
             "undefined" &&
-          typeof WISHLIST.toggle ===
+          typeof HZFavorites.toggle ===
             "function"
         ) {
-          WISHLIST.toggle(
+
+          HZFavorites.toggle(
             product
           );
 
@@ -771,6 +780,7 @@ const PRODUCT_PAGE = {
 
       products.forEach(
         (item) => {
+
           if (
             typeof PRODUCT_CARD ===
               "undefined"
@@ -955,9 +965,14 @@ const PRODUCT_PAGE = {
     if (error) {
       error.hidden =
         false;
-    }
+      }
   }
 };
+
+
+window.PRODUCT_PAGE =
+  PRODUCT_PAGE;
+
 
 document.addEventListener(
   "DOMContentLoaded",
