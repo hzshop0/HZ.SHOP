@@ -1,9 +1,10 @@
 const API = {
+
   async get(endpoint, options = {}) {
     const response = await fetch(endpoint, {
+      ...options,
       method: "GET",
-      cache: "no-store",
-      ...options
+      cache: "no-store"
     });
 
     if (!response.ok) {
@@ -15,13 +16,13 @@ const API = {
 
   async post(endpoint, data = {}, options = {}) {
     const response = await fetch(endpoint, {
+      ...options,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         ...(options.headers || {})
       },
-      body: JSON.stringify(data),
-      ...options
+      body: JSON.stringify(data)
     });
 
     if (!response.ok) {
@@ -33,13 +34,13 @@ const API = {
 
   async put(endpoint, data = {}, options = {}) {
     const response = await fetch(endpoint, {
+      ...options,
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         ...(options.headers || {})
       },
-      body: JSON.stringify(data),
-      ...options
+      body: JSON.stringify(data)
     });
 
     if (!response.ok) {
@@ -51,9 +52,9 @@ const API = {
 
   async delete(endpoint, options = {}) {
     const response = await fetch(endpoint, {
+      ...options,
       method: "DELETE",
-      cache: "no-store",
-      ...options
+      cache: "no-store"
     });
 
     if (!response.ok) {
@@ -63,3 +64,5 @@ const API = {
     return response.json();
   }
 };
+
+window.API = API;
