@@ -1,5 +1,59 @@
 const PRODUCT_CARD = {
 
+  async init() {
+
+    if (
+      document.querySelector(
+        "#productCardTemplate"
+      )
+    ) {
+      return;
+    }
+
+    try {
+
+      const response =
+        await fetch(
+          "/components/product-card/product-card.html"
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          "Failed to load product card template"
+        );
+      }
+
+      const html =
+        await response.text();
+
+      const wrapper =
+        document.createElement("div");
+
+      wrapper.innerHTML = html;
+
+      const template =
+        wrapper.querySelector(
+          "#productCardTemplate"
+        );
+
+      if (template) {
+        document.body.appendChild(
+          template
+        );
+      }
+
+    } catch (error) {
+
+      console.error(
+        "HZ.SHOP Product Card:",
+        error
+      );
+
+    }
+
+  },
+
+
   create(product = {}) {
 
     const template =
@@ -16,9 +70,13 @@ const PRODUCT_CARD = {
         .firstElementChild
         .cloneNode(true);
 
-    this.update(card, product);
+    this.update(
+      card,
+      product
+    );
 
     return card;
+
   },
 
 
@@ -33,7 +91,8 @@ const PRODUCT_CARD = {
       "";
 
 
-    card.dataset.productId = id;
+    card.dataset.productId =
+      id;
 
 
     const link =
@@ -125,7 +184,9 @@ const PRODUCT_CARD = {
     if (oldPrice) {
 
       const oldValue =
-        Number(product.oldPrice);
+        Number(
+          product.oldPrice
+        );
 
       if (
         Number.isFinite(oldValue) &&
@@ -151,10 +212,14 @@ const PRODUCT_CARD = {
     if (discount) {
 
       const discountValue =
-        Number(product.discount);
+        Number(
+          product.discount
+        );
 
       if (
-        Number.isFinite(discountValue) &&
+        Number.isFinite(
+          discountValue
+        ) &&
         discountValue > 0
       ) {
 
@@ -175,7 +240,9 @@ const PRODUCT_CARD = {
     if (rating) {
 
       const value =
-        Number(product.rating);
+        Number(
+          product.rating
+        );
 
       rating.textContent =
         Number.isFinite(value)
@@ -188,7 +255,9 @@ const PRODUCT_CARD = {
     if (sales) {
 
       const value =
-        Number(product.sales);
+        Number(
+          product.sales
+        );
 
       if (
         Number.isFinite(value) &&
@@ -209,7 +278,10 @@ const PRODUCT_CARD = {
     }
 
 
-    this.bind(card, product);
+    this.bind(
+      card,
+      product
+    );
 
   },
 
@@ -290,3 +362,13 @@ const PRODUCT_CARD = {
 
 window.PRODUCT_CARD =
   PRODUCT_CARD;
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    PRODUCT_CARD.init();
+
+  }
+);
