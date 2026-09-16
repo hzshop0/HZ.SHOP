@@ -45,11 +45,11 @@ const CART_PAGE = {
 
   getCartItems() {
     if (
-      typeof CART !==
+      typeof HZCart !==
         "undefined" &&
-      Array.isArray(CART.items)
+      Array.isArray(HZCart.items)
     ) {
-      return CART.items;
+      return HZCart.items;
     }
 
     const stored =
@@ -169,12 +169,31 @@ const CART_PAGE = {
             100)
         : 0;
 
+    let configuredDeliveryFee =
+      4;
+
+    if (
+      typeof APP_CONSTANTS !==
+      "undefined" &&
+      APP_CONSTANTS &&
+      APP_CONSTANTS.DELIVERY_FEE != null
+    ) {
+      configuredDeliveryFee =
+        APP_CONSTANTS.DELIVERY_FEE;
+    } else if (
+      typeof STORE_CONFIG !==
+      "undefined" &&
+      STORE_CONFIG &&
+      STORE_CONFIG.deliveryFee != null
+    ) {
+      configuredDeliveryFee =
+        STORE_CONFIG.deliveryFee;
+    }
+
     const deliveryFee =
       items.length > 0
         ? Number(
-            APP_CONSTANTS?.DELIVERY_FEE ??
-            STORE_CONFIG?.deliveryFee ??
-            4
+            configuredDeliveryFee
           ) || 4
         : 0;
 
@@ -337,12 +356,12 @@ const CART_PAGE = {
       );
 
     if (
-      typeof CART !==
+      typeof HZCart !==
         "undefined" &&
-      typeof CART.updateQuantity ===
+      typeof HZCart.update ===
         "function"
     ) {
-      CART.updateQuantity(
+      HZCart.update(
         id,
         target
       );
@@ -371,12 +390,12 @@ const CART_PAGE = {
 
   remove(id) {
     if (
-      typeof CART !==
+      typeof HZCart !==
         "undefined" &&
-      typeof CART.remove ===
+      typeof HZCart.remove ===
         "function"
     ) {
-      CART.remove(id);
+      HZCart.remove(id);
 
       this.load();
       return;
@@ -620,6 +639,11 @@ const CART_PAGE = {
       "/pages/checkout/";
   }
 };
+
+
+window.CART_PAGE =
+  CART_PAGE;
+
 
 document.addEventListener(
   "DOMContentLoaded",
