@@ -17,3 +17,5 @@ const NAVIGATION_HISTORY = {
     window.location.replace(path);
   }
 };
+
+window.NAVIGATION_HISTORY = NAVIGATION_HISTORY;
