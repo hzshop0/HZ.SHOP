@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -15,10 +16,29 @@
     name="description"
     content="تصفح منتجات HZ.shop حسب الفئة"
   >
+
+  <link
+    rel="stylesheet"
+    href="/css/main.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/pages/category/category.css"
+  >
+
 </head>
+
 
 <body>
 
+<div id="app">
+
+  <!-- HEADER -->
+  <header id="site-header"></header>
+
+
+  <!-- CATEGORY PAGE -->
   <main class="category-page">
 
     <div class="category-page-container">
@@ -57,20 +77,18 @@
 
       </header>
 
-      <div
-        class="category-page-layout"
-      >
+
+      <div class="category-page-layout">
 
         <div
           class="category-filters-container"
           data-category-filters-container
         ></div>
 
+
         <section class="category-products">
 
-          <div
-            class="category-toolbar"
-          >
+          <div class="category-toolbar">
 
             <button
               type="button"
@@ -80,11 +98,13 @@
               تصفية
             </button>
 
+
             <select
               class="category-sort"
               data-category-sort
               aria-label="ترتيب المنتجات"
             >
+
               <option value="default">
                 الترتيب الافتراضي
               </option>
@@ -108,9 +128,11 @@
               <option value="sales">
                 الأكثر مبيعاً
               </option>
+
             </select>
 
           </div>
+
 
           <div
             class="category-products-loading"
@@ -119,6 +141,7 @@
             جاري تحميل المنتجات...
           </div>
 
+
           <div
             class="category-products-grid"
             id="categoryProductGrid"
@@ -126,17 +149,23 @@
             aria-live="polite"
           ></div>
 
+
           <div
             class="category-products-empty"
             data-category-empty
             hidden
           >
-            <h2>لا توجد منتجات</h2>
+
+            <h2>
+              لا توجد منتجات
+            </h2>
 
             <p>
               لا توجد منتجات متاحة في هذه الفئة حالياً.
             </p>
+
           </div>
+
 
           <div
             class="category-pagination-container"
@@ -150,6 +179,82 @@
     </div>
 
   </main>
+
+
+  <!-- FOOTER -->
+  <footer id="site-footer"></footer>
+
+
+  <!-- MOBILE NAVIGATION -->
+  <nav id="bottom-navigation"></nav>
+
+
+  <!-- TOAST -->
+  <div id="toast-container"></div>
+
+</div>
+
+
+<!-- =====================================================
+     CORE
+     ===================================================== -->
+
+<script src="/js/core/storage.js"></script>
+<script src="/js/core/utils.js"></script>
+<script src="/js/core/state.js"></script>
+<script src="/js/core/api.js"></script>
+
+
+<!-- =====================================================
+     ANALYTICS
+     ===================================================== -->
+
+<script src="/js/analytics/analytics.js"></script>
+
+
+<!-- =====================================================
+     FEATURES
+     ===================================================== -->
+
+<script src="/js/features/cart.js"></script>
+<script src="/js/features/categories.js"></script>
+<script src="/js/features/favorites.js"></script>
+<script src="/js/features/product.js"></script>
+<script src="/js/features/recent.js"></script>
+<script src="/js/features/search.js"></script>
+
+
+<!-- =====================================================
+     NAVIGATION
+     ===================================================== -->
+
+<script src="/js/navigation/history.js"></script>
+<script src="/js/navigation/navigation.js"></script>
+<script src="/js/navigation/redirect.js"></script>
+<script src="/js/navigation/scroll.js"></script>
+
+
+<!-- =====================================================
+     COMPONENTS
+     ===================================================== -->
+
+<script src="/components/header/header.js"></script>
+<script src="/components/footer/footer.js"></script>
+<script src="/components/bottom-nav/bottom-nav.js"></script>
+
+<script src="/components/product-card/product-card.js"></script>
+
+<script src="/js/components/loader.js"></script>
+<script src="/js/components/modal.js"></script>
+<script src="/js/components/toast.js"></script>
+
+
+<!-- =====================================================
+     CATEGORY PAGE
+     ===================================================== -->
+
+<script src="/pages/category/category.js"></script>
+
 
 </body>
 
