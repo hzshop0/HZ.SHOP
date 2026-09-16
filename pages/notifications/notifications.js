@@ -38,7 +38,6 @@ const NOTIFICATIONS_PAGE = {
           : [];
 
       this.saveLocal();
-
       this.render();
 
     } catch (error) {
@@ -545,6 +544,9 @@ const NOTIFICATIONS_PAGE = {
       );
   }
 };
+
+window.NOTIFICATIONS_PAGE =
+  NOTIFICATIONS_PAGE;
 
 document.addEventListener(
   "DOMContentLoaded",
