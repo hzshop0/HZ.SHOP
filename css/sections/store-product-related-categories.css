@@ -1,0 +1,277 @@
+/* =========================================
+   HZ.SHOP — Product Related Categories Section
+   ========================================= */
+
+.store-product-related-categories {
+  width: 100%;
+  padding: 24px 0;
+}
+
+.store-product-related-categories__container {
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.store-product-related-categories__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.store-product-related-categories__heading {
+  min-width: 0;
+}
+
+.store-product-related-categories__title {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.store-product-related-categories__subtitle {
+  margin: 6px 0 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.store-product-related-categories__link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 7px 13px;
+  color: #ff6a00;
+  background: rgba(255, 106, 0, 0.08);
+  border: 1px solid rgba(255, 106, 0, 0.2);
+  border-radius: 9px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.4;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-product-related-categories__link:hover {
+  color: #fff;
+  background: #ff6a00;
+  border-color: #ff6a00;
+  transform: translateY(-1px);
+}
+
+.store-product-related-categories__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.store-product-related-categories__card {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--card-background, #fff);
+  border: 1px solid var(--border-color, #e8e8e8);
+  border-radius: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.store-product-related-categories__card:hover {
+  border-color: rgba(255, 106, 0, 0.55);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+}
+
+.store-product-related-categories__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 0.78;
+  overflow: hidden;
+  background: var(--surface-secondary, #f8f8f8);
+}
+
+.store-product-related-categories__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.store-product-related-categories__card:hover
+  .store-product-related-categories__image {
+  transform: scale(1.04);
+}
+
+.store-product-related-categories__badge {
+  position: absolute;
+  inset-block-start: 10px;
+  inset-inline-start: 10px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 5px 9px;
+  color: #fff;
+  background: #ff6a00;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.store-product-related-categories__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 14px 14px;
+}
+
+.store-product-related-categories__name {
+  margin: 0;
+  color: var(--text-color, #111);
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.store-product-related-categories__description {
+  margin: 0;
+  color: var(--muted-text-color, #777);
+  font-size: 0.76rem;
+  line-height: 1.7;
+}
+
+.store-product-related-categories__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 5px;
+}
+
+.store-product-related-categories__count {
+  color: var(--muted-text-color, #777);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.store-product-related-categories__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 6px 10px;
+  color: #ff6a00;
+  background: transparent;
+  border: 1px solid rgba(255, 106, 0, 0.35);
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.store-product-related-categories__action:hover {
+  color: #fff;
+  background: #ff6a00;
+  border-color: #ff6a00;
+}
+
+.store-product-related-categories__card.is-active {
+  border-color: #ff6a00;
+  box-shadow: 0 8px 22px rgba(255, 106, 0, 0.12);
+}
+
+.store-product-related-categories__card.is-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .store-product-related-categories__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .store-product-related-categories__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .store-product-related-categories__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .store-product-related-categories {
+    padding: 18px 0;
+  }
+
+  .store-product-related-categories__container {
+    padding-inline: 14px;
+  }
+
+  .store-product-related-categories__title {
+    font-size: 1.1rem;
+  }
+
+  .store-product-related-categories__subtitle {
+    font-size: 0.86rem;
+  }
+
+  .store-product-related-categories__grid {
+    gap: 10px;
+  }
+
+  .store-product-related-categories__body {
+    padding: 0 11px 11px;
+  }
+
+  .store-product-related-categories__name {
+    font-size: 0.82rem;
+  }
+
+  .store-product-related-categories__description {
+    font-size: 0.7rem;
+  }
+
+  .store-product-related-categories__count,
+  .store-product-related-categories__action {
+    font-size: 0.66rem;
+  }
+
+  .store-product-related-categories__link {
+    font-size: 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-product-related-categories__card,
+  .store-product-related-categories__link,
+  .store-product-related-categories__image {
+    transition: none;
+  }
+}
