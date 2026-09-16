@@ -1,40 +1,64 @@
 const QUANTITY_CONTROL = {
+
   create(options = {}) {
+
     const template =
       document.querySelector(
         "#quantityControlTemplate"
       );
 
+
     if (!template) {
       return null;
     }
+
 
     const element =
       template.content
         .firstElementChild
         .cloneNode(true);
 
-    this.update(element, options);
-    this.bind(element, options);
+
+    this.update(
+      element,
+      options
+    );
+
+
+    this.bind(
+      element,
+      options
+    );
+
 
     return element;
+
   },
 
-  update(element, options = {}) {
+
+  update(
+    element,
+    options = {}
+  ) {
+
     if (!element) return;
+
 
     const input =
       element.querySelector(
         "[data-quantity-input]"
       );
 
+
     if (!input) return;
+
 
     const min =
       Math.max(
         1,
         Number(options.min) || 1
       );
+
 
     const max =
       Number.isFinite(
@@ -45,6 +69,7 @@ const QUANTITY_CONTROL = {
             Number(options.max)
           )
         : null;
+
 
     let value =
       Math.max(
@@ -52,47 +77,74 @@ const QUANTITY_CONTROL = {
         Number(options.value) || min
       );
 
+
     if (max !== null) {
-      value = Math.min(
-        max,
-        value
-      );
+
+      value =
+        Math.min(
+          max,
+          value
+        );
+
     }
 
-    input.min = min;
+
+    input.min =
+      min;
+
 
     if (max !== null) {
-      input.max = max;
+
+      input.max =
+        max;
+
     } else {
-      input.removeAttribute("max");
+
+      input.removeAttribute(
+        "max"
+      );
+
     }
 
-    input.value = value;
+
+    input.value =
+      value;
+
   },
 
-  bind(element, options = {}) {
+
+  bind(
+    element,
+    options = {}
+  ) {
+
     const input =
       element.querySelector(
         "[data-quantity-input]"
       );
+
 
     const decrease =
       element.querySelector(
         "[data-quantity-decrease]"
       );
 
+
     const increase =
       element.querySelector(
         "[data-quantity-increase]"
       );
 
+
     if (!input) return;
+
 
     const min =
       Math.max(
         1,
         Number(options.min) || 1
       );
+
 
     const max =
       Number.isFinite(
@@ -104,48 +156,72 @@ const QUANTITY_CONTROL = {
           )
         : null;
 
+
     const emitChange = () => {
+
       let value =
         Number.parseInt(
           input.value,
           10
         );
 
+
       if (!Number.isFinite(value)) {
-        value = min;
+
+        value =
+          min;
+
       }
 
-      value = Math.max(
-        min,
-        value
-      );
 
-      if (max !== null) {
-        value = Math.min(
-          max,
+      value =
+        Math.max(
+          min,
           value
         );
+
+
+      if (max !== null) {
+
+        value =
+          Math.min(
+            max,
+            value
+          );
+
       }
 
-      input.value = value;
+
+      input.value =
+        value;
+
 
       if (
         typeof options.onChange ===
         "function"
       ) {
-        options.onChange(value);
+
+        options.onChange(
+          value
+        );
+
       }
+
     };
 
+
     if (decrease) {
+
       decrease.addEventListener(
         "click",
         () => {
+
           const current =
             Number.parseInt(
               input.value,
               10
             ) || min;
+
 
           input.value =
             Math.max(
@@ -153,23 +229,31 @@ const QUANTITY_CONTROL = {
               current - 1
             );
 
+
           emitChange();
+
         }
       );
+
     }
 
+
     if (increase) {
+
       increase.addEventListener(
         "click",
         () => {
+
           const current =
             Number.parseInt(
               input.value,
               10
             ) || min;
 
+
           const next =
             current + 1;
+
 
           input.value =
             max !== null
@@ -179,31 +263,42 @@ const QUANTITY_CONTROL = {
                 )
               : next;
 
+
           emitChange();
+
         }
       );
+
     }
+
 
     input.addEventListener(
       "change",
       emitChange
     );
 
+
     input.addEventListener(
       "blur",
       emitChange
     );
+
   },
 
+
   getValue(element) {
+
     if (!element) return 1;
+
 
     const input =
       element.querySelector(
         "[data-quantity-input]"
       );
 
+
     if (!input) return 1;
+
 
     const value =
       Number.parseInt(
@@ -211,20 +306,33 @@ const QUANTITY_CONTROL = {
         10
       );
 
+
     return Number.isFinite(value)
-      ? Math.max(1, value)
+      ? Math.max(
+          1,
+          value
+        )
       : 1;
+
   },
 
-  setValue(element, value) {
+
+  setValue(
+    element,
+    value
+  ) {
+
     if (!element) return;
+
 
     const input =
       element.querySelector(
         "[data-quantity-input]"
       );
 
+
     if (!input) return;
+
 
     input.value =
       Math.max(
@@ -232,8 +340,17 @@ const QUANTITY_CONTROL = {
         Number(value) || 1
       );
 
+
     input.dispatchEvent(
-      new Event("change")
+      new Event(
+        "change"
+      )
     );
+
   }
+
 };
+
+
+window.QUANTITY_CONTROL =
+  QUANTITY_CONTROL;
