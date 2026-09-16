@@ -1,5 +1,7 @@
 const RATING = {
+
   create(value = 0, count = 0) {
+
     const template =
       document.querySelector(
         "#ratingTemplate"
@@ -23,27 +25,33 @@ const RATING = {
     return element;
   },
 
+
   update(
     element,
     value = 0,
     count = 0
   ) {
+
     if (!element) return;
+
 
     const stars =
       element.querySelector(
         "[data-rating-stars]"
       );
 
+
     const ratingValue =
       element.querySelector(
         "[data-rating-value]"
       );
 
+
     const ratingCount =
       element.querySelector(
         "[data-rating-count]"
       );
+
 
     const rating =
       Math.min(
@@ -54,7 +62,9 @@ const RATING = {
         )
       );
 
+
     if (stars) {
+
       const fullStars =
         Math.round(rating);
 
@@ -63,16 +73,22 @@ const RATING = {
         "☆".repeat(
           5 - fullStars
         );
+
     }
 
+
     if (ratingValue) {
+
       ratingValue.textContent =
         rating > 0
           ? rating.toFixed(1)
           : "";
+
     }
 
+
     if (ratingCount) {
+
       const total =
         Number(count) || 0;
 
@@ -80,6 +96,13 @@ const RATING = {
         total > 0
           ? `(${UTILS.formatNumber(total)})`
           : "";
+
     }
+
   }
+
 };
+
+
+window.RATING =
+  RATING;
