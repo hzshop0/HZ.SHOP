@@ -35,3 +35,5 @@ const STORAGE = {
     }
   }
 };
+
+window.STORAGE = STORAGE;
