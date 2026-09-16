@@ -1,121 +1,173 @@
+/* =========================================================
+   HZ.SHOP
+   Wishlist Page
+   ========================================================= */
+
 const WISHLIST_PAGE = {
+
   products: [],
   currentPage: 1,
   perPage: 20,
 
+
   init() {
+
     this.bindEvents();
+
     this.load();
+
   },
 
+
   bindEvents() {
+
     const clearButton =
       document.querySelector(
         "[data-wishlist-clear]"
       );
 
     if (clearButton) {
+
       clearButton.addEventListener(
         "click",
         () => this.clear()
       );
+
     }
+
   },
 
+
   async load() {
+
     this.showLoading(true);
 
     try {
+
       const wishlistIds =
         this.getWishlistIds();
 
       if (!wishlistIds.length) {
+
         this.products = [];
+
         this.render();
+
         return;
       }
+
 
       const products =
         await this.loadProducts();
 
+
       this.products =
-        products.filter(product =>
-          wishlistIds.includes(
-            String(product.id)
-          )
+        products.filter(
+          product =>
+            wishlistIds.includes(
+              String(product.id)
+            )
         );
+
 
       this.render();
 
     } catch (error) {
+
       console.error(
         "Wishlist load error:",
         error
       );
 
       this.products = [];
+
       this.renderError();
 
     } finally {
+
       this.showLoading(false);
+
     }
+
   },
 
+
   getWishlistIds() {
+
     let wishlist = [];
 
+
     if (
-      typeof WISHLIST !==
+      typeof HZFavorites !==
       "undefined"
     ) {
+
       if (
-        Array.isArray(WISHLIST.items)
+        Array.isArray(
+          HZFavorites.items
+        )
       ) {
+
         wishlist =
-          WISHLIST.items;
-      } else if (
-        Array.isArray(WISHLIST)
-      ) {
-        wishlist =
-          WISHLIST;
+          HZFavorites.items;
+
       }
+
     }
 
-    if (!wishlist.length) {
-      const stored =
-        typeof STORAGE !==
+
+    if (
+      !wishlist.length &&
+      typeof STORAGE !==
         "undefined"
-          ? STORAGE.get(
-              "hz_wishlist",
-              []
-            )
-          : [];
+    ) {
 
-      if (Array.isArray(stored)) {
-        wishlist = stored;
+      const stored =
+        STORAGE.get(
+          "hz_wishlist",
+          []
+        );
+
+
+      if (
+        Array.isArray(stored)
+      ) {
+
+        wishlist =
+          stored;
+
       }
+
     }
+
 
     return wishlist
       .map(item => {
+
         if (
           item &&
           typeof item ===
             "object"
         ) {
+
           return String(
             item.id ??
             item.productId ??
             ""
           );
+
         }
 
         return String(item);
+
       })
       .filter(Boolean);
+
   },
 
+
   async loadProducts() {
+
     const response =
       await fetch(
         `/api/products?t=${Date.now()}`,
@@ -125,45 +177,61 @@ const WISHLIST_PAGE = {
         }
       );
 
+
     if (!response.ok) {
+
       throw new Error(
         `Products request failed: ${response.status}`
       );
+
     }
+
 
     const data =
       await response.json();
 
+
     const products =
       Array.isArray(data)
         ? data
-        : Array.isArray(data.products)
+        : Array.isArray(
+            data.products
+          )
           ? data.products
-          : Array.isArray(data.data)
+          : Array.isArray(
+              data.data
+            )
             ? data.data
             : [];
 
+
     return products
-      .map(product =>
-        this.normalizeProduct(
-          product
-        )
+      .map(
+        product =>
+          this.normalizeProduct(
+            product
+          )
       )
       .filter(Boolean);
+
   },
+
 
   normalizeProduct(
     product = {}
   ) {
+
     const id =
       product.id ??
       product.productId ??
       product.ID ??
       "";
 
+
     if (!id) {
       return null;
     }
+
 
     const price =
       Number(
@@ -173,6 +241,7 @@ const WISHLIST_PAGE = {
         0
       ) || 0;
 
+
     const oldPrice =
       Number(
         product.oldPrice ??
@@ -181,6 +250,7 @@ const WISHLIST_PAGE = {
         0
       ) || 0;
 
+
     const image =
       product.image ??
       product.imageUrl ??
@@ -188,10 +258,13 @@ const WISHLIST_PAGE = {
       product.photo ??
       "";
 
+
     return {
+
       ...product,
 
-      id: String(id),
+      id:
+        String(id),
 
       name:
         product.name ??
@@ -227,78 +300,132 @@ const WISHLIST_PAGE = {
           product.reviewCount ??
           0
         ) || 0
+
     };
+
   },
 
+
   render() {
+
     const container =
       document.querySelector(
         "[data-wishlist-products]"
       );
+
 
     const empty =
       document.querySelector(
         "[data-wishlist-empty]"
       );
 
+
     const clearButton =
       document.querySelector(
         "[data-wishlist-clear]"
       );
+
 
     const subtitle =
       document.querySelector(
         "[data-wishlist-subtitle]"
       );
 
+
     if (!container) {
       return;
     }
 
-    container.innerHTML = "";
 
-    if (!this.products.length) {
-      container.hidden = true;
+    container.innerHTML =
+      "";
+
+
+    if (
+      !this.products.length
+    ) {
+
+      container.hidden =
+        true;
+
 
       if (empty) {
-        empty.hidden = false;
+
+        empty.hidden =
+          false;
+
       }
+
 
       if (clearButton) {
-        clearButton.hidden = true;
+
+        clearButton.hidden =
+          true;
+
       }
+
 
       if (subtitle) {
-        subtitle.hidden = true;
+
+        subtitle.hidden =
+          true;
+
       }
 
-      this.renderPagination(0);
+
+      this.renderPagination(
+        0
+      );
+
 
       return;
+
     }
+
 
     if (empty) {
-      empty.hidden = true;
+
+      empty.hidden =
+        true;
+
     }
+
 
     if (clearButton) {
-      clearButton.hidden = false;
+
+      clearButton.hidden =
+        false;
+
     }
+
 
     if (subtitle) {
-      subtitle.hidden = false;
+
+      subtitle.hidden =
+        false;
+
       subtitle.textContent =
         `${this.products.length} منتج`;
+
     }
 
-    container.hidden = false;
+
+    container.hidden =
+      false;
+
 
     const start =
-      (this.currentPage - 1) *
+      (
+        this.currentPage -
+        1
+      ) *
       this.perPage;
 
+
     const end =
-      start + this.perPage;
+      start +
+      this.perPage;
+
 
     const visibleProducts =
       this.products.slice(
@@ -306,77 +433,109 @@ const WISHLIST_PAGE = {
         end
       );
 
+
     visibleProducts.forEach(
       product => {
+
         const element =
           this.createProductCard(
             product
           );
 
+
         if (element) {
+
           container.appendChild(
             element
           );
+
         }
+
       }
     );
+
 
     this.renderPagination(
       this.products.length
     );
+
   },
 
-  createProductCard(product) {
+
+  createProductCard(
+    product
+  ) {
+
     if (
       typeof PRODUCT_CARD !==
-      "undefined" &&
+        "undefined" &&
       typeof PRODUCT_CARD.create ===
         "function"
     ) {
+
       return PRODUCT_CARD.create(
         product,
         {
-          showWishlist: true,
-          showRating: true,
-          onWishlist: () =>
-            this.removeProduct(
-              product.id
-            )
+          showWishlist:
+            true,
+
+          showRating:
+            true,
+
+          onWishlist:
+            () =>
+              this.removeProduct(
+                product.id
+              )
         }
       );
+
     }
+
 
     return this.createFallbackCard(
       product
     );
+
   },
 
-  createFallbackCard(product) {
+
+  createFallbackCard(
+    product
+  ) {
+
     const card =
       document.createElement(
         "article"
       );
 
+
     card.className =
       "wishlist-fallback-card";
+
 
     const image =
       product.image ||
       product.images?.[0] ||
       "";
 
+
     const discount =
       product.oldPrice >
-      product.price &&
+        product.price &&
       product.oldPrice > 0
         ? Math.round(
             (
-              (product.oldPrice -
-                product.price) /
+              (
+                product.oldPrice -
+                product.price
+              ) /
               product.oldPrice
-            ) * 100
+            ) *
+            100
           )
         : 0;
+
 
     card.innerHTML = `
       <a
@@ -399,7 +558,9 @@ const WISHLIST_PAGE = {
               >
             `
             : `
-              <span>لا توجد صورة</span>
+              <span>
+                لا توجد صورة
+              </span>
             `
         }
       </a>
@@ -407,6 +568,7 @@ const WISHLIST_PAGE = {
       <div class="wishlist-fallback-content">
 
         <h2>
+
           <a
             href="/pages/product/?id=${encodeURIComponent(
               product.id
@@ -416,9 +578,11 @@ const WISHLIST_PAGE = {
               product.name
             )}
           </a>
+
         </h2>
 
         <div class="wishlist-fallback-price">
+
           <strong>
             ${this.formatPrice(
               product.price
@@ -447,6 +611,7 @@ const WISHLIST_PAGE = {
               `
               : ""
           }
+
         </div>
 
         <button
@@ -459,12 +624,15 @@ const WISHLIST_PAGE = {
       </div>
     `;
 
+
     const removeButton =
       card.querySelector(
         "[data-remove-wishlist]"
       );
 
+
     if (removeButton) {
+
       removeButton.addEventListener(
         "click",
         () =>
@@ -472,147 +640,188 @@ const WISHLIST_PAGE = {
             product.id
           )
       );
+
     }
 
+
     return card;
+
   },
 
+
   removeProduct(id) {
+
     const target =
       String(id);
 
+
     if (
-      typeof WISHLIST !==
-        "undefined"
+      typeof HZFavorites !==
+      "undefined"
     ) {
+
       if (
-        typeof WISHLIST.remove ===
-          "function"
+        typeof HZFavorites.remove ===
+        "function"
       ) {
-        WISHLIST.remove(target);
-      } else if (
-        Array.isArray(
-          WISHLIST.items
-        )
-      ) {
-        WISHLIST.items =
-          WISHLIST.items.filter(
-            item =>
-              String(
-                item?.id ??
-                item?.productId ??
-                item
-              ) !== target
-          );
+
+        HZFavorites.remove(
+          target
+        );
+
       }
+
     }
+
 
     const stored =
       this.getWishlistIds()
         .filter(
-          item => item !== target
+          item =>
+            item !== target
         );
+
 
     if (
       typeof STORAGE !==
       "undefined"
     ) {
+
       STORAGE.set(
         "hz_wishlist",
         stored
       );
+
     }
+
 
     this.products =
       this.products.filter(
         product =>
-          String(product.id) !==
-          target
+          String(
+            product.id
+          ) !== target
       );
+
 
     if (
       this.currentPage > 1 &&
-      (this.currentPage - 1) *
-        this.perPage >=
-        this.products.length
+      (
+        (
+          this.currentPage -
+          1
+        ) *
+        this.perPage
+      ) >=
+      this.products.length
     ) {
+
       this.currentPage--;
+
     }
+
 
     this.render();
 
+
     if (
       typeof TOAST !==
-      "undefined" &&
+        "undefined" &&
       typeof TOAST.success ===
         "function"
     ) {
+
       TOAST.success(
         "تمت إزالة المنتج من المفضلة"
       );
+
     }
+
   },
 
+
   clear() {
-    if (!this.products.length) {
+
+    if (
+      !this.products.length
+    ) {
+
       return;
+
     }
+
 
     const confirmed =
       window.confirm(
         "هل تريد حذف جميع المنتجات من المفضلة؟"
       );
 
+
     if (!confirmed) {
+
       return;
+
     }
 
+
     if (
-      typeof WISHLIST !==
-        "undefined"
+      typeof HZFavorites !==
+      "undefined"
     ) {
+
       if (
-        typeof WISHLIST.clear ===
-          "function"
+        typeof HZFavorites.clear ===
+        "function"
       ) {
-        WISHLIST.clear();
-      } else if (
-        Array.isArray(
-          WISHLIST.items
-        )
-      ) {
-        WISHLIST.items = [];
+
+        HZFavorites.clear();
+
       }
+
     }
+
 
     if (
       typeof STORAGE !==
       "undefined"
     ) {
+
       STORAGE.set(
         "hz_wishlist",
         []
       );
+
     }
 
+
     this.products = [];
+
     this.currentPage = 1;
+
 
     this.render();
 
+
     if (
       typeof TOAST !==
-      "undefined" &&
+        "undefined" &&
       typeof TOAST.success ===
         "function"
     ) {
+
       TOAST.success(
         "تم حذف المفضلة"
       );
+
     }
+
   },
 
-  renderPagination(total) {
+
+  renderPagination(
+    total
+  ) {
+
     const totalPages =
       Math.max(
         1,
@@ -622,147 +831,226 @@ const WISHLIST_PAGE = {
         )
       );
 
+
     if (
       typeof PAGINATION ===
-        "undefined"
+      "undefined"
     ) {
+
       return;
+
     }
 
+
     PAGINATION.init({
+
       currentPage:
         this.currentPage,
 
       totalPages,
 
-      onChange: page => {
-        this.currentPage =
-          page;
+      onChange:
+        page => {
 
-        this.render();
+          this.currentPage =
+            page;
 
-        if (
-          typeof SCROLL !==
-            "undefined" &&
-          typeof SCROLL.top ===
-            "function"
-        ) {
-          SCROLL.top();
+
+          this.render();
+
+
+          if (
+            typeof SCROLL !==
+              "undefined" &&
+            typeof SCROLL.top ===
+              "function"
+          ) {
+
+            SCROLL.top();
+
+          }
+
         }
-      }
+
     });
+
   },
 
-  showLoading(show) {
+
+  showLoading(
+    show
+  ) {
+
     const element =
       document.querySelector(
         "[data-wishlist-loading]"
       );
 
+
     if (element) {
-      element.hidden = !show;
+
+      element.hidden =
+        !show;
+
     }
+
   },
 
+
   renderError() {
+
     const container =
       document.querySelector(
         "[data-wishlist-products]"
       );
+
 
     const empty =
       document.querySelector(
         "[data-wishlist-empty]"
       );
 
+
     if (container) {
-      container.hidden = true;
+
+      container.hidden =
+        true;
+
     }
 
+
     if (empty) {
-      empty.hidden = false;
+
+      empty.hidden =
+        false;
+
 
       const title =
         empty.querySelector(
           "h2"
         );
 
+
       const text =
         empty.querySelector(
           "p"
         );
 
+
       if (title) {
+
         title.textContent =
           "تعذر تحميل المفضلة";
+
       }
+
 
       if (text) {
+
         text.textContent =
           "حدث خطأ أثناء تحميل المنتجات. حاول مرة أخرى.";
+
       }
+
     }
+
   },
 
-  formatPrice(value) {
+
+  formatPrice(
+    value
+  ) {
+
     if (
       typeof UTILS !==
         "undefined" &&
       typeof UTILS.formatPrice ===
         "function"
     ) {
+
       return UTILS.formatPrice(
         value
       );
+
     }
+
 
     const number =
       Number(value);
 
-    return Number.isFinite(number)
+
+    return Number.isFinite(
+      number
+    )
       ? `$${number.toFixed(2)}`
       : "$0.00";
+
   },
 
-  escapeHTML(value = "") {
+
+  escapeHTML(
+    value = ""
+  ) {
+
     if (
       typeof UTILS !==
         "undefined" &&
       typeof UTILS.escapeHTML ===
         "function"
     ) {
+
       return UTILS.escapeHTML(
         value
       );
+
     }
 
+
     return String(value)
+
       .replace(
         /&/g,
         "&amp;"
       )
+
       .replace(
         /</g,
         "&lt;"
       )
+
       .replace(
         />/g,
         "&gt;"
       )
+
       .replace(
         /"/g,
         "&quot;"
       )
+
       .replace(
         /'/g,
         "&#039;"
       );
+
   }
+
 };
+
+
+/* =========================================================
+   PUBLIC PAGE API
+   ========================================================= */
+
+window.WISHLIST_PAGE =
+  WISHLIST_PAGE;
+
 
 document.addEventListener(
   "DOMContentLoaded",
   () => {
+
     WISHLIST_PAGE.init();
+
   }
 );
