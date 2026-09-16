@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -13,9 +16,25 @@
     name="description"
     content="ابحث عن المنتجات في HZ.shop"
   >
+
+  <link
+    rel="stylesheet"
+    href="/css/main.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/pages/search/search.css"
+  >
+
 </head>
 
+
 <body>
+
+<div id="app">
+
+  <header id="site-header"></header>
 
   <main class="search-page">
 
@@ -24,6 +43,7 @@
       <header class="search-page-header">
 
         <div class="search-page-heading">
+
           <h1
             class="search-page-title"
             data-search-title
@@ -36,6 +56,7 @@
             data-search-query
             hidden
           ></p>
+
         </div>
 
         <form
@@ -119,5 +140,48 @@
 
   </main>
 
+
+  <footer id="site-footer"></footer>
+
+  <nav id="bottom-navigation"></nav>
+
+  <div id="toast-container"></div>
+
+</div>
+
+
+<script src="/js/core/storage.js"></script>
+<script src="/js/core/utils.js"></script>
+<script src="/js/core/state.js"></script>
+<script src="/js/core/api.js"></script>
+
+<script src="/js/analytics/analytics.js"></script>
+
+<script src="/js/features/cart.js"></script>
+<script src="/js/features/categories.js"></script>
+<script src="/js/features/favorites.js"></script>
+<script src="/js/features/product.js"></script>
+<script src="/js/features/recent.js"></script>
+<script src="/js/features/search.js"></script>
+
+<script src="/js/navigation/history.js"></script>
+<script src="/js/navigation/navigation.js"></script>
+<script src="/js/navigation/redirect.js"></script>
+<script src="/js/navigation/scroll.js"></script>
+
+<script src="/components/header/header.js"></script>
+<script src="/components/footer/footer.js"></script>
+<script src="/components/bottom-nav/bottom-nav.js"></script>
+
+<script src="/components/product-card/product-card.js"></script>
+
+<script src="/js/components/loader.js"></script>
+<script src="/js/components/modal.js"></script>
+<script src="/js/components/pagination.js"></script>
+<script src="/js/components/toast.js"></script>
+
+<script src="/pages/search/search.js"></script>
+
 </body>
+
 </html>
