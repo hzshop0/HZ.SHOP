@@ -1,3 +1,4 @@
+```css
 /* =================================
    HZ.SHOP — Store Call To Action
    ================================= */
@@ -15,8 +16,8 @@
   gap: 24px;
   padding: 30px;
   overflow: hidden;
-  background: var(--color-primary, #ff6a00);
-  border-radius: var(--radius-xl, 22px);
+  background: var(--color-primary);
+  border-radius: var(--radius-xl);
 }
 
 .store-cta__wrapper::before,
@@ -24,7 +25,7 @@
   content: "";
   position: absolute;
   border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   pointer-events: none;
 }
 
@@ -62,7 +63,7 @@
 
 .store-cta__title {
   margin: 0;
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 25px;
   font-weight: 800;
   line-height: 1.45;
@@ -94,10 +95,10 @@
   gap: 7px;
   min-height: 44px;
   padding: 11px 20px;
-  color: var(--color-primary, #ff6a00);
-  background: #ffffff;
-  border: 1px solid #ffffff;
-  border-radius: var(--radius-md, 10px);
+  color: var(--color-primary);
+  background: var(--color-white);
+  border: 1px solid var(--color-white);
+  border-radius: var(--radius-md);
   font-family: inherit;
   font-size: 13px;
   font-weight: 800;
@@ -105,27 +106,27 @@
   text-decoration: none;
   cursor: pointer;
   transition:
-    color 0.2s ease,
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
+    color var(--transition),
+    background-color var(--transition),
+    border-color var(--transition),
+    transform var(--transition);
 }
 
 .store-cta__button:hover {
-  color: #ffffff;
+  color: var(--color-white);
   background: transparent;
-  border-color: #ffffff;
+  border-color: var(--color-white);
   transform: translateY(-2px);
 }
 
 .store-cta__button--outline {
-  color: #ffffff;
+  color: var(--color-white);
   background: transparent;
 }
 
 .store-cta__button--outline:hover {
-  color: var(--color-primary, #ff6a00);
-  background: #ffffff;
+  color: var(--color-primary);
+  background: var(--color-white);
 }
 
 .store-cta--dark .store-cta__wrapper {
@@ -134,7 +135,7 @@
 }
 
 .store-cta--dark .store-cta__eyebrow {
-  color: var(--color-primary, #ff6a00);
+  color: var(--color-primary);
 }
 
 .store-cta--dark .store-cta__description {
@@ -146,9 +147,9 @@
 }
 
 .store-cta--dark .store-cta__button:hover {
-  color: #ffffff;
-  background: var(--color-primary, #ff6a00);
-  border-color: var(--color-primary, #ff6a00);
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .store-cta--center .store-cta__wrapper {
@@ -167,7 +168,7 @@
 
 .store-cta--compact .store-cta__wrapper {
   padding: 22px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
 }
 
 .store-cta--compact .store-cta__title {
@@ -203,7 +204,7 @@
 
   .store-cta__wrapper {
     padding: 23px 15px;
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
   }
 
   .store-cta__title {
@@ -234,3 +235,4 @@
     transform: none;
   }
 }
+```
