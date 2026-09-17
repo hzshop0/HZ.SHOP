@@ -1,3 +1,4 @@
+```css
 /* =========================================
    HZ.SHOP — Product Coverage Section
    ========================================= */
@@ -8,7 +9,7 @@
 }
 
 .store-product-coverage__container {
-  width: min(1200px, 100%);
+  width: min(var(--container-width), 100%);
   margin-inline: auto;
   padding-inline: 20px;
 }
@@ -19,14 +20,14 @@
 
 .store-product-coverage__title {
   margin: 0;
-  color: var(--text-color, #111);
+  color: var(--color-text);
   font-size: 1.25rem;
   font-weight: 800;
 }
 
 .store-product-coverage__subtitle {
   margin: 6px 0 0;
-  color: var(--muted-text-color, #777);
+  color: var(--color-text-secondary);
   font-size: 0.92rem;
   line-height: 1.7;
 }
@@ -43,19 +44,19 @@
   align-items: flex-start;
   min-height: 130px;
   padding: 18px;
-  color: var(--text-color, #111);
-  background: var(--card-background, #fff);
-  border: 1px solid var(--border-color, #e8e8e8);
-  border-radius: 14px;
+  color: var(--color-text);
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
 }
 
 .store-product-coverage__card:hover {
   border-color: rgba(255, 106, 0, 0.55);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
@@ -66,15 +67,15 @@
   width: 38px;
   height: 38px;
   margin-bottom: 12px;
-  color: #ff6a00;
+  color: var(--color-primary);
   background: rgba(255, 106, 0, 0.1);
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   font-size: 1rem;
 }
 
 .store-product-coverage__name {
   margin: 0;
-  color: var(--text-color, #111);
+  color: var(--color-text);
   font-size: 0.98rem;
   font-weight: 800;
   line-height: 1.5;
@@ -82,7 +83,7 @@
 
 .store-product-coverage__description {
   margin: 6px 0 0;
-  color: var(--muted-text-color, #777);
+  color: var(--color-text-secondary);
   font-size: 0.82rem;
   line-height: 1.7;
 }
@@ -90,7 +91,7 @@
 .store-product-coverage__value {
   margin-top: auto;
   padding-top: 12px;
-  color: #ff6a00;
+  color: var(--color-primary);
   font-size: 0.84rem;
   font-weight: 800;
   line-height: 1.5;
@@ -98,7 +99,7 @@
 
 .store-product-coverage__card.is-active,
 .store-product-coverage__card[aria-selected="true"] {
-  border-color: #ff6a00;
+  border-color: var(--color-primary);
   box-shadow: 0 8px 22px rgba(255, 106, 0, 0.12);
 }
 
@@ -111,7 +112,7 @@
 
 .store-product-coverage__hint {
   margin-top: 12px;
-  color: var(--muted-text-color, #777);
+  color: var(--color-text-secondary);
   font-size: 0.8rem;
   line-height: 1.6;
 }
@@ -162,3 +163,4 @@
     transition: none;
   }
 }
+```
