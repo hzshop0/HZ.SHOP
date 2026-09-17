@@ -1,3 +1,4 @@
+```css
 /* =================================
    HZ.shop — Recommendations Section
    ================================= */
@@ -67,7 +68,7 @@
 }
 
 .recommendations-link:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-hover);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -263,3 +264,4 @@
     animation: none;
   }
 }
+```
