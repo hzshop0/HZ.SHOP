@@ -1,3 +1,4 @@
+```css
 /* =================================
    HZ.shop — Flash Sale Section
    ================================= */
@@ -56,8 +57,8 @@
   gap: 8px;
   flex-shrink: 0;
   padding: 10px 14px;
-  color: #ffffff;
-  background: #171717;
+  color: var(--color-white);
+  background: var(--color-black);
   border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 700;
@@ -93,7 +94,7 @@
 }
 
 .flash-sale-link:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-hover);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -199,12 +200,12 @@
 }
 
 .flash-sale-section--dark .flash-sale-content {
-  background: #171717;
-  border-color: #303030;
+  background: var(--color-black);
+  border-color: var(--color-border-dark);
 }
 
 .flash-sale-section--dark .flash-sale-title {
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .flash-sale-section--dark .flash-sale-subtitle {
@@ -216,7 +217,7 @@
 }
 
 .flash-sale-section--dark .flash-sale-progress-value {
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .flash-sale-section--bordered {
@@ -371,3 +372,4 @@
     animation: none;
   }
 }
+```
