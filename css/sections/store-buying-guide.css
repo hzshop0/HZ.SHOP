@@ -1,191 +1,193 @@
+```css
 /* =================================
    HZ.SHOP — Store Buying Guide
    ================================= */
 
-.store-buying-guide{
-  width:100%;
-  padding:40px 20px;
+.store-buying-guide {
+  width: 100%;
+  padding: 40px 20px;
 }
 
-.store-buying-guide__container{
-  width:100%;
-  max-width:1200px;
-  margin:0 auto;
+.store-buying-guide__container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.store-buying-guide__header{
-  text-align:center;
-  margin-bottom:28px;
+.store-buying-guide__header {
+  text-align: center;
+  margin-bottom: 28px;
 }
 
-.store-buying-guide__title{
-  margin:0;
-  color:var(--text-color,#111);
-  font-size:28px;
-  font-weight:800;
-  line-height:1.4;
+.store-buying-guide__title {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.4;
 }
 
-.store-buying-guide__subtitle{
-  margin:8px auto 0;
-  max-width:720px;
-  color:var(--muted-text-color,#777);
-  font-size:15px;
-  line-height:1.8;
+.store-buying-guide__subtitle {
+  margin: 8px auto 0;
+  max-width: 720px;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  line-height: 1.8;
 }
 
-.store-buying-guide__grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:20px;
+.store-buying-guide__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
 }
 
-.store-buying-guide__card{
-  position:relative;
-  padding:26px 22px;
-  background:var(--card-background,#fff);
-  border:1px solid var(--border-color,#e8e8e8);
-  border-radius:18px;
-  text-align:center;
-  box-shadow:0 6px 20px rgba(0,0,0,.04);
+.store-buying-guide__card {
+  position: relative;
+  padding: 26px 22px;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  box-shadow: var(--shadow-md);
   transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    border-color .25s ease;
+    transform var(--transition-slow),
+    box-shadow var(--transition-slow),
+    border-color var(--transition-slow);
 }
 
-.store-buying-guide__card:hover{
-  transform:translateY(-4px);
-  border-color:rgba(255,106,0,.3);
-  box-shadow:0 12px 28px rgba(0,0,0,.08);
+.store-buying-guide__card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 106, 0, 0.3);
+  box-shadow: var(--shadow-lg);
 }
 
-.store-buying-guide__number{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:42px;
-  height:42px;
-  margin:0 auto 16px;
-  border-radius:50%;
-  background:#ff6a00;
-  color:#fff;
-  font-size:16px;
-  font-weight:800;
+.store-buying-guide__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 16px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 800;
 }
 
-.store-buying-guide__icon{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:58px;
-  height:58px;
-  margin:0 auto 16px;
-  border-radius:16px;
-  background:rgba(255,106,0,.09);
-  color:#ff6a00;
-  font-size:24px;
+.store-buying-guide__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 16px;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 24px;
 }
 
-.store-buying-guide__card-title{
-  margin:0 0 9px;
-  color:var(--text-color,#111);
-  font-size:18px;
-  font-weight:800;
-  line-height:1.5;
+.store-buying-guide__card-title {
+  margin: 0 0 9px;
+  color: var(--color-text);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.5;
 }
 
-.store-buying-guide__text{
-  margin:0;
-  color:var(--muted-text-color,#777);
-  font-size:14px;
-  line-height:1.8;
+.store-buying-guide__text {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 1.8;
 }
 
-.store-buying-guide__action{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  margin-top:16px;
-  color:#ff6a00;
-  font-size:14px;
-  font-weight:700;
-  text-decoration:none;
-  transition:color .2s ease;
+.store-buying-guide__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-.store-buying-guide__action:hover{
-  color:#e85d00;
+.store-buying-guide__action:hover {
+  color: var(--color-primary-hover);
 }
 
-.store-buying-guide__footer{
-  margin-top:28px;
-  padding:22px;
-  background:var(--card-background,#fff);
-  border:1px solid var(--border-color,#e8e8e8);
-  border-radius:18px;
-  text-align:center;
+.store-buying-guide__footer {
+  margin-top: 28px;
+  padding: 22px;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  text-align: center;
 }
 
-.store-buying-guide__footer-text{
-  margin:0;
-  color:var(--text-color,#111);
-  font-size:15px;
-  line-height:1.8;
+.store-buying-guide__footer-text {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 15px;
+  line-height: 1.8;
 }
 
-.store-buying-guide__footer-text strong{
-  color:#ff6a00;
+.store-buying-guide__footer-text strong {
+  color: var(--color-primary);
 }
 
-@media (max-width:900px){
-  .store-buying-guide{
-    padding:34px 18px;
+@media (max-width: 900px) {
+  .store-buying-guide {
+    padding: 34px 18px;
   }
 
-  .store-buying-guide__grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-}
-
-@media (max-width:600px){
-  .store-buying-guide{
-    padding:30px 14px;
-  }
-
-  .store-buying-guide__title{
-    font-size:23px;
-  }
-
-  .store-buying-guide__subtitle{
-    font-size:14px;
-  }
-
-  .store-buying-guide__grid{
-    grid-template-columns:1fr;
-    gap:14px;
-  }
-
-  .store-buying-guide__card{
-    padding:22px 18px;
-    border-radius:15px;
-  }
-
-  .store-buying-guide__footer{
-    margin-top:20px;
-    padding:18px;
-    border-radius:15px;
+  .store-buying-guide__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (prefers-reduced-motion:reduce){
+@media (max-width: 600px) {
+  .store-buying-guide {
+    padding: 30px 14px;
+  }
+
+  .store-buying-guide__title {
+    font-size: 23px;
+  }
+
+  .store-buying-guide__subtitle {
+    font-size: 14px;
+  }
+
+  .store-buying-guide__grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .store-buying-guide__card {
+    padding: 22px 18px;
+    border-radius: var(--radius-lg);
+  }
+
+  .store-buying-guide__footer {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .store-buying-guide__card,
-  .store-buying-guide__action{
-    transition:none;
+  .store-buying-guide__action {
+    transition: none;
   }
 
-  .store-buying-guide__card:hover{
-    transform:none;
+  .store-buying-guide__card:hover {
+    transform: none;
   }
 }
+```
