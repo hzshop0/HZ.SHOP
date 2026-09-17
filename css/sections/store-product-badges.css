@@ -8,10 +8,9 @@
 }
 
 .store-product-badges__container {
-  width: 100%;
-  max-width: var(--container-width);
+  width: min(var(--container-width), 100%);
   margin-inline: auto;
-  padding: 0 20px;
+  padding-inline: 20px;
 }
 
 .store-product-badges__header {
