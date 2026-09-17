@@ -9,9 +9,8 @@
 }
 
 .store-product-benefits__container {
-  width: 100%;
-  max-width: var(--container-width);
-  margin: 0 auto;
+  width: min(var(--container-width), 100%);
+  margin-inline: auto;
 }
 
 .store-product-benefits__header {
