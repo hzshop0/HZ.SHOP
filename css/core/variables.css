@@ -1,9 +1,15 @@
 :root {
   --store-name: "HZ.shop";
 
+  /* =========================================================
+     COLORS
+     ========================================================= */
+
   --color-primary: #ff6a00;
   --color-primary-dark: #e85f00;
+  --color-primary-hover: #e85f00;
   --color-primary-light: #fff1e8;
+  --color-primary-soft: #fff1e8;
 
   --color-black: #111;
   --color-white: #fff;
@@ -18,9 +24,25 @@
   --color-background: #fff;
   --color-background-soft: #fafafa;
 
+  /* Surface aliases */
+  --color-surface: var(--color-background);
+  --color-surface-secondary: var(--color-background-soft);
+  --color-surface-tertiary: #f5f5f5;
+  --color-surface-soft: var(--color-primary-light);
+
+  /* Legacy / section aliases */
+  --text-color: var(--color-text);
+  --muted-text-color: var(--color-text-muted);
+  --card-background: var(--color-white);
+  --border-color: var(--color-border);
+
   --color-success: #18a558;
   --color-warning: #f59e0b;
   --color-danger: #dc2626;
+
+  /* =========================================================
+     SPACING
+     ========================================================= */
 
   --container-width: 1200px;
 
@@ -34,11 +56,20 @@
   --space-8: 40px;
   --space-9: 50px;
 
+  /* =========================================================
+     RADIUS
+     ========================================================= */
+
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-round: 999px;
+  --radius-full: var(--radius-round);
+
+  /* =========================================================
+     SHADOWS
+     ========================================================= */
 
   --shadow-sm:
     0 2px 8px rgba(0, 0, 0, 0.06);
@@ -49,6 +80,10 @@
   --shadow-lg:
     0 12px 35px rgba(0, 0, 0, 0.12);
 
+  /* =========================================================
+     TRANSITIONS
+     ========================================================= */
+
   --transition-fast:
     0.15s ease;
 
@@ -58,15 +93,58 @@
   --transition-slow:
     0.3s ease;
 
-  --header-height: 72px;
+  /* =========================================================
+     LAYOUT
+     ========================================================= */
 
+  --header-height: 72px;
   --bottom-nav-height: 64px;
+
+  /* =========================================================
+     Z-INDEX
+     ========================================================= */
 
   --z-header: 1000;
   --z-dropdown: 1100;
   --z-modal: 2000;
   --z-toast: 3000;
 }
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+body.dark-mode {
+  --color-black: #fff;
+  --color-white: #111;
+
+  --color-text: #f5f5f5;
+  --color-text-secondary: #c7c7c7;
+  --color-text-muted: #999;
+
+  --color-border: #2d2d2d;
+  --color-border-dark: #3a3a3a;
+
+  --color-background: #111;
+  --color-background-soft: #1a1a1a;
+
+  --color-surface: var(--color-background);
+  --color-surface-secondary: var(--color-background-soft);
+  --color-surface-tertiary: #222;
+  --color-surface-soft: #2a1b12;
+
+  --text-color: var(--color-text);
+  --muted-text-color: var(--color-text-muted);
+  --card-background: #181818;
+  --border-color: var(--color-border);
+
+  --color-primary-light: #3a2112;
+  --color-primary-soft: #3a2112;
+}
+
+/* =========================================================
+   DIRECTION
+   ========================================================= */
 
 html[dir="rtl"] {
   --direction: rtl;
@@ -75,6 +153,10 @@ html[dir="rtl"] {
 html[dir="ltr"] {
   --direction: ltr;
 }
+
+/* =========================================================
+   MOBILE VARIABLES
+   ========================================================= */
 
 @media (max-width: 768px) {
   :root {
