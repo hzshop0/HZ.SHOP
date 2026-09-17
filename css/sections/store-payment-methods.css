@@ -8,10 +8,10 @@
   width: 100%;
   margin: 38px 0;
   padding: 28px 24px;
-  border: 1px solid var(--color-border, #e5e5e5);
-  border-radius: 16px;
-  background: var(--color-surface, #ffffff);
-  color: var(--color-text, #111111);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .store-payment-methods__container,
@@ -36,7 +36,7 @@
 .store-payment-methods__eyebrow,
 .payment-methods-section__eyebrow,
 .store-payments-section__eyebrow {
-  color: var(--color-primary, #ff6a00);
+  color: var(--color-primary);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -57,7 +57,7 @@
 .store-payments-section__description {
   max-width: 620px;
   margin: 0;
-  color: var(--color-text-secondary, #666666);
+  color: var(--color-text-secondary);
   font-size: 13px;
   line-height: 1.8;
 }
@@ -80,14 +80,14 @@
   justify-content: center;
   gap: 10px;
   padding: 18px 12px;
-  border: 1px solid var(--color-border, #e5e5e5);
-  border-radius: 12px;
-  background: var(--color-surface-secondary, #fafafa);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-secondary);
   text-align: center;
   transition:
-    border-color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease;
+    border-color var(--transition),
+    background var(--transition),
+    transform var(--transition);
 }
 
 .store-payment-methods__item:hover,
@@ -106,16 +106,16 @@
   justify-content: center;
   width: 42px;
   height: 42px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   background: rgba(255, 106, 0, 0.1);
-  color: var(--color-primary, #ff6a00);
+  color: var(--color-primary);
   font-size: 20px;
 }
 
 .store-payment-methods__name,
 .payment-methods-section__name,
 .store-payments-section__name {
-  color: var(--color-text, #222222);
+  color: var(--color-text);
   font-size: 13px;
   font-weight: 700;
   line-height: 1.4;
@@ -125,7 +125,7 @@
 .payment-methods-section__note,
 .store-payments-section__note {
   margin: 18px 0 0;
-  color: var(--color-text-secondary, #777777);
+  color: var(--color-text-secondary);
   font-size: 12px;
   line-height: 1.7;
   text-align: center;
@@ -153,10 +153,10 @@
   min-width: 62px;
   height: 32px;
   padding: 0 10px;
-  border: 1px solid var(--color-border, #dddddd);
-  border-radius: 6px;
-  background: var(--color-surface, #ffffff);
-  color: var(--color-text-secondary, #666666);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.02em;
@@ -164,19 +164,10 @@
 
 /* Dark Mode */
 
-body.dark-mode .store-payment-methods,
-body.dark-mode .payment-methods-section,
-body.dark-mode .store-payments-section {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: #171717;
-  color: #ffffff;
-}
-
 body.dark-mode .store-payment-methods__item,
 body.dark-mode .payment-methods-section__item,
 body.dark-mode .store-payments-section__item {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: #202020;
+  background: var(--color-surface-tertiary);
 }
 
 body.dark-mode .store-payment-methods__item:hover,
@@ -186,27 +177,20 @@ body.dark-mode .store-payments-section__item:hover {
   background: rgba(255, 106, 0, 0.08);
 }
 
-body.dark-mode .store-payment-methods__name,
-body.dark-mode .payment-methods-section__name,
-body.dark-mode .store-payments-section__name {
-  color: #ffffff;
-}
-
 body.dark-mode .store-payment-methods__description,
 body.dark-mode .payment-methods-section__description,
 body.dark-mode .store-payments-section__description,
 body.dark-mode .store-payment-methods__note,
 body.dark-mode .payment-methods-section__note,
 body.dark-mode .store-payments-section__note {
-  color: rgba(255, 255, 255, 0.58);
+  color: var(--color-text-secondary);
 }
 
 body.dark-mode .store-payment-methods__logo,
 body.dark-mode .payment-methods-section__logo,
 body.dark-mode .store-payments-section__logo {
-  border-color: rgba(255, 255, 255, 0.12);
-  background: #242424;
-  color: rgba(255, 255, 255, 0.65);
+  background: var(--color-surface-tertiary);
+  color: var(--color-text-secondary);
 }
 
 /* Responsive */
@@ -231,7 +215,7 @@ body.dark-mode .store-payments-section__logo {
   .store-payments-section {
     margin: 30px 0;
     padding: 24px 15px;
-    border-radius: 13px;
+    border-radius: var(--radius-lg);
   }
 
   .store-payment-methods__grid,
