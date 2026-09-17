@@ -9,9 +9,8 @@
 }
 
 .store-product-availability__container {
-  width: 100%;
-  max-width: var(--container-width);
-  margin: 0 auto;
+  width: min(var(--container-width), 100%);
+  margin-inline: auto;
 }
 
 .store-product-availability__header {
@@ -95,7 +94,7 @@
   padding: 7px 12px;
   border-radius: var(--radius-full);
   background: rgba(22, 128, 60, 0.09);
-  color: #16803c;
+  color: var(--color-success);
   font-size: 12px;
   font-weight: 800;
 }
