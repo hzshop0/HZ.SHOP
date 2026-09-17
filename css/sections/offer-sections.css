@@ -1,3 +1,4 @@
+```css
 /* =================================
    HZ.shop — Offer Sections
    ================================= */
@@ -67,7 +68,7 @@
 }
 
 .offer-section-link:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-hover);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -130,7 +131,7 @@
   min-height: 26px;
   margin-bottom: 12px;
   padding: 5px 10px;
-  color: #ffffff;
+  color: var(--color-white);
   background: var(--color-primary);
   border-radius: var(--radius-full);
   font-size: 11px;
@@ -182,14 +183,14 @@
 }
 
 .offer-section-card--primary {
-  color: #ffffff;
+  color: var(--color-white);
   background: var(--color-primary);
   border-color: var(--color-primary);
 }
 
 .offer-section-card--primary .offer-section-card-title,
 .offer-section-card--primary .offer-section-card-value {
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .offer-section-card--primary .offer-section-card-description,
@@ -199,17 +200,17 @@
 
 .offer-section-card--primary .offer-section-card-badge {
   color: var(--color-primary);
-  background: #ffffff;
+  background: var(--color-white);
 }
 
 .offer-section-card--dark {
-  color: #ffffff;
+  color: var(--color-white);
   background: #171717;
   border-color: #303030;
 }
 
 .offer-section-card--dark .offer-section-card-title {
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .offer-section-card--dark .offer-section-card-description,
@@ -475,3 +476,4 @@
     animation: none;
   }
 }
+```
