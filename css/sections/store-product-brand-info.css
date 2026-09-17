@@ -1,3 +1,4 @@
+```css
 /* =========================================
    HZ.SHOP — Product Brand Info Section
    ========================================= */
@@ -8,7 +9,7 @@
 }
 
 .store-product-brand-info__container {
-  width: min(1200px, 100%);
+  width: min(var(--container-width), 100%);
   margin-inline: auto;
   padding-inline: 20px;
 }
@@ -19,14 +20,14 @@
 
 .store-product-brand-info__title {
   margin: 0;
-  color: var(--text-color, #111);
+  color: var(--color-text);
   font-size: 1.25rem;
   font-weight: 800;
 }
 
 .store-product-brand-info__subtitle {
   margin: 6px 0 0;
-  color: var(--muted-text-color, #777);
+  color: var(--color-text-secondary);
   font-size: 0.92rem;
   line-height: 1.7;
 }
@@ -47,18 +48,18 @@
   min-height: 210px;
   padding: 22px;
   text-align: center;
-  background: var(--card-background, #fff);
-  border: 1px solid var(--border-color, #e8e8e8);
-  border-radius: 14px;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
 }
 
 .store-product-brand-info__profile:hover {
   border-color: rgba(255, 106, 0, 0.55);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
@@ -69,10 +70,10 @@
   width: 74px;
   height: 74px;
   overflow: hidden;
-  color: #ff6a00;
+  color: var(--color-primary);
   background: rgba(255, 106, 0, 0.1);
   border: 1px solid rgba(255, 106, 0, 0.2);
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   font-size: 1.3rem;
   font-weight: 900;
 }
@@ -86,7 +87,7 @@
 
 .store-product-brand-info__name {
   margin: 0;
-  color: var(--text-color, #111);
+  color: var(--color-text);
   font-size: 1rem;
   font-weight: 800;
   line-height: 1.5;
@@ -94,7 +95,7 @@
 
 .store-product-brand-info__tagline {
   margin: 0;
-  color: var(--muted-text-color, #777);
+  color: var(--color-text-secondary);
   font-size: 0.8rem;
   line-height: 1.65;
 }
@@ -104,14 +105,14 @@
   flex-direction: column;
   gap: 14px;
   padding: 20px;
-  background: var(--card-background, #fff);
-  border: 1px solid var(--border-color, #e8e8e8);
-  border-radius: 14px;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
 }
 
 .store-product-brand-info__description {
   margin: 0;
-  color: var(--muted-text-color, #777);
+  color: var(--color-text-secondary);
   font-size: 0.84rem;
   line-height: 1.85;
 }
@@ -128,7 +129,7 @@
 .store-product-brand-info__item {
   position: relative;
   padding-inline-start: 18px;
-  color: var(--muted-text-color, #777);
+  color: var(--color-text-secondary);
   font-size: 0.8rem;
   line-height: 1.7;
 }
@@ -140,8 +141,8 @@
   top: 0.75em;
   width: 6px;
   height: 6px;
-  background: #ff6a00;
-  border-radius: 50%;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
   transform: translateY(-50%);
 }
 
@@ -157,18 +158,18 @@
   flex-direction: column;
   gap: 4px;
   padding: 10px 12px;
-  background: var(--surface-secondary, #f8f8f8);
-  border-radius: 10px;
+  background: var(--color-surface-secondary);
+  border-radius: var(--radius-md);
 }
 
 .store-product-brand-info__meta-label {
-  color: var(--muted-text-color, #777);
+  color: var(--color-text-secondary);
   font-size: 0.7rem;
   line-height: 1.5;
 }
 
 .store-product-brand-info__meta-value {
-  color: var(--text-color, #111);
+  color: var(--color-text);
   font-size: 0.8rem;
   font-weight: 800;
   line-height: 1.5;
@@ -176,7 +177,7 @@
 
 .store-product-brand-info__profile.is-active,
 .store-product-brand-info__details.is-active {
-  border-color: #ff6a00;
+  border-color: var(--color-primary);
   box-shadow: 0 8px 22px rgba(255, 106, 0, 0.12);
 }
 
@@ -245,3 +246,4 @@
     transition: none;
   }
 }
+```
