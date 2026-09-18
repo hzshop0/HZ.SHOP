@@ -37,9 +37,11 @@ const PRODUCT_CARD = {
         );
 
       if (template) {
+
         document.body.appendChild(
           template
         );
+
       }
 
     } catch (error) {
@@ -82,17 +84,17 @@ const PRODUCT_CARD = {
 
   update(card, product = {}) {
 
-    if (!card) return;
-
+    if (!card) {
+      return;
+    }
 
     const id =
       product.id ??
       product.productId ??
       "";
 
-
     card.dataset.productId =
-      id;
+      String(id);
 
 
     const link =
@@ -100,42 +102,35 @@ const PRODUCT_CARD = {
         ".product-card-link"
       );
 
-
     const image =
       card.querySelector(
         ".product-card-img"
       );
-
 
     const title =
       card.querySelector(
         ".product-card-title"
       );
 
-
     const currentPrice =
       card.querySelector(
         ".product-card-current-price"
       );
-
 
     const oldPrice =
       card.querySelector(
         ".product-card-old-price"
       );
 
-
     const discount =
       card.querySelector(
         ".product-card-discount"
       );
 
-
     const rating =
       card.querySelector(
         ".product-card-rating-value"
       );
-
 
     const sales =
       card.querySelector(
@@ -143,22 +138,86 @@ const PRODUCT_CARD = {
       );
 
 
-    if (link && id) {
+    if (link) {
 
-      link.href =
-        `/pages/product/?id=${encodeURIComponent(id)}`;
+      if (id !== "") {
+
+        link.href =
+          `/pages/product/?id=${encodeURIComponent(id)}`;
+
+        link.removeAttribute(
+          "aria-disabled"
+        );
+
+      } else {
+
+        link.removeAttribute(
+          "href"
+        );
+
+        link.setAttribute(
+          "aria-disabled",
+          "true"
+        );
+
+      }
 
     }
 
 
     if (image) {
 
+      const imageSource =
+        product.image ||
+        product.imageUrl ||
+        product.thumbnail ||
+        "";
+
       image.src =
-        product.image || "";
+        imageSource;
 
       image.alt =
         product.name ||
-        "HZ.shop product";
+        product.title ||
+        "HZ.SHOP product";
+
+      image.loading =
+        image.loading ||
+        "lazy";
+
+      image.decoding =
+        "async";
+
+      if (!image.dataset.fallbackBound) {
+
+        image.addEventListener(
+          "error",
+          () => {
+
+            if (
+              image.dataset.fallbackApplied
+            ) {
+              return;
+            }
+
+            image.dataset.fallbackApplied =
+              "true";
+
+            image.removeAttribute(
+              "src"
+            );
+
+            image.classList.add(
+              "is-image-missing"
+            );
+
+          }
+        );
+
+        image.dataset.fallbackBound =
+          "true";
+
+      }
 
     }
 
@@ -166,22 +225,49 @@ const PRODUCT_CARD = {
     if (title) {
 
       title.textContent =
-        product.name || "";
+        product.name ||
+        product.title ||
+        "";
 
     }
 
 
     if (currentPrice) {
 
-      currentPrice.textContent =
-        UTILS.formatPrice(
+      const price =
+        Number(
           product.price
         );
+
+      if (
+        Number.isFinite(price)
+      ) {
+
+        currentPrice.textContent =
+          this.formatPrice(price);
+
+        currentPrice.hidden =
+          false;
+
+      } else {
+
+        currentPrice.textContent =
+          "";
+
+        currentPrice.hidden =
+          true;
+
+      }
 
     }
 
 
     if (oldPrice) {
+
+      const price =
+        Number(
+          product.price
+        );
 
       const oldValue =
         Number(
@@ -190,19 +276,26 @@ const PRODUCT_CARD = {
 
       if (
         Number.isFinite(oldValue) &&
-        oldValue > Number(product.price)
+        oldValue > 0 &&
+        (
+          !Number.isFinite(price) ||
+          oldValue > price
+        )
       ) {
 
         oldPrice.textContent =
-          UTILS.formatPrice(
-            oldValue
-          );
+          this.formatPrice(oldValue);
 
-        oldPrice.hidden = false;
+        oldPrice.hidden =
+          false;
 
       } else {
 
-        oldPrice.hidden = true;
+        oldPrice.textContent =
+          "";
+
+        oldPrice.hidden =
+          true;
 
       }
 
@@ -211,26 +304,63 @@ const PRODUCT_CARD = {
 
     if (discount) {
 
-      const discountValue =
+      let discountValue =
         Number(
           product.discount
         );
 
       if (
-        Number.isFinite(
-          discountValue
-        ) &&
+        !Number.isFinite(discountValue) ||
+        discountValue <= 0
+      ) {
+
+        const price =
+          Number(
+            product.price
+          );
+
+        const oldValue =
+          Number(
+            product.oldPrice
+          );
+
+        if (
+          Number.isFinite(price) &&
+          Number.isFinite(oldValue) &&
+          oldValue > price &&
+          oldValue > 0
+        ) {
+
+          discountValue =
+            Math.round(
+              (
+                (oldValue - price) /
+                oldValue
+              ) * 100
+            );
+
+        }
+
+      }
+
+      if (
+        Number.isFinite(discountValue) &&
         discountValue > 0
       ) {
 
         discount.textContent =
-          `-${discountValue}%`;
+          `-${Math.round(discountValue)}%`;
 
-        discount.hidden = false;
+        discount.hidden =
+          false;
 
       } else {
 
-        discount.hidden = true;
+        discount.textContent =
+          "";
+
+        discount.hidden =
+          true;
 
       }
 
@@ -244,10 +374,26 @@ const PRODUCT_CARD = {
           product.rating
         );
 
-      rating.textContent =
-        Number.isFinite(value)
-          ? value.toFixed(1)
-          : "";
+      if (
+        Number.isFinite(value) &&
+        value > 0
+      ) {
+
+        rating.textContent =
+          value.toFixed(1);
+
+        rating.hidden =
+          false;
+
+      } else {
+
+        rating.textContent =
+          "";
+
+        rating.hidden =
+          true;
+
+      }
 
     }
 
@@ -265,13 +411,18 @@ const PRODUCT_CARD = {
       ) {
 
         sales.textContent =
-          `${UTILS.formatNumber(value)} مبيع`;
+          `${this.formatNumber(value)} مبيع`;
 
-        sales.hidden = false;
+        sales.hidden =
+          false;
 
       } else {
 
-        sales.hidden = true;
+        sales.textContent =
+          "";
+
+        sales.hidden =
+          true;
 
       }
 
@@ -288,11 +439,21 @@ const PRODUCT_CARD = {
 
   bind(card, product = {}) {
 
+    if (!card) {
+      return;
+    }
+
+    if (
+      card.dataset.eventsBound ===
+      "true"
+    ) {
+      return;
+    }
+
     const wishlistButton =
       card.querySelector(
         ".product-card-wishlist"
       );
-
 
     const cartButton =
       card.querySelector(
@@ -302,6 +463,17 @@ const PRODUCT_CARD = {
 
     if (wishlistButton) {
 
+      wishlistButton.type =
+        "button";
+
+      wishlistButton.setAttribute(
+        "aria-label",
+        wishlistButton.getAttribute(
+          "aria-label"
+        ) ||
+        "إضافة إلى المفضلة"
+      );
+
       wishlistButton.addEventListener(
         "click",
         (event) => {
@@ -309,15 +481,28 @@ const PRODUCT_CARD = {
           event.preventDefault();
           event.stopPropagation();
 
-
           if (
             window.HZFavorites &&
-            typeof HZFavorites.toggle ===
-              "function"
+            typeof window.HZFavorites.toggle ===
+            "function"
           ) {
 
-            HZFavorites.toggle(
+            window.HZFavorites.toggle(
               product
+            );
+
+          } else {
+
+            card.dispatchEvent(
+              new CustomEvent(
+                "hz:favorite-toggle",
+                {
+                  bubbles: true,
+                  detail: {
+                    product
+                  }
+                }
+              )
             );
 
           }
@@ -330,6 +515,17 @@ const PRODUCT_CARD = {
 
     if (cartButton) {
 
+      cartButton.type =
+        "button";
+
+      cartButton.setAttribute(
+        "aria-label",
+        cartButton.getAttribute(
+          "aria-label"
+        ) ||
+        "إضافة إلى السلة"
+      );
+
       cartButton.addEventListener(
         "click",
         (event) => {
@@ -337,15 +533,28 @@ const PRODUCT_CARD = {
           event.preventDefault();
           event.stopPropagation();
 
-
           if (
             window.HZCart &&
-            typeof HZCart.add ===
-              "function"
+            typeof window.HZCart.add ===
+            "function"
           ) {
 
-            HZCart.add(
+            window.HZCart.add(
               product
+            );
+
+          } else {
+
+            card.dispatchEvent(
+              new CustomEvent(
+                "hz:cart-add",
+                {
+                  bubbles: true,
+                  detail: {
+                    product
+                  }
+                }
+              )
             );
 
           }
@@ -354,6 +563,68 @@ const PRODUCT_CARD = {
       );
 
     }
+
+
+    card.dataset.eventsBound =
+      "true";
+
+  },
+
+
+  formatPrice(value) {
+
+    if (
+      window.UTILS &&
+      typeof window.UTILS.formatPrice ===
+      "function"
+    ) {
+
+      return window.UTILS.formatPrice(
+        value
+      );
+
+    }
+
+    const number =
+      Number(value);
+
+    if (
+      !Number.isFinite(number)
+    ) {
+      return "";
+    }
+
+    return `$${number.toFixed(2)}`;
+
+  },
+
+
+  formatNumber(value) {
+
+    if (
+      window.UTILS &&
+      typeof window.UTILS.formatNumber ===
+      "function"
+    ) {
+
+      return window.UTILS.formatNumber(
+        value
+      );
+
+    }
+
+    const number =
+      Number(value);
+
+    if (
+      !Number.isFinite(number)
+    ) {
+      return "0";
+    }
+
+    return number.toLocaleString(
+      "ar-LB"
+    );
 
   }
 
@@ -364,11 +635,25 @@ window.PRODUCT_CARD =
   PRODUCT_CARD;
 
 
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
+if (
+  document.readyState ===
+  "loading"
+) {
 
-    PRODUCT_CARD.init();
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-  }
-);
+      PRODUCT_CARD.init();
+
+    },
+    {
+      once: true
+    }
+  );
+
+} else {
+
+  PRODUCT_CARD.init();
+
+}
