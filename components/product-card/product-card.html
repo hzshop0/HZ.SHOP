@@ -1,72 +1,98 @@
 <template id="productCardTemplate">
 
-  <article class="product-card" data-product-id="">
+  <article
+    class="product-card"
+    data-product-id=""
+    aria-label="بطاقة المنتج"
+  >
 
-    <a
-      class="product-card-link"
-      href="#"
-      aria-label="عرض المنتج"
-    >
+    <div class="product-card-main">
 
-      <div class="product-card-image">
+      <a
+        class="product-card-link"
+        href="#"
+        aria-label="عرض المنتج"
+      >
 
-        <img
-          class="product-card-img"
-          src=""
-          alt=""
-          loading="lazy"
-        />
+        <div class="product-card-image">
 
-        <span
-          class="product-card-discount"
-          hidden
-        ></span>
-
-        <button
-          type="button"
-          class="product-card-wishlist"
-          aria-label="إضافة إلى المفضلة"
-        >
-          ♡
-        </button>
-
-      </div>
-
-      <div class="product-card-content">
-
-        <h3 class="product-card-title"></h3>
-
-        <div class="product-card-rating">
-          <span class="product-card-stars">★★★★★</span>
-          <span class="product-card-rating-value"></span>
-        </div>
-
-        <div class="product-card-price">
-
-          <span class="product-card-current-price"></span>
+          <img
+            class="product-card-img"
+            src=""
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
 
           <span
-            class="product-card-old-price"
+            class="product-card-discount"
             hidden
+            aria-label="نسبة الخصم"
           ></span>
+
+          <button
+            type="button"
+            class="product-card-wishlist"
+            aria-label="إضافة إلى المفضلة"
+            aria-pressed="false"
+          >
+            <span aria-hidden="true">♡</span>
+          </button>
 
         </div>
 
-        <div
-          class="product-card-sales"
-          hidden
-        ></div>
+        <div class="product-card-content">
 
-      </div>
+          <h3 class="product-card-title"></h3>
 
-    </a>
+          <div
+            class="product-card-rating"
+            aria-label="تقييم المنتج"
+          >
 
-    <button
-      type="button"
-      class="product-card-cart"
-    >
-      إضافة إلى السلة
-    </button>
+            <span
+              class="product-card-stars"
+              aria-hidden="true"
+            >
+              ★★★★★
+            </span>
+
+            <span class="product-card-rating-value"></span>
+
+          </div>
+
+          <div class="product-card-price">
+
+            <span
+              class="product-card-current-price"
+            ></span>
+
+            <span
+              class="product-card-old-price"
+              hidden
+            ></span>
+
+          </div>
+
+          <div
+            class="product-card-sales"
+            hidden
+          ></div>
+
+        </div>
+
+      </a>
+
+      <button
+        type="button"
+        class="product-card-cart"
+        aria-label="إضافة المنتج إلى السلة"
+      >
+        <span aria-hidden="true">+</span>
+        <span>إضافة إلى السلة</span>
+      </button>
+
+    </div>
 
   </article>
 
