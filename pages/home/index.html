@@ -2,7 +2,6 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -10,16 +9,26 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>HZ.SHOP | Luxury Store</title>
+    <title>HZ.SHOP</title>
 
     <meta
         name="description"
-        content="HZ.SHOP متجر العطور ومنتجات العناية والجمال"
+        content="HZ.SHOP متجر إلكتروني شامل للتسوق واكتشاف المنتجات"
     >
 
     <meta
         name="theme-color"
-        content="#111111"
+        content="#e51b2b"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="default"
     >
 
     <link
@@ -31,153 +40,998 @@
         rel="stylesheet"
         href="/css/main.css"
     >
-
 </head>
 
-<body>
+<body class="page page-home">
 
-<div id="app">
+    <div
+        id="app"
+        class="app-shell"
+    >
 
-    <!-- HEADER -->
-    <header id="site-header"></header>
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
 
-
-    <!-- MAIN -->
-    <main id="main-content">
-
-        <section id="hero-section"></section>
-
-        <section id="categories-section"></section>
-
-        <section id="featured-products-section"></section>
-
-        <section id="offers-section"></section>
-
-        <section id="best-sellers-section"></section>
-
-        <section id="new-arrivals-section"></section>
-
-        <section id="trending-section"></section>
-
-        <section id="recommendations-section"></section>
-
-        <section id="brands-section"></section>
-
-        <section id="benefits-section"></section>
-
-        <section id="reviews-section"></section>
-
-        <section id="newsletter-section"></section>
-
-        <section id="cta-section"></section>
-
-    </main>
+        <header
+            id="site-header"
+            class="site-header-container"
+        ></header>
 
 
-    <!-- FOOTER -->
-    <footer id="site-footer"></footer>
+        <!-- =====================================================
+             MAIN CONTENT
+             ===================================================== -->
+
+        <main
+            id="main-content"
+            class="main-content"
+        >
+
+            <!-- =================================================
+                 CATEGORY NAVIGATION
+                 ================================================= -->
+
+            <section
+                id="categories-section"
+                class="home-section home-categories-section"
+                data-section="categories"
+                aria-labelledby="categories-title"
+            >
+
+                <div class="section-container">
+
+                    <div class="section-heading section-heading-compact">
+
+                        <div class="section-heading-content">
+                            <span class="section-eyebrow">
+                                اكتشف المزيد
+                            </span>
+
+                            <h2
+                                id="categories-title"
+                                class="section-title"
+                            >
+                                تصفّح الأقسام
+                            </h2>
+                        </div>
+
+                        <a
+                            href="/pages/category/"
+                            class="section-link"
+                            aria-label="عرض جميع الأقسام"
+                        >
+                            عرض الكل
+                            <span aria-hidden="true">‹</span>
+                        </a>
+
+                    </div>
 
 
-    <!-- MOBILE NAVIGATION -->
-    <nav id="bottom-navigation"></nav>
+                    <div
+                        class="category-grid category-carousel"
+                        data-home-section="categories"
+                    >
+
+                        <a
+                            href="/pages/category/?category=home"
+                            class="category-card"
+                            data-category="home"
+                        >
+                            <span
+                                class="category-icon"
+                                aria-hidden="true"
+                            >⌂</span>
+
+                            <span class="category-name">
+                                المنزل
+                            </span>
+                        </a>
 
 
-    <!-- TOAST -->
-    <div id="toast-container"></div>
+                        <a
+                            href="/pages/category/?category=accessories"
+                            class="category-card"
+                            data-category="accessories"
+                        >
+                            <span
+                                class="category-icon"
+                                aria-hidden="true"
+                            >◷</span>
 
-</div>
-
-
-<!-- =====================================================
-     CORE
-     ===================================================== -->
-
-<script src="/js/core/storage.js"></script>
-<script src="/js/core/utils.js"></script>
-<script src="/js/core/state.js"></script>
-<script src="/js/core/api.js"></script>
-
-
-<!-- =====================================================
-     ANALYTICS
-     ===================================================== -->
-
-<script src="/js/analytics/analytics.js"></script>
+                            <span class="category-name">
+                                إكسسوارات
+                            </span>
+                        </a>
 
 
-<!-- =====================================================
-     FEATURES
-     ===================================================== -->
+                        <a
+                            href="/pages/category/?category=shoes"
+                            class="category-card"
+                            data-category="shoes"
+                        >
+                            <span
+                                class="category-icon"
+                                aria-hidden="true"
+                            >⌁</span>
 
-<script src="/js/features/cart.js"></script>
-<script src="/js/features/categories.js"></script>
-<script src="/js/features/customer.js"></script>
-<script src="/js/features/favorites.js"></script>
-<script src="/js/features/notifications.js"></script>
-<script src="/js/features/product.js"></script>
-<script src="/js/features/recent.js"></script>
-<script src="/js/features/search.js"></script>
-<script src="/js/features/checkout.js"></script>
-<script src="/components/product-card/product-card.js"></script>
-
-<!-- =====================================================
-     NAVIGATION
-     ===================================================== -->
-
-<script src="/js/navigation/history.js"></script>
-<script src="/js/navigation/navigation.js"></script>
-<script src="/js/navigation/redirect.js"></script>
-<script src="/js/navigation/scroll.js"></script>
+                            <span class="category-name">
+                                أحذية
+                            </span>
+                        </a>
 
 
-<!-- =====================================================
-     COMPONENTS
-     ===================================================== -->
+                        <a
+                            href="/pages/category/?category=fashion"
+                            class="category-card"
+                            data-category="fashion"
+                        >
+                            <span
+                                class="category-icon"
+                                aria-hidden="true"
+                            >□</span>
 
-<script src="/components/header/header.js"></script>
-<script src="/components/footer/footer.js"></script>
-<script src="/components/bottom-nav/bottom-nav.js"></script>
-<script src="/components/section/section.js"></script>
-<script src="/js/components/dropdown.js"></script>
-<script src="/js/components/loader.js"></script>
-<script src="/js/components/modal.js"></script>
-<script src="/js/components/tabs.js"></script>
-<script src="/js/components/toast.js"></script>
-
-
-<script>
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        if (
-            typeof HEADER !== "undefined" &&
-            typeof HEADER.init === "function"
-        ) {
-            HEADER.init();
-        }
+                            <span class="category-name">
+                                ملابس
+                            </span>
+                        </a>
 
 
-        if (
-            typeof FOOTER !== "undefined" &&
-            typeof FOOTER.init === "function"
-        ) {
-            FOOTER.init();
-        }
+                        <a
+                            href="/pages/category/?category=electronics"
+                            class="category-card"
+                            data-category="electronics"
+                        >
+                            <span
+                                class="category-icon"
+                                aria-hidden="true"
+                            >◉</span>
+
+                            <span class="category-name">
+                                إلكترونيات
+                            </span>
+                        </a>
 
 
-        if (
-            typeof HZBottomNav !== "undefined" &&
-            typeof HZBottomNav.init === "function"
-        ) {
-            HZBottomNav.init();
-        }
+                        <a
+                            href="/pages/category/"
+                            class="category-card category-card-more"
+                            data-category="more"
+                        >
+                            <span
+                                class="category-icon"
+                                aria-hidden="true"
+                            >•••</span>
 
-    }
-);
+                            <span class="category-name">
+                                المزيد
+                            </span>
+                        </a>
 
-</script>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 HERO BANNER
+                 ================================================= -->
+
+            <section
+                id="hero-section"
+                class="home-section home-hero-section"
+                data-section="hero"
+                aria-label="العرض الرئيسي"
+            >
+
+                <div class="section-container">
+
+                    <div
+                        class="hero-banner"
+                        data-home-section="hero"
+                    >
+
+                        <div class="hero-banner-content">
+
+                            <span class="hero-eyebrow">
+                                كل ما تحتاجه في مكان واحد
+                            </span>
+
+                            <h1 class="hero-title">
+                                مرحبًا بك في
+                                <strong>
+                                    <span class="brand-red">HZ</span>.SHOP
+                                </strong>
+                            </h1>
+
+                            <p class="hero-description">
+                                اكتشف منتجات متنوعة، عروضًا مميزة،
+                                وتجربة تسوق سهلة من مكان واحد.
+                            </p>
+
+                            <a
+                                href="/pages/category/"
+                                class="button button-primary hero-button"
+                            >
+                                تسوّق الآن
+                                <span aria-hidden="true">‹</span>
+                            </a>
+
+                        </div>
+
+
+                        <div
+                            class="hero-banner-media"
+                            data-hero-media
+                            aria-hidden="true"
+                        >
+                            <div class="hero-product-shape hero-shape-one"></div>
+                            <div class="hero-product-shape hero-shape-two"></div>
+                            <div class="hero-product-shape hero-shape-three"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 STORE BENEFITS
+                 ================================================= -->
+
+            <section
+                id="benefits-section"
+                class="home-section home-benefits-section"
+                data-section="benefits"
+                aria-label="مزايا التسوق"
+            >
+
+                <div class="section-container">
+
+                    <div
+                        class="benefits-grid"
+                        data-home-section="benefits"
+                    >
+
+                        <div class="benefit-item">
+
+                            <span
+                                class="benefit-icon"
+                                aria-hidden="true"
+                            >♧</span>
+
+                            <div class="benefit-content">
+                                <strong class="benefit-title">
+                                    دعم العملاء
+                                </strong>
+
+                                <span class="benefit-description">
+                                    على مدار الساعة
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="benefit-item">
+
+                            <span
+                                class="benefit-icon"
+                                aria-hidden="true"
+                            >◆</span>
+
+                            <div class="benefit-content">
+                                <strong class="benefit-title">
+                                    دفع آمن
+                                </strong>
+
+                                <span class="benefit-description">
+                                    بوسائل دفع متعددة
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="benefit-item">
+
+                            <span
+                                class="benefit-icon"
+                                aria-hidden="true"
+                            >▣</span>
+
+                            <div class="benefit-content">
+                                <strong class="benefit-title">
+                                    توصيل سريع
+                                </strong>
+
+                                <span class="benefit-description">
+                                    إلى مختلف المناطق
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FEATURED PRODUCTS
+                 ================================================= -->
+
+            <section
+                id="featured-products-section"
+                class="home-section products-section featured-products-section"
+                data-section="featured-products"
+                aria-labelledby="featured-products-title"
+            >
+
+                <div class="section-container">
+
+                    <div class="section-heading">
+
+                        <div class="section-heading-content">
+
+                            <span class="section-eyebrow">
+                                اختياراتنا
+                            </span>
+
+                            <h2
+                                id="featured-products-title"
+                                class="section-title"
+                            >
+                                منتجات مميزة
+                            </h2>
+
+                        </div>
+
+                        <a
+                            href="/pages/category/?sort=featured"
+                            class="section-link"
+                            aria-label="عرض المنتجات المميزة"
+                        >
+                            عرض الكل
+                            <span aria-hidden="true">‹</span>
+                        </a>
+
+                    </div>
+
+
+                    <div
+                        class="product-grid featured-products-grid"
+                        data-product-section="featured"
+                        data-home-section="featured-products"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 OFFERS
+                 ================================================= -->
+
+            <section
+                id="offers-section"
+                class="home-section home-offers-section"
+                data-section="offers"
+                aria-label="العروض"
+            >
+
+                <div class="section-container">
+
+                    <div
+                        class="offer-banner"
+                        data-home-section="offers"
+                    >
+
+                        <div class="offer-banner-content">
+
+                            <span class="offer-eyebrow">
+                                عروض خاصة
+                            </span>
+
+                            <h2 class="offer-title">
+                                عروض لا تفوّت
+                            </h2>
+
+                            <p class="offer-description">
+                                اكتشف التخفيضات المتوفرة على مجموعة متنوعة من المنتجات.
+                            </p>
+
+                            <a
+                                href="/pages/category/?filter=offers"
+                                class="button button-primary"
+                            >
+                                اكتشف العروض
+                                <span aria-hidden="true">‹</span>
+                            </a>
+
+                        </div>
+
+                        <div
+                            class="offer-banner-decoration"
+                            aria-hidden="true"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 BEST SELLERS
+                 ================================================= -->
+
+            <section
+                id="best-sellers-section"
+                class="home-section products-section best-sellers-section"
+                data-section="best-sellers"
+                aria-labelledby="best-sellers-title"
+            >
+
+                <div class="section-container">
+
+                    <div class="section-heading">
+
+                        <div class="section-heading-content">
+
+                            <span class="section-eyebrow">
+                                الأكثر طلبًا
+                            </span>
+
+                            <h2
+                                id="best-sellers-title"
+                                class="section-title"
+                            >
+                                الأكثر مبيعًا
+                            </h2>
+
+                        </div>
+
+                        <a
+                            href="/pages/category/?sort=best-selling"
+                            class="section-link"
+                            aria-label="عرض المنتجات الأكثر مبيعًا"
+                        >
+                            عرض الكل
+                            <span aria-hidden="true">‹</span>
+                        </a>
+
+                    </div>
+
+
+                    <div
+                        class="product-grid best-sellers-grid"
+                        data-product-section="best-sellers"
+                        data-home-section="best-sellers"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 NEW ARRIVALS
+                 ================================================= -->
+
+            <section
+                id="new-arrivals-section"
+                class="home-section products-section new-arrivals-section"
+                data-section="new-arrivals"
+                aria-labelledby="new-arrivals-title"
+            >
+
+                <div class="section-container">
+
+                    <div class="section-heading">
+
+                        <div class="section-heading-content">
+
+                            <span class="section-eyebrow">
+                                وصل حديثًا
+                            </span>
+
+                            <h2
+                                id="new-arrivals-title"
+                                class="section-title"
+                            >
+                                أحدث المنتجات
+                            </h2>
+
+                        </div>
+
+                        <a
+                            href="/pages/category/?sort=newest"
+                            class="section-link"
+                            aria-label="عرض أحدث المنتجات"
+                        >
+                            عرض الكل
+                            <span aria-hidden="true">‹</span>
+                        </a>
+
+                    </div>
+
+
+                    <div
+                        class="product-grid new-arrivals-grid"
+                        data-product-section="new-arrivals"
+                        data-home-section="new-arrivals"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 TRENDING PRODUCTS
+                 ================================================= -->
+
+            <section
+                id="trending-section"
+                class="home-section products-section trending-section"
+                data-section="trending"
+                aria-labelledby="trending-title"
+            >
+
+                <div class="section-container">
+
+                    <div class="section-heading">
+
+                        <div class="section-heading-content">
+
+                            <span class="section-eyebrow">
+                                رائج الآن
+                            </span>
+
+                            <h2
+                                id="trending-title"
+                                class="section-title"
+                            >
+                                منتجات رائجة
+                            </h2>
+
+                        </div>
+
+                        <a
+                            href="/pages/search/?q=trending"
+                            class="section-link"
+                            aria-label="عرض المنتجات الرائجة"
+                        >
+                            عرض الكل
+                            <span aria-hidden="true">‹</span>
+                        </a>
+
+                    </div>
+
+
+                    <div
+                        class="product-grid trending-grid"
+                        data-product-section="trending"
+                        data-home-section="trending"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RECOMMENDATIONS
+                 ================================================= -->
+
+            <section
+                id="recommendations-section"
+                class="home-section products-section recommendations-section"
+                data-section="recommendations"
+                aria-labelledby="recommendations-title"
+            >
+
+                <div class="section-container">
+
+                    <div class="section-heading">
+
+                        <div class="section-heading-content">
+
+                            <span class="section-eyebrow">
+                                اقتراحات لك
+                            </span>
+
+                            <h2
+                                id="recommendations-title"
+                                class="section-title"
+                            >
+                                قد يعجبك أيضًا
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="product-grid recommendations-grid"
+                        data-product-section="recommendations"
+                        data-home-section="recommendations"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 BRANDS
+                 ================================================= -->
+
+            <section
+                id="brands-section"
+                class="home-section home-brands-section"
+                data-section="brands"
+                aria-labelledby="brands-title"
+            >
+
+                <div class="section-container">
+
+                    <div class="section-heading">
+
+                        <div class="section-heading-content">
+
+                            <span class="section-eyebrow">
+                                علامات ومنتجات متنوعة
+                            </span>
+
+                            <h2
+                                id="brands-title"
+                                class="section-title"
+                            >
+                                تسوّق حسب العلامة
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="brand-grid"
+                        data-home-section="brands"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CUSTOMER REVIEWS
+                 ================================================= -->
+
+            <section
+                id="reviews-section"
+                class="home-section home-reviews-section"
+                data-section="reviews"
+                aria-labelledby="reviews-title"
+            >
+
+                <div class="section-container">
+
+                    <div class="section-heading section-heading-centered">
+
+                        <div class="section-heading-content">
+
+                            <span class="section-eyebrow">
+                                آراء العملاء
+                            </span>
+
+                            <h2
+                                id="reviews-title"
+                                class="section-title"
+                            >
+                                تجارب التسوق
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="reviews-grid"
+                        data-home-section="reviews"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 NEWSLETTER
+                 ================================================= -->
+
+            <section
+                id="newsletter-section"
+                class="home-section home-newsletter-section"
+                data-section="newsletter"
+                aria-labelledby="newsletter-title"
+            >
+
+                <div class="section-container">
+
+                    <div
+                        class="newsletter-container"
+                        data-home-section="newsletter"
+                    >
+
+                        <div class="newsletter-content">
+
+                            <span class="section-eyebrow">
+                                ابقَ على اطلاع
+                            </span>
+
+                            <h2
+                                id="newsletter-title"
+                                class="section-title"
+                            >
+                                تابع جديد HZ.SHOP
+                            </h2>
+
+                            <p class="section-description">
+                                اشترك ليصلك جديد المنتجات والعروض.
+                            </p>
+
+                        </div>
+
+
+                        <form
+                            id="newsletterForm"
+                            class="newsletter-form"
+                            novalidate
+                        >
+
+                            <label
+                                for="newsletterEmail"
+                                class="sr-only"
+                            >
+                                البريد الإلكتروني
+                            </label>
+
+                            <input
+                                id="newsletterEmail"
+                                name="email"
+                                type="email"
+                                autocomplete="email"
+                                placeholder="أدخل بريدك الإلكتروني"
+                                required
+                            >
+
+                            <button
+                                type="submit"
+                                class="button button-primary"
+                            >
+                                اشتراك
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FINAL CTA
+                 ================================================= -->
+
+            <section
+                id="cta-section"
+                class="home-section home-cta-section"
+                data-section="cta"
+                aria-label="ابدأ التسوق"
+            >
+
+                <div class="section-container">
+
+                    <div
+                        class="cta-container"
+                        data-home-section="cta"
+                    >
+
+                        <h2 class="cta-title">
+                            ابدأ تجربة التسوق الخاصة بك
+                        </h2>
+
+                        <p class="cta-description">
+                            تصفّح الأقسام واكتشف المنتجات المناسبة لك.
+                        </p>
+
+                        <a
+                            href="/pages/category/"
+                            class="button button-primary"
+                        >
+                            ابدأ التسوق
+                            <span aria-hidden="true">‹</span>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- =====================================================
+             FOOTER
+             ===================================================== -->
+
+        <footer
+            id="site-footer"
+            class="site-footer-container"
+        ></footer>
+
+
+        <!-- =====================================================
+             MOBILE BOTTOM NAVIGATION
+             ===================================================== -->
+
+        <nav
+            id="bottom-navigation"
+            class="bottom-navigation-container"
+            aria-label="التنقل الرئيسي"
+        ></nav>
+
+
+        <!-- =====================================================
+             GLOBAL UI CONTAINERS
+             ===================================================== -->
+
+        <div
+            id="toast-container"
+            class="toast-container"
+            aria-live="polite"
+            aria-atomic="true"
+        ></div>
+
+        <div
+            id="modal-container"
+            class="modal-container"
+        ></div>
+
+        <div
+            id="loader-container"
+            class="loader-container"
+            aria-live="polite"
+            aria-atomic="true"
+        ></div>
+
+    </div>
+
+
+    <!-- =========================================================
+         CORE
+         ========================================================= -->
+
+    <script src="/js/core/storage.js"></script>
+    <script src="/js/core/utils.js"></script>
+    <script src="/js/core/state.js"></script>
+    <script src="/js/core/api.js"></script>
+
+
+    <!-- =========================================================
+         ANALYTICS
+         ========================================================= -->
+
+    <script src="/js/analytics/analytics.js"></script>
+
+
+    <!-- =========================================================
+         FEATURES
+         ========================================================= -->
+
+    <script src="/js/features/cart.js"></script>
+    <script src="/js/features/categories.js"></script>
+    <script src="/js/features/customer.js"></script>
+    <script src="/js/features/favorites.js"></script>
+    <script src="/js/features/notifications.js"></script>
+    <script src="/js/features/product.js"></script>
+    <script src="/js/features/recent.js"></script>
+    <script src="/js/features/search.js"></script>
+    <script src="/js/features/checkout.js"></script>
+
+
+    <!-- =========================================================
+         PRODUCT COMPONENT
+         ========================================================= -->
+
+    <script src="/components/product-card/product-card.js"></script>
+
+
+    <!-- =========================================================
+         NAVIGATION
+         ========================================================= -->
+
+    <script src="/js/navigation/history.js"></script>
+    <script src="/js/navigation/navigation.js"></script>
+    <script src="/js/navigation/redirect.js"></script>
+    <script src="/js/navigation/scroll.js"></script>
+
+
+    <!-- =========================================================
+         VISUAL COMPONENTS
+         ========================================================= -->
+
+    <script src="/components/header/header.js"></script>
+    <script src="/components/footer/footer.js"></script>
+    <script src="/components/bottom-nav/bottom-nav.js"></script>
+    <script src="/components/section/section.js"></script>
+
+
+    <!-- =========================================================
+         UI HELPERS
+         ========================================================= -->
+
+    <script src="/js/components/dropdown.js"></script>
+    <script src="/js/components/loader.js"></script>
+    <script src="/js/components/modal.js"></script>
+    <script src="/js/components/tabs.js"></script>
+    <script src="/js/components/toast.js"></script>
+
+
+    <!-- =========================================================
+         PAGE INITIALIZATION
+         ========================================================= -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            if (
+                typeof HEADER !== "undefined" &&
+                typeof HEADER.init === "function"
+            ) {
+                HEADER.init();
+            }
+
+            if (
+                typeof FOOTER !== "undefined" &&
+                typeof FOOTER.init === "function"
+            ) {
+                FOOTER.init();
+            }
+
+            if (
+                typeof HZBottomNav !== "undefined" &&
+                typeof HZBottomNav.init === "function"
+            ) {
+                HZBottomNav.init();
+            }
+
+            if (
+                typeof HOME !== "undefined" &&
+                typeof HOME.init === "function"
+            ) {
+                HOME.init();
+            }
+
+        });
+    </script>
 
 </body>
 
