@@ -1,76 +1,192 @@
-<header class="site-header" id="siteHeader">
-  <div class="header-main">
+<header
+    class="site-header"
+    id="siteHeader"
+    data-component="header"
+>
 
-    <a href="/" class="site-logo" aria-label="HZ.shop">
-      <strong>HZ.shop</strong>
-    </a>
+    <div class="header-main">
 
-    <div class="header-search">
-      <form id="headerSearchForm" role="search">
-        <input
-          type="search"
-          id="headerSearchInput"
-          name="q"
-          placeholder="ابحث عن منتج..."
-          autocomplete="off"
-          aria-label="البحث عن المنتجات"
-        />
-
-        <button
-          type="submit"
-          aria-label="بحث"
+        <!-- Logo -->
+        <a
+            href="/"
+            class="site-logo"
+            aria-label="HZ.SHOP"
         >
-          🔍
-        </button>
-      </form>
+            <strong class="site-logo-mark">
+                <span class="logo-accent">HZ</span><span class="logo-dot">.</span><span class="logo-name">SHOP</span>
+            </strong>
+        </a>
+
+
+        <!-- Search -->
+        <div class="header-search">
+
+            <form
+                id="headerSearchForm"
+                class="header-search-form"
+                role="search"
+            >
+
+                <label
+                    for="headerSearchInput"
+                    class="sr-only"
+                >
+                    البحث عن المنتجات
+                </label>
+
+                <input
+                    type="search"
+                    id="headerSearchInput"
+                    name="q"
+                    placeholder="ابحث عن منتج..."
+                    autocomplete="off"
+                    aria-label="البحث عن المنتجات"
+                >
+
+                <button
+                    type="submit"
+                    class="header-search-submit"
+                    aria-label="بحث"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="21"
+                        height="21"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m20 20-4-4"></path>
+                    </svg>
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Header actions -->
+        <nav
+            class="header-actions"
+            aria-label="روابط المتجر"
+        >
+
+            <!-- Wishlist -->
+            <button
+                type="button"
+                class="header-action header-wishlist-action"
+                id="headerWishlistButton"
+                aria-label="المفضلة"
+                title="المفضلة"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    width="22"
+                    height="22"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M20.8 8.7c0 5.5-8.8 10.3-8.8 10.3S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.5Z"></path>
+                </svg>
+            </button>
+
+
+            <!-- Notifications -->
+            <button
+                type="button"
+                class="header-action header-notifications-action"
+                id="headerNotificationsButton"
+                aria-label="الإشعارات"
+                title="الإشعارات"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    width="22"
+                    height="22"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+                    <path d="M10 21h4"></path>
+                </svg>
+            </button>
+
+
+            <!-- Cart -->
+            <button
+                type="button"
+                class="header-action header-cart-action"
+                id="headerCartButton"
+                aria-label="السلة"
+                title="السلة"
+            >
+
+                <svg
+                    viewBox="0 0 24 24"
+                    width="23"
+                    height="23"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <circle cx="9" cy="20" r="1"></circle>
+                    <circle cx="18" cy="20" r="1"></circle>
+                    <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21 8H6"></path>
+                </svg>
+
+                <span
+                    class="header-cart-count"
+                    id="headerCartCount"
+                    hidden
+                    aria-live="polite"
+                >
+                    0
+                </span>
+
+            </button>
+
+
+            <!-- Account -->
+            <button
+                type="button"
+                class="header-action header-account-action"
+                id="headerAccountButton"
+                aria-label="حسابي"
+                title="حسابي"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    width="22"
+                    height="22"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 21a8 8 0 0 1 16 0"></path>
+                </svg>
+            </button>
+
+        </nav>
+
     </div>
 
-    <nav class="header-actions" aria-label="روابط المتجر">
-
-      <button
-        type="button"
-        class="header-action"
-        id="headerWishlistButton"
-        aria-label="المفضلة"
-      >
-        ♡
-      </button>
-
-      <button
-        type="button"
-        class="header-action"
-        id="headerNotificationsButton"
-        aria-label="الإشعارات"
-      >
-        🔔
-      </button>
-
-      <button
-        type="button"
-        class="header-action"
-        id="headerCartButton"
-        aria-label="السلة"
-      >
-        🛒
-        <span
-          class="header-cart-count"
-          id="headerCartCount"
-          hidden
-        >
-          0
-        </span>
-      </button>
-
-      <button
-        type="button"
-        class="header-action"
-        id="headerAccountButton"
-        aria-label="حسابي"
-      >
-        👤
-      </button>
-
-    </nav>
-
-  </div>
 </header>
