@@ -14,8 +14,9 @@ const PRODUCT_GRID = {
         "productGrid"
       );
 
-    if (!grid) return;
-
+    if (!grid) {
+      return;
+    }
 
     grid.innerHTML = "";
 
@@ -39,9 +40,9 @@ const PRODUCT_GRID = {
     products.forEach((product) => {
 
       if (
-        typeof PRODUCT_CARD ===
+        typeof window.PRODUCT_CARD ===
           "undefined" ||
-        typeof PRODUCT_CARD.create !==
+        typeof window.PRODUCT_CARD.create !==
           "function"
       ) {
         return;
@@ -49,7 +50,7 @@ const PRODUCT_GRID = {
 
 
       const card =
-        PRODUCT_CARD.create(
+        window.PRODUCT_CARD.create(
           product
         );
 
@@ -82,7 +83,8 @@ const PRODUCT_GRID = {
 
     if (
       !grid ||
-      !Array.isArray(products)
+      !Array.isArray(products) ||
+      products.length === 0
     ) {
       return;
     }
@@ -95,9 +97,9 @@ const PRODUCT_GRID = {
     products.forEach((product) => {
 
       if (
-        typeof PRODUCT_CARD ===
+        typeof window.PRODUCT_CARD ===
           "undefined" ||
-        typeof PRODUCT_CARD.create !==
+        typeof window.PRODUCT_CARD.create !==
           "function"
       ) {
         return;
@@ -105,7 +107,7 @@ const PRODUCT_GRID = {
 
 
       const card =
-        PRODUCT_CARD.create(
+        window.PRODUCT_CARD.create(
           product
         );
 
@@ -136,7 +138,9 @@ const PRODUCT_GRID = {
       );
 
 
-    if (!grid) return;
+    if (!grid) {
+      return;
+    }
 
 
     grid.innerHTML = "";
@@ -152,11 +156,17 @@ const PRODUCT_GRID = {
       );
 
 
-    if (!grid) return;
+    if (!grid) {
+      return;
+    }
 
 
     grid.innerHTML = `
-      <div class="product-grid-loading">
+      <div
+        class="product-grid-loading"
+        role="status"
+        aria-live="polite"
+      >
         جاري تحميل المنتجات...
       </div>
     `;
@@ -172,11 +182,17 @@ const PRODUCT_GRID = {
       );
 
 
-    if (!grid) return;
+    if (!grid) {
+      return;
+    }
 
 
     grid.innerHTML = `
-      <div class="product-grid-empty">
+      <div
+        class="product-grid-empty"
+        role="status"
+        aria-live="polite"
+      >
         لا توجد منتجات حالياً.
       </div>
     `;
